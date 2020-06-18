@@ -1,0 +1,12 @@
+name: 480_grade_calculator
+title: 480_grade_calculator
+username:
+account: ryansafner
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 1324038
+bundleId: 2497472
+url: https://ryansafner.shinyapps.io/480_grade_calculator/
+when: 1571013855.56447
+asMultiple: FALSE
+asStatic: FALSE

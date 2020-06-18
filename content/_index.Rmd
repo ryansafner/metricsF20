@@ -1,0 +1,24 @@
+---
+title: "Econometrics"
+author: "Ryan Safner"
+---
+
+^[{-} `r blogdown::shortcode("courseinfo")`] <span class="newthought">This site contains</span> the syllabus, schedule, and assignments for ECON 480: Econometrics, held during Fall 2019 at Hood College.
+
+**Last Update**: [`r format(Sys.time(), "%X %a %b %d %Y")`](https://github.com/ryansafner/metricsF19/commits/master)
+
+By the end of this course, you will:
+
+1. understand how to evaluate statistical and empirical claims;
+2. use the fundamental models of causal inference and research design;
+3. gather, analyze, and communicate with real data in R.
+
+Given these objectives, this course fulfills all three of the learning outcomes for [the George B. Delaplaine, Jr. School of Business](https://www.hood.edu/academics/departments/george-b-delaplaine-jr-school-business/student-learning-outcomes) Economics B.A. program:
+
+- Use quantitative tools and techniques in the preparation, interpretation, analysis and presentation of data and information for problem solving and decision making [...]
+- Apply economic reasoning and models to understand and analyze problems of public policy [...]
+- Demonstrate effective oral and written communications skills for personal and professional success[...]
+
+<figure>
+[![](/images/metrics_flowchart_blankbg.png)](/images/metrics_flowchart_blankbg.png)
+</figure>

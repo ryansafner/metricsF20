@@ -1,0 +1,113 @@
+Country,ISO,econ_freedom,gdp_pc,continent,pol_freedom
+Albania,ALB,7.4,4543.087961,Europe,68
+Algeria,DZA,5.15,4784.194321,Africa,35
+Angola,AGO,5.08,4153.146255,Africa,26
+Argentina,ARG,4.81,10501.66027,Americas,83
+Australia,AUS,7.93,54688.44593,Oceania,98
+Austria,AUT,7.56,47603.79681,Europe,94
+Bahrain,BHR,7.6,22347.97076,Asia,12
+Bangladesh,BGD,6.35,972.880678,Asia,45
+Belgium,BEL,7.51,45181.43824,Europe,95
+Benin,BEN,6.22,804.7239726,Africa,82
+Bolivia,BOL,6.34,2392.765613,Americas,67
+Bosnia and Herzegovina,BIH,6.85,4801.879973,Europe,55
+Botswana,BWA,7.27,7080.119227,Africa,72
+Brazil,BRA,6.27,11211.8911,Americas,78
+Bulgaria,BGR,7.39,7612.024948,Europe,80
+Burkina Faso,BFA,6.02,644.6091165,Africa,60
+Burundi,BDI,6.05,206.7114487,Africa,18
+Cambodia,KHM,7.2,1020.907565,Asia,30
+Cameroon,CMR,6.25,1303.588799,Africa,22
+Canada,CAN,7.98,50108.065,Americas,99
+Chad,TCD,5.12,951.6853073,Africa,18
+Chile,CHL,7.83,14660.50534,Americas,94
+China,CHN,6.45,6497.72578,Asia,14
+Colombia,COL,6.43,7447.877259,Americas,65
+Costa Rica,CRI,7.56,9237.951614,Americas,91
+Cote d'Ivoire,CIV,6.01,1496.235837,Africa,51
+Croatia,HRV,7,13875.66781,Europe,86
+Denmark,DNK,7.67,60000.54422,Europe,97
+Ecuador,ECU,5.76,5366.545466,Americas,60
+Egypt,EGY,6.05,2707.086258,Africa,26
+El Salvador,SLV,7.4,3853.107631,Americas,70
+Ethiopia,ETH,5.6,486.2685058,Africa,12
+Finland,FIN,7.68,45214.38831,Europe,100
+France,FRA,7.3,41702.39999,Europe,90
+Gabon,GAB,5.71,10751.93467,Africa,23
+Germany,DEU,7.55,45260.0814,Europe,94
+Ghana,GHA,6.41,1696.644595,Africa,83
+Greece,GRC,6.93,22579.35975,Europe,85
+Guatemala,GTM,7.5,3052.295068,Americas,56
+Guinea,GIN,5.1,417.0965848,Africa,41
+Guinea-Bissau,GNB,6.08,533.7936323,Africa,41
+Haiti,HTI,6.99,727.783108,Americas,41
+Honduras,HND,7.24,2313.045076,Americas,46
+Hungary,HUN,7.3,14519.12793,Europe,72
+Iceland,ISL,7.06,45852.27408,Europe,95
+India,IND,6.5,1751.745717,Asia,77
+Indonesia,IDN,7.02,3834.056226,Asia,64
+Ireland,IRL,7.98,65249.68168,Europe,96
+Israel,ISR,7.39,33117.96521,Asia,79
+Italy,ITA,7.17,33889.24533,Europe,89
+Jamaica,JAM,7.21,4880.057998,Americas,77
+Japan,JPN,7.42,47150.36587,Asia,96
+Jordan,JOR,7.82,3976.042992,Asia,37
+Kenya,KEN,7.14,1133.458573,Africa,48
+Kuwait,KWT,7.14,35888.58096,Asia,36
+Lebanon,LBN,7.06,7045.493577,Asia,43
+Lesotho,LSO,6.66,1370.265877,Africa,64
+Liberia,LBR,7.22,367.1645151,Africa,62
+Madagascar,MDG,6.54,409.9236772,Africa,56
+Malawi,MWI,5.79,493.6633002,Africa,63
+Malaysia,MYS,7.25,10878.38926,Asia,45
+Mali,MLI,5.97,720.8098187,Africa,44
+Mauritius,MUS,7.98,9468.940702,Africa,89
+Mexico,MEX,6.88,9510.596254,Americas,62
+Mongolia,MNG,7.39,3946.28078,Asia,85
+Montenegro,MNE,7.27,7262.657787,Europe,67
+Morocco,MAR,6.42,3239.552036,Africa,39
+Mozambique,MOZ,5.81,511.4673298,Africa,52
+Myanmar,MMR,5.39,1308.746906,Asia,31
+Namibia,NAM,6.8,6000.037665,Africa,77
+Nepal,NPL,6.54,689.514291,Asia,55
+Netherlands,NLD,7.63,51258.17143,Europe,99
+New Zealand,NZL,8.35,36801.39567,Oceania,98
+Nicaragua,NIC,7.39,1849.029086,Americas,44
+Niger,NER,6.05,383.8307321,Africa,49
+Nigeria,NGA,6.45,2534.816386,Africa,50
+Norway,NOR,7.51,89590.81352,Europe,100
+Oman,OMN,7.27,15965.94012,Asia,23
+Pakistan,PAK,6.01,1142.752196,Asia,43
+Panama,PAN,7.47,10750.93685,Americas,83
+Paraguay,PRY,6.88,3822.860615,Americas,64
+Peru,PER,7.35,5934.547574,Americas,73
+Philippines,PHL,7.01,2639.868434,Asia,62
+Poland,POL,7.42,14655.16155,Europe,85
+Portugal,PRT,7.49,21969.1478,Europe,97
+Romania,ROU,7.66,9538.872221,Europe,84
+Rwanda,RWA,7.38,689.6884541,Africa,23
+Saudi Arabia,SAU,6.95,21312.80718,Asia,7
+Senegal,SEN,6.42,1042.494703,Africa,75
+Serbia,SRB,6.68,5663.392381,Europe,73
+Sierra Leone,SLE,5.92,490.5640686,Africa,66
+Singapore,SGP,8.71,51855.07945,Asia,52
+Slovenia,SVN,6.73,23781.29225,Europe,93
+South Africa,ZAF,6.64,7585.758055,Africa,78
+Spain,ESP,7.38,30465.60489,Europe,94
+Sri Lanka,LKA,6.52,3637.53913,Asia,55
+Swaziland,SWZ,6.77,4057.284441,Africa,16
+Sweden,SWE,7.46,55163.63538,Europe,100
+Switzerland,CHE,8.25,75582.05429,Europe,96
+Tanzania,TZA,6.84,842.3737544,Africa,52
+Thailand,THA,6.56,5775.13676,Asia,31
+Togo,TGO,5.89,553.8602437,Africa,47
+Tunisia,TUN,6.54,4272.47951,Africa,70
+Turkey,TUR,6.86,11522.70512,Europe,32
+Uganda,UGA,7.34,672.8086555,Africa,37
+United Kingdom,GBR,7.93,41182.61952,Europe,94
+United States,USA,7.75,51638.06521,Americas,86
+Uruguay,URY,7.08,13943.90435,Americas,98
+Vietnam,VNM,6.43,1684.69149,Asia,20
+"Yemen, Rep.",YEM,6.44,774.4504935,Asia,NA
+Zambia,ZMB,7.04,1607.358312,Africa,55
+Zimbabwe,ZWE,5.28,814.5603652,Africa,30
