@@ -1,14 +1,9 @@
 ---
-title: "2.1: Data 101 and Descriptive Statistics - Class Notes"
+title: Test
+slug: test
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
-output:
-  blogdown::html_page:
-    template: ../../pandoc/toc-title_html.template
-    toc: true
-editor_options: 
-  chunk_output_type: console
 ---
 
 *Tuesday, September 17, 2019*
