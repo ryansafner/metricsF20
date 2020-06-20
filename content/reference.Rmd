@@ -10,22 +10,27 @@ output:
 ```{r include=FALSE, eval=F}
 library(tidyverse)
 library(emo)
-library(here)
+#library(here)
 
-source(here("lib", "graphics.R"))
+#source(here("lib", "graphics.R"))
 ```
+
+Link to page: [test](/reference/test)
+
 
 On a Mac, for some packages, you will need to install Command Line Tools. Follow the guide [here](https://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/). 
 
 
 # Style 
 
-| Symbol | Meaning |
-|--------|---------|
-| Greek letters $\beta_1$ | Truth |
-| Hats $\hat{\beta_1}$ | Our estimate of the truth |
-| English letters $X, Y$ | Actual data from our sample |
-| Modified english letters $\bar{X}, \bar{Y}$ | Statistics calculated from our sample |
+| Style | Examples | Meaning |
+|--------|---------|---------|
+| Greek letters | $\beta_0, \beta_1, \sigma, u$ | True *parameters* of population |
+| Hats | $\hat{\beta_0}, \hat{\beta_1}, \hat{\sigma}, \hat{u}$ | Our *statistical estimates* of population parameters, from sample data |
+| English capital letters | $X_1, X_2, Y$ | (Random) variables in our sample data |
+| English lowercase letters | $x_{1i}, x_{2i}, y_i$ | Individual observations of variables in our sample data |
+| Modified capital letters | $\bar{X}, \bar{Y}$ | Statistics calculated from our sample data (e.g. sample mean) |
+| Bold capital letters | $X= \begin{bmatrix} x_1, x_2, \cdots , x_n \\ \end{bmatrix}$ $\mathbf{\beta} = \begin{bmatrix} \beta_1, \beta_2, \cdots , \beta_k \\ \end{bmatrix}$ | Vector or matrix |
 
 # Sample vs Population
 
@@ -177,6 +182,8 @@ Additionally, you can turn to the community.
 
 # Built in Datasets
 
+# Markdown
+
 
 # R Markdown 
 
@@ -190,7 +197,28 @@ If you prefer it to be centered in its own line, put it on its own line, `$$`bet
 
 $$2^2+\frac{\pi}{\pi}=5$$ 
 
+Most common math symbols
+
+
+| Use | Code | Result |
+|--------|----------|
+| Exponent (superscript) | `x^2` | $x^2$ |
+| Subscript | `x_i` | $x_i$ |
+| Modifications (hats, bars) | `\hat{x}, \bar{x}` | $\hat{x}, \bar{x}$ |
+| Fractions | `\frac{numerator}{denominator}` | $\frac{numerator}{denominator}$ |
+| Arrows | `\leftarrow`, `\rightarrow` | $\leftarrow, \rightarrow$ |
+| Implications | `A \implies B, A \iff B` | $A \implies B, A \iff B$ |
+| Text inside equations | `\text{Write text here}` | $\text{Write text here}$ |
+| Greek letters (lowercase) | `\alpha`, `\beta` , etc. | $\alpha$ $\beta$ |
+| Greek letters (uppercase) | `\Alpha`, `\Beta` , etc. | $\Alpha$ $\Beta$ |
+| Summation operator | `\sum^{n}_{i=1}` |  $\sum^{n}_{i=1}$ |
+
+Note: overhead modifications on long terms look bad. Instead of `\hat{\text{A very long term}}`: $\hat{\text{A very long term}}$ or `\bar{\text{A very long term}}`: $\bar{\text{A very long term}}$, try `\widehat{\text{A very long term}}`: $\widehat{\text{A very long term}}$ and `\overline{A very long term}`: $\overline{\text{A very long term}}$.
+
+Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert `\displaystyle` in front of it. That's the difference betweeen `\sum^{n}_{i=1}`: $\sum^{n}_{i=1}$ and $\displaystyle \sum^{n}_{i=1}$.
+
 There is also a shortcut with the R package `equatiomatic`. 
+
 
 ## Producing documents
 

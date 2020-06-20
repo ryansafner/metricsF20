@@ -1,170 +1,79 @@
 lessons:
-  - title: '<span class="fake-header-table">1. Data Analysis in R</span>'
+  - title: '<span class="fake-header-table">I. Data Analysis in R</span>'
     header: True
 
   - title: "Preliminary Survey"
     assignment: "00-preliminary-survey"
     
   - title: "1.1 Introduction to Econometrics"
-    class: "01-class"
-    slides: "01-slides"
-    reading: "01-reading"
 
-  - title: "1.2 The Quest for Causality"
-    class: "02-class"
-    slides: "02-slides"
-    reading: "01-reading"
-    
-  - title: "1.3 Meet R"
-    class: "03-class"
-    slides: "03-slides"
-    reading: "03-reading"
-    r: "03-r-practice"
-    
-  - title: "1.4 Data Visualization with ggplot2"
-    class: "04-class"
-    slides: "04-slides"
-    reading: "04-reading"
-    r: "04-r-practice"
+  - title: "1.2 Meet R"
 
-  - title: "1.5 Data Wrangling in the tidyverse"
-    class: "05-class"
-    slides: "05-slides"
-    reading: "05-reading"
-    r: "05-r-practice"
-    
-  - title: "1.6 Optimize Workflow: Projects, Markdown, and Git"
-    class: "06-class"
-    slides: "06-slides"
-    reading: "06-reading"
-    r: "06-r-practice"
-  
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1** due Sept 19'
-    assignment: "01-problem-set"
-  
-  - title: '<span class="fake-header-table">2. Linear Regression</span>'
+  - title: "1.3 Data Visualization with ggplot2"
+
+  - title: "1.4 Data Wrangling in the tidyverse"
+
+  - title: "1.5 Optimize Workflow: Projects, Markdown, and Git"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1** '
+
+  - title: '<span class="fake-header-table">II. Linear Regression</span>'
     header: True
 
   - title: "2.1 Data 101 and Descriptive Statistics"
-    reading: "07-reading"
-    class: "07-class"
-    slides: "07-slides"
 
   - title: "2.2 Random Variables and Distributions"
-    reading: "08-reading"
-    class: "08-class"
-    slides: "08-slides"
-    
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Sept 26'
-    assignment: "02-problem-set"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2**'
 
   - title: "2.3 OLS Linear Regression"
-    reading: "09-reading"
-    class: "09-class"
-    slides: "09-slides"
 
   - title: "2.4 OLS: Goodness of Fit and Bias"
-    reading: "10-reading"
-    class: "10-class"
-    slides: "10-slides"
-    
-  - title: "2.5 OLS: Precision and Diagnostics"
-    reading: "11-reading"
-    class: "11-class"
-    slides: "11-slides"
-    r: "11-r-practice"
-    
-  - title: "2.6 Inference for Regression"
-    reading: "12-reading"
-    class: "12-class"
-    slides: "12-slides"
-    
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3** due Oct 10'
-    assignment: "03-problem-set"
 
-  - title: '<i class="fas fa-star"></i> **Midterm Exam** Thurs Oct 17'
-    assignment: "01-exam"
-    
-  - title: '<span class="fake-header-table">3. Extensions to Regression</span>'
+  - title: "2.5 OLS: Precision and Diagnostics"
+
+  - title: "2.6 Inference for Regression"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3**'
+
+  - title: '<i class="fas fa-star"></i> **Midterm Exam**'
+
+  - title: '<span class="fake-header-table">III. Extensions to Regression</span>'
     header: True
 
   - title: "3.1 Omitted Variable Bias"
-    reading: "13-reading"
-    class: "13-class"
-    slides: "13-slides"
 
   - title: "3.2 Multivariate OLS Estimators: Bias, Precision, and Fit"
-    reading: "14-reading"
-    class: "14-class"
-    slides: "14-slides"
-    
-  - title: "3.3 Model Specification Strategies"
-    reading: "15-reading"
-    class: "15-class"
-    slides: "15-slides"
-    r: "15-practice"
-    
-  - title: "3.4 Multivariate Regression Examples"
-    reading: "16-reading"
-    class: "16-class"
-    slides: "16-slides"
 
-  - title: "3.5 Causal Inference and DAGs"
-    reading: "17-reading"
-    class: "17-class"
-    slides: "17-slides"
-    r: "17-r-practice"
-    
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4** due Nov 21'
-    assignment: "04-problem-set"
-    
+  - title: "3.3 Causal Inference"
+
+  - title: "3.4 Model Specification"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4**'
+
   - title: "3.6 Regression with Categorical Data"
-    reading: "18-reading"
-    class: "18-class"
-    slides: "18-slides"
-    
+
   - title: "3.7 Regression with Interaction Effects"
-    reading: "19-reading"
-    class: "19-class"
-    slides: "19-slides"
-    r: "19-r-practice"
-    
+
   - title: "3.8 Polynomial Regression"
-    reading: "20-reading"
-    class: "20-class"
-    slides: "20-slides"
 
   - title: "3.9 Logarithmic Regression"
-    reading: "21-reading"
-    class: "21-class"
-    slides: "21-slides"
-    r: "21-r-practice"
-    
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
-    assignment: "05-problem-set"
 
-  - title: '<span class="fake-header-table">4. Panel Data Models</span>'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
+
+  - title: '<span class="fake-header-table">IV. Panel Data Models</span>'
     header: True
 
   - title: "4.1 Panel Data and Fixed Effects Models"
-    reading: "22-reading"
-    class: "22-class"
-    slides: "22-slides"
 
   - title: "4.2 Difference-in-Difference Models"
-    reading: "23-reading"
-    class: "23-class"
-    slides: "23-slides"
 
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
-    assignment: "06-problem-set"
-    
-  - title: "**Final Exam** 11:30AM Thurs December 12" 
-    assignment: "02-exam"
 
-  - title: "**Empirical Research Paper Project Due December 17**" 
-    assignment: "paper-project"
-    
+  - title: "**Final Exam**" 
+
+  - title: "**Empirical Research Paper Project Due**" 
+
   - title: '<span class="fake-header-table">End of Semester/Advanced Regression</span>'
     header: True
     
@@ -174,4 +83,4 @@ lessons:
   
   - title: "5.3 Binary Dependent Variables Models"
 
-  - title: "5.4 Machine Learning"
+  - title: "5.4 Prediction, Classification, & Machine Learning"

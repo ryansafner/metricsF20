@@ -95,6 +95,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#r-packages">R Packages</a></li>
 <li><a href="#getting-help-for-r">Getting Help for R</a></li>
 <li><a href="#built-in-datasets">Built in Datasets</a></li>
+<li><a href="#markdown">Markdown</a></li>
 <li><a href="#r-markdown">R Markdown</a><ul>
 <li><a href="#math-and-latex">Math and <span class="math inline">\(\LaTeX{}\)</span></a></li>
 <li><a href="#producing-documents">Producing documents</a></li>
@@ -107,35 +108,52 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul>
 </div>
 
+<p>Link to page: <a href="/reference/test">test</a></p>
 <p>On a Mac, for some packages, you will need to install Command Line Tools. Follow the guide <a href="https://osxdaily.com/2014/02/12/install-command-line-tools-mac-os-x/">here</a>.</p>
 <h2 id="style">Style</h2>
 <table>
 <colgroup>
-<col width="47%" />
-<col width="52%" />
+<col width="30%" />
+<col width="34%" />
+<col width="34%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th>Symbol</th>
+<th>Style</th>
+<th>Examples</th>
 <th>Meaning</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Greek letters <span class="math inline">\(\beta_1\)</span></td>
-<td>Truth</td>
+<td>Greek letters</td>
+<td><span class="math inline">\(\beta_0, \beta_1, \sigma, u\)</span></td>
+<td>True <em>parameters</em> of population</td>
 </tr>
 <tr class="even">
-<td>Hats <span class="math inline">\(\hat{\beta_1}\)</span></td>
-<td>Our estimate of the truth</td>
+<td>Hats</td>
+<td><span class="math inline">\(\hat{\beta_0}, \hat{\beta_1}, \hat{\sigma}, \hat{u}\)</span></td>
+<td>Our <em>statistical estimates</em> of population parameters, from sample data</td>
 </tr>
 <tr class="odd">
-<td>English letters <span class="math inline">\(X, Y\)</span></td>
-<td>Actual data from our sample</td>
+<td>English capital letters</td>
+<td><span class="math inline">\(X_1, X_2, Y\)</span></td>
+<td>(Random) variables in our sample data</td>
 </tr>
 <tr class="even">
-<td>Modified english letters <span class="math inline">\(\bar{X}, \bar{Y}\)</span></td>
-<td>Statistics calculated from our sample</td>
+<td>English lowercase letters</td>
+<td><span class="math inline">\(x_{1i}, x_{2i}, y_i\)</span></td>
+<td>Individual observations of variables in our sample data</td>
+</tr>
+<tr class="odd">
+<td>Modified capital letters</td>
+<td><span class="math inline">\(\bar{X}, \bar{Y}\)</span></td>
+<td>Statistics calculated from our sample data (e.g. sample mean)</td>
+</tr>
+<tr class="even">
+<td>Bold capital letters</td>
+<td><span class="math inline">\(X= \begin{bmatrix} x_1, x_2, \cdots , x_n \\ \end{bmatrix}\)</span> <span class="math inline">\(\mathbf{\beta} = \begin{bmatrix} \beta_1, \beta_2, \cdots , \beta_k \\ \end{bmatrix}\)</span></td>
+<td>Vector or matrix</td>
 </tr>
 </tbody>
 </table>
@@ -282,6 +300,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>This will display a help page specific to that function in the Viewer pane. R functions and packages are extremely well-documented; help pages normally include a short description of the function, arguments and options (as well as their default values), and several examples or vignettes to demonstrate usage of the function.</p>
 <p>Additionally, you can turn to the community.</p>
 <h2 id="built-in-datasets">Built in Datasets</h2>
+<h2 id="markdown">Markdown</h2>
 <h2 id="r-markdown">R Markdown</h2>
 <h3 id="math-and-latex">Math and <span class="math inline">\(\LaTeX{}\)</span></h3>
 <p>Math in R Markdown uses the <span class="math inline">\(\LaTeX{}\)</span> language to typeset beautiful formulas and equations. To include mathematical symbols or expressions inline<span><label for="sn-12" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-12" class="margin-toggle"/><span class="sidenote">That means, within the text, and not in a separate line, location, or environment within the document.<br />
@@ -290,6 +309,59 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>If you prefer it to be centered in its own line, put it on its own line, <code>$$</code>between two dollar signs<code>$$</code>.</p>
 <p>`<span class="math inline">\(``\)</span><code>2^2+\frac{\pi}{\pi}=5</code><span class="math inline">\(``\)</span>`` becomes:</p>
 <p><span class="math display">\[2^2+\frac{\pi}{\pi}=5\]</span></p>
+<p>Most common math symbols</p>
+<table>
+<thead>
+<tr class="header">
+<th>Use</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Exponent (superscript)</td>
+<td><code>x^2</code></td>
+</tr>
+<tr class="even">
+<td>Subscript</td>
+<td><code>x_i</code></td>
+</tr>
+<tr class="odd">
+<td>Modifications (hats, bars)</td>
+<td><code>\hat{x}, \bar{x}</code></td>
+</tr>
+<tr class="even">
+<td>Fractions</td>
+<td><code>\frac{numerator}{denominator}</code></td>
+</tr>
+<tr class="odd">
+<td>Arrows</td>
+<td><code>\leftarrow</code>, <code>\rightarrow</code></td>
+</tr>
+<tr class="even">
+<td>Implications</td>
+<td><code>A \implies B, A \iff B</code></td>
+</tr>
+<tr class="odd">
+<td>Text inside equations</td>
+<td><code>\text{Write text here}</code></td>
+</tr>
+<tr class="even">
+<td>Greek letters (lowercase)</td>
+<td><code>\alpha</code>, <code>\beta</code> , etc.</td>
+</tr>
+<tr class="odd">
+<td>Greek letters (uppercase)</td>
+<td><code>\Alpha</code>, <code>\Beta</code> , etc.</td>
+</tr>
+<tr class="even">
+<td>Summation operator</td>
+<td><code>\sum^{n}_{i=1}</code></td>
+</tr>
+</tbody>
+</table>
+<p>Note: overhead modifications on long terms look bad. Instead of <code>\hat{\text{A very long term}}</code>: <span class="math inline">\(\hat{\text{A very long term}}\)</span> or <code>\bar{\text{A very long term}}</code>: <span class="math inline">\(\bar{\text{A very long term}}\)</span>, try <code>\widehat{\text{A very long term}}</code>: <span class="math inline">\(\widehat{\text{A very long term}}\)</span> and <code>\overline{A very long term}</code>: <span class="math inline">\(\overline{\text{A very long term}}\)</span>.</p>
+<p>Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert <code>\displaystyle</code> in front of it. That’s the difference betweeen <code>\sum^{n}_{i=1}</code>: <span class="math inline">\(\sum^{n}_{i=1}\)</span> and <span class="math inline">\(\displaystyle \sum^{n}_{i=1}\)</span>.</p>
 <p>There is also a shortcut with the R package <code>equatiomatic</code>.</p>
 <h3 id="producing-documents">Producing documents</h3>
 <h4 id="producing-a-pdf-output">Producing a PDF Output</h4>
