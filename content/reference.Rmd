@@ -1,6 +1,10 @@
 ---
 title: Reference
 slug: reference
+output:
+  blogdown::html_page:
+    template: ../pandoc/toc-title_html.template
+    toc: true
 ---
 
 ```{r include=FALSE, eval=F}
