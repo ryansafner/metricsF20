@@ -83,7 +83,7 @@ Don't forget to install^[`install.packages("name_of_package")`] first and then l
 - [`wbstats`](https://cran.r-project.org/web/packages/wbstats/wbstats.pdf) provides access to all the data available on the **World Bank** API, which is basically everything on their website. The World Bank keeps track of *many* country-level indicators over time.
 - [`tidycensus`](https://cran.r-project.org/web/packages/tidycensus/tidycensus.pdf) gives you access to data from the **US Census** and the **American Community Survey.** These are the largest high-quality data sets you'll find of cross-sectional data on individual people in the US. You'll need to get a (free) API key from the website (or ask me for mine).
 - [`fredr`](https://cran.r-project.org/web/packages/fredr/vignettes/fredr.html) gets data from the **Federal Reserve's Economic Database (FRED)**. You'll need to get a (free) API key from the website (or ask me for mine).
-- [`tidyquant`](https://cran.r-project.org/web/packages/tidyquant/index.html) gets data from a number of financial sources (including `fredr).
+- [`tidyquant`](https://cran.r-project.org/web/packages/tidyquant/index.html) gets data from a number of financial sources (including `fredr`).
 - [`icpsrdata`](https://cran.r-project.org/web/packages/icpsrdata/icpsrdata.pdf) downloads data from the **Inter-university Consortium for Political and Social Research** (you'll need an account and a keycode). ICPSR is a database of datasets from published social science papers for the purposes of reproducibility.
 - [`NHANES`](https://cran.r-project.org/web/packages/NHANES/NHANES.pdf) uses data from the **US National Health and Nutrition Examination Survey.**
 - [`ipumsr`](https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html) has **census data** from *all around the world*, in addition to the US census, **American Community Survey**, and **Current Population Survey**. If you're doing international micro work, look at IPUMS. It's also the easiest way to get the **Current Population Survey (CPS)**, which is very popular for labor economics. Unfortunately ipumsr won't get the data from within R; you'll have to make your own data extract on the IPUMS website and download it. But ipumsr will read that file into R and preserve things like names and labels.
@@ -98,6 +98,8 @@ Here is a list of good data sources depending on the types of topics you might b
 
 ## Key Sources^[Some of these come from various sources, including [https://github.com/awesomedata/awesome-public-datasets#economics](Awesomedata's Awesome Public Datasets for Economics)]
 
+- Coronavirus Data: [John Hopkins CSSE Covid-19 data (definitive)](https://github.com/CSSEGISandData/COVID-19), [Our World in Data](https://github.com/owid/covid-19-data/tree/master/public/data), [New York Times Covid data](https://github.com/nytimes/covid-19-data), [`covdata` r package](https://github.com/kjhealy/covdata), [Tidy Covid data](https://github.com/joachim-gassen/tidycovid19)
+
 - [American Economic Association Data](https://www.aeaweb.org/resources/data)
 - [EconData from UMD](http://inforumweb.umd.edu/econdata/econdata.html)
 - [Historical Macroeconomic Statistics](http://www.historicalstatistics.org/)
@@ -105,13 +107,13 @@ Here is a list of good data sources depending on the types of topics you might b
 - [DB-nomics](https://db.nomics.world/)
 - [Internet UPC Database](https://www.upcdatabase.com/)
 - [International Trade Data](https://www.macalester.edu/research/economics/PAGE/HAVEMAN/Trade.Resources/TradeData.html)
-- [OurWorldinData.org](https://ourworldindata.org/)
+- [OurWorldinData.org](https://ourworldindata.org/) ([download datasets](https://github.com/owid/owid-datasets))
 - [SciencesPo International Trade Gravity Dataset](http://econ.sciences-po.fr/thierry-mayer/data)
 - [Center for International Data](https://cid.econ.ucdavis.edu/)
 - [Atlas of Economic Complexity](http://atlas.cid.harvard.edu/)
 - [U.N. World Development Reports](http://hdr.undp.org/en)
 - [Observatory of Economic Complexity](https://oec.world/en/)
-- [](https://www.reddit.com/r/datasets/)
+- [Reddit /r/datasets](https://www.reddit.com/r/datasets/)
 - [Google Cloud Public Datasets](https://cloud.google.com/public-datasets/)
 ## By Topic
 
@@ -135,6 +137,8 @@ Here is a list of good data sources depending on the types of topics you might b
 - Philanthropy Data: [The Urban Institute](http://nccs.urban.org/)
 
 # Installing R and R Studio
+
+As of June 22, 2020, the latest release of R is `R version 4.0.2 (2020-06-22) -- "Taking Off Again"`. Make sure you have at least `R version 4.0.0 (2020-04-24) -- "Arbor Day"`. 
 
 1. [Install R](http://www.r-project.org/) from CRAN^[The Comprehensive R Archive Network] by clicking "Download R" (or the CRAN link under Downloads on the left menu). This will take you to a mirrors page, where you can select a location in the U.S. and download a copy of R
 2. [Install R Studio (Desktop Version)](https://www.rstudio.com/products/rstudio/download/), choose the "Free" option
@@ -237,25 +241,32 @@ tinytex::install_tinytex()  # install TinyTeX
 
 # R Packages
 
-The following is a compendium of all R packages used, and their main uses
+The following is a compendium of all R packages used in this course, their main uses, and when we use them
 
-- `tidyverse`
-- `DT`
-- `knitr`
-- `haven`
-- `readxl`
-- `dplyr`
-- `ggplot2`
-- `car`
-- `sandwich`
-- `lmtest`
-- `equatiomatic`
-- `gganimate`
-- `stargazer`
-- `broom`
-- `modelr`
-- `infer`
-- `aer`
+Note: `ggplot2, tibble, magrittr, dplyr, readr` are all part of the `tidyverse`. 
+
+| Name | Type | Description/Reason(s) for Use | Classes Used |
+|------|------|-------------|------|
+| `ggplot2` | Plotting | For nice plots | [[1.3](/class/1.2-class)] | 
+| `haven` | Data Wrangling | For importing nonstandard data files | | 
+| `dplyr` | Data Wrangling | For manipulating data (part of tidyverse) | |
+| `readr` | Data Wrangling | For importing most data files | | 
+| `tidyr` | Data Wrangling | For reshaping data (wide and long) | |
+| `magrittr` | Data Wrangling | For the pipe | |
+| `tibble` | Data Wrangling | For a friendlier data.frame | | 
+| `car` | Models | For testing for outliers | |
+| `estimatr` | Models | For calculating robust standard errors | |
+| `lmtest` | Models | For testing for heteroskedasticity | |
+| `broom` | Models | For tidying regression output | |
+| `gganimate` | Plotting | For animating plots | |
+| `huxtable` | Models | For making nice regression tables | |
+| `ggtext` | Plotting | For using markdown in text (labels, axes) | |
+| `ggrepel` | Plotting | For annotating text that doesn't cover observations | |
+| `patchwork` | Plotting | For aligning multiple plots into a single figure | |
+| `infer` | Models | For simulation and statistical inference | |
+| `kable` | Output | For outputting nicer tables | |
+| `ggdag` | Plotting | For plotting DAGs in ggplot | |
+| `plm` | Models | For working with panel data | |
 
 # Finding Data
 
