@@ -31,7 +31,7 @@ menu:
       url: "https://rstudio.cloud"
       weight: 5
     - name: Slack
-      url: "https://hoodeconometrics.slack.com"
+      url: "https://hoodcollegeeconomics.slack.com"
       weight: 6
 # Disable taxonomies
 taxonomies:
@@ -53,15 +53,15 @@ params:
     semester: Fall 2020
     days: "TuTh"
     time: "2:00–3:15 PM"
-    location: "119 Rosenstock"
+    location: "On Zoom"
     twitter: ryansafner
     dates: >-
-      August 26–December 10, 2019
+      August 17–November 24, 2020
     github: "ryansafner/metricsF20"
-    slack: "https://hoodeconometrics.slack.com/"
-    copyrightYear: "2020-2021"
+    slack: "https://hoodcollegeeconomics.slack.com/"
+    copyrightYear: "2020"
     contactDetails: >-
-      Office hours: MW 10:30--11:30AM
+      Office hours: TuTh 3:30-5:00 PM on Zoom
   university: 
     name: Hood College
     url: "https://www.hood.edu"
