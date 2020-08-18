@@ -170,15 +170,15 @@ body {
     height: 100%; }
   .wrap .sans {
     /*font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;*/
-    font-family: "Oswald", sans-serif;
+    font-family: "Fira Sans Condensed", sans-serif;
     letter-spacing: .03em; }
   .wrap pre, .wrap pre code, .wrap p code, .wrap p pre code {
     font-family: "Fira Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace; /* Had to change from Code to Mono */
-    font-size: 0.85rem;
+    font-size: 1rem; /* changed from 0.85rem */
     line-height: 1.71428571;
     margin-top: 1rem; }
   .wrap h1 code, .wrap h2 code, .wrap h3 code {
-    font-size: 0.80em; }
+    font-size: 1em; }
   .wrap table, .wrap table.booktabs {
     width: 85%;
     margin: 0 auto 0 0;
