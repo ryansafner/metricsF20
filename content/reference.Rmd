@@ -160,12 +160,16 @@ Most common math symbols
 | Greek letters (uppercase) | `\Alpha`, `\Beta` , etc. | $\Alpha$ $\Beta$ |
 | Summation operator | `\sum^{n}_{i=1}` |  $\sum^{n}_{i=1}$ |
 
-Note: overhead modifications on long terms look bad. Instead of `\hat{\text{A very long term}}`: $\hat{\text{A very long term}}$ or `\bar{\text{A very long term}}`: $\bar{\text{A very long term}}$, try `\widehat{\text{A very long term}}`: $\widehat{\text{A very long term}}$ and `\overline{A very long term}`: $\overline{\text{A very long term}}$.
+Note: overhead modifications on long terms look bad, here are some fixes:
+
+| Instead  | of  | Try | Instead |
+|----------|-----|-----|---------|
+| `\hat{\text{A very long term}}` | $\hat{\text{A very long term}}$ | `\widehat{\text{A very long term}}` | $\widehat{\text{A very long term}}$
+| `\bar{\text{A very long term}}` | $\bar{\text{A very long term}}$ | `\overline{A very long term}` | $\overline{\text{A very long term}}$ |
 
 Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert `\displaystyle` in front of it. That's the difference betweeen `\sum^{n}_{i=1}`: $\sum^{n}_{i=1}$ and $\displaystyle \sum^{n}_{i=1}$.
 
-There is also a shortcut with the R package `equatiomatic`. 
-
+<!--There is also a shortcut with the R package `equatiomatic`. -->
 
 ## Producing documents
 

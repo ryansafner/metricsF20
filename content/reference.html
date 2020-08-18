@@ -436,9 +436,39 @@ code span.wa { color: #bf0303; } /* Warning */
 </tr>
 </tbody>
 </table>
-<p>Note: overhead modifications on long terms look bad. Instead of <code>\hat{\text{A very long term}}</code>: <span class="math inline">\(\hat{\text{A very long term}}\)</span> or <code>\bar{\text{A very long term}}</code>: <span class="math inline">\(\bar{\text{A very long term}}\)</span>, try <code>\widehat{\text{A very long term}}</code>: <span class="math inline">\(\widehat{\text{A very long term}}\)</span> and <code>\overline{A very long term}</code>: <span class="math inline">\(\overline{\text{A very long term}}\)</span>.</p>
+<p>Note: overhead modifications on long terms look bad, here are some fixes:</p>
+<table>
+<colgroup>
+<col width="34%" />
+<col width="17%" />
+<col width="17%" />
+<col width="31%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Instead</th>
+<th>of</th>
+<th>Try</th>
+<th>Instead</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>\hat{\text{A very long term}}</code></td>
+<td><span class="math inline">\(\hat{\text{A very long term}}\)</span></td>
+<td><code>\widehat{\text{A very long term}}</code></td>
+<td><span class="math inline">\(\widehat{\text{A very long term}}\)</span></td>
+</tr>
+<tr class="even">
+<td><code>\bar{\text{A very long term}}</code></td>
+<td><span class="math inline">\(\bar{\text{A very long term}}\)</span></td>
+<td><code>\overline{A very long term}</code></td>
+<td><span class="math inline">\(\overline{\text{A very long term}}\)</span></td>
+</tr>
+</tbody>
+</table>
 <p>Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert <code>\displaystyle</code> in front of it. That’s the difference betweeen <code>\sum^{n}_{i=1}</code>: <span class="math inline">\(\sum^{n}_{i=1}\)</span> and <span class="math inline">\(\displaystyle \sum^{n}_{i=1}\)</span>.</p>
-<p>There is also a shortcut with the R package <code>equatiomatic</code>.</p>
+<!--There is also a shortcut with the R package `equatiomatic`. -->
 <h3 id="producing-documents">Producing documents</h3>
 <h4 id="producing-a-pdf-output">Producing a PDF Output</h4>
 <p>PDFs are archaic document formats <a href="https://www.urban.org/urban-wire/your-data-deserve-better-pdf">with many flaws</a>, yet the format remains the industry standard in most cases. PDFs are made with <span class="math inline">\(\LaTeX{}\)</span>, a typography language dating to the 1980s. <span class="math inline">\(\LaTeX{}\)</span> <a href="https://www.authorea.com/users/5713/articles/19359-latex-is-dead-long-live-latex-typesetting-in-the-digital-age/_show_article">has its own problems</a></p>
