@@ -11,16 +11,36 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Tuesday, August 25, 2019* 
+*Monday, August 18, 2020*
 
 # Overview
 
-An introduction to the course.
+Welcome to ECON 480 - Econometrics! Today's lesson will be an introduction to the course and the tools we use in microeconomics.
+
+If you have not done so, please watch my welcome video, read the announcements in Blackboard, take my survey, and join our class slack channel.
+
+Starting next class, we will do a deep dive in to `R` for about 2 weeks. In preparation, try to [install R and R Studio]() on your computer if you are able, before next class. You will still have [RStudio.cloud](https://rstudio.cloud) available all to use in your browser, but it is much better to have a real version of `R` and `R Studio` on your own machine to work with all semester.
+
+# Readings
+
+This week is all introductory, but you may look at Chapter 1 if you wish. Otherwise, please heed this message:
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">A message to students from the Doggfather himself, <a href="https://twitter.com/SnoopDogg?ref_src=twsrc%5Etfw">@SnoopDogg</a> <a href="https://t.co/wsSANYv8u6">pic.twitter.com/wsSANYv8u6</a></p>&mdash; Ryan Briggs (@ryancbriggs) <a href="https://twitter.com/ryancbriggs/status/1293543531496308736?ref_src=twsrc%5Etfw">August 12, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 # Slides
 
-- [<i class="fas fa-external-link-square-alt"></i> Lecture Slides](/slides/1.1-slides.html)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.1-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.1-slides.pdf)
 
-# Slack
+# Live Class Session on Zoom
 
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 2:00 PM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Assignments
+
+# Preliminary Survey
+
+Please take the [preliminary survey](/assignment/00-preliminary-survey) on your statistics and software background by 11:59 PM Sunday. This will help us all have a productive course together.
 
