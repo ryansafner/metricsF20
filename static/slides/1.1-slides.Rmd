@@ -68,7 +68,7 @@ class: inverse, center, middle
 
 # We're Not so Good at Statistics: Votes I
 
-- Votes in the U.S. House of Representatives in favor of passing the Civil Rights Act of 1964:
+- Votes in the U.S. House of Representatives in favor of .hi-turquoise[passing] the *Civil Rights Act of 1964*:
 
 .left-column[
 | Democrat | Republican |
@@ -92,11 +92,11 @@ class: inverse, center, middle
 
 |       |Democrat  | Republican |
 |-------|----------|------------|
-| **North** | **94%**      | 85%       | 
+| **North** | .hi[94%]      | 85%       | 
 |           | (145/154)| (138/162) |
-| **South** | **7%**       | 0%        |
+| **South** | .hi[7%]      | 0%        |
 |           | (7/94)   | (0/10)    |
-| **Overall** | 61%    | **80%**       |
+| **Overall** | 61%    | .hi-purple[80%]       |
 |             | (152/248) | (138/172) |
 ]
 
@@ -111,11 +111,11 @@ class: inverse, center, middle
 # We're Not So Good at Statistics: Kidney Stones I
 
 .pull-left[
-- Suppose you suffer from kidney stones, your doctor offers you .shout[treatment A] or .whisper[treatment B]
+- Suppose you suffer from kidney stones, your doctor offers you .hi[treatment A] or .hi-purple[treatment B]
 
-- In clinical trials, .whisper[treatment B] was effective for a larger percentage of patients than .shout[treatment A]
+- In clinical trials, .hi[Treatment A] was effective for a higher percentage of patients with *large* stones and a higher percentage of patients with *small* stones
 
-- .shout[Treatment A] was effective for a higher percentage of patients with *large* stones and a higher percentage of patients with *small* stones
+- .hi-purple[Treatment B] was effective for a larger percentage of patients overall than .hi[treatment A]
 
 - Wait, what?
 ]
@@ -133,13 +133,13 @@ class: inverse, center, middle
 .pull-left[
 From a real [medical study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1339981/): 
 
-|       | Treatment A  | Treatment B |
+|       | .hi[Treatment A]  | .hi-purple[Treatment B] |
 |-------|----------|------------|
-| **Small Stones** | **93%**      | 87%       | 
+| **Small Stones** | .hi[93%]      | 87%       | 
 |                  | (81/87)| (234/270) |
-| **Large Stones** | **73%**       | 69%        |
+| **Large Stones** | .hi[73%]       | 69%        |
 |                  | (192/263)   | (55/80)    |
-| **Overall**      | 78%    | **83%**       |
+| **Overall**      | 78%    | .hi-purple[83%]       |
 |                  | (273/350) | (289/350) |
 ]
 
@@ -152,9 +152,31 @@ From a real [medical study](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1339981
 
 .pull-right[
 - The *sizes* of the two groups (i.e. who gets A vs B) are *very* different
-- A .whisper[lurking variable] in the study is the severity of the case: doctors tended to give treatment B for less severe cases
 ]
 
+
+---
+
+# We're Not So Good at Statistics: Kidney Stones III
+
+.pull-left[
+.center[
+```{r, echo=F, fig.retina=3}
+library("ggdag")
+dagify(Out~Treat+Size,
+       Treat~Size
+      ) %>% 
+  #tidy_dagitty() %>%
+  ggdag_parents("Out", stylized = FALSE, seed = 3)+theme_dag_blank()+theme(legend.position = "none")
+
+```
+]
+]
+
+.pull-right[
+- The *sizes* of the two groups (i.e. who gets A vs B) are *very* different
+- A .hi-purple[lurking variable] in the study is the severity of the case: doctors tended to give treatment B for less severe cases
+]
 
 ---
 
@@ -276,7 +298,7 @@ dagify(Canc~Gene+Smok,
 
 - It's always good to be skeptical of causal claims
 
-- But this is actually where .shout[econometrics] shines
+- But this is actually where .hi[econometrics] shines
 
 ]
 
@@ -293,7 +315,7 @@ dagify(Canc~Gene+Smok,
 
 .pull-left[
 
-- .shout[Econometrics] is the application of statistical tools to *quantify* economic relationships in the real world
+- .hi[Econometrics] is the application of statistical tools to *quantify* economic relationships in the real world
 
 - Uses real data to
     - test economic hypotheses
@@ -316,13 +338,13 @@ dagify(Canc~Gene+Smok,
 
 .left-column[
 .center[
-![](../images/causality.jpg)
+![](../images/causation.jpg)
 ]
 ]
 
 .right-column[
 
-- What sets econometrics apart from mere statistics (or uses of statistics in other disciplines) is its role in .shout[causal inference]
+- What sets econometrics apart from mere statistics (or uses of statistics in other disciplines) is its role in .hi[causal inference]
 
 - We can, with proper tools and interprations, make *quantitative* *causal* claims
     - about the effects of individual choices
@@ -338,7 +360,7 @@ dagify(Canc~Gene+Smok,
 
 .left-column[
 .center[
-![](../images/causality.jpg)
+![](../images/causation.jpg)
 ]
 ]
 
@@ -446,19 +468,17 @@ dagify(Canc~Gene+Smok,
 .content-box-green[
 .green[How much do state cigarette taxes reduce smoking rates?]
 
+.smallest[
 - Econ 101: raise price $\implies$ lower quantity consumed
 
 - What is the *price elasticity of demand* for smoking?
 
 - How much tax revenue will this generate?
 
-- Probably: 
+- Probably: $Taxes \rightarrow Smokers$
 
-$$Taxes \rightarrow Smokers$$
-
-- Maybe?: 
-
-$$Taxes \leftarrow Smokers$$
+- Maybe?: $Taxes \leftarrow Smokers$
+]
 ]
 ]
 
@@ -516,14 +536,14 @@ class: inverse, center, middle
 
 # This Class Is
 
-.left-code[
+.pull-left[
 
 - **Economics**: take your *preexisting* intuition and models for causal inference
 - **Statistics**: add regression and statistical inference
 - **Computer Programming**: using `R` and `R Studio` for analyzing and presenting data
 ]
 
-.right-plot[
+.pull-right[
 .center[
 ```{r, echo=F}
 library("ggplot2")
@@ -554,22 +574,24 @@ ggplot(class, aes(area=Percentage, fill=Subject))+
 
 .pull-left[
 
-### Old School Statistics Courses
+### .hi-purple[Old School Statistics Courses]
 
+.smallest[
 - $\bar{x} = \frac{1}{n} \displaystyle\sum^n_{i=1} x_i$
 
 - $\sigma_x = \displaystyle \sqrt{\frac{1}{n} \sum^n_{i=1} (x_i-\bar{x})^2}$
 
 - $r_{xy}= \displaystyle \frac{\displaystyle\sum^n_{i=1}(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\displaystyle\sum^n_{i=1}(x_i-\bar{x})^2\sum^n_{i=1}(y_i-\bar{y})^2}}$
 
-- Use pre-cleaned "toy" data, if any
+- Use pre-cleaned "toy" data, if at all
+]
 ]
 
 --
 
 .pull-right[
 
-### Hip New Data Science Courses
+### .hi[Hip New Data Science Courses]
 
 - `mean(x)`
 
@@ -580,7 +602,7 @@ ggplot(class, aes(area=Percentage, fill=Subject))+
 - `cor(x, y)`
 
 
-- Manipulate raw data from scratch (real life)
+- Clean and manipulate raw data from scratch (like *real life*!)
 ]
 
 ---
@@ -860,6 +882,39 @@ ggplot(data = gapminder,
 ]
 ---
 
+# Logistics: Hybrid Course
+
+.smaller[
+- .hi[hybrid]: more .hi-purple[synchronous] material than .hi-turquoise[asynchronous] material
+
+- I will always be teaching .hi[remotely]
+  - A classroom is available to you
+  - I may make occasional visits to campus if you *need* something in person (TBD)
+
+- Office hours: Tu/Th 3:30-5:00 PM on Zoom
+  - <i class="fas fa-video"></i> Zoom link in Blackboard's `LIVE CLASS SESSIONS` link
+  - <i class="fab fa-slack"></i> Slack channels
+
+- Teaching Assistant(s): TBD
+  - grade HWs & hold (likely virtual) office hours
+]
+
+---
+
+# Logistics: Hybrid Course
+
+- We will have .hi-purple[synchronous] sessions Mon/Wed 2:00-3:15 PM on **<i class="fas fa-video"></i> Zoom**
+
+- Lecture videos will be posted on **Blackboard** via Panopto for students unable to join synchronously
+  - If you were present, you do not need to watch the video (again)!
+  - You are not *required* to attend synchronously, but it will help you
+
+- All graded assignments are .hi-turquoise[asynchronous]
+  - (Probably) submitted on Blackboard by 11:59 PM Sundays
+  - (Probably) timed exams on Blackboard
+
+---
+
 # Assignments
 
 .pull-left[
@@ -915,7 +970,7 @@ knitr::kable(assignments, "html")
 
 - Ask questions, come to office hours. Don't struggle in silence, you are not alone!
 
-- .shout[You are learning how to learn]<sup>1</sup>
+- .hi[You are learning how to learn]<sup>1</sup>
 
 - See the [reference page](http://metricsf19.classes.ryansafner.com/reference) for more
 ]
@@ -932,8 +987,18 @@ knitr::kable(assignments, "html")
 
 # Course Website
 
+.pull-left[
 .center[
-![:scale 30%](../images/metrics_hex.png)
+![:scale 60%](../images/metrics_hex.png)
+
+]
+]
+
+.pull-right[
+.center[
+![](../images/metricswebsite.png)
+]
+]
 
 [metricsF20.classes.ryansafner.com](http://metricsF20.classes.ryansafner.com)
 ]

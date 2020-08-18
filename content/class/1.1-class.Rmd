@@ -19,15 +19,15 @@ Welcome to ECON 480 - Econometrics! Today's lesson will be an introduction to th
 
 If you have not done so, please watch my welcome video, read the announcements in Blackboard, take my survey, and join our class slack channel.
 
-Starting next class, we will do a deep dive in to `R` for about 2 weeks. In preparation, please do the following:
+Starting next class, we will do a deep dive in to `R` for about 2 weeks. In preparation, please do the following **before next class**:
 
-1. Go to [RStudio.cloud](https://rstudio.cloud) and register a (free) account with your Hood details. 
+1. Go to [RStudio.cloud](https://rstudio.cloud) and register a (free) account with your Hood details.
 
-2. Try to [install R and R Studio]() on your computer if you are able, before next class. You will still have RStudio.cloud available all to use in your browser, but it is much better to have a real version of `R` and `R Studio` on your own machine to work with all semester.
+2. Try to [install R and R Studio](https://metricsf20.classes.ryansafner.com/reference/#installing-r-and-r-studio) on your computer if you are able, before next class. You will still always have RStudio.cloud available all to use in your browser, but it is much better to have a real version of `R` and `R Studio` on your own machine to work with all semester.
 
 # Readings
 
-This week is all introductory, but you may look at Chapter 1 if you wish. Otherwise, please heed this message:
+This week is all introductory, but you may look at Bailey Chapter 1 if you wish. Otherwise, please heed this message:
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">A message to students from the Doggfather himself, <a href="https://twitter.com/SnoopDogg?ref_src=twsrc%5Etfw">@SnoopDogg</a> <a href="https://t.co/wsSANYv8u6">pic.twitter.com/wsSANYv8u6</a></p>&mdash; Ryan Briggs (@ryancbriggs) <a href="https://twitter.com/ryancbriggs/status/1293543531496308736?ref_src=twsrc%5Etfw">August 12, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 

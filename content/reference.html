@@ -100,9 +100,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul></li>
 <li><a href="#data-resources">Data Resources</a><ul>
 <li><a href="#list-of-public-datasets-data-sources-and-r-apis">List of Public Datasets, Data Sources, and R APIs</a></li>
-<li><a href="#key-data-sources">Key Data Sources<span><label for="sn-13" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-13" class="margin-toggle"/><span class="sidenote">Some of these come from various sources, including <span>https://github.com/awesomedata/awesome-public-datasets#economics</span><br />
-<br />
-</span></span></a></li>
+<li><a href="#key-data-sources">Key Data Sources</a></li>
 </ul></li>
 </ul>
 </div>
@@ -436,7 +434,10 @@ code span.wa { color: #bf0303; } /* Warning */
 </tr>
 </tbody>
 </table>
-<p>Note: overhead modifications on long terms look bad, here are some fixes:</p>
+<p>This will get you 95% of the way, but there are some times when you need to know a few advanced tricks. Here are a few of those times:</p>
+<ol style="list-style-type: decimal">
+<li>Overhead modifications on long terms look bad, here are some fixes:</li>
+</ol>
 <table>
 <colgroup>
 <col width="34%" />
@@ -467,7 +468,9 @@ code span.wa { color: #bf0303; } /* Warning */
 </tr>
 </tbody>
 </table>
-<p>Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert <code>\displaystyle</code> in front of it. That’s the difference betweeen <code>\sum^{n}_{i=1}</code>: <span class="math inline">\(\sum^{n}_{i=1}\)</span> and <span class="math inline">\(\displaystyle \sum^{n}_{i=1}\)</span>.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Very large symbols, such as the summation operator, may be squished if used inline (one <code>$</code>) (as opposed to a centered equation, two <code>$$</code>s). To prevent this when in-line, insert <code>\displaystyle</code> in front of it. That’s the difference betweeen <code>\sum^{n}_{i=1}</code>: <span class="math inline">\(\sum^{n}_{i=1}\)</span> and <span class="math inline">\(\displaystyle \sum^{n}_{i=1}\)</span>.</li>
+</ol>
 <!--There is also a shortcut with the R package `equatiomatic`. -->
 <h3 id="producing-documents">Producing documents</h3>
 <h4 id="producing-a-pdf-output">Producing a PDF Output</h4>
@@ -538,10 +541,10 @@ The following list contains links to all appendices spread across the Class Note
 </span></span> is a great “package for accessing and manipulating existing measures of democracy.”</li>
 <li><a href="https://cran.rstudio.com/web/packages/politicaldata/index.html"><code>politicaldata</code></a> provides useful functions for obtaining commonly-used data in political analysis and political science, including from sources such as the Comparative Agendas Project (which provides data on politics and policy from 20+ countries), the MIT Election and Data Science Lab, and FiveThirtyEight.</li>
 </ul>
-<p>Here is a list of good data sources depending on the types of topics you might be interested in writing on:</p>
-<h3 id="key-data-sources">Key Data Sources<span><label for="sn-13" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-13" class="margin-toggle"/><span class="sidenote">Some of these come from various sources, including <a href="Awesomedata&#39;s%20Awesome%20Public%20Datasets%20for%20Economics">https://github.com/awesomedata/awesome-public-datasets#economics</a><br />
+<p>Below is a list of good data sources depending on the types of topics you might be interested in writing on:<span><label for="sn-13" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-13" class="margin-toggle"/><span class="sidenote">Some of these come from various sources, including <a href="Awesomedata&#39;s%20Awesome%20Public%20Datasets%20for%20Economics">https://github.com/awesomedata/awesome-public-datasets#economics</a><br />
 <br />
-</span></span></h3>
+</span></span></p>
+<h3 id="key-data-sources">Key Data Sources</h3>
 <ul>
 <li><p>Coronavirus Data: <a href="https://github.com/CSSEGISandData/COVID-19">John Hopkins CSSE Covid-19 data (definitive)</a>, <a href="https://github.com/owid/covid-19-data/tree/master/public/data">Our World in Data</a>, <a href="https://github.com/nytimes/covid-19-data">New York Times Covid data</a>, <a href="https://github.com/kjhealy/covdata"><code>covdata</code> r package</a>, <a href="https://github.com/joachim-gassen/tidycovid19">Tidy Covid data</a></p></li>
 <li><p><a href="https://www.aeaweb.org/resources/data">American Economic Association Data</a></p></li>

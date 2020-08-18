@@ -160,14 +160,16 @@ Most common math symbols
 | Greek letters (uppercase) | `\Alpha`, `\Beta` , etc. | $\Alpha$ $\Beta$ |
 | Summation operator | `\sum^{n}_{i=1}` |  $\sum^{n}_{i=1}$ |
 
-Note: overhead modifications on long terms look bad, here are some fixes:
+This will get you 95% of the way, but there are some times when you need to know a few advanced tricks. Here are a few of those times:
+
+1. Overhead modifications on long terms look bad, here are some fixes:
 
 | Instead  | of  | Try | Instead |
 |----------|-----|-----|---------|
 | `\hat{\text{A very long term}}` | $\hat{\text{A very long term}}$ | `\widehat{\text{A very long term}}` | $\widehat{\text{A very long term}}$
 | `\bar{\text{A very long term}}` | $\bar{\text{A very long term}}$ | `\overline{A very long term}` | $\overline{\text{A very long term}}$ |
 
-Note 2: very large symbols, such as the summation operator, may be squished if used inline (as opposed to a centered equation). To prevent this when in-line, insert `\displaystyle` in front of it. That's the difference betweeen `\sum^{n}_{i=1}`: $\sum^{n}_{i=1}$ and $\displaystyle \sum^{n}_{i=1}$.
+2. Very large symbols, such as the summation operator, may be squished if used inline (one `$`) (as opposed to a centered equation, two `$$`s). To prevent this when in-line, insert `\displaystyle` in front of it. That's the difference betweeen `\sum^{n}_{i=1}`: $\sum^{n}_{i=1}$ and $\displaystyle \sum^{n}_{i=1}$.
 
 <!--There is also a shortcut with the R package `equatiomatic`. -->
 
@@ -242,9 +244,9 @@ Don't forget to install^[`install.packages("name_of_package")`] first and then l
 - [`democracyData`](https://github.com/xmarquez/democracyData)^[Note you will need to install `devtools` package first, and then install the package directly from Github with the command `devtools::install_github('xmarquez/democracyData')`] is a great "package for accessing and manipulating existing measures of democracy."
 - [`politicaldata`](https://cran.rstudio.com/web/packages/politicaldata/index.html) provides useful functions for obtaining commonly-used data in political analysis and political science, including from sources such as the Comparative Agendas Project (which provides data on politics and policy from 20+ countries), the MIT Election and Data Science Lab, and FiveThirtyEight.
 
-Here is a list of good data sources depending on the types of topics you might be interested in writing on:
+Below is a list of good data sources depending on the types of topics you might be interested in writing on:^[Some of these come from various sources, including [https://github.com/awesomedata/awesome-public-datasets#economics](Awesomedata's Awesome Public Datasets for Economics)]
 
-## Key Data Sources^[Some of these come from various sources, including [https://github.com/awesomedata/awesome-public-datasets#economics](Awesomedata's Awesome Public Datasets for Economics)]
+## Key Data Sources
 
 - Coronavirus Data: [John Hopkins CSSE Covid-19 data (definitive)](https://github.com/CSSEGISandData/COVID-19), [Our World in Data](https://github.com/owid/covid-19-data/tree/master/public/data), [New York Times Covid data](https://github.com/nytimes/covid-19-data), [`covdata` r package](https://github.com/kjhealy/covdata), [Tidy Covid data](https://github.com/joachim-gassen/tidycovid19)
 
