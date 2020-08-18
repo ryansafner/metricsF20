@@ -1,5 +1,5 @@
 ---
-title: "1.1 Introduction to Econometrics - Class Notes"
+title: "1.1 — Introduction to Econometrics — Class Notes"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Monday, August 18, 2020*
+*Tuesday, August 18, 2020*
 
 # Overview
 
@@ -19,7 +19,11 @@ Welcome to ECON 480 - Econometrics! Today's lesson will be an introduction to th
 
 If you have not done so, please watch my welcome video, read the announcements in Blackboard, take my survey, and join our class slack channel.
 
-Starting next class, we will do a deep dive in to `R` for about 2 weeks. In preparation, try to [install R and R Studio]() on your computer if you are able, before next class. You will still have [RStudio.cloud](https://rstudio.cloud) available all to use in your browser, but it is much better to have a real version of `R` and `R Studio` on your own machine to work with all semester.
+Starting next class, we will do a deep dive in to `R` for about 2 weeks. In preparation, please do the following:
+
+1. Go to [RStudio.cloud](https://rstudio.cloud) and register a (free) account with your Hood details. 
+
+2. Try to [install R and R Studio]() on your computer if you are able, before next class. You will still have RStudio.cloud available all to use in your browser, but it is much better to have a real version of `R` and `R Studio` on your own machine to work with all semester.
 
 # Readings
 
@@ -34,13 +38,13 @@ This week is all introductory, but you may look at Chapter 1 if you wish. Otherw
 
 # Live Class Session on Zoom
 
-The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 2:00 PM.
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
 
 If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
 
 # Assignments
 
-# Preliminary Survey
+## Preliminary Survey
 
 Please take the [preliminary survey](/assignment/00-preliminary-survey) on your statistics and software background by 11:59 PM Sunday. This will help us all have a productive course together.
 

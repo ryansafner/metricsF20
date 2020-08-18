@@ -7,6 +7,7 @@ lessons:
     
   - title: "1.1 Introduction to Econometrics"
     class: "1.1-class"
+    slides: "1.1-slides"
     
   - title: "1.2 Meet R"
 
