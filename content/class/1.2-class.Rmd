@@ -19,7 +19,7 @@ Today we begin the long slog to your mastery of `R`. We begin with the basics - 
 
 # Readings
 
-Please see [today's readings] for more information.
+Please see [today's readings](/reading/1.2-reading) for more information.
 
 # Slides
 
@@ -168,21 +168,4 @@ p <- ggplot(data = data,
            y = y,
            fill = fill))+
   geom_point()
-```
-
-
-For posting numbers into text, `format()` is very helpful.
-
-```{r}
-comma <- function(x){
-  format(x, big.mark = ",")
-}
-
-comma(123456789)
-
-comma2 <- function(x){
-  format(x, digits = 8, big.mark = ",")
-}
-
-comma2(124198.124192)
 ```

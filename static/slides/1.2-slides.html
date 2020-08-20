@@ -21,6 +21,26 @@ class: center, middle, inverse, title-slide
 
 
 
+class: inverse
+
+# Outline
+
+## [Meet R and R Studio](#9)
+
+## [Ways to Use R](#16)
+
+## [Coding Basics](#22)
+
+## [Types of R Objects](#40)
+
+## [Data Structures](#45)
+
+## [Working with Objects](#49)
+
+## [Working with Data](#66)
+
+---
+
 # Data Science 
 
 - .hi[You go into data analysis with the tools you know, not the tools you need]
@@ -145,7 +165,7 @@ class: inverse, center, middle
 # *R* and *R Studio* I
 
 .pull-left[
-.smaller[
+.smallest[
 - .hi[R] is the programming language that executes commands
 
 - .hi-purple[R Studio] is an integrated development environment (IDE) that makes your coding life a lot easier
@@ -207,7 +227,7 @@ R Studio has 4 window panes:
 .pull-right[
 
 .center[
-![R Studio](../images/rstudio.png)
+![R Studio](../images/r4screens1)
 
 R Studio
 ]
@@ -221,7 +241,7 @@ R Studio
 
 .pull-left[
 
-- .hi[You don't "*learn R*", you learn *how to do things in R*]
+- .hi[You don't “*learn R*”, you learn *how to do things in R*]
 
 - In order to do learn this, you need to learn *how to search for what you want to do*
 
@@ -299,16 +319,9 @@ summary(mpg$hwy)
 ]
 
 .pull-right[
-
-
-```r
-ggplot(mpg, aes(x=displ, y=hwy))+
-geom_point(aes(color=class))+
-geom_smooth()
-```
-
-&lt;img src="1.2-slides_files/figure-html/unnamed-chunk-5-1.png" width="432" style="display: block; margin: auto;" /&gt;
-
+.center[
+![](../images/rconsole1.png)
+]
 ]
 
 ---
@@ -331,17 +344,11 @@ geom_smooth()
 
 .pull-right[
 
-
-```r
-2+2 # just testing!
-head(mpg) # look at mpg data 
-
-# create a plot 
-
-ggplot(mpg, aes(x=displ, y=hwy))+
-geom_point(aes(color=class))+
-geom_smooth()
-```
+.pull-right[
+.center[
+![](../images/rscriptbetter.png)
+]
+]
 ]
 
 ---
@@ -463,6 +470,7 @@ summary(reg1$coefficients) #prints coefficients
 
 # Style and Naming
 
+.smaller[
 - Once we start writing longer blocks of code, it helps to have a consistent (and human-readable!) style
 - I follow [this style guide](https://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.red[1]&lt;/sup&gt;
 
@@ -475,6 +483,7 @@ i_use_underscores
 some.people.use.snake.case
 othersUseCamelCase
 ```
+]
 
 .footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Also described in [today's course notes page](http://metricsF20.classes.ryansafner.com/class/1.2-class/) and the course [reference page](http://metricsF20.classes.ryansafner.com/reference).
 
@@ -557,7 +566,7 @@ pi/2
 # Packages
 
 .pull-left[
-
+.smallest[
 - Since R is open source, users contribute **packages**
     - Really it's just users writing custom functions and saving them for others to use
 - Load packages with `library()`
@@ -565,7 +574,9 @@ pi/2
 - If you don't have a package, you must first `install.packages()`&lt;sup&gt;.red[1]&lt;/sup&gt; 
     - e.g. `install.packages("package_name")`
 ]
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Yes, note the plural, even if it's just for one package!]
 
+]
 .pull-right[
 
 .center[
@@ -573,27 +584,7 @@ pi/2
 ]
 
 ]
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Yes, note the plural, even if it's just for one package!]
 
----
-
-# Common Packages
-
-.pull-left[
-
-- In this class, we will make extensive use of the following packages:
-    - `tidyverse`: really a *meta*-package combining the following packages (among others)
-        - `dplyr`: used for better data-wrangling
-        - `ggplot2`: used for fancy plotting
-    - `huxtable`: used for automatically producing regression tables
-]
-
-.pull-right[
-
-.center[
-![:scale 75%](../images/tidyversevertical.png)
-]
-]
 ---
 
 # R: Objects and Functions
@@ -761,6 +752,7 @@ address
 # Logical
 
 .pull-left[
+.smallest[
 - .hi[Logical] objects are **binary** `TRUE` or `FALSE` indicators
 - Used a lot to evaluate *conditionals*:
   - `&gt;`, `&lt;`: greater than, less than
@@ -769,6 +761,9 @@ address
   - `&amp;in&amp;` : Is a member of the set of ($\in$)
   - `&amp;`: "AND"
   - `|`: "OR" 
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; One `=` *assigns* a value (like `&lt;-`). Two `==` *evaluate* a conditional statement.]
 
 ]
 
@@ -811,7 +806,6 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; One `=` *assigns* a value (like `&lt;-`). Two `==` *evaluate* a conditional statement.]
 ---
 
 # Factor
@@ -824,8 +818,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] freshman  freshman  junior    sophomore sophomore junior    sophomore
-##  [8] sophomore sophomore freshman 
+##  [1] sophomore freshman  senior    senior    senior    sophomore senior   
+##  [8] junior    junior    junior   
 ## Levels: freshman sophomore junior senior
 ```
 
@@ -833,8 +827,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] freshman  freshman  junior    sophomore sophomore junior    sophomore
-##  [8] sophomore sophomore freshman 
+##  [1] sophomore freshman  senior    senior    senior    sophomore senior   
+##  [8] junior    junior    junior   
 ## Levels: freshman &lt; sophomore &lt; junior &lt; senior
 ```
 
@@ -972,7 +966,9 @@ my_vector = c(1,2,3,4,5)
 
 - R will not give any output after an assignment
 
---
+---
+
+# Objects: Storing, Viewing, and Overwriting
 
 - *View* an object (and list its contents) by typing its name
 
@@ -1043,7 +1039,11 @@ is.character("six")
 ## [1] TRUE
 ```
 
-- You can convert objects from one class to another with `as.object_class()`
+---
+
+# Objects: Checking and Changing Classes
+
+- Convert objects from one class to another with `as.object_class()`
     - Pay attention: you can't convert non-numbers to `numeric`, etc! 
 
 
@@ -1131,7 +1131,7 @@ class(df$numbers)
 ```
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;remember each column in a data frame is a vector!] 
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;Remember each column in a data frame is a vector!] 
 
 ---
 
@@ -1209,7 +1209,7 @@ summary(df)
 ##                     Max.   :7.50
 ```
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; for `numeric` data only; a frequency table is displayed for `character` or `factor` data]
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; For `numeric` data only; a frequency table is displayed for `character` or `factor` data]
 ---
 
 # More on Data Frames IV
@@ -1342,6 +1342,7 @@ class: inverse, center, middle
 # Indexing and Subsetting I 
 
 .pull-left[
+.code60[
 
 
 
@@ -1364,11 +1365,11 @@ mtcars
 ## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
 ## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
 ```
-
+]
 ]
 
 .pull-right[
-
+.smallest[
 - Each element in a data frame is .h1[indexed] by referring to its row and column: `df[r,c]`
 - To select elements by row and column (".h1[subset]"), type in the row(s) and/or column(s) to select
     - Leaving `r` or `c` blank selects *all* rows or columns
@@ -1378,12 +1379,14 @@ mtcars
 ]
 
 .footnote[&lt;sup&gt;1&lt;/sup&gt; You can also "negate" values, selecting everything *except* for values with a `-` in front of them.]
+]
 
 ---
 
 # Indexing and Subsetting II 
 
 .pull-left[
+.code60[
 
 ```r
 mtcars
@@ -1405,11 +1408,12 @@ mtcars
 ## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
 ```
 ]
+]
 
 .pull-right[
 
 ### Subset by Row (Observations)
-
+.code60[
 
 ```r
 mtcars[1,] # first row
@@ -1441,7 +1445,7 @@ mtcars[1:3,] # first three rows
 ## Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02
 ## Datsun 710    22.8   4  108  93 3.85 2.320 18.61
 ```
-
+]
 ]
 
 ---
@@ -1449,6 +1453,7 @@ mtcars[1:3,] # first three rows
 # Indexing and Subsetting III
 
 .pull-left[
+.code60[
 
 ```r
 mtcars
@@ -1470,11 +1475,13 @@ mtcars
 ## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
 ```
 ]
+]
 
 .pull-right[
 
 ### Subset by Column (Variable)
 
+.code60[
 
 ```r
 mtcars[,6] # select column 6
@@ -1503,13 +1510,14 @@ mtcars[,2:4] # select columns 2 through 4
 ## Merc 280C           6 167.6 123
 ## Merc 450SE          8 275.8 180
 ```
-
+]
 ]
 ---
 
 # Indexing and Subsetting IV
 
 .pull-left[
+.code60[
 
 ```r
 mtcars
@@ -1530,6 +1538,7 @@ mtcars
 ## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
 ## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
 ```
+]
 ]
 
 .pull-right[
@@ -1538,6 +1547,7 @@ mtcars
 
 - Alternatively, double brackets `[[]]` selects a column by position
 
+.code60[
 
 ```r
 mtcars[[6]] # same thing
@@ -1546,9 +1556,10 @@ mtcars[[6]] # same thing
 ```
 ##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
 ```
-
+]
 - Data frames can select columns by *name* with `$`
 
+.code60[
 
 ```r
 mtcars$wt
@@ -1557,7 +1568,7 @@ mtcars$wt
 ```
 ##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
 ```
-
+]
 ]
 
 ---
@@ -1566,6 +1577,7 @@ mtcars$wt
 # Indexing and Subsetting V
 
 .pull-left[
+.code60[
 
 ```r
 mtcars
@@ -1586,7 +1598,7 @@ mtcars
 ## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
 ## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
 ```
-
+]
 ]
 
 .pull-right[
@@ -1595,6 +1607,7 @@ mtcars
 
 ### Subset by Condition
 
+.code60[
 
 ```r
 mtcars[mtcars$wt&gt;4,] # select obs with wt&gt;4
@@ -1654,6 +1667,7 @@ mtcars[mtcars$cyl==4 | mtcars$cyl==6,] # select obs with 4 OR 6 cyl
 ## Merc 280       19.2   6 167.6 123 3.92 3.440 18.30
 ## Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90
 ```
+]
 
 ]
 
