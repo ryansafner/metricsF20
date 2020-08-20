@@ -239,7 +239,7 @@ R Studio has 4 window panes:
 .pull-right[
 
 .center[
-![R Studio](../images/r4screens1)
+![R Studio](../images/r4screens1.png)
 
 R Studio
 ]

@@ -9,7 +9,7 @@ library(tidyverse)
 library(pander)
 ```
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/r/03-r-practice.pdf)
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/r/1.2-r-practice.pdf)
 <!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/03-r-practice-answers.html)
 - [<i class="fas fa-file-pdf"></i> `Answer Key (PDF)`](/r/03-r-practice-answers-pdf.pdf)
 - [<i class="fas fa-registered"></i> `R Script`](/r/03-r-practice-answers.R)-->
