@@ -181,9 +181,9 @@ class: inverse, center, middle
 .pull-right[
 
 .center[
-![R Studio](../images/rstudio.png)
+![:scale 100%](../images/r4screens1.png)
 
-R Studio
+.hi-purple[R Studio]
 ]
 ]
 
@@ -203,9 +203,9 @@ R Studio
 .pull-right[
 
 .center[
-![R Studio](../images/rstudio.png)
+![:scale 100%](../images/r4screens1.png)
 
-R Studio
+.hi-purple[R Studio]
 ]
 ]
 
@@ -217,7 +217,7 @@ R Studio
 
 R Studio has 4 window panes:
 
-1. .hi-purple[Source]&lt;sup&gt;.red[1]&lt;/sup&gt;: a text editor for documents, R scripts, etc.
+1. .hi-purple[Source]&lt;sup&gt;.magenta[†]&lt;/sup&gt;: a text editor for documents, R scripts, etc.
 2. .hi-purple[Console]: type in commands to run
 3. .hi-purple[Browser]: view files, plots, help, etc
 4. .hi-purple[Environment]: view created objects, command history, version control
@@ -227,13 +227,13 @@ R Studio has 4 window panes:
 .pull-right[
 
 .center[
-![R Studio](../images/r4screens1.png)
+![:scale 100%](../images/r4screens1.png)
 
-R Studio
+.hi-purple[R Studio]
 ]
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;May not be immediately visible until you create new files.]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt;May not be immediately visible until you create new files.]
 
 ---
 
@@ -320,7 +320,7 @@ summary(mpg$hwy)
 
 .pull-right[
 .center[
-![](../images/rconsole1.png)
+![:scale 100%](../images/rconsole1.png)
 ]
 ]
 
@@ -343,13 +343,11 @@ summary(mpg$hwy)
 ]
 
 .pull-right[
-
-.pull-right[
 .center[
-![](../images/rscriptbetter.png)
+![:scale 100%](../images/rscriptbetter.png)
 ]
 ]
-]
+
 
 ---
 
@@ -394,11 +392,11 @@ class: inverse, center, middle
 
 - Find out where R this is with `getwd()`
 
-- Change it with `setwd(path/to/folder)`&lt;sup&gt;.red[1]&lt;/sup&gt;
+- Change it with `setwd(path/to/folder)`&lt;sup&gt;.magenta[†]&lt;/sup&gt;
 
 - Soon I'll show you better ways where you won't ever have to worry about this
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Note the path is OS-specific. For Windows it might be `C:/Documents/`. For Mac it is often your username folder.]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note the path is OS-specific. For Windows it might be `C:/Documents/`. For Mac it is often your username folder.]
 
 ---
 
@@ -470,11 +468,11 @@ summary(reg1$coefficients) #prints coefficients
 
 # Style and Naming
 
-.smaller[
+.smallest[
 - Once we start writing longer blocks of code, it helps to have a consistent (and human-readable!) style
-- I follow [this style guide](https://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.red[1]&lt;/sup&gt;
+- I follow [this style guide](https://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.magenta[†]&lt;/sup&gt;
 
-- Naming objects and files will become important&lt;sup&gt;.red[2]&lt;/sup&gt;
+- Naming objects and files will become important&lt;sup&gt;.magenta[‡]&lt;/sup&gt;
     - DO NOT USE SPACES! You've seen seen webpages intended to be called `my webpage in html` turned into `http://my%20webpage%20in%20html.html`
 
 
@@ -485,9 +483,9 @@ othersUseCamelCase
 ```
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Also described in [today's course notes page](http://metricsF20.classes.ryansafner.com/class/1.2-class/) and the course [reference page](http://metricsF20.classes.ryansafner.com/reference).
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Also described in [today's course notes page](http://metricsF20.classes.ryansafner.com/class/1.2-class/) and the course [reference page](http://metricsF20.classes.ryansafner.com/reference).
 
-&lt;sup&gt;.red[2]&lt;/sup&gt; Consider your folders on your computer as well...]
+&lt;sup&gt;.magenta[‡]&lt;/sup&gt; Consider your folders on your computer as well...]
 
 ---
 
@@ -571,10 +569,10 @@ pi/2
     - Really it's just users writing custom functions and saving them for others to use
 - Load packages with `library()`
     - e.g. `library("package_name")`
-- If you don't have a package, you must first `install.packages()`&lt;sup&gt;.red[1]&lt;/sup&gt; 
+- If you don't have a package, you must first `install.packages()`&lt;sup&gt;.magenta[†]&lt;/sup&gt; 
     - e.g. `install.packages("package_name")`
 ]
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Yes, note the plural, even if it's just for one package!]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Yes, note the plural, even if it's just for one package!]
 
 ]
 .pull-right[
@@ -688,7 +686,7 @@ class: inverse, center, middle
 # Numeric
 
 .pull-left[
-- .hi[Numeric] objects are just numbers&lt;sup&gt;.red[1]&lt;/sup&gt;
+- .hi[Numeric] objects are just numbers&lt;sup&gt;.magenta[†]&lt;/sup&gt;
 
 - Can be mathematically manipulated
 ]
@@ -713,7 +711,7 @@ x*y
 ## [1] 6
 ```
 ]
-.footnote[.red[&lt;sup&gt;1&lt;/sup&gt;] If you want to get technical, R may call these `integer` or `double` if there are decimal values.]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; If you want to get technical, R may call these `integer` or `double` if there are decimal values.]
 
 ---
 
@@ -757,13 +755,15 @@ address
 - Used a lot to evaluate *conditionals*:
   - `&gt;`, `&lt;`: greater than, less than
   - `&gt;=`, `&lt;=`: greater than or equal to, less than or equal to
-  - `==`, `!=`: is equal to, is not equal to&lt;sup&gt;.red[1]&lt;/sup&gt;
-  - `&amp;in&amp;` : Is a member of the set of ($\in$)
+  - `==`, `!=`: is equal to, is not equal to&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+  - `&amp;in&amp;` : is a member of the set of `\((\in)\)`
   - `&amp;`: "AND"
   - `|`: "OR" 
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; One `=` *assigns* a value (like `&lt;-`). Two `==` *evaluate* a conditional statement.]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; One `=` *assigns* a value (like `&lt;-`). 
+
+Two `==` *evaluate* a conditional statement.]
 
 ]
 
@@ -818,8 +818,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] senior    freshman  senior    sophomore sophomore junior    junior   
-##  [8] freshman  freshman  senior   
+##  [1] senior    junior    freshman  junior    freshman  sophomore junior   
+##  [8] freshman  senior    junior   
 ## Levels: freshman sophomore junior senior
 ```
 
@@ -827,8 +827,8 @@ z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
 
 
 ```
-##  [1] senior    freshman  senior    sophomore sophomore junior    junior   
-##  [8] freshman  freshman  senior   
+##  [1] senior    junior    freshman  junior    freshman  sophomore junior   
+##  [8] freshman  senior    junior   
 ## Levels: freshman &lt; sophomore &lt; junior &lt; senior
 ```
 
@@ -850,7 +850,7 @@ class: inverse, center, middle
 ]
 
 .pull-right[
-
+.code50[
 
 ```r
 # create a vector called vec
@@ -864,7 +864,7 @@ vec
 ## [1] "1"                "orange"           "83.5"             "3.14159265358979"
 ```
 ]
-
+]
 ---
 
 # Data Frames I
@@ -875,13 +875,14 @@ vec
 
 - Think like a "spreadsheet"
 
-- Each *column* is a vector (variable)
+- Each .hi[column] is a vector (variable)
 
-- Each *row* is an observation (pair of values for all variables)
+- Each .hi-purple[row] is an observation (pair of values for all variables)
 ]
 
 .pull-right[
 
+.code50[
 
 ```r
 library("ggplot2")
@@ -905,6 +906,8 @@ diamonds
 ## 10 0.23  Very Good H     VS1      59.4    61   338  4     4.05  2.39
 ## # … with 53,930 more rows
 ```
+
+]
 
 ]
 ---
@@ -957,7 +960,7 @@ class: inverse, center, middle
 # Objects: Storing, Viewing, and Overwriting
 
 - We want to store things in objects to run functions on them later
-- Recall, any object is created with the assignment operator `&lt;-` 
+- Recall, any object is created with the assignment operator `=` or `&lt;-` 
 
 
 ```r
@@ -1093,7 +1096,7 @@ mixed_vector
 
 # Objects: Different Classes and Coercion II
 
-- Data frames can have columns with different types of data, so long as all the elements in each column are the same class&lt;sup&gt;.red[1]&lt;/sup&gt;
+- Data frames can have columns with different types of data, so long as all the elements in each column are the same class&lt;sup&gt;.magenta[†]&lt;/sup&gt;
 
 .pull-left[
 
@@ -1131,7 +1134,7 @@ class(df$numbers)
 ```
 ]
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;Remember each column in a data frame is a vector!] 
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt;Remember each column in a data frame is a vector!] 
 
 ---
 
@@ -1192,7 +1195,7 @@ head(df, n=2)
 
 # More on Data Frames III
 
-- Get summary statistics&lt;sup&gt;.red[1]&lt;/sup&gt; by column (variable) with `summary()`
+- Get summary statistics&lt;sup&gt;.magenta[†]&lt;/sup&gt; by column (variable) with `summary()`
 
 
 ```r
@@ -1209,7 +1212,7 @@ summary(df)
 ##                     Max.   :7.50
 ```
 
-.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; For `numeric` data only; a frequency table is displayed for `character` or `factor` data]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; For `numeric` data only; a frequency table is displayed for `character` or `factor` data]
 ---
 
 # More on Data Frames IV
@@ -1342,7 +1345,7 @@ class: inverse, center, middle
 # Indexing and Subsetting I 
 
 .pull-left[
-.code60[
+.code50[
 
 
 
@@ -1386,7 +1389,7 @@ mtcars
 # Indexing and Subsetting II 
 
 .pull-left[
-.code60[
+.code50[
 
 ```r
 mtcars
@@ -1413,7 +1416,7 @@ mtcars
 .pull-right[
 
 ### Subset by Row (Observations)
-.code60[
+.code50[
 
 ```r
 mtcars[1,] # first row
@@ -1453,7 +1456,7 @@ mtcars[1:3,] # first three rows
 # Indexing and Subsetting III
 
 .pull-left[
-.code60[
+.code50[
 
 ```r
 mtcars
@@ -1481,7 +1484,7 @@ mtcars
 
 ### Subset by Column (Variable)
 
-.code60[
+.code50[
 
 ```r
 mtcars[,6] # select column 6
@@ -1517,7 +1520,7 @@ mtcars[,2:4] # select columns 2 through 4
 # Indexing and Subsetting IV
 
 .pull-left[
-.code60[
+.code50[
 
 ```r
 mtcars
@@ -1547,22 +1550,23 @@ mtcars
 
 - Alternatively, double brackets `[[]]` selects a column by position
 
-.code60[
+.code50[
 
 ```r
-mtcars[[6]] # same thing
+mtcars[[6]]
 ```
 
 ```
 ##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
 ```
 ]
-- Data frames can select columns by *name* with `$`
 
-.code60[
+- Can select columns .hi-turquoise[by name] with `$`
+
+.code50[
 
 ```r
-mtcars$wt
+mtcars$wt # same thing
 ```
 
 ```
@@ -1577,7 +1581,7 @@ mtcars$wt
 # Indexing and Subsetting V
 
 .pull-left[
-.code60[
+.code50[
 
 ```r
 mtcars
@@ -1607,7 +1611,7 @@ mtcars
 
 ### Subset by Condition
 
-.code60[
+.code50[
 
 ```r
 mtcars[mtcars$wt&gt;4,] # select obs with wt&gt;4
@@ -1679,9 +1683,9 @@ mtcars[mtcars$cyl==4 | mtcars$cyl==6,] # select obs with 4 OR 6 cyl
 
 - And then: data wrangling with `tidyverse`
 
-- And then: literate programming and workflow management with `R Markdown`
+- And then: literate programming and workflow management with `R Markdown`, `R Projects`, maybe `git`
 
-- Finally: back to econometric theory!
+- Finally: onto statistics and econometric theory!
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
