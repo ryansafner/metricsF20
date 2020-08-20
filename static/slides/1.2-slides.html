@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>1.2 — Meet R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 1.2 — Meet R
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Data Science 
+
+- .hi[You go into data analysis with the tools you know, not the tools you need]
+
+- The next 2-3 weeks are all about giving you the tools you need 
+    - Admittedly, a bit before you know what you need them *for*
+
+- We will extend them as we learn specific models
+
+---
+
+# Why Not Excel? I
+
+.center[
+![:scale 65%](../images/excelsucks.jpg)
+]
+
+---
+
+# Why Not Excel? II
+
+.center[
+![:scale 65%](../images/excelsucks2.png)
+]
+
+---
+
+# Why Use R?
+
+.pull-left[
+
+- **Free** and **open source**
+
+- A very large community
+    - Written by statisticians for statistics
+    - Most packages are written for `R` first
+    
+- Can handle virtually any data format
+
+- Makes replication easy
+
+- Can integrate into documents (with `R markdown`)
+
+- R is a *language* so it can do *everything*
+    - A good stepping stone to learning other languages like *Python*
+
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](../images/r.png)
+]
+
+]
+
+---
+
+# Excel and Stata Can't Do This (In Slides)
+
+.left-code[
+
+
+```r
+library("gapminder")
+
+ggplot(data = gapminder, 
+       aes(x = gdpPercap,
+           y = lifeExp,
+           color = continent))+
+  geom_point(alpha=0.3)+
+  geom_smooth(method = "lm")+
+	scale_x_log10(breaks=c(1000,10000, 100000),
+	              label=scales::dollar)+
+	labs(x = "GDP/Capita",
+	     y = "Life Expectancy (Years)")+
+  facet_wrap(~continent)+
+  guides(color = F)+
+  theme_light()
+```
+]
+
+.right-plot[
+.center[
+&lt;img src="1.2-slides_files/figure-html/unnamed-chunk-1-1.png" width="72.5%" /&gt;
+]
+]
+
+---
+
+# Or This: Execute R Code Inside Your Documents
+
+.pull-left[
+# Code
+
+  
+  ```r
+  library(gapminder)
+  ```
+
+The average GDP per capita is $`` `r
+round(mean(gapminder$gdpPercap),2)` `` with a standard deviation of $`` `r
+round(sd(gapminder$gdpPercap),2)` ``.  
+]
+
+.pull-right[
+# Output
+
+
+
+The average GDP per capita is $7215.33 with a standard deviation of $9857.45. 
+
+]
+
+---
+
+class: inverse, center, middle
+# Meet R and R Studio
+
+---
+
+# *R* and *R Studio* I
+
+.pull-left[
+.smaller[
+- .hi[R] is the programming language that executes commands
+
+- .hi-purple[R Studio] is an integrated development environment (IDE) that makes your coding life a lot easier
+  - Write code in scripts
+  - Execute individual commands or entire scripts
+  - Auto-complete, highlight syntax
+  - View data, objects, and plots
+  - Get help and documentation on commands and functions
+  - Integrate code into documents with `R Markdown`
+]
+]
+
+.pull-right[
+
+.center[
+![R Studio](../images/rstudio.png)
+
+R Studio
+]
+]
+
+---
+
+# *R* and *R Studio* II
+
+.pull-left[
+
+- .hi[R] is like your car's engine, .hi-purple[R Studio] is the dashboard
+
+- You will do everything in .hi-purple[R Studio]
+
+- .hi[R] itself is just a command language (you could run it in your computer's shell/terminal/command prompt)
+]
+
+.pull-right[
+
+.center[
+![R Studio](../images/rstudio.png)
+
+R Studio
+]
+]
+
+---
+
+# *R* and *R Studio* III
+
+.pull-left[
+
+R Studio has 4 window panes:
+
+1. .hi-purple[Source]&lt;sup&gt;.red[1]&lt;/sup&gt;: a text editor for documents, R scripts, etc.
+2. .hi-purple[Console]: type in commands to run
+3. .hi-purple[Browser]: view files, plots, help, etc
+4. .hi-purple[Environment]: view created objects, command history, version control
+
+]
+
+.pull-right[
+
+.center[
+![R Studio](../images/rstudio.png)
+
+R Studio
+]
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;May not be immediately visible until you create new files.]
+
+---
+
+# Learning...
+
+.pull-left[
+
+- .hi[You don't "*learn R*", you learn *how to do things in R*]
+
+- In order to do learn this, you need to learn *how to search for what you want to do*
+
+]
+
+--
+
+.pull-right[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;My &lt;a href="https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#rstats&lt;/a&gt; learning path:&lt;br&gt;&lt;br&gt;1. Install R&lt;br&gt;2. Install RStudio&lt;br&gt;3. Google &amp;quot;How do I [THING I WANT TO DO] in R?&amp;quot;&lt;br&gt;&lt;br&gt;Repeat step 3 ad infinitum.&lt;/p&gt;&amp;mdash; Jesse Mostipak (@kierisi) &lt;a href="https://twitter.com/kierisi/status/898534740051062785?ref_src=twsrc%5Etfw"&gt;August 18, 2017&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt; 
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;A surprisingly large part of having expertise in a topic is not so much knowing everything about it but learning the language and sources well enough to be extremely efficient in google searches.&lt;/p&gt;&amp;mdash; Katie Mack (@AstroKatie) &lt;a href="https://twitter.com/AstroKatie/status/1071442842873159681?ref_src=twsrc%5Etfw"&gt;December 8, 2018&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt; 
+
+]
+
+---
+
+
+# ...and Sucking
+
+.center[
+![:scale 80%](../images/suckingatsomething.gif)
+]
+
+---
+
+class: inverse, center, middle
+# Ways to Use R
+
+---
+
+# 1. Using the Console
+
+.pull-left[
+
+- Type individual commands into the console window
+
+- Great for testing individual commands to see what happens
+
+- Not saved! Not reproducible! Not recommended!
+]
+
+.pull-right[
+
+
+```r
+2+2
+```
+
+```
+## [1] 4
+```
+
+```r
+summary(mpg$hwy)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   12.00   18.00   24.00   23.44   27.00   44.00
+```
+]
+
+---
+
+# 1. Using the Console 
+
+.pull-left[
+
+- Type individual commands into the console window
+
+- Great for testing individual commands to see what happens
+
+- Not saved! Not reproducible! Not recommended!
+]
+
+.pull-right[
+
+
+```r
+ggplot(mpg, aes(x=displ, y=hwy))+
+geom_point(aes(color=class))+
+geom_smooth()
+```
+
+&lt;img src="1.2-slides_files/figure-html/unnamed-chunk-5-1.png" width="432" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# 2. Writing an R Script
+
+.pull-left[
+
+- Source pane is a text-editor
+
+- Make `.R` files: all input commands in a single script
+
+- Comment with `#`
+
+- Can run any or all of script at once
+
+- Can save, reproduce, and send to others!
+
+]
+
+.pull-right[
+
+
+```r
+2+2 # just testing!
+head(mpg) # look at mpg data 
+
+# create a plot 
+
+ggplot(mpg, aes(x=displ, y=hwy))+
+geom_point(aes(color=class))+
+geom_smooth()
+```
+]
+
+---
+
+# 3. Using Markdown
+
+- A later lecture: `R Markdown`, a simple markup language to write documents in
+    - **Optional**, but many students have enjoyed it and use it well beyond this class!
+    
+- Can integrate text, `R` code, figures, citations &amp; bibliographies in a *single* plain-text file &amp; output into a variety of formats: PDF, webpage, slides, Word doc, etc.
+
+.center[
+![](../images/rmd3.png)
+]
+
+---
+
+# For Today
+
+- Practicing typing at the Command line/Console
+
+- Learning different commands and objects relevant for data analysis
+
+- Saving and running `.R` scripts
+
+- Later: `R markdown`, literate programming, workflow management
+
+- .hi-purple[Today may seem a bit overwhelming]
+    - You don't need to know or internalize all of this today
+    - Use this as a reference to come back to over the semester
+
+---
+
+class: inverse, center, middle
+# Coding Basics
+
+---
+
+# Getting to Know Your Computer
+
+- R assumes a default (often inconvenient) .hi["working directory"] on your computer
+    - The first place it looks to `open` or `save` files 
+
+- Find out where R this is with `getwd()`
+
+- Change it with `setwd(path/to/folder)`&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- Soon I'll show you better ways where you won't ever have to worry about this
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Note the path is OS-specific. For Windows it might be `C:/Documents/`. For Mac it is often your username folder.]
+
+---
+
+# Coding
+
+.left-column[
+
+.center[
+![:scale 80%](../images/hadley.jpg)
+
+Hadley Wickham
+
+Chief Scientist, R Studio
+]
+]
+
+.right-column[
+
+&gt; "There’s an implied contract between you and R: it will do the tedious computation for you, but in return, you must be completely precise in your instructions. Typos matter. Case matters." - [R for Data Science, Ch. 4](https://r4ds.had.co.nz/workflow-basics.html)
+]
+
+---
+
+# Say Hello to My Little Friend
+
+.center[
+![](../images/googlehelp.png)
+]
+
+---
+
+# Say Hello to My Better Friend
+
+.center[
+![](../images/stackoverflow.png)
+]
+
+---
+
+# R Is Helpful Too!
+
+- type `help(function_name)` or `?(function_name)` to get documentation on a function
+.center[
+
+From Kieran Healy's excellent (free online!) [book on Data Visualization](http://socviz.co/).]
+
+![:scale 50%](http://socviz.co/assets/ch-09-read-a-help-page.png)
+
+]
+---
+
+# Tips for Writing Code
+
+- Comment, comment, comment!
+- The hashtag `#` starts a comment, R will ignore everything on the rest of that line
+
+
+```r
+# Run regression of y on x, save as reg1 
+reg1&lt;-lm(y~x, data=data) #runs regression 
+summary(reg1$coefficients) #prints coefficients
+```
+
+- Save often!
+  - Write scripts that save the commands that did what you wanted (and comment them!)
+  - Better yet, use a version control system like Git (I hope to cover this later)
+
+---
+
+# Style and Naming
+
+- Once we start writing longer blocks of code, it helps to have a consistent (and human-readable!) style
+- I follow [this style guide](https://adv-r.had.co.nz/Style.html) (you are not required to)&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- Naming objects and files will become important&lt;sup&gt;.red[2]&lt;/sup&gt;
+    - DO NOT USE SPACES! You've seen seen webpages intended to be called `my webpage in html` turned into `http://my%20webpage%20in%20html.html`
+
+
+```r
+i_use_underscores
+some.people.use.snake.case
+othersUseCamelCase
+```
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Also described in [today's course notes page](http://metricsF20.classes.ryansafner.com/class/1.2-class/) and the course [reference page](http://metricsF20.classes.ryansafner.com/reference).
+
+&lt;sup&gt;.red[2]&lt;/sup&gt; Consider your folders on your computer as well...]
+
+---
+
+# Coding Basics
+
+- You'll have to get used to the fact that you are coding in commands to execute
+
+- Start with the easiest: simple math operators and calculations:
+
+--
+
+
+```r
+&gt; 2+2
+```
+
+
+```
+## [1] 4
+```
+
+--
+
+- Note that R will ask for **input** with `&gt;` and give you **output** starting with `## [1]`
+
+---
+
+# Coding Basics II
+
+- We can start using more fancy commands
+
+
+```r
+2^3
+```
+
+```
+## [1] 8
+```
+
+--
+
+
+```r
+sqrt(25)
+```
+
+```
+## [1] 5
+```
+
+--
+
+
+```r
+log(6)
+```
+
+```
+## [1] 1.791759
+```
+
+--
+
+
+```r
+pi/2
+```
+
+```
+## [1] 1.570796
+```
+
+---
+
+# Packages
+
+.pull-left[
+
+- Since R is open source, users contribute **packages**
+    - Really it's just users writing custom functions and saving them for others to use
+- Load packages with `library()`
+    - e.g. `library("package_name")`
+- If you don't have a package, you must first `install.packages()`&lt;sup&gt;.red[1]&lt;/sup&gt; 
+    - e.g. `install.packages("package_name")`
+]
+
+.pull-right[
+
+.center[
+![:scale 90%](../images/rpackages.png)
+]
+
+]
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; Yes, note the plural, even if it's just for one package!]
+
+---
+
+# Common Packages
+
+.pull-left[
+
+- In this class, we will make extensive use of the following packages:
+    - `tidyverse`: really a *meta*-package combining the following packages (among others)
+        - `dplyr`: used for better data-wrangling
+        - `ggplot2`: used for fancy plotting
+    - `huxtable`: used for automatically producing regression tables
+]
+
+.pull-right[
+
+.center[
+![:scale 75%](../images/tidyversevertical.png)
+]
+]
+---
+
+# R: Objects and Functions
+
+.pull-left[
+- R is an .hi[**object-oriented**] programming language
+- 99% of the time, you will be:
+
+1. creating `objects`
+    - assign values to an object with `=` (or `&lt;-`)
+
+2. running `functions` on `objects`
+    - syntax: `function_name(object_name)`
+]
+
+.pull-right[
+
+
+```r
+# make an object
+my_object = -c(1,2,3,4,5)
+
+# look at it 
+my_object
+```
+
+```
+## [1] -1 -2 -3 -4 -5
+```
+
+```r
+# find the sum
+sum(my_object)
+```
+
+```
+## [1] -15
+```
+
+```r
+# find the mean 
+mean(my_object)
+```
+
+```
+## [1] -3
+```
+]
+---
+
+# R: Objects and Functions II
+
+.pull-left[
+- Functions have ".hi[arguments]," the input(s)
+
+- Some functions may have multiple inputs
+
+- The argument of a function can be another function!
+
+]
+
+.pull-right[
+
+
+```r
+# find the sd
+sd(my_object)
+```
+
+```
+## [1] 1.581139
+```
+
+```r
+# round everything in my object to two decimals
+round(my_object,2)
+```
+
+```
+## [1] -1 -2 -3 -4 -5
+```
+
+```r
+# round the sd to two decimals
+round(sd(my_object),2)
+```
+
+```
+## [1] 1.58
+```
+]
+
+---
+
+class: inverse, center, middle
+
+# Types of R Objects
+
+---
+
+# Numeric
+
+.pull-left[
+- .hi[Numeric] objects are just numbers&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+- Can be mathematically manipulated
+]
+
+.pull-right[
+
+```r
+x = 2 
+y = 3
+x+y
+```
+
+```
+## [1] 5
+```
+
+```r
+x*y
+```
+
+```
+## [1] 6
+```
+]
+.footnote[.red[&lt;sup&gt;1&lt;/sup&gt;] If you want to get technical, R may call these `integer` or `double` if there are decimal values.]
+
+---
+
+# Character
+
+.pull-left[
+- .hi[Character] objects are **"strings"** of text held inside quote marks
+
+- Can contain spaces, so long as contained within quote marks
+]
+
+.pull-right[
+
+```r
+name = "Ryan Safner"
+address = "Washington D.C."
+
+name
+```
+
+```
+## [1] "Ryan Safner"
+```
+
+```r
+address
+```
+
+```
+## [1] "Washington D.C."
+```
+]
+
+---
+
+# Logical
+
+.pull-left[
+- .hi[Logical] objects are **binary** `TRUE` or `FALSE` indicators
+- Used a lot to evaluate *conditionals*:
+  - `&gt;`, `&lt;`: greater than, less than
+  - `&gt;=`, `&lt;=`: greater than or equal to, less than or equal to
+  - `==`, `!=`: is equal to, is not equal to&lt;sup&gt;.red[1]&lt;/sup&gt;
+  - `&amp;in&amp;` : Is a member of the set of ($\in$)
+  - `&amp;`: "AND"
+  - `|`: "OR" 
+
+]
+
+.pull-right[
+
+
+```r
+z = 10 # set z equal to 10
+
+z==10 # is z equal to 10?
+```
+
+```
+## [1] TRUE
+```
+
+```r
+"red"=="blue" # is red equal to blue?
+```
+
+```
+## [1] FALSE
+```
+
+```r
+z &gt; 1 &amp; z &lt; 12 # is z &gt; 1 AND &lt; 12?
+```
+
+```
+## [1] TRUE
+```
+
+```r
+z &lt;= 1 | z==10 # is z &gt;= 1 OR equal to 10?
+```
+
+```
+## [1] TRUE
+```
+
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; One `=` *assigns* a value (like `&lt;-`). Two `==` *evaluate* a conditional statement.]
+---
+
+# Factor
+
+- .hi[Factor] objects contain **categorical** data - membership in mutually exclusive groups
+
+- Look like strings, behave more like logicals, but with more than two options
+
+
+
+
+```
+##  [1] freshman  freshman  junior    sophomore sophomore junior    sophomore
+##  [8] sophomore sophomore freshman 
+## Levels: freshman sophomore junior senior
+```
+
+- We'll make much more extensive use of them later
+
+
+```
+##  [1] freshman  freshman  junior    sophomore sophomore junior    sophomore
+##  [8] sophomore sophomore freshman 
+## Levels: freshman &lt; sophomore &lt; junior &lt; senior
+```
+
+---
+
+class: inverse, center, middle
+
+# Data Structures
+
+---
+
+# Vectors
+
+.pull-left[
+
+- `Vector`: the simplest type of object, just a collection of objects
+
+- Make a vector using the combine `c()` function
+]
+
+.pull-right[
+
+
+```r
+# create a vector called vec
+vec = c(1,"orange", 83.5, pi)
+
+# look at vec
+vec
+```
+
+```
+## [1] "1"                "orange"           "83.5"             "3.14159265358979"
+```
+]
+
+---
+
+# Data Frames I
+
+.pull-left[
+
+- `Data frame`: what we'll be using almost always
+
+- Think like a "spreadsheet"
+
+- Each *column* is a vector (variable)
+
+- Each *row* is an observation (pair of values for all variables)
+]
+
+.pull-right[
+
+
+```r
+library("ggplot2")
+
+diamonds
+```
+
+```
+## # A tibble: 53,940 x 10
+##    carat cut       color clarity depth table price     x     y     z
+##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+##  2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+##  3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+##  4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+##  5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+##  6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+##  7 0.24  Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47
+##  8 0.26  Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
+##  9 0.22  Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
+## 10 0.23  Very Good H     VS1      59.4    61   338  4     4.05  2.39
+## # … with 53,930 more rows
+```
+
+]
+---
+
+# Data Frames II 
+
+.pull-left[
+
+- Dataframes are really just combinations of (column) vectors
+
+- You can make data frames by combinining named vectors with `data.frame()` or creating each column/vector in each argument 
+]
+
+.pull-right[
+
+```r
+# make two vectors
+fruits = c("apple","orange","pear","kiwi","pineapple")
+numbers = c(3.3,2.0,6.1,7.5,4.2)
+
+# combine into dataframe
+df = data.frame(fruits,numbers)
+
+# do it all in one step (note the = instead of &lt;-)
+df = data.frame(fruits=c("apple","orange","pear","kiwi","pineapple"),
+               numbers=c(3.3,2.0,6.1,7.5,4.2))
+
+# look at it
+df
+```
+
+```
+##      fruits numbers
+## 1     apple     3.3
+## 2    orange     2.0
+## 3      pear     6.1
+## 4      kiwi     7.5
+## 5 pineapple     4.2
+```
+
+]
+
+---
+
+class: inverse, center, middle
+# Working with Objects
+
+---
+
+# Objects: Storing, Viewing, and Overwriting
+
+- We want to store things in objects to run functions on them later
+- Recall, any object is created with the assignment operator `&lt;-` 
+
+
+```r
+my_vector = c(1,2,3,4,5)
+```
+
+- R will not give any output after an assignment
+
+--
+
+- *View* an object (and list its contents) by typing its name
+
+
+```r
+my_vector
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
+--
+
+- objects maintain their values until they are assigned different values that will *overwrite* the object
+
+
+```r
+my_vector = c(2,7,9,1,5)
+my_vector
+```
+
+```
+## [1] 2 7 9 1 5
+```
+
+---
+
+# Objects: Checking and Changing Classes
+
+- Check what type of object something is with `class()`
+
+
+```r
+class("six")
+```
+
+```
+## [1] "character"
+```
+
+```r
+class(6)
+```
+
+```
+## [1] "numeric"
+```
+
+--
+
+- Can also use logical tests of `is.()` 
+
+
+```r
+is.numeric("six")
+```
+
+```
+## [1] FALSE
+```
+
+```r
+is.character("six")
+```
+
+```
+## [1] TRUE
+```
+
+- You can convert objects from one class to another with `as.object_class()`
+    - Pay attention: you can't convert non-numbers to `numeric`, etc! 
+
+
+```r
+as.character(6)
+```
+
+```
+## [1] "6"
+```
+
+```r
+as.numeric("six")
+```
+
+```
+## [1] NA
+```
+
+---
+
+# Objects: Different Classes and Coercion I
+
+- Different types of objects have different rules about mixing classes
+- Vectors can *not* contain different types of data
+    - Different types of data will be "**coerced**" into the lowest-common denominator type of object
+
+
+```r
+mixed_vector = c(pi, 12, "apple", 6.32)
+class(mixed_vector)
+```
+
+```
+## [1] "character"
+```
+
+```r
+mixed_vector
+```
+
+```
+## [1] "3.14159265358979" "12"               "apple"            "6.32"
+```
+
+---
+
+# Objects: Different Classes and Coercion II
+
+- Data frames can have columns with different types of data, so long as all the elements in each column are the same class&lt;sup&gt;.red[1]&lt;/sup&gt;
+
+.pull-left[
+
+```r
+df
+```
+
+```
+##      fruits numbers
+## 1     apple     3.3
+## 2    orange     2.0
+## 3      pear     6.1
+## 4      kiwi     7.5
+## 5 pineapple     4.2
+```
+]
+
+.pull-right[
+
+
+```r
+class(df$fruits)
+```
+
+```
+## [1] "character"
+```
+
+```r
+class(df$numbers)
+```
+
+```
+## [1] "numeric"
+```
+]
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt;remember each column in a data frame is a vector!] 
+
+---
+
+# More on Data Frames I
+
+- Learn more about a data frame with the `str()` command to view its structure
+
+
+```r
+class(df) 
+```
+
+```
+## [1] "data.frame"
+```
+
+```r
+str(df)
+```
+
+```
+## 'data.frame':	5 obs. of  2 variables:
+##  $ fruits : chr  "apple" "orange" "pear" "kiwi" ...
+##  $ numbers: num  3.3 2 6.1 7.5 4.2
+```
+
+---
+
+# More on Data Frames II
+
+- Take a look at the first 5 (or `n`) rows with `head()`
+
+
+```r
+head(df)
+```
+
+```
+##      fruits numbers
+## 1     apple     3.3
+## 2    orange     2.0
+## 3      pear     6.1
+## 4      kiwi     7.5
+## 5 pineapple     4.2
+```
+
+```r
+head(df, n=2)
+```
+
+```
+##   fruits numbers
+## 1  apple     3.3
+## 2 orange     2.0
+```
+
+---
+
+# More on Data Frames III
+
+- Get summary statistics&lt;sup&gt;.red[1]&lt;/sup&gt; by column (variable) with `summary()`
+
+
+```r
+summary(df)
+```
+
+```
+##     fruits             numbers    
+##  Length:5           Min.   :2.00  
+##  Class :character   1st Qu.:3.30  
+##  Mode  :character   Median :4.20  
+##                     Mean   :4.62  
+##                     3rd Qu.:6.10  
+##                     Max.   :7.50
+```
+
+.footnote[&lt;sup&gt;.red[1]&lt;/sup&gt; for `numeric` data only; a frequency table is displayed for `character` or `factor` data]
+---
+
+# More on Data Frames IV
+
+- Note, once you save an object, it shows up in the **Environment Pane** in the upper right window 
+- Click the blue arrow button in front of the object for some more information
+
+.center[
+![:scale 75%](../images/renvironmentdf2.png)
+]
+---
+
+# More on Data Frames V
+
+- `data.frame` objects can be viewed in their own panel by clicking on the name of the object
+- Note you cannot edit anything in this pane, it is for viewing only 
+
+.center[
+![:scale 75%](../images/rdfview.png)
+]
+---
+
+# Functions Again I 
+
+- Functions in R are vectorized, meaning running a function on a vector applies it to *each* element
+
+
+```r
+my_vector = c(2,4,5,10)
+my_vector+4 # add 4 to all elements
+```
+
+```
+## [1]  6  8  9 14
+```
+
+```r
+my_vector^2 # square all elements
+```
+
+```
+## [1]   4  16  25 100
+```
+
+---
+
+# Functions Again II
+
+- But often we want to run functions on vectors that *aggregate* to a result (e.g. a statistic):
+
+
+```r
+length(my_vector) # how many elements
+```
+
+```
+## [1] 4
+```
+
+```r
+sum(my_vector) # add all elements
+```
+
+```
+## [1] 21
+```
+
+```r
+max(my_vector) # find largest element
+```
+
+```
+## [1] 10
+```
+
+```r
+min(my_vector) # find smallest element
+```
+
+```
+## [1] 2
+```
+
+```r
+mean(my_vector) # mean of all elements
+```
+
+```
+## [1] 5.25
+```
+
+```r
+median(my_vector) # median of all elements
+```
+
+```
+## [1] 4.5
+```
+
+```r
+sd(my_vector) # standard deviation
+```
+
+```
+## [1] 3.40343
+```
+
+---
+
+# Common Errors
+
+- If you make a coding error (e.g. forget to close a parenthesis), R might show a `+` sign waiting for you to finish the command
+
+
+```r
+&gt; 2+(2*3
++
+```
+
+- Either finish the command-- e.g. add `)`--or hit `Esc` to cancel
+
+---
+
+class: inverse, center, middle
+
+# Working with Data
+
+---
+
+# Indexing and Subsetting I 
+
+.pull-left[
+
+
+
+```r
+mtcars
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
+```
+
+]
+
+.pull-right[
+
+- Each element in a data frame is .h1[indexed] by referring to its row and column: `df[r,c]`
+- To select elements by row and column (".h1[subset]"), type in the row(s) and/or column(s) to select
+    - Leaving `r` or `c` blank selects *all* rows or columns
+    - Select multiple values with `c()`&lt;sup&gt;1&lt;/sup&gt;
+    - Select a range of values with `:`
+    - Don't forget the comma between `r` and `c`! 
+]
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; You can also "negate" values, selecting everything *except* for values with a `-` in front of them.]
+
+---
+
+# Indexing and Subsetting II 
+
+.pull-left[
+
+```r
+mtcars
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
+```
+]
+
+.pull-right[
+
+### Subset by Row (Observations)
+
+
+```r
+mtcars[1,] # first row
+```
+
+```
+##           mpg cyl disp  hp drat   wt  qsec
+## Mazda RX4  21   6  160 110  3.9 2.62 16.46
+```
+
+```r
+mtcars[c(1,3,4),] # first, third, and fourth rows
+```
+
+```
+##                 mpg cyl disp  hp drat    wt  qsec
+## Mazda RX4      21.0   6  160 110 3.90 2.620 16.46
+## Datsun 710     22.8   4  108  93 3.85 2.320 18.61
+## Hornet 4 Drive 21.4   6  258 110 3.08 3.215 19.44
+```
+
+```r
+mtcars[1:3,] # first three rows
+```
+
+```
+##                mpg cyl disp  hp drat    wt  qsec
+## Mazda RX4     21.0   6  160 110 3.90 2.620 16.46
+## Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02
+## Datsun 710    22.8   4  108  93 3.85 2.320 18.61
+```
+
+]
+
+---
+
+# Indexing and Subsetting III
+
+.pull-left[
+
+```r
+mtcars
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
+```
+]
+
+.pull-right[
+
+### Subset by Column (Variable)
+
+
+```r
+mtcars[,6] # select column 6
+```
+
+```
+##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
+```
+
+```r
+mtcars[,2:4] # select columns 2 through 4
+```
+
+```
+##                   cyl  disp  hp
+## Mazda RX4           6 160.0 110
+## Mazda RX4 Wag       6 160.0 110
+## Datsun 710          4 108.0  93
+## Hornet 4 Drive      6 258.0 110
+## Hornet Sportabout   8 360.0 175
+## Valiant             6 225.0 105
+## Duster 360          8 360.0 245
+## Merc 240D           4 146.7  62
+## Merc 230            4 140.8  95
+## Merc 280            6 167.6 123
+## Merc 280C           6 167.6 123
+## Merc 450SE          8 275.8 180
+```
+
+]
+---
+
+# Indexing and Subsetting IV
+
+.pull-left[
+
+```r
+mtcars
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
+```
+]
+
+.pull-right[
+
+### Subset by Column (Variable)
+
+- Alternatively, double brackets `[[]]` selects a column by position
+
+
+```r
+mtcars[[6]] # same thing
+```
+
+```
+##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
+```
+
+- Data frames can select columns by *name* with `$`
+
+
+```r
+mtcars$wt
+```
+
+```
+##  [1] 2.620 2.875 2.320 3.215 3.440 3.460 3.570 3.190 3.150 3.440 3.440 4.070
+```
+
+]
+
+---
+
+
+# Indexing and Subsetting V
+
+.pull-left[
+
+```r
+mtcars
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+## Merc 450SE        16.4   8 275.8 180 3.07 4.070 17.40
+```
+
+]
+
+.pull-right[
+
+- Select observations (rows) that meet logical criteria
+
+### Subset by Condition
+
+
+```r
+mtcars[mtcars$wt&gt;4,] # select obs with wt&gt;4
+```
+
+```
+##             mpg cyl  disp  hp drat   wt qsec
+## Merc 450SE 16.4   8 275.8 180 3.07 4.07 17.4
+```
+
+```r
+mtcars[mtcars$cyl==6,] # select obs with exactly 6 cyl
+```
+
+```
+##                 mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02
+## Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44
+## Valiant        18.1   6 225.0 105 2.76 3.460 20.22
+## Merc 280       19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90
+```
+
+```r
+mtcars[mtcars$wt&lt;4 &amp; mtcars$wt&gt;2,] # select obs where 2&lt;wt&lt;4
+```
+
+```
+##                    mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4         21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag     21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710        22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive    21.4   6 258.0 110 3.08 3.215 19.44
+## Hornet Sportabout 18.7   8 360.0 175 3.15 3.440 17.02
+## Valiant           18.1   6 225.0 105 2.76 3.460 20.22
+## Duster 360        14.3   8 360.0 245 3.21 3.570 15.84
+## Merc 240D         24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230          22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280          19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C         17.8   6 167.6 123 3.92 3.440 18.90
+```
+
+```r
+mtcars[mtcars$cyl==4 | mtcars$cyl==6,] # select obs with 4 OR 6 cyl
+```
+
+```
+##                 mpg cyl  disp  hp drat    wt  qsec
+## Mazda RX4      21.0   6 160.0 110 3.90 2.620 16.46
+## Mazda RX4 Wag  21.0   6 160.0 110 3.90 2.875 17.02
+## Datsun 710     22.8   4 108.0  93 3.85 2.320 18.61
+## Hornet 4 Drive 21.4   6 258.0 110 3.08 3.215 19.44
+## Valiant        18.1   6 225.0 105 2.76 3.460 20.22
+## Merc 240D      24.4   4 146.7  62 3.69 3.190 20.00
+## Merc 230       22.8   4 140.8  95 3.92 3.150 22.90
+## Merc 280       19.2   6 167.6 123 3.92 3.440 18.30
+## Merc 280C      17.8   6 167.6 123 3.92 3.440 18.90
+```
+
+]
+
+---
+
+# What's To Come
+
+- Next class: data visualization with `ggplot2`
+
+- And then: data wrangling with `tidyverse`
+
+- And then: literate programming and workflow management with `R Markdown`
+
+- Finally: back to econometric theory!
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

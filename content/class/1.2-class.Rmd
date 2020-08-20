@@ -1,0 +1,188 @@
+---
+title: "1.2 — Meet R — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, August 20, 2020*
+
+# Overview
+
+Today we begin the long slog to your mastery of `R`. We begin with the basics - how R works, how to use it, the different data types, and how to create and manipulate objects.
+
+# Readings
+
+Please see [today's readings] for more information.
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.1-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.1-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/1.2-r-practice.html).
+
+# Statistics and Software Survey
+
+Please don't forget to complete your I will post "answers" after both sections have turned in their surveys.
+
+# Assignments
+
+## Preliminary Survey
+
+Please take the [preliminary survey](/assignment/00-preliminary-survey) on your statistics and software background by 11:59 PM Sunday. This will help us all have a productive course together.
+
+# Additional Useful Information
+
+## Installing R and R Studio
+
+We will be using [Rstudio.cloud](https://rstudio.cloud), for which you have made a free account. However, since R is free, I **strongly recommend** you download and install it on your own computers. You may decide also you prefer to use your own computers in class when we work with R.
+
+1. [Install R](http://www.r-project.org/) from CRAN^[The Comprehensive R Archive Network] by clicking "Download R" (or the CRAN link under Downloads on the left menu). This will take you to a mirrors page, where you can select a location in the U.S. and download a copy of R
+2. [Install R Studio (Desktop Version)](https://www.rstudio.com/products/rstudio/download/), choose the "Free" option
+
+(This will also be posted on the [Reference](/reference) page.)
+
+## R Packages
+
+Packages come from multiple sources.
+
+The polished, publicly released versions are found on [CRAN](https://cran.r-project.org/). When installing a package available on CRAN, it is sufficient simply to tell R the following:^[Note the plural `s` on `packages`, and the quotes around the "package name"]
+
+```{r, eval=F}
+install.packages("packagename") 
+```
+
+Other packages, which may be in various developmental states (including perfectly functional!) are often hosted on [GitHub](http://github.com) before they make their way onto CRAN. Simply telling R `install.packages("packagename")` will fail to find it (as R only looks in CRAN for packages), so you must use another package called `devtools`^[Which you will need to install first if you (probably) don't already have it!] to install packages directly from Github:^[Note the `::` allows you to use the function `install_github()` from the `devtools` package without having to first load the devtools package with `library(devtools)`.]
+
+```{r, eval=F}
+devtools::install_github("username/packagename") 
+```
+
+For example, to install Hadley Wickham's package `r4ds` from its Github page [https://github.com/hadley/r4ds](https://github.com/hadley/r4ds), we would type:
+
+```{r, eval=F}
+devtools::install_github("hadley/r4ds")
+```
+
+To **use** a package, you need to ensure it is loaded to your workspace (you only need to do this once)^[When we learn how to write `R Markdown` documents, . with `library("package_name")`.^[Quotes are not necessary this time.]
+
+## Getting Help for R
+
+For specific functions or commands, you can simply type:
+
+```{r, eval=F}
+?functionname()
+
+# example
+?mean()
+```
+
+This will display a help page specific to that function in the Viewer pane. R functions and packages are extremely well-documented; help pages [normally ](http://socviz.co/assets/ch-09-read-a-help-page.png)^[This useful guide comes from Kieran Healy's excellent (free online!) [book on Data Visualization](http://socviz.co/).] a short description of the function, arguments and options (as well as their default values), and several examples or vignettes to demonstrate usage of the function.
+
+Additionally, you can turn to the community by searching on Google or better yet, StackExchange.
+
+## Other Useful Commands to Know
+
+One of the best/worst things about `R` is that it is a language, meaning there are multiple ways that you can accomplish the same task. Here are a few alternative methods relevant to what we have learned so far that might prove useful. 
+
+### Creating Vectors
+
+We know vectors can be created with the `c()` command (and stored with `=` or `<-`), but there are other shortcuts to combine objects into a vector, particularly numeric data:
+
+1. `:` creates a series of integers
+
+```{r}
+1:5 # create a vector of 1 through 5
+
+12:17 # create a vector of 12 through 17
+```
+
+- `seq(from = , to = , by = )` creates a numeric sequence, and is not restricted to integers
+
+```{r}
+seq(from = 1, to = 10, by = 2) # sequence from 1 to 10, by 2s
+
+# note you do not need to fully write out the name of each argument, just the input!
+
+seq(32.5,40,1.5) # sequence from 32.5 to 40, by 1.5
+```
+
+2. `rep(., times =)`^[The `.` is a placeholder here.] repeats an element a specified number of times
+
+```{r}
+rep(2, times = 4) # repeat "2" four times
+
+rep(2, 4) # does the same thing
+
+# the thing repeated could itself be a vector
+rep(c(1,4,7), 3) # repeat the vector "1, 4, 7" three times
+```
+
+3. We can combine these:
+
+```{r}
+
+# combine (the sequence of 4 to 8 by 2's repeated three times) and 1 and 5
+
+c(rep(seq(4,8,2),3),1,5)
+```
+
+## Suggested Style Guide for Coding
+
+We want to maximize *human*-readability of code, not just machine-readability. I try to follow [Hadley Wickham's style guide](http://adv-r.had.co.nz/Style.html) for all of my code, including that in this class.
+
+*You will not be graded on the style of your code.* But now's the best time to learn best practices (while you don't know any alternatives!) to save yourself and your potential colleagues (including your future self) from unnecessary frustration.
+
+- comment above for overall idea 
+- comment on side for individual elements of long commands
+- name with `_`
+- use `%>%` wherever possible
+- spaces betweeen all operators: `<-`, `=`, `+`, etc.
+    - Exception: `:` and `::`
+- line breaks between multiple arguments to a function
+
+```{r, eval = F}
+p<-ggplot(data=data, aes(x=x,y=y,fill=fill))+geom_point()
+```
+
+becomes
+
+```{r, eval = F}
+p <- ggplot(data = data,
+       aes(x = x,
+           y = y,
+           fill = fill))+
+  geom_point()
+```
+
+
+For posting numbers into text, `format()` is very helpful.
+
+```{r}
+comma <- function(x){
+  format(x, big.mark = ",")
+}
+
+comma(123456789)
+
+comma2 <- function(x){
+  format(x, digits = 8, big.mark = ",")
+}
+
+comma2(124198.124192)
+```

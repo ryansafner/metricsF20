@@ -1,0 +1,117 @@
+---
+title: "1.2 — Meet R — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/r/03-r-practice.pdf)
+<!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/03-r-practice-answers.html)
+- [<i class="fas fa-file-pdf"></i> `Answer Key (PDF)`](/r/03-r-practice-answers-pdf.pdf)
+- [<i class="fas fa-registered"></i> `R Script`](/r/03-r-practice-answers.R)-->
+
+# Getting Set Up
+
+Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.
+
+# Creating Objects
+
+## 1
+
+Work on the following parts:
+
+- a. Create a vector called `me` with two objects, your first name, and your last name.
+- b. Call the vector to inspect it.
+- c. Confirm it is a character class vector.
+
+## 2
+
+Use R's help functions to determine what the `paste()` function does. Then paste together your first name and last name.
+
+## 3
+
+Create a vector called `my_vector` with all the even integers from 2 to 10. 
+
+## 4
+
+Find the mean of `my_vector` with `mean()`.
+
+## 5
+
+Take all the integers from 18 to 763,^[Hint: use the `:` operator to create a sequence from a starting number to an ending number] then get the mean.
+
+# Playing with Data
+
+For the following questions, we will use the `diamonds` dataset, included as part of `ggplot2`.
+
+## 6
+
+Install `ggplot2`.
+
+## 7
+
+Load `ggplot2` with the `library()` command.
+
+## 8
+
+Get the `str`ucture of the diamonds data frame. What are the different variables and what kind of data does each contain?
+
+## 9
+
+Get summary statistics separately for `carat`, `depth`, `table`, and `price`.
+
+## 10
+
+`color`, `cut`, and `clarity` are categorical variables (factors). Use the `table()` command to generate frequency tables for each.
+
+## 11
+
+Now rerun the `summary()` command on the entire data frame.
+
+## 12
+
+Now look only at (subset) the first 4 diamonds in the dataset.
+
+## 13
+
+Now look only at (subset) the third and seventh diamond in the dataset.
+
+## 14
+
+Now look only at (subset) the second column of the dataset.
+
+## 15
+
+Do this again, but look using the `$` to pull up the second column by name. 
+
+## 16
+
+Now look only at diamonds that have a `carat` greater than or equal to 1. 
+
+## 17
+
+Now look only at diamonds that have a VVS1 `clarity`.
+
+## 18
+
+Now look only at dimaonds that have a color of E, F, I, and J. 
+
+## 19
+
+Now look only at diamonds that have a `carat` greater than or equal to 1 and a VVS1 `clarity`. 
+
+## 20
+
+Get the average price of diamonds in question 18.^[Hints: use your subset command as an argument to the mean function. You will not need a comma here because you are looking for a single row.]
+
+## 21
+
+What is the highest price for a diamond with a 1.0 carat, D color, and VVS1 clarity? 
+
+# Execute your R Script
+
+Save the R Script you created at the beginning and (hopefully) have been pasting all of your valid commands to. This creates a *.R* file wherever you choose to save it to. Now looking at the file in the upper left pane of *R Studio* look for the button in the upper right corner that says **Run**. Sit back and watch `R` redo everything you've carefully worked on, all at once.

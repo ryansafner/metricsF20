@@ -1,0 +1,12 @@
+---
+title: "1.2 — Meet R — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-external-link-square-alt"></i>Ch.1^[http://r4ds.had.co.nz/introduction.html] in @R4DS[Ch. 1]
+
+Now that we start working with R, you should consider this book to be your primary reference for R-related questions. We will broadly cover the first few chapters in order over the next 2-3 class periods. 
