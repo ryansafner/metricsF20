@@ -29,7 +29,9 @@ class: inverse
 
 ## [ggplot2 and the tidyverse](#11)
 
-## [Some Troubleshooting](#60)
+## [Plot Layers](#23)
+
+## [Some Troubleshooting](#64)
 
 ---
 
@@ -273,6 +275,16 @@ Source: [fivethirtyeight](https://fivethirtyeight.com/features/how-to-tell-someo
 
 ---
 
+# ggplot: All Your Figure are Belong to Us
+
+.center[
+![:scale 80%](../images/bbplot.png)
+
+Source: [BBC's bbplot](https://github.com/bbc/bbplot)
+]
+
+---
+
 # Why Go gg? 
 
 .left-column[
@@ -302,7 +314,7 @@ Chief Scientist, R Studio
 
 - This is a true *grammar*
 
-- We don't talk about specific chart .hi-purple[types]
+- We *don’t* talk about specific chart .hi-purple[types]
   - That you have to hunt through in Excel and reshape your data to fit it
 
 - Instead we talk about specific chart .hi[components]
@@ -427,6 +439,20 @@ p + geom_smooth() # shows new plot
 p &lt;- p + geom_smooth() # saves and overwrites p
 p2 &lt;- p + geom_smooth() # saves as different object
 ```
+]
+
+---
+
+class: inverse, center, middle
+
+# Plot Layers
+
+---
+
+# The Grammar of Graphics
+
+.center[
+![:scale 80%](../images/anakinfunmeme.gif)
 ]
 
 ---
