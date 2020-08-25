@@ -1,0 +1,82 @@
+---
+title: "1.3 — Data Visualization with ggplot2 — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<ul>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1539899"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
+<li><a href="/r/1.3-r-practice.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a>
+<!-- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/04-r-practice-answers.html)
+- [<i class="fas fa-file-pdf"></i> `Answer Key (PDF)`](/r/04-r-practice-answers-pdf.pdf)
+- [<i class="fas fa-registered"></i> `R Script`](/r/04-r-practice-answers.R) --></li>
+</ul>
+<h2 id="getting-set-up">Getting Set Up</h2>
+<p>Before we begin, start a new file with <code>File</code> <span class="math inline">\(\rightarrow\)</span> <code>New File</code> <span class="math inline">\(\rightarrow\)</span> <code>R Script</code>. As you work through this sheet in the console in <code>R</code>, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.</p>
+<h3 id="our-plot-from-class">“Our Plot” from Class</h3>
+<ul>
+<li><a href="/r/plot-from-class.R"><i class="fas fa-registered"></i> <code>R Script</code></a></li>
+</ul>
+<p>Download and run in R Studio on your computer (or open the file in our R Studio cloud project and run it there) to see our plot from class.</p>
+<h2 id="exploring-the-data">Exploring the Data</h2>
+<h3 id="section">1</h3>
+<p>We will look at GDP per Capita and Life Expectancy using some data from the <a href="http://gapminder.org">gapminder project</a>. There is a <a href="https://github.com/jennybc/gapminder">handy package</a> called <code>gapminder</code> that uses a small snippet of this data for exploratory analysis. Install and load the package <code>gapminder</code>. Type <code>?gapminder</code> and hit enter to see a description of the data.</p>
+<h3 id="section-1">2</h3>
+<p>Let’s get a quick look at <code>gapminder</code> to see what we’re dealing with.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Get the <code>str</code>ucture of the <code>gapminder</code> data.</li>
+<li>What variables are there?</li>
+<li>Look at the <code>head</code> of the dataset to get an idea of what the data looks like.</li>
+<li>Get <code>summary</code> statistics of all variables.</li>
+</ol>
+<h2 id="simple-plots-in-base-r">Simple Plots in Base R</h2>
+<h3 id="section-2">3</h3>
+<p>Let’s make sure you can do some basic plots before we get into the <code>gg</code>. Use base <code>R</code>’s <code>hist()</code> function to plot a <em>histogram</em> of <code>gdpPercap</code>.</p>
+<h3 id="section-3">4</h3>
+<p>Use base <code>R</code>’s <code>boxplot()</code> function to plot a <em>boxplot</em> of <code>gdpPercap</code>.</p>
+<h3 id="section-4">5</h3>
+<p>Now make it a <em>boxplot</em> by <code>continent</code>.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: use formula notation with <code>~</code>.<br />
+<br />
+</span></span></p>
+<h3 id="section-5">6</h3>
+<p>Now make a <em>scatterplot</em> of <code>gdpPercap</code> on the <span class="math inline">\(x\)</span>-axis and <code>LifeExp</code> on the <span class="math inline">\(y\)</span>-axis.</p>
+<h2 id="plots-with-ggplot2">Plots with <code>ggplot2</code></h2>
+<h3 id="section-6">7</h3>
+<p>Load the package <code>ggplot2</code> (you should have installed it previously. If not, install first with <code>install.packages("ggplot2")</code>).</p>
+<h3 id="section-7">8</h3>
+<p>Let’s first make a <code>bar</code> graph to see how many countries are in each continent. The only <code>aes</code>thetic you need is to map <code>continent</code> to <code>x</code>. Bar graphs are great for representing categories, but not quantitative data.</p>
+<h3 id="section-8">9</h3>
+<p>For quantitative data, we want a <code>histogram</code> to visualize the distribution of a variable. Make a <code>histogram</code> of <code>gdpPercap</code>. Your only <code>aes</code>thetic here is to map <code>gdpPercap</code> to <code>x</code>.</p>
+<h3 id="section-9">10</h3>
+<p>Now let’s try adding some color, specifically, add an <code>aes</code>thetic that maps <code>continent</code> to <code>fill.</code><span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">In general, <code>color</code> refers to the outside borders of a <code>geom</code> (except points), <code>fill</code> is the interior of an object.<br />
+<br />
+</span></span></p>
+<h3 id="section-10">11</h3>
+<p>Instead of a <code>histogram</code>, change the <code>geom</code> to make it a <code>density</code> graph. To avoid overplotting, add <code>alpha=0.4</code> to the <code>geom</code> argument (alpha changes the <em>transparency</em> of a <code>fill</code>).</p>
+<h3 id="section-11">12</h3>
+<p>Redo your plot from 11 for <code>lifeExp</code> instead of <code>gdpPercap</code>.</p>
+<h3 id="section-12">13</h3>
+<p>Now let’s try a scatterplot for <code>lifeExp</code> (as <code>y</code>) on <code>gdpPercap</code> (as <code>x</code>). You’ll need both for <code>aes</code>thetics. The <code>geom</code> here is <code>geom_point()</code>.</p>
+<h3 id="section-13">14</h3>
+<p>Add some color by mapping <code>continent</code> to <code>color</code> in your <code>aes</code>thetics.</p>
+<h3 id="section-14">15</h3>
+<p>Now let’s try adding a regression line with <code>geom_smooth()</code>. Add this layer on top of your <code>geom_point()</code> layer.</p>
+<h3 id="section-15">16</h3>
+<p>Did you notice that you got multiple regression lines (colored by continent)? That’s because we set a <code>global</code> <code>aes</code>thetic of mapping <code>continent</code> to <code>color</code>. If we want just <em>one</em> regression line, we need to instead move the <code>color = continent</code> inside the <code>aes</code> of <code>geom_point</code>. This will only map <code>continent</code> to <code>color</code> for points, not for anything else.</p>
+<h3 id="section-16">17</h3>
+<p>Now add an <code>aes</code>thetic to your <code>point</code>s to map <code>pop</code> to <code>size</code>.</p>
+<h3 id="section-17">18</h3>
+<p>Change the color of the regression line to <code>"black"</code>. Try first by putting this inside an <code>aes()</code> in your <code>geom_smooth</code>, and try a second time by just putting it inside <code>geom_smooth</code> without an <code>aes()</code>. What’s the difference, and why?</p>
+<h3 id="section-18">19</h3>
+<p>Another way to separate out continents is with <code>facet</code>ing. Add <code>+facet_wrap(~continent)</code> to create subplots by <code>continent</code>.</p>
+<h3 id="section-19">20</h3>
+<p>Remove the <code>facet</code> layer. The <code>scale</code> is quite annoying for the <code>x</code>-axis, a lot of points are clustered on the lower level. Let’s try changing the scale by adding a layer: <code>+scale_x_log10()</code>.</p>
+<h3 id="section-20">21</h3>
+<p>Now let’s fix the labels by adding <code>+labs()</code>. Inside <code>labs</code>, make proper axes titles for <code>x</code>, <code>y</code>, and a <code>title</code> to the plot. If you want to change the name of the legends (continent color), add one for <code>color</code> and <code>size</code>.</p>
+<h3 id="section-21">22</h3>
+<p>Now let’s try subsetting by looking only at North America. Take the <code>gapminder</code> dataframe and subset it to only look at <code>continent=="Americas"</code>). Assign this to a new dataframe object (call it something like <code>america</code>.) Now, use <em>this</em> as your <code>data</code>, and redo the graph from question 17. (You might want to take a look at your new dataframe to make sure it worked first!)</p>
+<h3 id="section-22">23</h3>
+<p>Try this again for the <em>whole</em> world, but just for observations in the year 2002.</p>

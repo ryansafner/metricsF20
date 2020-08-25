@@ -16,8 +16,7 @@ This is an *ungraded* and *anonymous* survey for me to evaluate the distribution
 **Please submit your answers in [this Google Form](https://forms.gle/nkPXZvWYPvB8TrwM6)**. Feel free to download the PDF and work out the problems on paper first.^[Ordinarily I would have you submit paper copies in class to maintain anonymity, but this is the best method right now instead of email or Blackboard.]
 
 - [<i class="fas fa-file-pdf"></i> `Download as PDF`](/assignments/00-preliminary-survey.pdf)
-<!-- - [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/assignments/00-preliminary-survey-answers.html)
-- [<i class="fas fa-file-pdf"></i> `Answer Key (PDF)`](/assignments/00-preliminary-survey-answers-pdf.pdf) -->
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key`](/assignments/00-preliminary-survey-answers.html)
 
 # 1
 

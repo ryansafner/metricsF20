@@ -23,8 +23,8 @@ Please see [today's readings](/reading/1.2-reading) for more information.
 
 # Slides
 
-- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.1-slides.html)
-- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.1-slides.pdf)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.2-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.2-slides.pdf)
 
 # Live Class Session on Zoom
 
@@ -34,11 +34,7 @@ If you are unable to join today's live session, or if you want to review, you ca
 
 # Practice Problems
 
-Today you will be working on [R practice problems](/r/1.2-r-practice.html).
-
-# Statistics and Software Survey
-
-Please don't forget to complete your I will post "answers" after both sections have turned in their surveys.
+Today you will be working on [R practice problems](/r/1.2-r-practice.html). Answers are posted on that page.
 
 # Assignments
 

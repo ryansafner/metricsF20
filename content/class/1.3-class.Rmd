@@ -1,0 +1,49 @@
+---
+title: "1.3 — Data Visualization with ggplot2 — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, August 25, 2020*
+
+# Overview
+
+Today we start the fun stuff - data visualization. We will cover how to build plots with the package `ggplot2` (part of the `tidyverse`): I will lecture for the first half (again, it will be a lot of information that you can refer back to as needed over the semester) and you will practice making plots.
+
+# Readings
+
+Please see [today's readings](/reading/1.3-reading) for more information and helpful resources about all of your data visualization questions. The last slide today also contains a list of helpful online resources.
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.3-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.3-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Practice Problems
+
+Answers from last class’ practice problems on base R are posted [on that page](/r/1.2-r-practice). Today you will be working on [R practice problems](/r/1.3-r-practice) on data visualization. Answers will be posted later.
+
+# Statistics and Software Survey
+
+[“Answers”](/assignment/preliminary-survey-answers.html) for the statistics survey have been posted, including some summaries of how your classmates feel.
+
+# Assignments
+
+None!
+
+# Additional Useful Information
+
+Check back here later for more tips on plotting with ggplot2!
