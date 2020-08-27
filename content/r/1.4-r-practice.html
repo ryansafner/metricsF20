@@ -75,9 +75,12 @@ code span.wa { color: #bf0303; } /* Warning */
 </style>
 
 
+<ul>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1555051"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a>
 <!-- - [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/05-r-practice-answers.html)
 - - [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/05-r-practice-answers.Rmd)
-- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/05-r-practice-answers.R) -->
+- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/05-r-practice-answers.R) --></li>
+</ul>
 <h2 id="getting-set-up">Getting Set Up</h2>
 <p>Before we begin, start a new file with <code>File</code> <span class="math inline">\(\rightarrow\)</span> <code>New File</code> <span class="math inline">\(\rightarrow\)</span> <code>R Script</code>. As you work through this sheet in the console in <code>R</code>, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.</p>
 <p>First things first, load <code>tidyverse</code>.</p>
@@ -100,7 +103,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="section-7">8.</h3>
 <p>Of those, look only at <code>India</code>.</p>
 <h3 id="section-8">9.</h3>
-<p>Try out the pipe (<code>%</code>) if you haven’t already, by chaining commands: <code>select()</code> your data to look only at <code>year</code>, <code>gdpPercap</code>, and <code>country</code> in the year <code>1997</code>, for countries that have a <code>gdpPercap</code> greater than 20,000, and <code>arrange()</code> them alphabetically.</p>
+<p>Try out the pipe (<code>%&gt;%</code>) if you haven’t already, by chaining commands: <code>select()</code> your data to look only at <code>year</code>, <code>gdpPercap</code>, and <code>country</code> in the year <code>1997</code>, for countries that have a <code>gdpPercap</code> greater than 20,000, and <code>arrange()</code> them alphabetically.</p>
 <h3 id="section-9">10.</h3>
 <p><code>mutate()</code> a new variable called <code>GDP</code> that is equal to <code>gdpPercap * pop</code>.</p>
 <h3 id="section-10">11.</h3>
@@ -228,7 +231,7 @@ The Economic Guide To Picking A College Major
 </tbody>
 </table>
 <h3 id="section-17">18.</h3>
-<p>Import the data with <code>read_csv()</code> and assign it to an object called <code>majors</code>.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">One way to avoid error messages is to move it to the same file as R’s working directory, which again you can determine with <code>getwd()</code>.<br />
+<p>Import the data with <code>read_csv()</code> and assign it to an object called <code>majors</code>.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">One way to avoid error messages is to move (on your computer) <code>recent_grads.csv</code> to the same folder as R’s working directory, which again you can check with <code>getwd()</code>.<br />
 <br />
 </span></span> The first argument of this command is the name of the original file, in quotes.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">If the file is in a different folder, the argument is the full path in quotes.<br />
 <br />
@@ -250,11 +253,11 @@ The Economic Guide To Picking A College Major
 <br />
 </span></span></p>
 <h4 id="section-24">25.</h4>
-<p>Is there a systematic difference between STEM majors and non-STEM majors? First define:</p>
+<p>Is there a systematic difference in median earnings between STEM majors and non-STEM majors? First define:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>stem_categories &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Biology &amp; Life Science&quot;</span>,</span>
 <span id="cb2-2"><a href="#cb2-2"></a>                     <span class="st">&quot;Computers &amp; Mathematics&quot;</span>,</span>
 <span id="cb2-3"><a href="#cb2-3"></a>                     <span class="st">&quot;Engineering&quot;</span>,</span>
 <span id="cb2-4"><a href="#cb2-4"></a>                     <span class="st">&quot;Physical Sciences&quot;</span>)</span></code></pre></div>
-<p>Next, make a variable called <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.^[Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else), i.e. </p>
+<p>Next, make a variable called <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.^[Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else), i.e.</p>
 <p><code>ifelse(my_conditions,        yes = do_this_if_TRUE,        no = do_this_if_FALSE)</code>]</p>
 <p>Then <code>summarize()</code> <code>median</code> for stem and not stem groups.</p>

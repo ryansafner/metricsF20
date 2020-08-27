@@ -9,12 +9,12 @@ library(tidyverse)
 library(pander)
 ```
 
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1555051)
 <!-- - [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/05-r-practice-answers.html)
 - - [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/05-r-practice-answers.Rmd)
 - [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/05-r-practice-answers.R) -->
 
-
-# Getting Set Up 
+# Getting Set Up
 
 Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.
 
@@ -51,7 +51,7 @@ Load `gapminder`. First, `select()` the variables `year`, `lifeExp`, `country`.
 Of those, look only at `India`. 
 
 ## 9.
-Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
+Try out the pipe (`%>%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
 
 ## 10.
 `mutate()` a new variable called `GDP` that is equal to `gdpPercap * pop`.
@@ -112,7 +112,7 @@ Header | Description
 `Low_wage_jobs` | Number in low-wage service jobs
 
 ## 18. 
-Import the data with `read_csv()` and assign it to an object called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command is the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
+Import the data with `read_csv()` and assign it to an object called `majors`.^[One way to avoid error messages is to move (on your computer) `recent_grads.csv` to the same folder as R's working directory, which again you can check with `getwd()`.] The first argument of this command is the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
 
 ## 19.
 Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
@@ -134,7 +134,7 @@ Which major category is the least popular in this sample?^[Hint: use `group_by` 
 
 
 ### 25. 
-Is there a systematic difference between STEM majors and non-STEM majors? First define: 
+Is there a systematic difference in median earnings between STEM majors and non-STEM majors? First define: 
 
 ```{r}
 stem_categories <- c("Biology & Life Science",
@@ -142,7 +142,7 @@ stem_categories <- c("Biology & Life Science",
                      "Engineering",
                      "Physical Sciences")
 ```
-Next, make a variable called `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else), i.e. 
+Next, make a variable called `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else), i.e.
 
 `ifelse(my_conditions,
        yes = do_this_if_TRUE,
