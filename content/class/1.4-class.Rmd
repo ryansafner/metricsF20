@@ -1,0 +1,37 @@
+---
+title: "1.4 — Data Wrangling in the tidyverse — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, September 27, 2020*
+
+# Overview
+
+Today we will cover the heart of `tidyverse` and use it for ["data wrangling"](https://en.wikipedia.org/wiki/Data_wrangling). Today will again be *a lot* of content thrown at you, so you can look back at this as a reference all semester. Then we will do more practice problems.
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.4-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.4-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/1.4-r-practice.html). Check back later for solutions. 
+
+# Additional Useful Information
+
+Check back here!

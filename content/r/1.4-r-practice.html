@@ -1,0 +1,260 @@
+---
+title: "1.4 — Data Wrangling in the tidyverse — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+
+<!-- - [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/05-r-practice-answers.html)
+- - [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/05-r-practice-answers.Rmd)
+- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/05-r-practice-answers.R) -->
+<h2 id="getting-set-up">Getting Set Up</h2>
+<p>Before we begin, start a new file with <code>File</code> <span class="math inline">\(\rightarrow\)</span> <code>New File</code> <span class="math inline">\(\rightarrow\)</span> <code>R Script</code>. As you work through this sheet in the console in <code>R</code>, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.</p>
+<p>First things first, load <code>tidyverse</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<h2 id="warm-up-to-dplyr-with-gapminder">Warm Up to <code>dplyr</code> With <code>gapminder</code></h2>
+<h3 id="section">1.</h3>
+<p>Load <code>gapminder</code>. First, <code>select()</code> the variables <code>year</code>, <code>lifeExp</code>, <code>country</code>.</p>
+<h3 id="section-1">2.</h3>
+<p><code>select()</code> all variables <em>except</em> <code>pop</code>.</p>
+<h3 id="section-2">3.</h3>
+<p><code>rename()</code> <code>continent</code> to <code>cont</code>.</p>
+<h3 id="section-3">4.</h3>
+<p><code>arrange()</code> by year.</p>
+<h3 id="section-4">5.</h3>
+<p><code>arrange()</code> by year, but in descending order.</p>
+<h3 id="section-5">6.</h3>
+<p><code>arrange()</code> by year, then by life expectancy.</p>
+<h3 id="section-6">7.</h3>
+<p><code>filter()</code> observations with <code>pop</code> greater than 1 billion.</p>
+<h3 id="section-7">8.</h3>
+<p>Of those, look only at <code>India</code>.</p>
+<h3 id="section-8">9.</h3>
+<p>Try out the pipe (<code>%</code>) if you haven’t already, by chaining commands: <code>select()</code> your data to look only at <code>year</code>, <code>gdpPercap</code>, and <code>country</code> in the year <code>1997</code>, for countries that have a <code>gdpPercap</code> greater than 20,000, and <code>arrange()</code> them alphabetically.</p>
+<h3 id="section-9">10.</h3>
+<p><code>mutate()</code> a new variable called <code>GDP</code> that is equal to <code>gdpPercap * pop</code>.</p>
+<h3 id="section-10">11.</h3>
+<p><code>mutate()</code> a new population variable that is the <code>pop</code> in millions.</p>
+<h3 id="section-11">12.</h3>
+<p><code>summarize()</code> to get the average GDP per capita.</p>
+<h3 id="section-12">13.</h3>
+<p>Get the number of observations, average, minimum, maximum, and standard deviation for GDP per capita.</p>
+<h3 id="section-13">14.</h3>
+<p>Get the average GDP per capita over time. Hint, first <code>group_by()</code> year.</p>
+<h3 id="section-14">15.</h3>
+<p>Get the average GDP per capita by continent.</p>
+<h3 id="section-15">16.</h3>
+<p>Get the average GDP per capita by year and by continent.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: do <code>year</code> first, if you do <code>continent</code> first, there are no years to group by!<br />
+<br />
+</span></span> Then save this as another <code>tibble</code> called <code>gdp</code>. Create a <code>ggplot</code> of a <code>line</code> graph of average continent GDP over time using the <code>gdp</code> data.</p>
+<h3 id="section-16">17.</h3>
+<p>Try it again all in one command with the pipe <code>%&gt;%</code>. Instead of saving the data as <code>gdp</code>, pipe it right into <code>ggplot</code>!<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hint: You can use <code>.</code> as a placeholder.<br />
+<br />
+</span></span></p>
+<h2 id="example-the-economics-of-college-majors">Example: the Economics of College Majors</h2>
+<p>Now let’s step it up to work with some data “in the wild” to answer some research questions. This will have you combine your <code>dplyr</code> skills and add some new things such as importing with <code>readr</code>.</p>
+<p>Let’s look at fivethirtyeight’s article <a href="https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/">"
+The Economic Guide To Picking A College Major
+"</a>. fivethirtyeight is great about making the data behind their articles public, we can <a href="https://data.fivethirtyeight.com/">download all of their data here</a>. Search for <code>college majors</code> and click download (the blue arrow button).<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">This will download a <code>.zip</code> file that contains many spreadsheets. Unzip it with a program that unzips files (such as WinZip, 7-zip, the Unarchiver, etc).<br />
+<br />
+</span></span> We will look at the <code>recent-grads.csv</code> file.</p>
+<p>The description in the <code>readme</code> file for the data is as follows:</p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Header</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Rank</code></td>
+<td>Rank by median earnings</td>
+</tr>
+<tr class="even">
+<td><code>Major_code</code></td>
+<td>Major code, FO1DP in ACS PUMS</td>
+</tr>
+<tr class="odd">
+<td><code>Major</code></td>
+<td>Major description</td>
+</tr>
+<tr class="even">
+<td><code>Major_category</code></td>
+<td>Category of major from Carnevale et al</td>
+</tr>
+<tr class="odd">
+<td><code>Total</code></td>
+<td>Total number of people with major</td>
+</tr>
+<tr class="even">
+<td><code>Sample_size</code></td>
+<td>Sample size (unweighted) of full-time, year-round ONLY (used for earnings)</td>
+</tr>
+<tr class="odd">
+<td><code>Men</code></td>
+<td>Male graduates</td>
+</tr>
+<tr class="even">
+<td><code>Women</code></td>
+<td>Female graduates</td>
+</tr>
+<tr class="odd">
+<td><code>ShareWomen</code></td>
+<td>Women as share of total</td>
+</tr>
+<tr class="even">
+<td><code>Employed</code></td>
+<td>Number employed (ESR == 1 or 2)</td>
+</tr>
+<tr class="odd">
+<td><code>Full_time</code></td>
+<td>Employed 35 hours or more</td>
+</tr>
+<tr class="even">
+<td><code>Part_time</code></td>
+<td>Employed less than 35 hours</td>
+</tr>
+<tr class="odd">
+<td><code>Full_time_year_round</code></td>
+<td>Employed at least 50 weeks (WKW == 1) and at least 35 hours (WKHP &gt;= 35)</td>
+</tr>
+<tr class="even">
+<td><code>Unemployed</code></td>
+<td>Number unemployed (ESR == 3)</td>
+</tr>
+<tr class="odd">
+<td><code>Unemployment_rate</code></td>
+<td>Unemployed / (Unemployed + Employed)</td>
+</tr>
+<tr class="even">
+<td><code>Median</code></td>
+<td>Median earnings of full-time, year-round workers</td>
+</tr>
+<tr class="odd">
+<td><code>P25th</code></td>
+<td>25th percentile of earnigns</td>
+</tr>
+<tr class="even">
+<td><code>P75th</code></td>
+<td>75th percentile of earnings</td>
+</tr>
+<tr class="odd">
+<td><code>College_jobs</code></td>
+<td>Number with job requiring a college degree</td>
+</tr>
+<tr class="even">
+<td><code>Non_college_jobs</code></td>
+<td>Number with job not requiring a college degree</td>
+</tr>
+<tr class="odd">
+<td><code>Low_wage_jobs</code></td>
+<td>Number in low-wage service jobs</td>
+</tr>
+</tbody>
+</table>
+<h3 id="section-17">18.</h3>
+<p>Import the data with <code>read_csv()</code> and assign it to an object called <code>majors</code>.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">One way to avoid error messages is to move it to the same file as R’s working directory, which again you can determine with <code>getwd()</code>.<br />
+<br />
+</span></span> The first argument of this command is the name of the original file, in quotes.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">If the file is in a different folder, the argument is the full path in quotes.<br />
+<br />
+</span></span></p>
+<h3 id="section-18">19.</h3>
+<p>Look at the data with <code>glimpse()</code>. This is a suped-up version of <code>str()</code> in <code>tidyverse</code>.</p>
+<h3 id="section-19">20.</h3>
+<p>What are all of the <em>unique</em> values of <code>Major</code>? How many are there?</p>
+<h3 id="section-20">21.</h3>
+<p>Which major has the <em>lowest</em> unemployment rate?</p>
+<h3 id="section-21">22.</h3>
+<p>What are the top 3 majors that have the highest percentage of women?</p>
+<h4 id="section-22">23.</h4>
+<p>Make a boxplot of <code>Median</code> wage by <code>Major_Category</code>.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">You won’t be able to read the labels easily, so add <code>theme(axis.text.x=element_text(angle=45, hjust=1)</code> to angle <code>x</code>-axis labels (and move them down by 1)<br />
+<br />
+</span></span></p>
+<h4 id="section-23">24.</h4>
+<p>Which major category is the least popular in this sample?<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Hint: use <code>group_by</code> first.<br />
+<br />
+</span></span></p>
+<h4 id="section-24">25.</h4>
+<p>Is there a systematic difference between STEM majors and non-STEM majors? First define:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>stem_categories &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Biology &amp; Life Science&quot;</span>,</span>
+<span id="cb2-2"><a href="#cb2-2"></a>                     <span class="st">&quot;Computers &amp; Mathematics&quot;</span>,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>                     <span class="st">&quot;Engineering&quot;</span>,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>                     <span class="st">&quot;Physical Sciences&quot;</span>)</span></code></pre></div>
+<p>Next, make a variable called <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.^[Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else), i.e. </p>
+<p><code>ifelse(my_conditions,        yes = do_this_if_TRUE,        no = do_this_if_FALSE)</code>]</p>
+<p>Then <code>summarize()</code> <code>median</code> for stem and not stem groups.</p>
