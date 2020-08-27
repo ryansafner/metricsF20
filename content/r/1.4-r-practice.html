@@ -259,5 +259,9 @@ The Economic Guide To Picking A College Major
 <span id="cb2-3"><a href="#cb2-3"></a>                     <span class="st">&quot;Engineering&quot;</span>,</span>
 <span id="cb2-4"><a href="#cb2-4"></a>                     <span class="st">&quot;Physical Sciences&quot;</span>)</span></code></pre></div>
 <p>Next, make a variable called <code>stem</code>, for whether or not a <code>Major_category</code> is <code>"stem"</code> or <code>"not_stem"</code>.^[Hint: try out the <code>ifelse()</code> function which has three inputs: condition(s) for a variable(s), what to do if <code>TRUE</code> (the if), and what to if <code>FALSE</code> (the else), i.e.</p>
-<p><code>ifelse(my_conditions,        yes = do_this_if_TRUE,        no = do_this_if_FALSE)</code>]</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>stem =<span class="st"> </span><span class="kw">ifelse</span>(my_conditions,</span>
+<span id="cb3-2"><a href="#cb3-2"></a>       <span class="dt">yes =</span> do_this_if_TRUE,</span>
+<span id="cb3-3"><a href="#cb3-3"></a>       <span class="dt">no =</span> do_this_if_FALSE)</span></code></pre></div>
+<p>You’ll of course need to change the <code>do_this</code> into something!
+]</p>
 <p>Then <code>summarize()</code> <code>median</code> for stem and not stem groups.</p>

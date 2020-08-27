@@ -1,0 +1,350 @@
+---
+title: "1.5 Data Wrangling with tidyverse - R Practice (Answers)"
+author: "Ryan Safner"
+date: "ECON 480 - Fall 2019"
+output:
+  html_document:
+    df_print: paged
+    theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Getting Set Up 
+
+Before we begin, start a new file with `File` $\rightarrow$ `New File` $\rightarrow$ `R Script`. As you work through this sheet in the console in `R`, also add (copy/paste) your commands that work into this new file. At the end, save it, and run to execute all of your commands at once.
+
+First things first, load `tidyverse`.
+
+```{r}
+library("tidyverse")
+```
+
+# Warm Up to `dplyr` With `gapminder`
+
+## 
+#### 1. Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
+
+```{r}
+library(gapminder)
+# select(gapminder, c(year, lifeExp, country))
+
+# using the pipe
+
+gapminder %>%
+  select(c(year, lifeExp, country))
+```
+
+## 
+#### 2. `select()` all variables *except* `pop`.
+
+```{r}
+# select(gapminder, -pop)
+
+# using the pipe
+
+gapminder %>%
+  select(-pop)
+```
+
+## 
+#### 3. `rename()` `continent` to `cont`.
+
+```{r}
+# rename(gapminder, cont=continent)
+
+# using the pipe
+
+gapminder %>%
+  rename(cont=continent)
+```
+
+## 4. 
+#### `arrange()` by year.
+
+```{r}
+# arrange(gapminder, year)
+
+# with the pipe
+gapminder %>%
+  arrange(year)
+```
+
+## 5. 
+#### `arrange()` by year, but in descending order.
+
+```{r}
+# arrange(gapminder, desc(year))
+
+# with the pipe
+gapminder %>%
+  arrange(desc(year))
+```
+
+## 6. 
+#### `arrange()` by year, then by life expectancy.
+
+```{r}
+# arrange(gapminder, year, lifeExp)
+
+# with the pipe
+
+gapminder %>%
+  arrange(year, lifeExp)
+```
+
+## 7. 
+#### `filter()` observations with `pop` greater than 1 billion.
+
+```{r}
+# arrange(filter, pop>1000000000)
+
+# with the pipe
+
+gapminder %>%
+  filter(pop>1000000000)
+```
+
+## 8. 
+#### Of those, look only at `India`. 
+
+```{r}
+gapminder %>%
+  filter(pop>1000000000) %>%
+  filter(country=="India")
+```
+
+## 9.
+#### Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
+
+```{r}
+gapminder %>%
+  select(year, gdpPercap, country) %>%
+  filter(year==1997,
+         gdpPercap>20000) %>%
+  arrange(country)
+```
+
+## 10.
+#### `mutate()` a new variable called `GDP` that is equal to `gdpPercap * pop`.
+
+```{r}
+gapminder %>%
+  mutate(GDP = gdpPercap * pop)
+```
+
+## 11.
+#### `mutate()` a new population variable that is the `pop` in millions. 
+
+```{r}
+gapminder %>%
+  mutate(popm = pop/1000000)
+```
+
+## 12.
+#### `summarize()` to get the average GDP per capita.
+
+```{r}
+gapminder %>%
+  summarize(mean(gdpPercap))
+```
+
+## 13.
+#### Get the number of observations, average, minimum, maximum, and standard deviation for GDP per capita.
+
+```{r}
+gapminder %>%
+  summarize(Obs = n(),
+            Average = mean(gdpPercap),
+            Minimum = min(gdpPercap),
+            Maximum = max(gdpPercap),
+            SD = sd(gdpPercap))
+```
+
+## 14.
+#### Get the average GDP per capita over time. Hint, first `group_by()` year.
+
+```{r}
+gapminder %>%
+  group_by(year) %>%
+  summarize(Average_GDP = mean(gdpPercap))
+```
+
+## 15.
+#### Get the average GDP per capita by continent.
+
+```{r}
+gapminder %>%
+  group_by(continent) %>%
+  summarize(Average_GDP = mean(gdpPercap))
+```
+
+## 16.
+#### Get the average GDP per capita by year and by continent.^[Hint: do `year` first, if you do `continent` first, there are no years to group by!] Then save this as another `tibble` called `gdp`. Create a `ggplot` of a `line` graph of average continent GDP over time using the `gdp` data. 
+
+```{r}
+gdp <- gapminder %>%
+  group_by(year, continent) %>%
+  summarize(Average_GDP = mean(gdpPercap))
+
+ggplot(data = gdp)+
+  aes(x = year,
+      y = Average_GDP,
+      color = continent)+
+  geom_line()
+```
+
+## 17.
+#### Try it again all in one command with the pipe `%>%`. Instead of saving the data as `gdp`, pipe it right into `ggplot`!^[Hint: You can use `.` as a placeholder.] 
+
+```{r}
+gapminder %>%
+  group_by(year, continent) %>%
+  summarize(Average_GDP = mean(gdpPercap)) %>%
+ggplot(data = .)+
+  aes(x = year,
+      y = Average_GDP,
+      color = continent)+
+  geom_line()
+```
+
+# Example I: Majors
+
+Now let's step it up to work with some data "in the wild" to answer some research questions. This will have you combine your `dplyr` skills and add some new things such as importing with `readr`. 
+
+Let's look at fivethirtyeight's article ["
+The Economic Guide To Picking A College Major
+"](https://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/). fivethirtyeight is great about making the data behind their articles public, we can [download all of their data here](https://data.fivethirtyeight.com/). Search for `college majors` and click download (the blue arrow button).^[This will download a `.zip` file that contains many spreadsheets. Unzip it with a program that unzips files (such as WinZip, 7-zip, the Unarchiver, etc).] We will look at the `recent-grads.csv` file. 
+
+The description in the `readme` file for the data is as follows:
+
+Header | Description
+---|---------
+`Rank` | Rank by median earnings
+`Major_code` | Major code, FO1DP in ACS PUMS
+`Major` | Major description
+`Major_category` | Category of major from Carnevale et al
+`Total` | Total number of people with major
+`Sample_size` | Sample size (unweighted) of full-time, year-round ONLY (used for earnings)
+`Men` | Male graduates
+`Women` | Female graduates
+`ShareWomen` | Women as share of total
+`Employed` | Number employed (ESR == 1 or 2)
+`Full_time` | Employed 35 hours or more
+`Part_time` | Employed less than 35 hours
+`Full_time_year_round` | Employed at least 50 weeks (WKW == 1) and at least 35 hours (WKHP >= 35)
+`Unemployed` | Number unemployed (ESR == 3)
+`Unemployment_rate` | Unemployed / (Unemployed + Employed)
+`Median` | Median earnings of full-time, year-round workers
+`P25th` | 25th percentile of earnigns
+`P75th` | 75th percentile of earnings
+`College_jobs` | Number with job requiring a college degree
+`Non_college_jobs` | Number with job not requiring a college degree
+`Low_wage_jobs` | Number in low-wage service jobs
+
+## 18. 
+
+#### Import the data with `read_csv()` and assign it to `tibble` called `majors`.^[One way to avoid error messages is to move it to the same file as R's working directory, which again you can determine with `getwd()`.] The first argument of this command the name of the original file, in quotes.^[If the file is in a different folder, the argument is the full path in quotes.]
+
+```{r}
+majors<-read_csv("../data/recent-grads.csv") # note my location on my computer is different than yours!
+```
+
+# Wrangling Data (with `dplyr`)
+
+## 19. Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
+
+```{r}
+glimpse(majors)
+```
+
+## 20.
+What are all of the unique values of `Major`? How many are there?
+
+```{r}
+majors %>%
+  distinct(Major)
+
+majors %>%
+  summarize(n_distinct(Major))
+```
+
+## 21.
+### Which major has the lowest unemployment rate?
+
+```{r}
+majors %>%
+  arrange(Unemployment_rate) %>%
+  select(Major, Unemployment_rate)
+```
+
+## 22. 
+#### What are the top 3 majors that have the highest percentage of women?
+
+```{r}
+majors %>%
+  arrange(desc(ShareWomen)) %>%
+  select(Major, ShareWomen) %>%
+  slice(1:3) # head(., n=3) also works
+
+```
+
+### 23. 
+#### Make a boxplot of `Median` wage by `Major_Category`.^[You won't be able to read the labels easily, so add `theme(axis.text.x=element_text(angle=45, hjust=1)` to angle `x`-axis labels (and move them down by 1)]
+
+```{r}
+ggplot(data = majors)+
+  aes(x = Major_category,
+      y = Median,
+      fill = Major_category)+
+  geom_boxplot()+
+  theme(axis.text.x=element_text(angle=45, hjust=1), legend.position = "")
+```
+
+
+### 24.
+#### Which major category is the least popular in this sample?^[Hint: use `group_by` first.]
+
+```{r}
+majors %>%
+  group_by(Major_category) %>%
+  count() %>%
+  arrange(n)
+```
+
+### 25. 
+#### Is there a systematic difference between STEM majors and non-STEM majors? First define: 
+
+
+```{r}
+stem_categories <- c("Biology & Life Science",
+                     "Computers & Mathematics",
+                     "Engineering",
+                     "Physical Sciences")
+```
+Next, make a variable `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else).]
+
+```{r}
+majors <- majors %>%
+  mutate(stem = ifelse(Major_category %in% stem_categories,
+                       "stem",
+                       "not_stem")) %>%
+  select(stem, everything()) # just so we can see it up front to verify
+```
+
+Then `summarize()` `median` for stem and not stem groups.
+
+```{r}
+majors %>%
+  group_by(stem) %>%
+  summarize(mean(Median))
+```
+
+

@@ -144,8 +144,13 @@ stem_categories <- c("Biology & Life Science",
 ```
 Next, make a variable called `stem`, for whether or not a `Major_category` is `"stem"` or `"not_stem"`.^[Hint: try out the `ifelse()` function which has three inputs: condition(s) for a variable(s), what to do if `TRUE` (the if), and what to if `FALSE` (the else), i.e.
 
-`ifelse(my_conditions,
+```{r, eval=F}
+stem = ifelse(my_conditions,
        yes = do_this_if_TRUE,
-       no = do_this_if_FALSE)`]
+       no = do_this_if_FALSE)
+```
+
+You'll of course need to change the `do_this` into something!
+]
 
 Then `summarize()` `median` for stem and not stem groups.

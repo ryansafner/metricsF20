@@ -3,3 +3,4 @@
 .RData
 .Ruserdata
 public/
+static/slides/make-pdfs.R
