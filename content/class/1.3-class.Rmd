@@ -116,9 +116,11 @@ We learn more about this in [class 1.4](/class/1.4-class) using `tidyverse`, but
 
 1. Subset the data, save the subsetted data as an object (I'll call `gap2007`), plot with that object as my data:
 
-```{r}
+```{r, message = F, warning = F}
 library(tidyverse)
+```
 
+```{r}
 gap2007 <- gapminder %>%
   filter(year == 2007)
 
@@ -182,7 +184,8 @@ Someone figured out a clever way to let us do both, and it is a package called `
 library(ggrepel)
 
 p3+geom_text_repel(aes(label = country,
-                        color = continent),
+                        color = continent,
+                       size = pop),
                     size = 3)
 ```
 
@@ -195,16 +198,95 @@ One alternative is instead of points, to use some other marking. Someone created
 ```{r}
 # install.packages("ggflags") # do this only once
 library(ggflags)
-pflag<-p3+geom_flag(aes(country = country))
+pflag<-p3+geom_flag(aes(country = country,
+                        size = pop))
 pflag
 ```
 
 ## plotly
 
-We can also make our plot a bit more interactive (on web only of course!) using the `ggplotly` package, which allows `ggplot2` to interface with a javascript library called `plotly`.
+We can also make our plot a bit more interactive (on web only of course!) using the `ggplotly` package, which allows `ggplot2` to interface with a javascript library called `plotly`.^[I am plotting our graph from above, not the flags, since `ggflags` has not been configured for `plotly` yet.]
+
+```{r, message = F, warning = F}
+# install.packages("plotly") # do this only once
+library(plotly)
+```
 
 ```{r}
-# install.packages("ggplotly") # do this only once
-library(plotly)
-ggplotly(pflag)
+ggplotly(p3)
+```
+
+## Better barplots
+
+Another major type of plot that we may use often is a barplot. Suppose we want to show the GDP per Capita of the top 20 countries in 2007. If I were to plot `country` on the `x` axis and `gdpPercap` on the `y` axis with `geom_col`,^[Using `geom_col()` allows you to specify an `x` and a `y` variable. `geom_bar()` only plots the `counts` of each value on the `x` axis. If we had done `+aes(x = country)+geom_bar()`, it would plot the number of observations of each `country` in the data, not what we want!] I get the following mess:
+
+```{r}
+ggplot(gap2007)+
+  aes(x = country,
+      y = gdpPercap,
+      fill = continent)+
+  geom_col()
+```
+
+So let’s `filter`^[You learn about this in [class 1.4](/class/1.4-class)] arrange our data in `desc`ending order by `gdpPercap`:
+
+```{r}
+gap2007 %>%
+  arrange(desc(gdpPercap))
+```
+
+We only want the top 20 observations, so lets `slice` to extract just rows `1:20`. Then we’ll pipe it into our plot:
+
+```{r}
+bar<-gap2007 %>%
+  arrange(desc(gdpPercap)) %>%
+  slice(1:20) %>%
+  ggplot(data = .)+
+  aes(x = country,
+      y = gdpPercap,
+      fill = continent)+
+  geom_col()
+bar
+```
+
+Now that’s closer to what we wanted! But here are a few more tips and tricks to make it better. First, let’s flip the axes to be able to read the countries better, using `coord_flip()`
+
+```{r}
+bar+coord_flip()
+```
+
+One other useful thing to know would be how to *display* the bars in numerical order (from largest `gdpPercap` to smalleset `gdpPercap`) so we can get a clear ranking of countries. To do this, we are going to make use of another `tidyverse` package called `forcats` (dealing with `factors`), specifically the function `fct_reorder()`, which reorders a `factor` variable (our `country`) by the values of some other variable (our `gdpPercap`). We need to do this to our `x` variable `aes`thetic:
+
+```{r}
+bar2<-gap2007 %>%
+  arrange(desc(gdpPercap)) %>%
+  slice(1:20) %>%
+  ggplot(data = .)+
+  aes(x = forcats::fct_reorder(country, gdpPercap), #<<
+      y = gdpPercap,
+      fill = continent)+
+  geom_col()+
+  coord_flip()
+bar2
+```
+
+This is already looking good. Here’s another creative way to depict the same thing in a more visually-striking way. Instead of using `geom_bar()`, let’s combine `geom_flag` (to serve as end points) and `geom_segment()`^[Note because we are defining an `x` `aes`thetic again for this, we need to make sure `x` is also the reordered list of countries, so note I am doing the whole `fct_reorder()` again.] (line segments) to make the following version:
+
+```{r}
+bar3<-gap2007 %>%
+  arrange(desc(gdpPercap)) %>%
+  slice(1:20) %>%
+  ggplot(data = .)+
+  aes(x = forcats::fct_reorder(country, gdpPercap), #<<
+      y = gdpPercap,
+      fill = continent)+
+  geom_segment(aes(x = forcats::fct_reorder(country, gdpPercap), #<<
+                   y = 0, #<<
+                   xend = country, #<<
+                   yend = gdpPercap, #<<
+                   color = continent), #<<
+               size = 1)+ #<<
+  geom_flag(aes(country = country))+ #<<
+  coord_flip()
+bar3
 ```

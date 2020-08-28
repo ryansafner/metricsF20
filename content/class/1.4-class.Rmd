@@ -41,7 +41,6 @@ Learn more about each of these in context in the slides, but below are links to 
 - [`tidyverse`](https://tidyverse.org/) collection of packages, including the following:
 - [`tibble`](https://tibble.tidyverse.org/) for friendlier, tidier dataframes
 - [`magrittr`](https://magrittr.tidyverse.org/) for use of the pipe (`%>%`)
-- [`readr`](https://readr.tidyverse.org/), [`readxl`](https://readxl.tidyverse.org/), and [`haven`](https://haven.tidyverse.org/) for importing data from different filetypes (e.g. `.csv`, `.xls`, `.xslsx`, `.dta`)
+- [`readr`](https://readr.tidyverse.org/), [`readxl`](https://readxl.tidyverse.org/), and [`haven`](https://haven.tidyverse.org/) for importing data
 - [`dplyr`](https://dplyr.tidyverse.org/) for data wrangling and manipulation
 - [`tidyr`](https://tidyr.tidyverse.org/) for reshaping data
-
