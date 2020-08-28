@@ -46,4 +46,165 @@ None!
 
 # Additional Useful Information
 
+## New Packages Mentioned
+
+Learn more about each of these in context in the slides, but below are links to each packages’s online help pages, which include descriptions of how each function works, examples, and cheatsheets to help you
+
+- [`ggplot2`](https://ggplot2.tidyverse.org/) a grammar of graphics for ploting
+
 Check back here later for more tips on plotting with ggplot2!
+
+## Extensions to ggplot2
+
+`ggplot2`, being one of the most popular packages, has a lot of user-made extensions that allow you to do lots of neat things with your plots, from plotting networks, Parliaments, dendrograms, and other types of graphs, to formatting and visual tools that help improve your figures.
+
+For the following demonstrations, we will use the `gapminder` data. Let’s start just by making a basic graph and saving it as an object called `p`. I have decided to map (`aes()`) each `geom_point`’s `color` to `continent` and `size` to `pop`:
+
+```{r}
+library(gapminder)
+library(ggplot2)
+
+p<-ggplot(gapminder) +
+  aes(x = gdpPercap,
+      y = lifeExp) +
+  geom_point(aes(size = pop,
+                 color = continent))
+p
+```
+
+### Working with Scales
+
+I don't like the default choices `ggplot2` has made for my point sizes for population, or the way it depicts them (in scientific notation) on the legend. 
+
+I will set my own scale by setting the `breaks`^[The cut offs for using one size circle vs. the next/previous size circle, depending on population.] manually, according to a vector I define as: `c(100000, 1000000, 100000000, 1000000000)`. So, I will use one point size for populations of 100 thousand, a bigger one for a million, a bigger one for 100 millions, and the biggest for 1 billion. 
+
+I am going to `label` these (on my legend) as the following vector: `c("<1 million","1 million","100 million", "1 billion")`.
+
+Lastly, I don’t think the size of the billion circle is big enough, a billion is a lot of people! So I will set the `range` of sizes from size `1` point to size `10` point.
+
+To do this, I include all of this inside the `scale_size` command (because I am scaling the `size` of points):
+
+```{r}
+# let's save this as p2
+p2<-p+scale_size(breaks = c(100000, 1000000, 100000000, 1000000000), # cut offs
+             labels=c("<1 million","1 million","100 million", "1 billion"), # labels on legend
+             range=c(1,10)) # min & max point size
+
+# let's see what we did
+p2
+```
+
+This is also very hard to see the relationship (because it is nonlinear!). So I will rescale the `x_axis` logarithmically with base 10:
+
+```{r}
+p2+scale_x_log10()
+```
+
+Doing this already gives me a much clearer view of the relationship! But I don't like the labels, or the breaks it has chosen, so I can customize them again:
+
+```{r}
+p2+scale_x_log10(
+    breaks = c(10^3, 10^4, 10^5), # 1,000, 10,000, and 100,000
+    labels = scales::dollar)
+```
+
+The `scales` package has a nice command to format labels, in this case I am calling the `scales::dollar` function to print dollar signs in front of my axes numbers. I could have done it manually instead by setting `labels = c("$1,000", "$10,000", "$100,000")`.
+
+## Subsetting Data
+
+We learn more about this in [class 1.4](/class/1.4-class) using `tidyverse`, but let’s only look at one year of data (there’s too much going on in this plot, especially with the large points, some points are covering other points). So let’s only look at the year 2007. I can do this in two ways:
+
+1. Subset the data, save the subsetted data as an object (I'll call `gap2007`), plot with that object as my data:
+
+```{r}
+library(tidyverse)
+
+gap2007 <- gapminder %>%
+  filter(year == 2007)
+
+p2007 <- ggplot(data = gap2007)+
+  aes(x = gdpPercap,
+      y = lifeExp) +
+  geom_point(aes(size = pop,
+                 color = continent))
+
+p2007
+```
+
+2. Subset data and pipe it directly into `ggplot2`’s `data` argument:
+
+```{r}
+library(tidyverse)
+
+p2007 <- gapminder %>%
+  filter(year == 2007) %>%
+  ggplot(data = .)+ # . is placeholder
+  aes(x = gdpPercap,
+      y = lifeExp) +
+  geom_point(aes(size = pop,
+                 color = continent))
+
+p2007
+```
+
+Now let’s clean up the graph with the same things I did before, hide the legends (set the `color` and `size`, my two `aes`thetic mappings, `guides` equal to `FALSE`), add some labels, and change the theme:
+
+```{r}
+p3<-p2007+scale_size(breaks = c(100000, 1000000, 100000000, 1000000000), 
+             labels=c("<1 million","1 million","100 million", "1 billion"), 
+             range=c(1,10))+
+  scale_x_log10(
+    breaks = c(10^3, 10^4, 10^5),
+    labels = scales::dollar)+
+  labs(x = "GDP per Capita (USD)",
+       y = "Life Expectancy (years)")+
+  guides(color = FALSE,
+         size = FALSE)+
+  theme_classic()
+p3
+```
+
+## ggrepel
+
+If I were to try to label some countries, with either `geom_text` (just word) or `geom_label()` (text in a box), setting the `label` `aes`thetic to `country`, see what would happen:
+
+```{r}
+p3+geom_label(aes(label = country,
+                  color = continent))
+```
+
+The labels, which are plotted right on top of each point, cover the points!
+
+Someone figured out a clever way to let us do both, and it is a package called `ggrepel`, which allows you to plot labels that are "repelled" away from the point they are labelling in an intelligent way. This is a separate package, which you must first *install* and then load with *library* to use it!
+
+```{r}
+# install.packages("ggrepel") # do this only once
+library(ggrepel)
+
+p3+geom_text_repel(aes(label = country,
+                        color = continent),
+                    size = 3)
+```
+
+This is much better, but for this particular chart, since a lot of observations are close together, it would be unwise to label *everything*, perhaps only label a subset of important points.
+
+## ggflag
+
+One alternative is instead of points, to use some other marking. Someone created the `ggflags` package to let you plot flags of countries. This creates a new type of geom, called `geom_flag`, that requires you to map the `country` `aes`thetic to a variable in your data with the country name (incidentally, in `gapminder` that variable is also called `country`). Let’s try that out instead (and add my same customizations as above):
+
+```{r}
+# install.packages("ggflags") # do this only once
+library(ggflags)
+pflag<-p3+geom_flag(aes(country = country))
+pflag
+```
+
+## plotly
+
+We can also make our plot a bit more interactive (on web only of course!) using the `ggplotly` package, which allows `ggplot2` to interface with a javascript library called `plotly`.
+
+```{r}
+# install.packages("ggplotly") # do this only once
+library(plotly)
+ggplotly(pflag)
+```

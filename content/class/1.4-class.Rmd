@@ -34,4 +34,14 @@ Today you will be working on [R practice problems](/r/1.4-r-practice.html). Chec
 
 # Additional Useful Information
 
-Check back here!
+## New Packages Mentioned
+
+Learn more about each of these in context in the slides, but below are links to each packages’s online help pages, which include descriptions of how each function works, examples, and cheatsheets to help you
+
+- [`tidyverse`](https://tidyverse.org/) collection of packages, including the following:
+- [`tibble`](https://tibble.tidyverse.org/) for friendlier, tidier dataframes
+- [`magrittr`](https://magrittr.tidyverse.org/) for use of the pipe (`%>%`)
+- [`readr`](https://readr.tidyverse.org/), [`readxl`](https://readxl.tidyverse.org/), and [`haven`](https://haven.tidyverse.org/) for importing data from different filetypes (e.g. `.csv`, `.xls`, `.xslsx`, `.dta`)
+- [`dplyr`](https://dplyr.tidyverse.org/) for data wrangling and manipulation
+- [`tidyr`](https://tidyr.tidyverse.org/) for reshaping data
+

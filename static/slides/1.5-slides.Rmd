@@ -1,0 +1,1299 @@
+---
+title: "1.5 — Optimize Workflow"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    #seal: false
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(message=F,
+                      warning=F)
+library(tidyverse)
+library(gapminder)
+```
+
+class: inverse, middle, center
+
+
+### [The Office Model](#4)
+
+### [The Plain Text Model](#12)
+
+### [R Markdown](#18)
+
+### [Compiling Your Documents](#43)
+
+### [R Projects](#46)
+
+### [Version Control](#55)
+
+### [Resources](#69)
+
+
+---
+
+# Your Workflow Has a Lot of Moving Parts
+
+.pull-left[
+.smaller[
+1. Writing text/documents
+
+2. Managing citations and bibliographies
+
+3. Performing data analysis
+
+4. Making figures and tables
+
+5. Saving files for future use
+
+6. Monitoring changes in documents
+
+7. Collaborating and sharing with others
+
+8. Combining into a deliverable (report, paper, presentation, etc.)
+]
+]
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/xtg1neu883j6r10/workflow.jpg?raw=1)
+]
+]
+---
+
+class: inverse, center, middle
+# The Office Model
+
+---
+
+
+# The Office Model I
+
+.pull-left[
+.smaller[
+1. Writing text/documents
+
+2. Managing citations and bibliographies
+
+3. Performing data analysis
+
+4. Making figures and tables
+
+5. Saving files for future use
+
+6. Monitoring changes in documents
+
+7. Collaborating and sharing with others
+
+8. Combining into a deliverable (report, paper, presentation, etc.)
+]
+]
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/9zu9f3x4rhec0dt/msofficemodel.png?raw=1)
+]
+]
+
+---
+
+# The Office Model II
+
+.pull-left[
+
+- A lot of **copy-pasting**
+
+- A lot of...
+
+.center[
+![](https://www.dropbox.com/s/1b2gwpck4pdd7gl/wysiwygproblem.jpg?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/9zu9f3x4rhec0dt/msofficemodel.png?raw=1)
+]
+]
+
+---
+
+# The Office Model: A Short Horror Movie
+
+.center[
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s3JldKoA0zw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+]
+
+---
+
+# The Office Model: Mistakes
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/cqcy9l5czztgpu3/excelfail1.png?raw=1)
+
+Source: [Science Magazine](https://www.sciencemag.org/news/2016/08/one-five-genetics-papers-contains-errors-thanks-microsoft-excel)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/1a7mdlthfv6r8x8/excelfail2.png?raw=1)
+
+Source: [Bloomberg](https://www.bloomberg.com/news/articles/2013-04-18/faq-reinhart-rogoff-and-the-excel-error-that-changed-history)
+]
+
+]
+
+---
+
+# The Office Model: Not Reproducible
+
+.center[
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;&#39;Reproducible research&#39; is a redundant term. &#39;Irreproducible research&#39; just used to be known as &#39;bullshit&#39;.&quot; - <a href="https://twitter.com/fperez_org?ref_src=twsrc%5Etfw">@fperez_org</a> ::slow clap::</p>&mdash; Kaitlin Thaney 💁🏻 (@kaythaney) <a href="https://twitter.com/kaythaney/status/464543147083968513?ref_src=twsrc%5Etfw">May 8, 2014</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+]
+
+---
+
+# What I'm About to Show You
+
+.center[
+![](https://www.dropbox.com/s/ze75ntay9kp3yjf/drawanowl.jpg?raw=1)
+]
+
+---
+
+# What I'm About to Show You
+
+.pull-left[
+.smallest[
+- This is how I make my...
+    - Research papers
+    - Course documents
+    - Websites
+    - Slides and presentations
+
+- I have not used any MS Office products since 2011 (good riddance!)
+
+- .hi-purple[This stuff is *optional*]
+    - If you like your office model, you can keep it
+    - But this is what most people who take this course continue to use (R is only really if you have data work)
+]
+]
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/546o01icserlone/rmdout.png?raw=1)
+]
+]
+---
+
+class: inverse, center, middle
+
+# The Plain Text Model
+
+---
+
+# The Plain Text Model I
+
+.pull-left[
+.smaller[
+- Meet `R Markdown`, which can do *all of this* in one pipeline
+
+1. Writing text/documents
+2. Managing citations and bibliographies
+3. Performing data analysis
+4. Making figures and tables
+5. Saving files for future use
+6. Monitoring changes in documents
+7. Collaborating and sharing with others
+8. Combining into a deliverable (report, paper, presentation, etc.)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/546o01icserlone/rmdout.png?raw=1)
+
+.smaller[
+From [R Studio's R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
+]
+]
+]
+
+---
+
+# The Plain Text Model II
+
+- .shout[Plain text] files: readable by *both* machines and humans
+    - Understand how a document is structured and formatted via code and markup to text
+
+- Focus entirely on the *actual writing of the content* instead of the formatting and aesthetics
+    - You can still customize, but with precise commands instead of point, click, drag, guess, pray
+
+- **Open Source**: free, useable forever, often very small file size
+    - Proprietary software is a gamble - can you still open a `.doc` file from Microsoft Word 1997?
+
+- **Automate and Minimize Errors**, especially in repetitive processes
+
+- Can be used with **version control** (see below)
+
+---
+
+# Making Your Work Reproducible
+
+> One day you will need to quit R, go do something else and return to your analysis the next day. One day you will be working on multiple analyses simultaneously that all use R and you want to keep them separate. One day you will need to bring data from the outside world into R and send numerical results and figures from R back out into the world. To handle these real life situations, you need to make two decisions:
+What about your analysis is "real", i.e. what will you save as your lasting record of what happened?
+Where does your analysis "live"? 
+- Hadley Wickham, [R For Data Science](http://r4ds.had.co.nz/workflow-projects.html)
+
+- We've talked about `.R` script files that let you "keep" commands
+
+- What about output? Must you save and copy/paste to MS Word? 
+
+- No!
+
+---
+
+# Making Your Work Reproducible
+
+- `R Markdown` files (`.Rmd`) is the "real" part of your analysis, *everything* can live in this plain-text file.
+
+- Document text in `markdown`
+
+- `R code` executed in "chunks"
+
+- Plots and tables generated from `R code`
+
+- Citations and bibliography automated with `.bib` file
+
+---
+
+# The Future of Science is Open Source Plain Text
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/lw9fouq57tpic9p/notebooks1.png?raw=1)
+
+Source: [The Atlantic](https://www.theatlantic.com/science/archive/2018/04/the-scientific-paper-is-obsolete/556676/)
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/e8pnjaqp2xbovit/notebooks2.png?raw=1)
+
+Source: [Paul Romer (2018 Economics Nobel)](https://paulromer.net/jupyter-mathematica-and-the-future-of-the-research-paper/)
+]
+]
+
+---
+
+class: inverse, center, middle
+# R Markdown
+
+---
+
+# Creating an R Markdown Document I
+
+.pull-left[
+
+- `File -> New File -> R Markdown...`
+
+- Outputs:
+    - Document (what you'll use for most things)
+    - Presentation (for making slides in various formats)
+    - Shiny (an html and R based web app, advanced)
+    - Templates (some built-in, other packages like `rticles` or `xaringan` add neat templates)
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/ebf8lod67dqvaoe/newrmarkdown.png?raw=1)
+]
+]
+
+---
+
+# Creating an R Markdown Document II
+
+
+- `File -> New File -> R Markdown...`
+
+- Documents:
+    - `html`: renders a webpage, viewable in any browser
+        - default, easiest to produce and share
+        - can have interactive elements (gifs, animations, web apps)
+        - requires internet connection to host and share (*you* can view offline)
+    - `pdf`: renders a PDF document
+        - most common document format around
+        - requires `LaTeX` distribution to render (more on that soon)
+    - `word`: create a Micosoft Word document
+        - ...if you must
+
+
+---
+
+# Structure of an R Markdown Document
+
+.pull-left[
+
+- Entire document is written in a single file:<sup>.red[1]<sup>
+
+1. `YAML` header for metadata
+
+2. Text of the document written with `markdown`
+
+3. `R` chunks for data analysis, plots, figures, tables, statistics, as necessary
+
+.footnote[<sup>.red[1]</sup> The one exception is for managing bibliographies, this requires an additional `.bib` file!]
+
+]
+
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/og99cl4vw761m1n/rmarkdownex1.png?raw=1)
+]
+]
+
+---
+
+# YAML Header I
+
+- Top of a document contains the `YAML`<sup>.red[1]</sup> separated by three dashes `---` above and below
+
+- Contains the **metadata** of the document, such as:
+
+```{yaml}
+title: "My Title"
+author: "Ryan Safner"
+date: "`r Sys.Date()`"
+output: pdf_document
+```
+
+- `output` must be specified, everything else can be left blank, and other options can be added as necessary
+
+- In most cases, you can safely ignore other things in the `yaml` until you are ready
+
+- `output` must be 
+.footnote[<sup>.red[1]</sup> YAML stands for "YAML Ain't Markup Language." Nerds love recursive acronyms.]
+
+---
+
+# YAML Header: Example from one of my research papers
+
+```{yaml}
+title: Distributing Patronage^[I would like to thank the Board of Associates of Hood College...]
+subtitle: Intellectual Property in the Transition from Natural State to Open Access Order
+date: \today
+author: 
+- Ryan Safner^[Hood College, Department of Economics and Business Administration; safner@hood.edu]
+
+abstract: |
+  | "This paper explores the emergence of the modern forms of copyright and patent in ...
+  | *JEL Classification:* O30, O43, N43
+  | *Keywords:* Copyright, intellectual property, economic history, freedom of the press, economic development
+
+bibliography: patronage.bib
+geometry: margin = 1in
+fontsize: 12pt
+mainfont: Fira Sans Condensed
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    number_sections: true
+    fig_caption: yes
+
+header-includes:
+    - \usepackage{booktabs}
+```
+
+---
+
+# R Chunks I
+
+- You can create a "chunk" of `R` code with three backticks<sup>.red[1]</sup> above and below your code
+- After the first pair of backticks, signify the language of the code<sup>.red[2]</sup> inside braces, e.g:
+
+.pull-left[
+
+## Input 
+
+````markdown
+`r ''````{r}
+2+2
+```
+````
+
+]
+
+.pull-right[
+
+## Output
+
+```{r, echo=T}
+2+2
+```
+
+]
+
+.footnote[<sup>.red[1]</sup> The key to the left of the #1 key.
+
+<sup>.red[2]</sup> Yes that does mean you can use other coding languages!]
+
+---
+
+# R Chunks II
+
+.pull-left[
+
+## Input 
+
+````markdown
+`r ''````{r}
+head(mpg, n=2)
+```
+````
+
+]
+
+.pull-right[
+
+## Output
+
+```{r, echo=T}
+head(mpg, n=2)
+```
+
+]
+
+
+---
+
+# R Chunks III
+
+.pull-left[
+
+## Input 
+
+````markdown
+`r ''````{r}
+library("ggplot2") # load ggplot2
+ggplot(data = mpg)+
+  aes(x = displ)+
+  geom_histogram()
+```
+````
+
+
+]
+
+.pull-right[
+
+## Output
+
+```{r, echo=T, fig.height=4}
+library("ggplot2") # load ggplot2
+ggplot(data = mpg)+
+  aes(x = displ)+
+  geom_histogram()
+```
+]
+
+---
+
+# R Chunks Options
+
+- You can add [additional options](https://yihui.name/knitr/options/) inside the `{braces}` after `r`, some common options:
+
+- **Name**: you can name your chunk for further reference later (not required)<sup>.red[1]</sup>
+
+- `echo` set `=TRUE` to display the `R` code input; `=FALSE` shows will not show your code
+
+- `eval` set `=TRUE` to run your code; `=FALSE` only displays your code without running it
+
+- `fig` has a lot of options for displaying plot outputs (`fig.height`, `fig.width`, `fig.asp`, etc)
+
+- `results` will format the output of a chunk in a certain way (used for advanced things we'll talk about later)
+
+.footnote[<sup>.red[1]</sup> The chunk name is the only thing that needs to go right next to `r` without a comma. Everything else needs to go after a comma, e.g. `{r my_chunk, echo=F}`]
+
+---
+
+# R Chunks Options Example
+
+.pull-left[
+
+## Input 
+
+````markdown
+`r ''````{r check-data, echo = T}
+# get top 3 avg displacement by manuf
+mpg %>% 
+  group_by(manufacturer) %>% 
+  summarize(avg = mean(displ)) %>%
+  arrange(desc(avg)) %>%
+  slice(1:3)
+```
+````
+
+````markdown
+`r ''````{r make-plot, echo = F, fig.height=2}
+ggplot(data = mpg)+
+  aes(x = displ)+
+  geom_histogram()
+```
+````
+
+
+]
+
+.pull-right[
+
+## Output
+
+.code50[
+
+```{r check-data, echo = T}
+# get top 3 avg engine displacement by manuf
+mpg %>% 
+  group_by(manufacturer) %>% 
+  summarize(avg = mean(displ)) %>%
+  arrange(desc(avg)) %>%
+  slice(1:3)
+```
+
+```{r, echo=F, fig.height=2}
+ggplot(data = mpg)+
+  aes(x = displ)+
+  geom_histogram()
+```
+]
+]
+
+---
+
+
+# R Inline Code I
+
+- If you just want to display some code (or at least format it like code) in the middle of a sentence, `place between a backtick on either side.` That's what I do when I mention `tidyverse` or `gapminder`.
+
+- If you want to actually *run* something from `R` and have it show up in the middle of a sentence, put `r` as the first character inside the backticks, and then run the actual code such as pi is equal to `r pi`.
+
+.pull-left[
+
+## Input
+
+pi is equal to `` `r "\u0060r pi\u0060"` ``.
+
+]
+
+.pull-right[
+
+## Output
+pi is equal to `r pi`.
+
+]
+
+---
+
+# R Inline Code II
+
+.pull-left[
+## Input
+.quitesmall[
+
+The average GDP per capita is `` `r "\u0060r gapminder %>% mean(gdpPercap) %>% round(2)\u0060"` `` with a standard deviation of `` `r "\u0060r round(sd(gapminder$gdpPercap),2)\u0060"` `` .
+
+]
+
+]
+
+.pull-right[
+## Output
+
+.quitesmall[
+The average GDP per capita is $`r round(mean(gapminder$gdpPercap),2)` with a standard deviation of $`r round(sd(gapminder$gdpPercap),2)`. 
+
+]
+
+]
+
+---
+
+# Writing Text with Markdown
+
+.pull-left[
+.smaller[
+- [Markdown](https://en.wikipedia.org/wiki/Markdown) is a lightweight markup language geared towards HTML (i.e. the internet)
+    - [Markup languages](https://en.wikipedia.org/wiki/Markup_language) used to add commands about how to display plain text
+- Very simple and intuitive
+- Write normal text as usual in any word processor
+- Change font styling with tags (asterisks): 
+    - `*italics text*` creates *italics text*
+    - `**bold text**` creates **bold text** 
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/c2jq6hpqybksp6q/rmarkdownex2.png?raw=1)
+]
+]
+---
+
+# Writing Text with Markdown: Lists
+
+- Create an unordered list with lines of (- or + or * ), e.g.: 
+
+- Markdown is great for taking notes quickly!
+
+.pull-left[
+
+## Input
+
+```
+- item 1
+- item 2
+  - item 2a
+- item 3
+```
+
+]
+
+.pull-right[
+
+## Output
+
+- item 1
+- item 2
+  - item 2a
+- item 3
+
+]
+
+
+---
+
+# Writing Text with Markdown: Headings and Comments
+
+- Section headings are created with a `#` hashtag at the front of a line
+    - e.g. `# My Title` creates a main heading
+    - more hashtags create subheadings, e.g. `## My Sub-Heading`, `### My Sub-sub Heading`
+
+- You can write comments in the file that will not print in the final version with `<!-- Unprinted comments here -->` (this comes from html)
+
+---
+
+# Writing Text with Markdown: Tables
+
+.pull-left[
+
+## Input
+
+```markdown
+
+| Header 1 | Header 2 | 
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+```
+
+]
+
+.pull-right[
+
+## Output
+
+| Header 1 | Header 2 | 
+|----------|----------|
+| Cell 1   | Cell 2   |
+| Cell 3   | Cell 4   |
+
+]
+
+- For more complicated tables, there are other packages and techniques
+  - LaTeX (pdf only)
+  - `kableExtra` package
+  - `huxtable` package (for regression tables)
+  - `gt` package
+
+---
+
+# Writing Math I
+
+.smaller[
+
+- Add beautifully-formatted math with the `$` tag before and after the math, two `$$` before/after for a centered equation
+
+- In-line math example: `$1^2=\frac{\sqrt{16}}{4}$` produces $1^2=\frac{\sqrt{16}}{4}$
+
+- Centered-equation example: 
+
+]
+.pull-left[
+
+## Input
+
+.smallest[
+`$$` `\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle \sum_{i=1}^n (X_i-\bar{X})^2}` `$$`
+
+]
+
+]
+
+.pull-right[
+
+## Output 
+
+.smallest[
+
+$$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle \sum_{i=1}^n (X_i-\bar{X})^2}$$
+
+]
+]
+---
+
+# Writing Math II
+
+- Math uses a (much older) language called [LaTeX](http://en.wikipedia.org/wiki/LaTeX), used by mathematicians, economists, and others to write papers and slides with perfect math and formatting
+    - I used to use for everything before I found `R` and `markdown` 
+    - Producing `pdf` or `html` output actually converts `markdown` files into $\TeX{}$ first! (See [the process described below](#process))
+    - Much steeper learning curve, [a good cheatsheet](https://wch.github.io/latexsheet/latexsheet.pdf)
+    - An extensive library of mathematical symbols, notation, formats, and ligatures, e.g.
+
+---
+
+# Writing Math III 
+
+.quitesmall[
+
+| Input | Output |
+|----|----|
+| `$\alpha$` | $\alpha$ |
+| `$\pi$` | $\pi$ | 
+| `$\frac{1}{2}$` | $\frac{1}{2}$ | 
+| `$\hat{x}$` | $\hat{x}$ | 
+| `$\bar{y}$` | $\bar{y}$ | 
+| `$x_{1,2}$` | $x_{1,2}$ | 
+| `x^{a-1}$` | $x^{a-1}$ |
+| `$\lim_{x \to \infty}$` | $\lim_{x \to \infty}$ | 
+| `$A=\begin{bmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \\ \end{bmatrix}$` | $A=\begin{bmatrix} a_{1,1} & a_{1,2} \\ a_{2,1} & a_{2,2} \\ \end{bmatrix}$ | 
+
+]
+
+- A great resource: [Wikibooks LaTeX Mathematics chapter](https://en.wikibooks.org/wiki/LaTeX/Mathematics)
+
+---
+
+# Citations, References, and Bibliography
+
+- Manage your citations and bibliography automatically with `.bib` files 
+- First create a `.bib` file to list all of your references in
+    - You can do this in `R` via: File -> New File -> Text File (and save with `.bib` at the end)
+    - See `examplebib.bib` in this repository used in this document 
+    - At the top of your `YAML` header in the main document, add `bibliography: examplebib.bib` so `R` knows to pull references from this file 
+    - For each reference, add information to a `.bib` file, like so: 
+
+---
+
+# An Example .bib File
+
+.pull-left[
+
+```
+@article{safner2016,
+  author = {Ryan Safner},
+  year = {2016},
+  journal = {Journal of Institutional Economics},
+  title = {Institutional Entrepreneurship, Wikipedia, 
+           and the Opportunity of the Commons},
+  volume = {12},
+  number = {4},
+  pages = {743-771}
+}
+```
+]
+
+.pull-right[
+- A `.bib` file is a plain text file with entries like this
+
+- Classes for `@article`, `@book`, `@collectedwork`, `@unpublished`, etc. 
+    - Each will have different keys needed (e.g. `editor`, `publisher`, `address`)
+
+- First input after the `@article` is your **citation key** (e.g. `safner2016`)
+    - Whenever you want to cite this article, you'll invoke this key
+]
+---
+
+# An Example .bib File
+
+- Whenever you want to cite a work in your text, call up the **citation key** with `@`, like so: `@safner2016[]`, which produces @safner2016[]
+    - You can customize citations, e.g.:
+        - **All in parentheses**: `[@safner2016]` produces: (Safner, 2016)
+        - **No parentheses**: `@safner2016` produces: Safner 2016
+        - **Date only**: `[-@safner2016]` produces (2016)
+        - **Adding pages or comments**: `@safner2016[p.743-744 and passim]` produces (Safner, 2016, p.743-744 and passim)
+        
+- BibTeX will automatically collect all works cited at the end and produce a **bibliography** according to a style you can choose
+
+- We'll see more when we discuss writing your paper
+
+---
+
+# Reference Management Software
+
+- For more information and examples, see [R Studio's R Markdown Guide on Bibliographies](https://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html)
+- Lot of programs can help you manage references and export complete `.bib` files to use with `R Markdown`
+    - [Mendeley](https://www.mendeley.com) and [Zotero](https://www.zotero.org/) are free and cross-platform
+    - I use [Papers](https://www.readcube.com/papers/) (Paid and Mac only)
+    - Simplest program (what I use) that makes `.bib` files is [Bibdesk](https://bibdesk.sourceforge.io/)
+
+---
+
+# Plain-Text Editors
+
+- Markdown files are [**plain text**](https://en.wikipedia.org/wiki/Plain_text) files and can be edited in *any* text editor
+    - something as basic (and boring!) as "**Notepad**," for example
+    - many good [text editors](https://en.wikipedia.org/wiki/Text_editor) out there, I like [Typora](https://www.typora.io/) or [Ulysses](https://ulysses.app/) (Mac only) for writing (and previewing) Markdown in a simple interface, with no distractions
+
+- Any good editor will have **syntax highlighting** and **coloring** when you use tags (like **bold**, *italic*, `code`, and `code #comments`).
+
+.pull-left[
+.center[
+[Notepad++](https://notepad-plus-plus.org/)
+![](https://www.dropbox.com/s/rya3ntafbuablgw/notepad%2B%2B.jpg?raw=1)
+]
+]
+
+.pull-right[
+.center[
+[Sublime](www.sublimetext.com)
+![](https://www.dropbox.com/s/3dajm2u2i9hdyzd/sublime.png?raw=1)
+]
+
+]
+
+---
+
+# R Studio is My Text Editor of Choice
+
+- Honestly, I write **everything** in R Studio's text editor
+    - Syntax highlighting
+    - Actually can *run* R code, autocomplete, etc
+    - Can render the markdown to an output format: html, pdf, etc.
+
+- You can *write* R code in other text editors, but you can't *execute* them outside of *R Studio* (or the command line, but that's too advanced.) Same with actually rendering your markdown to an output (pdf, html, etc)
+
+---
+
+# Tips with Markdown
+
+- Empty space is *very important* in markdown 
+
+- Lines that begin with a space may not render properly
+
+- Math that contains spaces *between* the dollar-signs may not render properly
+
+- Moving from one type of content to another (e.g. a heading to a list to text to an equation to text) requires *blank lines between them* to work
+
+- Here is a [great general tutorial on markdown syntax](https://www.markdowntutorial.com/)
+
+---
+
+class: inverse, center, middle
+# Compiling Your Documents
+
+---
+
+# knitr
+
+.pull-left[
+- When you are ready, you "compile" your markdown and code into an output format using: 
+
+- [`knitr`](https://yihui.name/knitr/)<sup>.red[1]</sup>, an R package that "`knit`s" your R code and markdown `.Rmd` into a `.md` file for:  
+
+- [pandoc](http://pandoc.org) is a "swiss-army knife" utility that can convert between *dozens* of document types
+
+- All you need to do is click the `Knit` button at the top of the text editor!
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/kzvb8n8fpf6lstz/pandoc1.png?raw=1)
+
+]
+]
+.footnote[<sup>.red[1]</sup> `knitr` also relies on the `rmarkdown` package, which will probably be installed when you first `knit.`]
+---
+
+class: inverse, center, middle
+# R Projects
+
+---
+
+# R Projects I
+
+- A `R Project` is a way of systematically organizing your `R` history, working directory, and related files in a single package
+- Can easily be sent to others who can reproduce your work easily 
+- Connects well with version control software like GitHub
+- Can open multiple projects in multiple windows
+
+---
+
+# R Projects II
+
+- Projects solve all of the following problems:
+    1. Organizing your files (data, plots, text, citations, etc)
+    2. Having an accessible working directory (for loading and saving data, plots, etc)
+    3. Saving and reloading your commands history and preferences
+    4. Sending files to collaborators, so they have the same working directory as you
+
+---
+
+# Creating a Project I
+
+.center[
+![](https://www.dropbox.com/s/h3oucgn03cl0o52/project1.png?raw=1)
+
+]
+
+---
+
+# Creating a Project II
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/mfstq4g7enq6vxo/project2.png?raw=1)
+]
+]
+
+.pull-right[
+
+- In almost all cases, you simply want a `New Project`
+
+- For more advanced uses, your project can be an `R Package` or a `Shiny Web Application`
+
+- If you have other packages that create templates installed (as I do, in the previous image), they will also show up as options
+
+]
+
+---
+
+# Creating a Project III
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/qx93q89x0yoojpk/project3.png?raw=1)
+]
+]
+
+.pull-right[
+
+- Enter a name for the project in the top field 
+    - Also creates a folder on your computer with the name you enter into the field
+    
+- Choose the location of the folder on your computer
+
+- Depending on if you have other packages or utilities installed (such as `git`, see below!), there may be additional options, do not check them unless you know what you are doing
+
+- Bottom left checkbox allows you to open a new instance (window) of `R` just for this project (and keep existing windows open)
+]
+
+---
+
+# Projects
+
+.pull-left[
+.center[
+![:scale 50%](https://www.dropbox.com/s/266cs7tuuxgurfv/projectswitcher.png?raw=1)
+]
+Switch between each project (Window) on your computer (this is on a Mac). 
+
+]
+
+.pull-right[
+.center[
+![:scale 40%](https://www.dropbox.com/s/evb7npimklwuyyk/projectlist.png?raw=1)
+]
+- At top right corner of RStudio
+    - Click the button to the right of the name to open in a new window!
+
+]
+
+---
+
+# Loading Others' Projects
+
+.center[
+![:scale 70%](https://www.dropbox.com/s/i1ijatt56ncxi0e/github%202.png?raw=1)
+]
+- This project is on [GitHub](http://github.com/ryansafner/workflow)
+- Click the green button, download to your computer, open `.Rproj` file in R Studio
+
+
+
+---
+
+# A Good File Structure
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/kaby3i11svyj81b/projectfiles.png?raw=1)
+]
+]
+
+.pull-right[
+- Look through this on your own
+- Read the `README` of this repository on GitHub for instructions (automatically shows on the main page)
+- Look at the `Example_paper.Rmd`
+    - Uses data from **Data** folder
+    - Uses `.R` scripts from **Scripts** folder
+    - Uses figures from **Figures** folder 
+    - Uses `bibexample.bib` from **Bibliography** folder
+- This file is `workflow.presentation.Rmd` in **Presentation** folder
+]
+
+---
+
+class: inverse, center, middle
+
+# Version Control
+
+---
+
+# Have You Done This?
+
+.center[
+![](https://www.dropbox.com/s/c4a2e8p176yb79c/phdfinal1.png?raw=1)
+
+.source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
+]
+
+---
+
+# Have You Done This?
+
+.center[
+![](https://www.dropbox.com/s/b5xu55iym9jjphd/phdfinal2.png?raw=1)
+
+.source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
+]
+---
+
+# Have You Done This?
+
+.center[
+![](https://www.dropbox.com/s/434uy4d8wiuop3a/phdfinal3.png?raw=1)
+
+.source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
+]
+
+---
+
+# Do You Want to Be Able To
+
+.pull-left[
+
+- Keep your files backed up
+
+- Track changes
+
+- Collaborate on the same files with others
+
+- Edit files on one computer and then open and continue working on another?
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/aulqgvdy9u71hai/versioncontrol.png?raw=1)
+]
+]
+---
+
+# The Training-Wheels Version
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/lj4g0lvwkopd9vf/dropbox.png?raw=1)
+
+[Dropbox.com](http://dropbox.com)
+]
+]
+.pull-right[
+- Register an account for free 
+
+- Set up a location on your computer for the `Dropbox/` folder
+
+- Anything you put in this folder will sync to the cloud 
+    - As soon as you change files, they *automatically* update and sync!
+    - Can download any of these flies from the *website* on any device
+    - Set this up on multiple computers so when you change a file on one, it updates on all the others! 
+
+]
+---
+
+# The Training-Wheels Version
+
+.center[
+![:scale 80%](https://www.dropbox.com/s/inlmf8znau7kbzz/mydropbox.png?raw=1)
+
+My Dropbox - my life goes here
+]
+]
+
+---
+
+# The Expert Version
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/hm2bquswiqmk4ac/git.png?raw=1)
+
+![](https://www.dropbox.com/s/5mmsx958d0l0a2j/github.png?raw=1)
+
+]
+]
+.pull-right[
+- `Git` is an "open source distributed version control system" *widely* used in the software development industry
+
+- Track changes **on steroids**
+    - Organize folders/files to track (a `"repository"`)
+    - Take a snapshot of all of your files (a "`commit`") with "`comment`s"
+    - `push` these to the cloud
+    - `pull` changes to (other) computers as needed
+
+- [`GitHub`](http://github.com) is a popular (not the only!) cloud destination for these repositories
+
+]
+
+---
+
+# The Expert Version
+
+.pull-left[
+.center[
+![:scale 75%](https://www.dropbox.com/s/0493d7zw6ixzq9i/gitbranches.png?raw=1)
+]
+]
+.pull-right[
+- Shows history (`versions`) of files with comments
+    - Can `fork` or `branch` repository into multiple versions at once
+    - Good for "testing" things out without destroying old versions!
+    - `revert` back to original versions as needed
+
+]
+
+---
+
+# The Expert Version
+
+.center[
+![:scale 60%](https://www.dropbox.com/s/egfojonn2s54dk2/basic-remote-workflow.png?raw=1)
+]
+
+---
+
+# The Expert Version
+
+- Requires *some* advanced set up, see [this excellent guide](http://happygitwithr.com/)
+
+- R Studio integrates git and github commands nicely
+
+
+---
+
+# This Class on GitHub
+
+.pull-left[
+.center[
+![:scale 100%](https://www.dropbox.com/s/arjk6zvbxaxqp8b/gitmetrics1.png?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/e9cbyzls160yvzt/gitmetrics2.png?raw=1)
+]
+]
+
+.center[
+[github.com/ryansafner/metricsF19](http://github.com/ryansafner/metricsF19)
+]
+---
+
+# Most Packages Start on GitHub
+
+.pull-left[
+.center[
+![:scale 100%](https://www.dropbox.com/s/urrisfpf9u39s2v/githubtidyverse.png?raw=1)
+
+[github.com/tidyverse/tidyverse](https://github.com/tidyverse/tidyverse)
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/3a8hmg9hgcl9ojx/githubgapminder.png?raw=1)
+
+[github.com/jennybc/gapminder](https://github.com/jennybc/gapminder)
+
+]
+]
+
+---
+
+# My Workflow (that I suggest to you)
+
+.quitesmall[
+1. Create a new repository on Github.<sup>.red[*]</sup>
+2. Start a New R Project in R Studio (link it to the github repository<sup>.red[*]</sup> - [see guide](http://happygitwithr.com))
+3. Create a logical file system ([see example](https://github.com/ryansafner/workflow)), such as:
+```
+project # folder on my computer (the new working directory)
+|
+|- Data/ # folder for data files 
+|- Scripts/ # folder .R code
+|- Bibliography/ # folder for .bib files
+|- Figures/ # folder to plots and figures to
+|- paper.Rmd # write document here
+```
+4. Write document in `paper.Rmd`, loading/saving files from/to various folders in project
+    - e.g. load data like `df<-read_csv("Data/my_data")`; save plots like `ggsave("Figures/p.png")`
+5. Knit document to `pdf` or `html`.
+6. Occasionally, `stage` and `commit` changes with a description, `push` to GitHub.<sup>.red[*]</sup>
+
+]
+
+.footnote[<sup>.red[*]</sup> Optional and a bit advanced, remember this is _my_ workflow.]
+---
+
+# Resources
+
+1. R Studio's [R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) for a quick overview of R markdown 
+2. R Studio's [Overview of R Markdown](https://rmarkdown.rstudio.com/) for some tutorials 
+3. R Studio's [R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) for more specific options and issues
+4. Kieran Healey's [The Plain Person's Guide to Plain Text Social Science](http://plain-text.co) on managing workflow with plain text files, R, and Git
+5. Yihui Xie's (and coauthors) [R Markdown: the Definitive Guide](https://bookdown.org/yihui/rmarkdown/) on R Markdown syntax and customization options
+6. Hadley Wickham's (and Garrett Grolemund) [R for Data Science](http://r4ds.had.co.nz/) on how to use R and R Markdown for data science work
+7. Jenny Bryan's [Happy Git with R](http://happygitwithr.com/) on how to use git and GitHub with R as a version control system

@@ -111,13 +111,13 @@ Note: `ggplot2, tibble, magrittr, dplyr, readr` are all part of the `tidyverse`.
 
 | Name | Type | Description/Reason(s) for Use | Classes Used |
 |------|------|-------------|------|
-| `ggplot2` | Plotting | For nice plots | [[1.3](/class/1.2-class)] | 
-| `haven` | Data Wrangling | For importing nonstandard data files | | 
-| `dplyr` | Data Wrangling | For manipulating data (part of tidyverse) | |
-| `readr` | Data Wrangling | For importing most data files | | 
-| `tidyr` | Data Wrangling | For reshaping data (wide and long) | |
-| `magrittr` | Data Wrangling | For the pipe | |
-| `tibble` | Data Wrangling | For a friendlier data.frame | | 
+| `ggplot2` | Plotting | For nice plots | [[1.3](/class/1.3-class)] | 
+| `haven` | Data Wrangling | For importing nonstandard data files | [[1.4](/class/1.4-class)] | 
+| `dplyr` | Data Wrangling | For manipulating data (part of tidyverse) | [[1.4](/class/1.4-class)] |
+| `readr` | Data Wrangling | For importing most data files | [[1.4](/class/1.4-class)] | 
+| `tidyr` | Data Wrangling | For reshaping data (wide and long) | [[1.4](/class/1.4-class)] |
+| `magrittr` | Data Wrangling | For the pipe | [[1.4](/class/1.4-class)] |
+| `tibble` | Data Wrangling | For a friendlier data.frame | [[1.4](/class/1.4-class)] | 
 | `car` | Models | For testing for outliers | |
 | `estimatr` | Models | For calculating robust standard errors | |
 | `lmtest` | Models | For testing for heteroskedasticity | |
