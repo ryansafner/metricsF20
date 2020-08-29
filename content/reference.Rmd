@@ -286,3 +286,31 @@ Below is a list of good data sources depending on the types of topics you might 
 - Religion Data: [American Religion Data Archiva (ARDA)](http://www.arda.tm/)
 - Financial Data: [Financial Data Finder](http://www.cob.ohio-state.edu/cgi-bin/DB_Search/db_search.cgi?setup_file=finance.setup.cgi){Financial Data Finder}
 - Philanthropy Data: [The Urban Institute](http://nccs.urban.org/)
+
+# How to Make a PDF (For Submitting Assignments)
+
+Most modern versions of operating system have a built-in tool in the File Viewer (or Finder) menus, after clicking on one or multiple files, to create a PDF from the files.
+
+So first take photos on your smartphone of your written work (one photo per page). **Please try to frame your photos properly!** Put your paper flat on a solid surface (table, desk, the floor, etc). Get the whole page within the borders of the photo, and not too much background. I don't need to see half of your desk or bed as you are taking the photo! Take a look at it and make sure it is legible.
+
+Next, get the photos onto your computer (whether by Airdrop, email to yourself, Dropbox, etc.). Finally, depending on your OS, convert the files to a PDF:
+
+**1. On a Windows PC**
+
+Open the folder where your photos are currently, in the File Explorer. Select all of the photos, and right click, and select `Print`. In the dialog box that pops up, select `Microsoft Print to PDF` in the `Printer` box, and then click `Print.` This will save it as a `.pdf` file in that folder. [See more information](https://www.howtogeek.com/361612/how-to-create-a-pdf-file-in-windows/).
+
+**2. On a Mac**
+
+As I use a Mac, I will show you how Mac OS has a neat feature built into Finder, which allows converting multiple files into a single PDF file as a Quick Action. I have written two pages in a notebook and taken two separate pictures of them, and airdropped them onto my computer.
+
+![](/images/photos_to_pdf1.png)
+
+![](/images/photos_to_pdf2.png)
+
+![](/images/photos_to_pdf3.png)
+
+Here is the [<i class="fas fa-file-pdf"></i> example PDF](../files/photos_to_pdf.pdf).
+
+**3. On Linux**
+
+If you use Linux, I assume you know your way around a computer well enough to make a PDF! 🤖

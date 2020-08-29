@@ -1,0 +1,82 @@
+---
+title: "Problem Set 1"
+author: "ECON 480 — Fall 2020"
+date: "Due by 11:59 PM Sunday September 6, 2020"
+output:
+  pdf_document:
+    latex_engine: xelatex
+---
+
+# The Popularity of Baby Names
+
+Install and load the package `babynames`. Get help for `?babynames` to see what the data includes.
+
+1. 
+a. What are the top 5 boys names for 2017, and what *percent* of overall names is each?
+
+\vspace{3in}
+
+b. What are the top 5 *girls* names, and what *percent* of overall names is each?
+
+\vspace{3in}
+
+2. Make two barplots, of these top 5 names, one for each sex. Map `aes`thetics `x` to `name` and `y` to `prop`^[Or `percent`, if you made that variable, as I did.] and use `geom_col` (since you are declaring a specific `y`, otherwise you could just use `geom_bar()` and just an `x`.)
+
+\clearpage
+
+3. Find your name.^[If your name isn't in there 😟, pick a random name.] `count` by `sex` how many babies since 1880 were named your name.^[Hint: if you do this, you'll get the number of *rows* (years) there are in the data. You want to add the number of babies in each row (`n`), so inside `count`, add `wt=n` to weight the count by `n`.] Also add a variable for the percent of each sex. 
+
+\vspace{3in}
+
+4. Make a line graph of the number of babies with your name over time, `color`ed by `sex`.
+
+
+\clearpage
+5.
+a. Make a table of the most common name for boys by year between 1980-2017.^[Hint: once you've got all the right conditions, you'll get a table with a lot of data. You only want to `slice` the `1`st row for each table.]
+
+\vspace{3in}
+
+b. Now do the same for girls.
+
+\clearpage
+
+6. Now let's graph the evolution of the most common names since 1880.
+a. First, find out what are the top 10 *overall* most popular names for boys and for girls. You may want to create two vectors, each with these top 5 names.
+
+b. Now make two `line`graphs of these 5 names over time, one for boys, and one for girls.
+
+\vspace{3in}
+
+7. **Bonus (hard!)**: What are the 10 most common "gender-neutral" names?^[This is hard to define. For our purposes, let's define this as names where between 48 and 52% of the babies with the name are Male.]
+
+\clearpage
+
+# Political and Economic Freedom Around the World
+
+For the remaining questions, we'll look at the relationship between Economic Freedom and Political Freedom in countries around the world today. Our data for economic freedom comes from the [Fraser Institute](https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&year=2016&page=dataset), and our data for political freedom comes from [Freedom House](https://freedomhouse.org/content/freedom-world-data-and-resources). 
+
+8. Download these two datasets that I've cleaned up a bit:^[If you want, try downloading them from the websites yourself!]
+
+- [<i class="fas fa-table"></i> `econfreedom.csv`](http://metricsf20.classes.ryansafner.com/data/econfreedom.csv)
+- [<i class="fas fa-table"></i> `freedomhouse2018.csv`](http://metricsf20.classes.ryansafner.com/data/freedomhouse2018.csv)
+
+9. Load them with `df<-read_csv("name_of_the_file.csv")` and save one as `econfreedom` and the other as `polfreedom`. Look at each `tibble` you've created.
+
+10.  The `polfreedom` dataset is still a bit messy. Let's overwrite it (or assign to something like `polfreedom2`) and select `Country.Territory` and `Total` (total freedom score) and rename `Country.Territory` to `Country`. 
+
+
+11. Now we can try to merge these two datasets into one. Since they both have `Country` as a variable, we can merge these tibbles using `left_join(econfreedom, polfreedom, by="Country")`^[Note, if you saved as something else in question 9., use that instead of `polfreedom`!] and save this as a new tibble (something like `freedom`). 
+
+\vspace{3in}
+
+12. Now make a scatterplot of Political Freedom (`total`)^[Feel free to `rename` these!] as `y` on Economic Freedom (`ef`) as `x` and `color` by `continent`.
+
+
+\clearpage
+
+13. Let's do this again, but highlight some key countries. Pick three countries, and make a new tibble from `freedom` that is only the observations of those countries. Additionally, *install* and *load* a packaged called `ggrepel`^[This automatically adjusts labels so they don't cover points on a plot!] Next, redo your plot from question 11, but now add a layer: `geom_label_repel` and set its `data` to your three-country tibble, use same `aes`thetics as your overall plot, but be sure to add `label = ISO`, to use the ISO country code to label.^[You might also want to set a low `alpha` level to make sure the labels don't obscure other points!]
+
+\vspace{2in}
+
+14.  Make another plot similar to f, except this time use GDP per Capita (`gdp`) as `y`. Feel free to try to put a regression line with `geom_smooth()`!^[If you do, be sure to set its data to the full `freedom`, not just your three countries!] Those of you in my Development course, you just made my graphs from [Lesson 2](https://devf19.classes.ryansafner.com/slides/02-slides#23)!
