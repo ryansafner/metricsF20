@@ -10,9 +10,9 @@ library(pander)
 ```
 
 - [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1555051)
-- - [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/1.4-r-practice-answers.html)
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/1.4-r-practice-answers.html)
 - [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/1.4-r-practice-answers.Rmd)
-- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/1.4-r-practice-answers.R) -->
+- [<i class="fas fa-registered"></i> `Answer Key (R Script)`](/r/1.4-r-practice-answers.R)
 
 # Getting Set Up
 

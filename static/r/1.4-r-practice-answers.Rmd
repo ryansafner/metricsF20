@@ -259,14 +259,16 @@ majors<-read_csv("../data/recent-grads.csv") # note my location on my computer i
 
 # Wrangling Data (with `dplyr`)
 
-## 19. Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
+## 19. 
+
+#### Look at the data with `glimpse()`. This is a suped-up version of `str()` in `tidyverse`. 
 
 ```{r}
 glimpse(majors)
 ```
 
 ## 20.
-What are all of the unique values of `Major`? How many are there?
+#### What are all of the unique values of `Major`? How many are there?
 
 ```{r}
 majors %>%
@@ -277,7 +279,7 @@ majors %>%
 ```
 
 ## 21.
-### Which major has the lowest unemployment rate?
+#### Which major has the lowest unemployment rate?
 
 ```{r}
 majors %>%
