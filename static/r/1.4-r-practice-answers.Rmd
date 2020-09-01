@@ -29,8 +29,8 @@ library("tidyverse")
 
 # Warm Up to `dplyr` With `gapminder`
 
-## 
-#### 1. Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
+## 1.
+#### Load `gapminder`. `select()` the variables `year`, `lifeExp`, `country`.
 
 ```{r}
 library(gapminder)
@@ -42,8 +42,8 @@ gapminder %>%
   select(c(year, lifeExp, country))
 ```
 
-## 
-#### 2. `select()` all variables *except* `pop`.
+## 2.
+#### `select()` all variables *except* `pop`.
 
 ```{r}
 # select(gapminder, -pop)
@@ -54,8 +54,8 @@ gapminder %>%
   select(-pop)
 ```
 
-## 
-#### 3. `rename()` `continent` to `cont`.
+## 3.
+#### `rename()` `continent` to `cont`.
 
 ```{r}
 # rename(gapminder, cont=continent)
