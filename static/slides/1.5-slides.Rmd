@@ -1030,6 +1030,7 @@ class: inverse, center, middle
 # knitr
 
 .pull-left[
+.smallest[
 - When you are ready, you "compile" your markdown and code into an output format using: 
 
 - [`knitr`](https://yihui.name/knitr/)<sup>.red[1]</sup>, an R package that "`knit`s" your R code and markdown `.Rmd` into a `.md` file for:  
@@ -1038,7 +1039,7 @@ class: inverse, center, middle
 
 - All you need to do is click the `Knit` button at the top of the text editor!
 ]
-
+]
 .pull-right[
 .center[
 ![](../images/pandoc1.png)
@@ -1273,7 +1274,7 @@ My Dropbox - my life goes here
 # The Training-Wheels Version
 
 .center[
-![:scale 70%](../images/dropboxsmartsync.png)
+![:scale 60%](../images/dropboxsmartsync.png)
 
 .quitesmall[
 Smart Sync - keep some files online only for space
