@@ -122,7 +122,7 @@ gapminder %>%
 ```
 
 ## 9.
-#### Try out the pipe (`%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
+#### Try out the pipe (`%>%`) if you haven't already, by chaining commands: `select()` your data to look only at `year`, `gdpPercap`, and `country` in the year `1997`, for countries that have a `gdpPercap` greater than 20,000, and `arrange()` them alphabetically.
 
 ```{r}
 gapminder %>%
@@ -298,7 +298,7 @@ majors %>%
 
 ```
 
-### 23. 
+## 23. 
 #### Make a boxplot of `Median` wage by `Major_Category`.^[You won't be able to read the labels easily, so add `theme(axis.text.x=element_text(angle=45, hjust=1)` to angle `x`-axis labels (and move them down by 1)]
 
 ```{r}
@@ -311,7 +311,7 @@ ggplot(data = majors)+
 ```
 
 
-### 24.
+## 24.
 #### Which major category is the least popular in this sample?^[Hint: use `group_by` first.]
 
 ```{r}
@@ -321,7 +321,7 @@ majors %>%
   arrange(n)
 ```
 
-### 25. 
+## 25. 
 #### Is there a systematic difference between STEM majors and non-STEM majors? First define: 
 
 
