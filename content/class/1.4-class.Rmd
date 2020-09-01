@@ -17,6 +17,10 @@ editor_options:
 
 Today we will cover the heart of `tidyverse` and use it for ["data wrangling"](https://en.wikipedia.org/wiki/Data_wrangling). Today will again be *a lot* of content thrown at you, so you can look back at this as a reference all semester. Then we will do more practice problems.
 
+# Readings
+
+Please see [today's readings](/reading/1.4-reading) for more information, resources, cheetsheets, and tips.
+
 # Slides
 
 - [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.4-slides.html)

@@ -27,8 +27,12 @@ lessons:
     reading: "1.4-reading"
     r: "1.4-r-practice"
 
-  - title: "1.5 Optimize Workflow: Projects, Markdown, and Git"
-
+  - title: "1.5 Optimize Workflow: Markdown, Projects, and Git"
+    class: "1.5-class"
+    slides: "1.5-slides"
+    reading: "1.5-reading"
+    r: "1.5-r-practice"
+    
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1** due Sun Sept 6'
     assignment: "01-problem-set"
 

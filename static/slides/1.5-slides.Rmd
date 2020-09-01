@@ -75,7 +75,7 @@ class: inverse, middle, center
 ]
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/xtg1neu883j6r10/workflow.jpg?raw=1)
+![](../images/workflow.jpg)
 ]
 ]
 ---
@@ -109,7 +109,7 @@ class: inverse, center, middle
 ]
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/9zu9f3x4rhec0dt/msofficemodel.png?raw=1)
+![](../images/msofficemodel.png)
 ]
 ]
 
@@ -124,13 +124,13 @@ class: inverse, center, middle
 - A lot of...
 
 .center[
-![](https://www.dropbox.com/s/1b2gwpck4pdd7gl/wysiwygproblem.jpg?raw=1)
+![](../images/wysiwygproblem.jpg)
 ]
 ]
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/9zu9f3x4rhec0dt/msofficemodel.png?raw=1)
+![](../images/msofficemodel.png)
 ]
 ]
 
@@ -148,7 +148,7 @@ class: inverse, center, middle
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/cqcy9l5czztgpu3/excelfail1.png?raw=1)
+![](../images/excelfail1.png)
 
 Source: [Science Magazine](https://www.sciencemag.org/news/2016/08/one-five-genetics-papers-contains-errors-thanks-microsoft-excel)
 ]
@@ -156,7 +156,7 @@ Source: [Science Magazine](https://www.sciencemag.org/news/2016/08/one-five-gene
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/1a7mdlthfv6r8x8/excelfail2.png?raw=1)
+![](../images/excelfail2.png)
 
 Source: [Bloomberg](https://www.bloomberg.com/news/articles/2013-04-18/faq-reinhart-rogoff-and-the-excel-error-that-changed-history)
 ]
@@ -173,10 +173,10 @@ Source: [Bloomberg](https://www.bloomberg.com/news/articles/2013-04-18/faq-reinh
 
 ---
 
-# What I'm About to Show You
+# ...The Rest of the Owl
 
 .center[
-![](https://www.dropbox.com/s/ze75ntay9kp3yjf/drawanowl.jpg?raw=1)
+![](../images/drawanowl.jpg)
 ]
 
 ---
@@ -200,7 +200,7 @@ Source: [Bloomberg](https://www.bloomberg.com/news/articles/2013-04-18/faq-reinh
 ]
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/546o01icserlone/rmdout.png?raw=1)
+![](../images/rmdout.png)
 ]
 ]
 ---
@@ -230,7 +230,7 @@ class: inverse, center, middle
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/546o01icserlone/rmdout.png?raw=1)
+![](../images/rmdout.png)
 
 .smaller[
 From [R Studio's R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf)
@@ -242,19 +242,40 @@ From [R Studio's R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploa
 
 # The Plain Text Model II
 
-- .shout[Plain text] files: readable by *both* machines and humans
+.pull-left[
+- .hi[Plain text] files: readable by *both* machines and humans
     - Understand how a document is structured and formatted via code and markup to text
 
 - Focus entirely on the *actual writing of the content* instead of the formatting and aesthetics
     - You can still customize, but with precise commands instead of point, click, drag, guess, pray
 
+]
+
+.pull-right[
+.center[
+![](../images/readable.png)
+]
+]
+
+---
+
+# The Plain Text Model III
+
+.pull-left[
 - **Open Source**: free, useable forever, often very small file size
-    - Proprietary software is a gamble - can you still open a `.doc` file from Microsoft Word 1997?
+  - Proprietary software is a gamble - can you still open a `.doc` file from Microsoft Word 1997?
 
 - **Automate and Minimize Errors**, especially in repetitive processes
 
 - Can be used with **version control** (see below)
 
+]
+
+.pull-right[
+.center[
+![](../images/open-source.png)
+]
+]
 ---
 
 # Making Your Work Reproducible
@@ -266,15 +287,15 @@ Where does your analysis "live"?
 
 - We've talked about `.R` script files that let you "keep" commands
 
-- What about output? Must you save and copy/paste to MS Word? 
-
-- No!
+- What about output? Must you save and copy/paste to MS Word? .hi[No!]
 
 ---
 
 # Making Your Work Reproducible
 
-- `R Markdown` files (`.Rmd`) is the "real" part of your analysis, *everything* can live in this plain-text file.
+.pull-left[
+
+- `R Markdown` file (`.Rmd`) is the "real" part of your analysis, *everything* can live in this plain-text file!
 
 - Document text in `markdown`
 
@@ -284,13 +305,21 @@ Where does your analysis "live"?
 
 - Citations and bibliography automated with `.bib` file
 
+]
+
+.pull-right[
+.center[
+![](../images/reproducible.jpg)
+]
+]
+
 ---
 
 # The Future of Science is Open Source Plain Text
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/lw9fouq57tpic9p/notebooks1.png?raw=1)
+![](../images/notebooks1.png)
 
 Source: [The Atlantic](https://www.theatlantic.com/science/archive/2018/04/the-scientific-paper-is-obsolete/556676/)
 ]
@@ -298,7 +327,7 @@ Source: [The Atlantic](https://www.theatlantic.com/science/archive/2018/04/the-s
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/e8pnjaqp2xbovit/notebooks2.png?raw=1)
+![](../images/notebooks2.png)
 
 Source: [Paul Romer (2018 Economics Nobel)](https://paulromer.net/jupyter-mathematica-and-the-future-of-the-research-paper/)
 ]
@@ -315,19 +344,20 @@ class: inverse, center, middle
 
 .pull-left[
 
-- `File -> New File -> R Markdown...`
+.smaller[
+`File -> New File -> R Markdown...`
 
 - Outputs:
-    - Document (what you'll use for most things)
-    - Presentation (for making slides in various formats)
-    - Shiny (an html and R based web app, advanced)
-    - Templates (some built-in, other packages like `rticles` or `xaringan` add neat templates)
-
+  - Document (what you'll use for most things)
+  - Presentation (for making slides in various formats)
+  - Shiny (an html and R based web app, advanced)
+  - Templates (some built-in, other packages like `rticles` or `xaringan` add neat templates)
+]
 ]
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/ebf8lod67dqvaoe/newrmarkdown.png?raw=1)
+![](../images/newrmarkdown.png)
 ]
 ]
 
@@ -335,19 +365,27 @@ class: inverse, center, middle
 
 # Creating an R Markdown Document II
 
+.pull-left[
+.smallest[
+`File -> New File -> R Markdown...`
 
-- `File -> New File -> R Markdown...`
+- `html`: renders a webpage, viewable in any browser
+  - default, easiest to produce and share
+  - can have interactive elements (gifs, animations, web apps)
+  - requires internet connection to host and share (*you* can view offline)
+- `pdf`: renders a PDF document
+  - most common document format around
+  - requires `LaTeX` distribution to render (more on that soon)
+- `word`: create a Micosoft Word document
+  - ...if you must
+]
+]
 
-- Documents:
-    - `html`: renders a webpage, viewable in any browser
-        - default, easiest to produce and share
-        - can have interactive elements (gifs, animations, web apps)
-        - requires internet connection to host and share (*you* can view offline)
-    - `pdf`: renders a PDF document
-        - most common document format around
-        - requires `LaTeX` distribution to render (more on that soon)
-    - `word`: create a Micosoft Word document
-        - ...if you must
+.pull-right[
+.center[
+![](../images/newrmarkdown.png)
+]
+]
 
 
 ---
@@ -356,7 +394,7 @@ class: inverse, center, middle
 
 .pull-left[
 
-- Entire document is written in a single file:<sup>.red[1]<sup>
+Entire document is written in a single file:<sup>.red[1]<sup> with three types of content:
 
 1. `YAML` header for metadata
 
@@ -364,7 +402,7 @@ class: inverse, center, middle
 
 3. `R` chunks for data analysis, plots, figures, tables, statistics, as necessary
 
-.footnote[<sup>.red[1]</sup> The one exception is for managing bibliographies, this requires an additional `.bib` file!]
+.footnote[<sup>.red[1]</sup> The one exception is for managing bibliographies, this requires one additional `.bib` file!]
 
 ]
 
@@ -372,7 +410,7 @@ class: inverse, center, middle
 .pull-right[
 
 .center[
-![](https://www.dropbox.com/s/og99cl4vw761m1n/rmarkdownex1.png?raw=1)
+![](../images/rmarkdownex1.png)
 ]
 ]
 
@@ -387,21 +425,21 @@ class: inverse, center, middle
 ```{yaml}
 title: "My Title"
 author: "Ryan Safner"
-date: "`r Sys.Date()`"
+date: "`r Sys.Date()`" # here I'm using R code to generate today's date!
 output: pdf_document
 ```
 
-- `output` must be specified, everything else can be left blank, and other options can be added as necessary
+- `output` *must* be specified, everything else can be left blank, and other options can be added as necessary
 
 - In most cases, you can safely ignore other things in the `yaml` until you are ready
 
-- `output` must be 
 .footnote[<sup>.red[1]</sup> YAML stands for "YAML Ain't Markup Language." Nerds love recursive acronyms.]
 
 ---
 
 # YAML Header: Example from one of my research papers
 
+.code50[
 ```{yaml}
 title: Distributing Patronage^[I would like to thank the Board of Associates of Hood College...]
 subtitle: Intellectual Property in the Transition from Natural State to Open Access Order
@@ -428,12 +466,14 @@ header-includes:
     - \usepackage{booktabs}
 ```
 
+]
+
 ---
 
 # R Chunks I
 
-- You can create a "chunk" of `R` code with three backticks<sup>.red[1]</sup> above and below your code
-- After the first pair of backticks, signify the language of the code<sup>.red[2]</sup> inside braces, e.g:
+- You can create a .hi["chunk"] of `R` code with .hi-purple[three backticks]<sup>.red[1]</sup> above and below your code
+- After the first pair of backticks, signify the .hi-purple[language] of the code<sup>.red[2]</sup> inside braces, e.g:
 
 .pull-left[
 
@@ -441,7 +481,7 @@ header-includes:
 
 ````markdown
 `r ''````{r}
-2+2
+2+2 # code goes here!
 ```
 ````
 
@@ -452,12 +492,12 @@ header-includes:
 ## Output
 
 ```{r, echo=T}
-2+2
+2+2 # code goes here!
 ```
 
 ]
 
-.footnote[<sup>.red[1]</sup> The key to the left of the #1 key.
+.footnote[<sup>.red[1]</sup> The key to the left of the #1 key on your keyboard.
 
 <sup>.red[2]</sup> Yes that does mean you can use other coding languages!]
 
@@ -524,20 +564,37 @@ ggplot(data = mpg)+
 
 # R Chunks Options
 
+.pull-left[
+.quitesmall[
 - You can add [additional options](https://yihui.name/knitr/options/) inside the `{braces}` after `r`, some common options:
 
-- **Name**: you can name your chunk for further reference later (not required)<sup>.red[1]</sup>
+- .hi-purple[Name]: you can name your chunk for further reference later (not required)<sup>.red[1]</sup>
+  - This is the only option that goes after `r` but *before* a comma
 
-- `echo` set `=TRUE` to display the `R` code input; `=FALSE` shows will not show your code
+- `echo`
+  - set `=TRUE` to display the `R` code input
+  - set `=FALSE` shows will not show your code
 
-- `eval` set `=TRUE` to run your code; `=FALSE` only displays your code without running it
+- `eval`
+  - set `=TRUE` to run your code
+  - `=FALSE` only displays your code without running it
 
 - `fig` has a lot of options for displaying plot outputs (`fig.height`, `fig.width`, `fig.asp`, etc)
 
 - `results` will format the output of a chunk in a certain way (used for advanced things we'll talk about later)
 
-.footnote[<sup>.red[1]</sup> The chunk name is the only thing that needs to go right next to `r` without a comma. Everything else needs to go after a comma, e.g. `{r my_chunk, echo=F}`]
+]
 
+]
+
+.pull-right[
+
+````markdown
+`r ''````{r my_cool_chunk, echo=F, warning = F}
+```
+````
+
+]
 ---
 
 # R Chunks Options Example
@@ -593,12 +650,43 @@ ggplot(data = mpg)+
 
 ---
 
+# R Chunks Options: Set Defaults
+
+.pull-left[
+.smallest[
+- If you want to be fancy, you can set global options that affect *all chunks*
+
+- Use a special named `setup` chunk at top (comes in default `.Rmd` template)
+  - set global options inside the `knitr::opts_chunk$set()` command
+
+- Example on right is what I commonly use in my slides:
+  - hide all code by default
+  - hide all messages and warnings (from slides)
+  - make figure resolution
+]
+]
+
+.pull-right[
+
+````markdown
+`r ''````{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.retina = 3)
+```
+````
+]
+
+---
 
 # R Inline Code I
 
-- If you just want to display some code (or at least format it like code) in the middle of a sentence, `place between a backtick on either side.` That's what I do when I mention `tidyverse` or `gapminder`.
+.smaller[
+- If you just want to display some code (or at least format it like code) in the middle of a sentence, .hi-purple[place between a single backtick (`) on either side.] If I mention `tidyverse` or `gapminder`, it formats the text as `in-line code`.
 
-- If you want to actually *run* something from `R` and have it show up in the middle of a sentence, put `r` as the first character inside the backticks, and then run the actual code such as pi is equal to `r pi`.
+- To actually *execute* `R` code to output something in the middle of a sentence, put `r` as the first character inside the backticks, and then run the actual code such as pi is equal to `r pi`.
+]
 
 .pull-left[
 
@@ -657,7 +745,7 @@ The average GDP per capita is $`r round(mean(gapminder$gdpPercap),2)` with a sta
 
 .pull-right[
 .center[
-![:scale 100%](https://www.dropbox.com/s/c2jq6hpqybksp6q/rmarkdownex2.png?raw=1)
+![:scale 100%](../images/rmarkdownex2.png)
 ]
 ]
 ---
@@ -695,13 +783,17 @@ The average GDP per capita is $`r round(mean(gapminder$gdpPercap),2)` with a sta
 
 ---
 
-# Writing Text with Markdown: Headings and Comments
+# Writing Text with Markdown: Headings & Comments
 
-- Section headings are created with a `#` hashtag at the front of a line
-    - e.g. `# My Title` creates a main heading
-    - more hashtags create subheadings, e.g. `## My Sub-Heading`, `### My Sub-sub Heading`
+| Markdown | Output |
+|----------|--------|
+| `# Heading 1` | <h1>Heading 1</h1> |
+| `## Heading 2` | <h2>Heading 2</h2> |
+| `### Heading 3` | <h3>Heading 3</h3> |
 
-- You can write comments in the file that will not print in the final version with `<!-- Unprinted comments here -->` (this comes from html)
+.smallest[
+Comment your code (will not print in output) with `<!-- Unprinted comments here -->` (this comes from html)
+]
 
 ---
 
@@ -810,7 +902,7 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 
 - Manage your citations and bibliography automatically with `.bib` files 
 - First create a `.bib` file to list all of your references in
-    - You can do this in `R` via: File -> New File -> Text File (and save with `.bib` at the end)
+    - You can do this in `R` via: `File -> New File -> Text File` (and save with `.bib` at the end)
     - See `examplebib.bib` in this repository used in this document 
     - At the top of your `YAML` header in the main document, add `bibliography: examplebib.bib` so `R` knows to pull references from this file 
     - For each reference, add information to a `.bib` file, like so: 
@@ -836,6 +928,7 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 ]
 
 .pull-right[
+.smallest[
 - A `.bib` file is a plain text file with entries like this
 
 - Classes for `@article`, `@book`, `@collectedwork`, `@unpublished`, etc. 
@@ -844,17 +937,22 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 - First input after the `@article` is your **citation key** (e.g. `safner2016`)
     - Whenever you want to cite this article, you'll invoke this key
 ]
+]
 ---
 
 # An Example .bib File
 
-- Whenever you want to cite a work in your text, call up the **citation key** with `@`, like so: `@safner2016[]`, which produces @safner2016[]
-    - You can customize citations, e.g.:
-        - **All in parentheses**: `[@safner2016]` produces: (Safner, 2016)
-        - **No parentheses**: `@safner2016` produces: Safner 2016
-        - **Date only**: `[-@safner2016]` produces (2016)
-        - **Adding pages or comments**: `@safner2016[p.743-744 and passim]` produces (Safner, 2016, p.743-744 and passim)
-        
+- Whenever you want to cite a work in your text, call up the **citation key** with `@`, like so: `@safner2016[]`, which produces (Safner, 2016)
+
+- You can customize citations, e.g.:
+
+| Write | Produces |
+|-------|----------|
+| `[@Safner2016]` | (Safner, 2016) |
+| `@Safner2016` | Safner 2016 |
+| `-@Safner2016` | (2016) |
+| `@Safner2016[p. 743-744] | (Safner, 2016, p.743-744) |
+
 - BibTeX will automatically collect all works cited at the end and produce a **bibliography** according to a style you can choose
 
 - We'll see more when we discuss writing your paper
@@ -873,23 +971,26 @@ $$\hat{\beta_1}=\frac{\displaystyle \sum_{i=1}^n (X_i-\bar{X})(Y_i-\bar{Y})}{\di
 
 # Plain-Text Editors
 
+.smallest[
 - Markdown files are [**plain text**](https://en.wikipedia.org/wiki/Plain_text) files and can be edited in *any* text editor
     - something as basic (and boring!) as "**Notepad**," for example
     - many good [text editors](https://en.wikipedia.org/wiki/Text_editor) out there, I like [Typora](https://www.typora.io/) or [Ulysses](https://ulysses.app/) (Mac only) for writing (and previewing) Markdown in a simple interface, with no distractions
 
 - Any good editor will have **syntax highlighting** and **coloring** when you use tags (like **bold**, *italic*, `code`, and `code #comments`).
 
+]
+
 .pull-left[
 .center[
 [Notepad++](https://notepad-plus-plus.org/)
-![](https://www.dropbox.com/s/rya3ntafbuablgw/notepad%2B%2B.jpg?raw=1)
+![](../images/notepad%2B%2B.jpg)
 ]
 ]
 
 .pull-right[
 .center[
 [Sublime](www.sublimetext.com)
-![](https://www.dropbox.com/s/3dajm2u2i9hdyzd/sublime.png?raw=1)
+![](../images/sublime.png)
 ]
 
 ]
@@ -940,7 +1041,7 @@ class: inverse, center, middle
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/kzvb8n8fpf6lstz/pandoc1.png?raw=1)
+![](../images/pandoc1.png)
 
 ]
 ]
@@ -974,7 +1075,7 @@ class: inverse, center, middle
 # Creating a Project I
 
 .center[
-![](https://www.dropbox.com/s/h3oucgn03cl0o52/project1.png?raw=1)
+![](../images/project1.png)
 
 ]
 
@@ -984,7 +1085,7 @@ class: inverse, center, middle
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/mfstq4g7enq6vxo/project2.png?raw=1)
+![](../images/project2.png)
 ]
 ]
 
@@ -1004,12 +1105,12 @@ class: inverse, center, middle
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/qx93q89x0yoojpk/project3.png?raw=1)
+![](../images/project3.png)
 ]
 ]
 
 .pull-right[
-
+.smallest[
 - Enter a name for the project in the top field 
     - Also creates a folder on your computer with the name you enter into the field
     
@@ -1019,6 +1120,7 @@ class: inverse, center, middle
 
 - Bottom left checkbox allows you to open a new instance (window) of `R` just for this project (and keep existing windows open)
 ]
+]
 
 ---
 
@@ -1026,7 +1128,7 @@ class: inverse, center, middle
 
 .pull-left[
 .center[
-![:scale 50%](https://www.dropbox.com/s/266cs7tuuxgurfv/projectswitcher.png?raw=1)
+![:scale 50%](../images/projectswitcher2.png)
 ]
 Switch between each project (Window) on your computer (this is on a Mac). 
 
@@ -1034,7 +1136,7 @@ Switch between each project (Window) on your computer (this is on a Mac).
 
 .pull-right[
 .center[
-![:scale 40%](https://www.dropbox.com/s/evb7npimklwuyyk/projectlist.png?raw=1)
+![:scale 40%](../images/projectlist2.png)
 ]
 - At top right corner of RStudio
     - Click the button to the right of the name to open in a new window!
@@ -1046,7 +1148,7 @@ Switch between each project (Window) on your computer (this is on a Mac).
 # Loading Others' Projects
 
 .center[
-![:scale 70%](https://www.dropbox.com/s/i1ijatt56ncxi0e/github%202.png?raw=1)
+![:scale 70%](../images/github%202.png)
 ]
 - This project is on [GitHub](http://github.com/ryansafner/workflow)
 - Click the green button, download to your computer, open `.Rproj` file in R Studio
@@ -1059,7 +1161,7 @@ Switch between each project (Window) on your computer (this is on a Mac).
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/kaby3i11svyj81b/projectfiles.png?raw=1)
+![](../images/projectfiles.png)
 ]
 ]
 
@@ -1085,7 +1187,7 @@ class: inverse, center, middle
 # Have You Done This?
 
 .center[
-![](https://www.dropbox.com/s/c4a2e8p176yb79c/phdfinal1.png?raw=1)
+![](../images/phdfinal1.png)
 
 .source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
 ]
@@ -1095,7 +1197,7 @@ class: inverse, center, middle
 # Have You Done This?
 
 .center[
-![](https://www.dropbox.com/s/b5xu55iym9jjphd/phdfinal2.png?raw=1)
+![](../images/phdfinal2.png)
 
 .source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
 ]
@@ -1104,7 +1206,7 @@ class: inverse, center, middle
 # Have You Done This?
 
 .center[
-![](https://www.dropbox.com/s/434uy4d8wiuop3a/phdfinal3.png?raw=1)
+![](../images/phdfinal3.png)
 
 .source[[PhD Comics](http://phdcomics.com/comics/archive_print.php?comicid=1531)]
 ]
@@ -1126,7 +1228,7 @@ class: inverse, center, middle
 
 .pull-right[
 .center[
-![](https://www.dropbox.com/s/aulqgvdy9u71hai/versioncontrol.png?raw=1)
+![](../images/versioncontrol.png)
 ]
 ]
 ---
@@ -1135,12 +1237,13 @@ class: inverse, center, middle
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/lj4g0lvwkopd9vf/dropbox.png?raw=1)
+![](../images/dropbox.png)
 
 [Dropbox.com](http://dropbox.com)
 ]
 ]
 .pull-right[
+.smaller[
 - Register an account for free 
 
 - Set up a location on your computer for the `Dropbox/` folder
@@ -1149,16 +1252,27 @@ class: inverse, center, middle
     - As soon as you change files, they *automatically* update and sync!
     - Can download any of these flies from the *website* on any device
     - Set this up on multiple computers so when you change a file on one, it updates on all the others! 
-
+]
 ]
 ---
 
 # The Training-Wheels Version
 
 .center[
-![:scale 80%](https://www.dropbox.com/s/inlmf8znau7kbzz/mydropbox.png?raw=1)
+![:scale 75%](../images/mydropbox2.png)
 
 My Dropbox - my life goes here
+]
+]
+
+---
+
+# The Training-Wheels Version
+
+.center[
+![:scale 75%](../images/dropboxsmartsync.png)
+
+Smart Sync - keep some files online only for space
 ]
 ]
 
@@ -1168,16 +1282,16 @@ My Dropbox - my life goes here
 
 .pull-left[
 .center[
-![](https://www.dropbox.com/s/hm2bquswiqmk4ac/git.png?raw=1)
+![](../images/git.png)
 
-![](https://www.dropbox.com/s/5mmsx958d0l0a2j/github.png?raw=1)
+![](../images/github.png)
 
 ]
 ]
 .pull-right[
 - `Git` is an "open source distributed version control system" *widely* used in the software development industry
 
-- Track changes **on steroids**
+- .hi[Track changes on steroids] (if MS Word’s Track Changes and Dropbox had a baby)
     - Organize folders/files to track (a `"repository"`)
     - Take a snapshot of all of your files (a "`commit`") with "`comment`s"
     - `push` these to the cloud
@@ -1193,7 +1307,7 @@ My Dropbox - my life goes here
 
 .pull-left[
 .center[
-![:scale 75%](https://www.dropbox.com/s/0493d7zw6ixzq9i/gitbranches.png?raw=1)
+![:scale 75%](../images/gitbranches.png)
 ]
 ]
 .pull-right[
@@ -1209,7 +1323,7 @@ My Dropbox - my life goes here
 # The Expert Version
 
 .center[
-![:scale 60%](https://www.dropbox.com/s/egfojonn2s54dk2/basic-remote-workflow.png?raw=1)
+![:scale 60%](../images/basic-remote-workflow.png)
 ]
 
 ---
@@ -1227,18 +1341,18 @@ My Dropbox - my life goes here
 
 .pull-left[
 .center[
-![:scale 100%](https://www.dropbox.com/s/arjk6zvbxaxqp8b/gitmetrics1.png?raw=1)
+![:scale 100%](../images/gitmetrics3.png)
 ]
 ]
 
 .pull-right[
 .center[
-![:scale 100%](https://www.dropbox.com/s/e9cbyzls160yvzt/gitmetrics2.png?raw=1)
+![:scale 100%](../images/gitmetrics4.png)
 ]
 ]
 
 .center[
-[github.com/ryansafner/metricsF19](http://github.com/ryansafner/metricsF19)
+[github.com/ryansafner/metricsF20](http://github.com/ryansafner/metricsF20)
 ]
 ---
 
@@ -1246,7 +1360,7 @@ My Dropbox - my life goes here
 
 .pull-left[
 .center[
-![:scale 100%](https://www.dropbox.com/s/urrisfpf9u39s2v/githubtidyverse.png?raw=1)
+![:scale 100%](../images/githubtidyverse.png)
 
 [github.com/tidyverse/tidyverse](https://github.com/tidyverse/tidyverse)
 ]
@@ -1254,7 +1368,7 @@ My Dropbox - my life goes here
 
 .pull-right[
 .center[
-![:scale 100%](https://www.dropbox.com/s/3a8hmg9hgcl9ojx/githubgapminder.png?raw=1)
+![:scale 100%](../images/githubgapminder.png)
 
 [github.com/jennybc/gapminder](https://github.com/jennybc/gapminder)
 

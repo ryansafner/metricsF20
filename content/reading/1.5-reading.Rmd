@@ -1,0 +1,30 @@
+---
+title: "1.5 — Optimize Your Workflow: Markdown, Projects, and Git — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-external-link-square-alt"></i>[Chs. 8, 27, 28, 29, 30 (but especially 27)](http://r4ds.had.co.nz) in @R4DS
+
+# Other Resources
+
+## On Plain-Text Workflow
+
+- Healey, Kieran, [*The Plain Person’s Guide to Plain Text Social Science*](http://plain-text.co/)
+
+## On Markdown Syntax
+
+- [Markdown tutorial](https://www.markdowntutorial.com/)
+
+## On R Markdown
+- Xie, Yihui, J.J. Allaire, and Garett Grolemund, [*R Markdown: The Definitive Guide*](https://bookdown.org/yihui/rmarkdown/)
+- RStudio, [*R Markdown Reference Guide*](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)
+- RStudio, [*Overview of R Markdown*](https://rmarkdown.rstudio.com/)
+- Rstudio, [*R Markdown Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+
+## On Git and Github
+
+- Bryan, Jenny and Jim Hester, [*Happy Git and GitHub for the useR*](https://happygitwithr.com/)
