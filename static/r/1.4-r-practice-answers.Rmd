@@ -1,7 +1,7 @@
 ---
-title: "1.5 Data Wrangling with tidyverse - R Practice (Answers)"
-author: "Ryan Safner"
-date: "ECON 480 - Fall 2019"
+title: "1.4 — Data Wrangling in the tidyverse — R Practice R Practice (Answers)"
+author: "ECON 480 — Econometrics — Fall 2020"
+date: ""
 output:
   html_document:
     df_print: paged
