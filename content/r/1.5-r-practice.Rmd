@@ -9,19 +9,6 @@ library(tidyverse)
 library(pander)
 ```
 
-There's currently no actual *practice* problems, but you should start taking a look at some actual `.Rmd` files to see how they work, if you are interested:
-
-- [<i class="fas fa-external-link-square-alt"></i> Workflow R Project on GitHub](http://github.com/ryansafner/workflow)
-
-Look at my `Workflow` R project on GitHub (first link). Also, see the 2nd-to-last slide in the class slides (updated)! Follow the instructions to download and open the `.RProj` file on your computer (in RStudio). Look around the files (in the bottom-right panel), and open `Example_paper.Rmd` to see how you might write a paper in `R Markdown`.
-
-If you are curious, below are two other examples. The first is the raw `.Rmd` file I wrote that created the (`html`) answer key for R practice 4 (on `ggplot2`). The second is the code for today's slides, written in [`Xaringan`](http://github.com/yihui/xaringan) (a special, `html`-based slides package), hosted on github. Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!
-
-- [<i class="fab fa-markdown"></i> `04-r-practice-answers.Rmd`](/r/04-r-practice-answers.Rmd)
-- [<i class="fab fa-markdown"></i> See my `.Rmd` for today's slides on github](https://github.com/ryansafner/metricsF19/blob/master/static/slides/06-slides.Rmd)
-
-# Projects
-
 1. We are going to `clone` my repository on Github into R Studio on your computer. Go to my [workflow repository](https://github.com/ryansafner/workflow) on github. Click the green `code` button. See there are several options. Feel free to try each of them out:
   - **On Your Computer (Download)**: `Download ZIP` will download a zipped file to your computer containing the entire repository. You will need to unzip this (sometimes it’s automatic, as on a Mac), and then it will create a folder on your computer. Open up the `workflow.Rproj` file, which will open the project in `R Studio`.
   - **On R Studio Cloud**: Highlight the url code (or click the copy button on the right). On Rstudio Cloud, click on the arrow on the right of the `New Project` button and select `New Project from GitHub Repository`. Paste the url you copied from Github here. This will open the repository as a new project in your cloud workspace
@@ -53,6 +40,6 @@ This will probably take a few minutes to install. Like any package, you only eve
 
 6. Find my slides on the [class github page](https://github.com/ryansafner/metricsF20). Note there is a lot going on here, because this is a pretty full website. They are in the `static/slides` folder. Now if you are ever curious how I did something in my slides, you can see the source `.Rmd` files. Note my slides are written in [`Xaringan`](http://github.com/yihui/xaringan) (a special, `html`-based slides package). Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!
 
-7. Now we are just exposing you to more `.Rmd` files. Look at the answer key for [1.4 R practice](/r/1.4-r-practice) and download and open the <i class="fab fa-markdown"></i> `.Rmd` file. Take a look through it and see how it works, then when you are ready, click the `knit` button. It will make the `html` webpage (which you can open in any browser) that is identical to the answer key web page I made!
+7. Now we are just exposing you to more `.Rmd` files. Look at the answer key for [1.4 R practice](/r/1.4-r-practice) and download and open the <i class="fab fa-markdown"></i> `markdown` file. Take a look through it and see how it works, then when you are ready, click the `knit` button. It will make the `html` webpage (which you can open in any browser) that is identical to the answer key web page I made!
 
-8. Look at the <i class="fab fa-markdown"></i> `.Rmd` file in this week's [homework assignment](/assignment/01-problem-set). If you want, you can complete this using that file. 
+8. Look at the <i class="fab fa-markdown"></i> `markdown` file in this week's [homework assignment](/assignment/01-problem-set). If you want, you can complete this using that file. 
