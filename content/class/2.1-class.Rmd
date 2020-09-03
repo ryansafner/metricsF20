@@ -21,8 +21,8 @@ Next class will be on random variables and distributions. This full week is your
 
 # Slides
 
-- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/1.4-slides.html)
-- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/1.4-slides.pdf)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.1-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.1-slides.pdf)
 
 # Live Class Session on Zoom
 
