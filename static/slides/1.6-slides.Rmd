@@ -1,0 +1,1551 @@
+---
+title: "2.1 — Data 101 & Descriptive Statistics"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    #seal: false
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F,
+                      fig.retina=3)
+library(tidyverse)
+library(ggthemes)
+set.seed(256)
+
+```
+
+class: inverse
+
+# Outline
+
+## [From Ricardian to Neoclassical Model](#)
+## [PPF: Increasing Costs](#4)
+## [Indifference Curves](#16)
+## [Autarky Optimum](#22)
+## [Measures of Center](#)
+## [Measures of Dispersion](#)
+
+---
+
+# Review From 1.2: Two Big Problems with Data
+
+.pull-left[
+
+- We want to use econometrics to **identify** causal relationships and make **inferences** about them
+
+1. Problem for **identification**: .hi[endogeneity]
+
+2. Problem for **inference**: .hi[randomness]
+
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/phhet82tcnuegxp/randomimage.jpg?raw=1)]
+]
+
+---
+
+# Review from 1.2: Identification Problem: Endogeneity
+
+.pull-left[
+
+- An independent variable $(X)$ is .hi[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable $(Y)$
+
+- An independent variable $(X)$ is .hi[endogenous] if its variation is *related* to other factors that affect the dependent variable $(Y)$
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Review from 1.2: Inference Problem: Randomness
+
+.pull-left[
+- Data is random due to **natural sampling variation**
+
+    - Taking one sample of a population will yield slightly different information than another sample of the same population 
+    
+- Common in statistics, *easy to fix*
+
+- **Inferential Statistics**: making claims about a wider population using sample data 
+
+    - We use common tools and techniques to deal with randomness
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/bsdtuddzjouwzr1/sampling.jpg?raw=1)
+]
+]
+
+---
+
+# The Two Problems: Where We're Heading...Ultimately
+
+$$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$
+
+- We want to .hi-purple[identify] causal relationships between **population** variables
+    - Logically first thing to consider
+    - **Endogeneity problem**
+
+- We'll use **sample** *statistics* to .hi-purple[infer] something about population *parameters*
+    - In practice, we'll only ever have a finite *sample distribution* of data
+    - We *don't* know the *population distribution* of data
+    - **Randomness problem**
+
+---
+
+class: inverse, center, middle
+# Data 101
+
+---
+
+# Data 101
+
+.pull-left[
+
+- .hi[Data] are information with context
+
+- .hi[Individuals] are the entities described by a set of data 
+    - e.g. persons, households, firms, countries 
+    
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/gmb5xihskovjrly/individual1.jpg?raw=1)
+
+]
+
+---
+
+# Data 101
+
+.pull-left[
+.smallest[
+- .hi[Variables] are particular characteristics about an individual
+    - e.g. age, income, profits, population, GDP, marital status, type of legal institutions
+
+- .hi[Observations] or .hi[cases] are the separate individuals described by a collection of variables
+    - e.g. for one individual, we have their age, sex, income, education, etc.  
+
+- individuals and observations are *not necessarily* the same: 
+    - e.g. we can have multiple observations on the same individual over time 
+]
+]
+.pull-right[
+
+![](https://www.dropbox.com/s/gmb5xihskovjrly/individual1.jpg?raw=1)
+
+]
+
+---
+
+# Categorical Data
+
+.pull-left[
+
+- .hi[Categorical data] place an individual into one of several possible *categories*
+    - e.g. sex, season, political party
+    - may be responses to survey questions
+    - can be quantitative (e.g. age, zip code)
+
+- In `R`: `character` or `factor` type data
+  - `factor` $\implies$ specific possible categories
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/pgdswagr7b348vu/categoricaldata.png?raw=1)
+
+]
+
+---
+
+# Categorical Data: Visualizing I
+
+.pull-left[
+
+```{r, echo = T, eval=F}
+diamonds %>%
+  count(cut) %>%
+  mutate(frequency = n / sum(n),
+         percent = round(frequency * 100, 2))
+```
+
+```{r, echo=F, results="asis"}
+diamonds %>%
+  count(cut) %>%
+  mutate(frequency = n / sum(n),
+         percent = round(frequency * 100, 2)) %>%
+knitr::kable(., format = "html", caption = "Summary of diamonds by cut")
+```
+
+]
+
+.pull-right[
+
+- Good way to represent categorical data is with a .hi[frequency table]
+
+- .hi-purple[Count (n)]: total number of individuals in a category
+
+- .hi-purple[Frequency]: **proportion** of a category's ocurrence relative to all data
+  - Multiply proportions by 100% to get **percentages**
+
+]
+
+---
+
+# Categorical Data: Visualizing II
+
+.pull-left[
+
+- .hi-purple[Charts and graphs are *always* better ways to visualize data]
+
+- A .hi[bar graph] represents categories as bars, with lengths proportional to the count or relative frequency of each category
+
+```{r, echo=T, eval=F}
+ggplot(diamonds, aes(x=cut,
+                     fill=cut))+
+  geom_bar()+
+  guides(fill=F)+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(diamonds, aes(x=cut, fill=cut))+
+  geom_bar()+
+  guides(fill=F)+
+  scale_y_continuous(limits = c(0,22000),
+                     expand = c(0,0))+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+]
+
+---
+
+# Categorical Data: Visualizing III
+
+.pull-left[
+
+- Avoid pie charts!
+
+- People are *not* good at judging 2-d differences (angles, area)
+
+- People *are* good at judging 1-d differences (length)
+
+]
+
+--
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/jk79mb94qohqekb/piechart.jpg?raw=1)
+]
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe a *stacked bar chart*
+
+```{r, echo=T, eval=F}
+diamonds %>%
+  count(cut) %>%
+ggplot(data = .)+
+  aes(x = "",
+      y = n)+
+  geom_col(aes(fill = cut))+
+  geom_label(aes(label = cut,
+                 color = cut),
+             position = position_stack(vjust = 0.5)
+             )+
+  guides(color = F,
+         fill = F)+
+  theme_void()
+```
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+diamonds %>%
+  count(cut) %>%
+ggplot(., aes(x="", y=n))+
+  geom_col(aes(fill=cut))+
+  geom_label(aes(x="", y=n, label=cut, color = cut), position = position_stack(vjust = 0.5))+
+  guides(color=F, fill = F)+
+  theme_void()
+  
+```
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe *lollipop chart*
+
+```{r, echo=T, eval=F}
+diamonds %>%
+  count(cut) %>%
+  mutate(cut_name = as.factor(cut)) %>%
+ggplot(., aes(x = cut_name, y = n, color = cut))+
+ geom_point(stat="identity",
+            fill="black",
+            size=12)  +
+  geom_segment(aes(x = cut_name, y = 0,
+                   xend = cut_name,
+                   yend = n), size = 2)+
+  geom_text(aes(label = n),color="white", size=3) +
+  coord_flip()+
+  labs(x = "Cut")+
+  theme_pander(base_family = "Fira Sans Condensed",
+                base_size=20)+
+  guides(color = F)
+```
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+diamonds %>%
+  count(cut) %>%
+  mutate(cut_name = as.factor(cut)) %>%
+ggplot(., aes(x=cut_name, y=n, color=cut))+
+ geom_point(stat='identity', fill="black", size=12)  +
+  geom_segment(aes(x = cut_name, 
+                   y = 0,
+                   xend = cut_name,
+                   yend = n),
+               size = 2)+
+  geom_text(aes(label = n),color="white", size=3) +
+  scale_y_continuous(limits=c(0,24000),
+                     expand=c(0,0))+
+  coord_flip()+
+  labs(x = "Cut")+
+  theme_pander(base_family = "Fira Sans Condensed",
+                base_size=20)+
+  guides(color = F)
+```
+
+]
+
+---
+
+# Categorical Data: Visualizing IV
+
+.pull-left[
+
+- Maybe a *treemap*
+
+```{r, echo=T, eval=F}
+library(treemapify)
+diamonds %>%
+  count(cut) %>%
+ggplot(., aes(area = n, fill = cut)) +
+  geom_treemap() +
+  guides(fill = FALSE) +
+  geom_treemap_text(aes(label = cut),
+                    colour = "white",
+                    place = "topleft",
+                    grow = TRUE)
+```
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+library(treemapify)
+diamonds %>%
+  count(cut) %>%
+ggplot(., aes(area = n, fill = cut)) +
+  geom_treemap() +
+  guides(fill = FALSE) +
+  geom_treemap_text(aes(label = cut), 
+                    colour = "white", place = "topleft", grow = TRUE)
+```
+
+]
+
+---
+
+# Quantitative Data I
+
+.pull-left[
+
+- .hi[Quantitative variables] take on numerical values of equal units that describe an individual
+    - Units: points, dollars, inches 
+    - Context: GPA, prices, height
+
+- We can mathematically manipulate *only* quantitative data
+    - e.g. sum, average, standard deviation
+
+- In `R`: `numeric` type data
+  - `integer` if whole number
+  - `double` if has decimals
+]
+
+.pull-right[
+
+.image-75[![](https://www.dropbox.com/s/1e0mcehgzqgnfs8/mathoperations.jpg?raw=1)]
+
+]
+
+---
+
+# Discrete Data
+
+.pull-left[
+
+- .hi[Discrete data] are finite, with a countable number of alternatives 
+
+- .hi-purple[Categorical]: place data into categories
+  - e.g. letter grades: A, B, C, D, F
+  - e.g. class level: freshman, sophomore, junior, senior
+
+- .hi-purple[Quantitative]: integers
+  - e.g. SAT Score, number of children, age (years)
+
+]
+
+.pull-right[
+
+![](https://www.dropbox.com/s/qfziu7r0wob0q1n/buildingblocks.jpeg?raw=1)
+]
+
+---
+
+# Continuous Data
+
+.pull-left[
+
+- .hi[Continuous data] are infinitely divisible, with an uncountable number of alternatives
+    - e.g. weight, length, temperature, GPA
+
+- Many discrete variables may be treated as if they are continuous
+    - e.g. SAT scores (whole points), wages (dollars and cents)
+    
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/lgjpc9cxmrkio0x/continuous.png?raw=1)
+]
+]
+---
+
+# Spreadsheets
+
+.pull-left[
+
+```{r, example.spreadsheet.setup, echo=FALSE}
+ID<-c(1,2,3,4,5)
+Name<-c("John","Emile","Natalya","Lakisha","Cheng")
+Age<-c(23,18,28,31,36)
+Sex<-c("Male","Male","Female","Female","Male")
+Income<-c(41000,52600,48000,60200,81900)
+example<-tibble(ID,Name,Age,Sex,Income)
+```
+
+```{r, example.spreadsheet, results="asis", echo=FALSE}
+example %>% knitr::kable() %>% kableExtra::kable_styling(
+  bootstrap_options = c("striped", "hover"), full_width = F)
+# knitr::kable(example, format="html")
+```
+
+]
+
+.pull-right[
+
+- The most common data structure we use is a .hi[spreadsheet]
+    - In *R*: a `data.frame` or `tibble`
+    
+- A .hi-purple[row] contains data about all variables for a single .hi-purple[individual]
+
+- A .hi-purple[column] contains data about a single .hi-purple[variable] across all individuals
+
+]
+
+---
+
+# Spreadsheets
+
+.pull-left[
+
+```{r, results="asis", echo=FALSE}
+example %>% knitr::kable() %>% kableExtra::kable_styling(
+  bootstrap_options = c("striped", "hover"), full_width = F)
+# knitr::kable(example, format="html")
+```
+
+]
+
+.pull-right[
+
+- Each .hi-purple[cell] can be referenced by its row and column (in that order!), `df[row,column]`
+
+```{r, echo=T}
+example[3,2] # value in row 3, column 2
+```
+
+- Recall [how to “subset” data frames](https://metricsf20.classes.ryansafner.com/slides/1.2-slides#67) from 1.2; though it’s now much easier with `filter()` and `select()`!
+]
+
+---
+
+# Spreadsheets II
+
+- It is common to use some notation like the following:
+
+- Let $\{x_1, x_2, \cdots, x_n\}$ be a simple data series on variable $X$
+    - $n$ individual observations
+    - $x_i$ is the value of the $i$<sup>th</sup> observation for $i=1,2,\cdots, n$
+
+--
+
+.content-box-blue[
+.blue[**Quick Check**]: Let $x$ represent the score on a homework assignment:
+$$75, 100, 92, 87, 79, 0, 95$$
+
+1. What is $n$?
+2. What is $x_1$?
+3. What is $x_6$?
+]
+
+---
+
+# Datasets: Cross-Sectional
+
+.pull-left[
+
+```{r, example.spreadsheet2, echo=FALSE, results="asis"}
+knitr::kable(example, format="html")
+```
+
+]
+
+.pull-right[
+
+- .hi[Cross-sectional data]: observations of individuals at a given point in time
+
+- Each observation is a unique individual
+$$x_i$$
+
+- Simplest and most common data 
+
+- A .hi-purple["snapshot"] to compare differences across individuals
+
+]
+
+---
+
+# Datasets: Time-Series
+
+.pull-left[
+
+```{r, example.timeseries, echo=FALSE, results="asis"}
+Year<-c(1950,1960,1970,1980,1985)
+GDP<-c(8.2,9.9,10.2,12.4,13.6)
+Unemployment<-c(0.06,0.04,0.08,0.08,0.06)
+CPI<-c(100,118,130,190,196)
+example.timeseries<-data.frame(Year,GDP,Unemployment,CPI)
+knitr::kable(example.timeseries, format="html")
+```
+
+]
+
+.pull-right[
+
+- .hi[Time-series data]: observations of the *same* individual(s) over time 
+
+- Each observation is a time period
+$$x_{t}$$
+
+- Often used for macroeconomics, finance, and forecasting
+
+- Unique challenges for time series 
+
+- A .hi-purple["moving picture"] to see how individuals change over time 
+
+]
+
+---
+
+# Datasets: Panel
+
+.pull-left[
+
+```{r, example.panel.setup, echo=FALSE, results="asis"}
+City<-c("Philadelphia","Philadelphia","D.C.","D.C.", "New York")
+Year<-c(1986, 1990, 1986, 1990, 1986)
+Murders<-c(5, 8, 2, 10, 3)
+Population<-c(3.7,4.2,0.250,0.275,6.4)
+UR<-c(8.7,7.2,5.4,5.5,9.6)
+example.panel<-data.frame(City,Year,Murders,Population,UR)
+knitr::kable(example.panel, format="html")
+```
+
+]
+
+.pull-right[
+.smaller[
+- .hi[Panel], or .hi[longitudinal] dataset: a time-series for *each* cross-sectional entity
+  - Must be *same* individuals over time
+
+- Each obs. is an individual in a time period
+$$x_{it}$$
+
+- More common today for serious researchers; unique challenges and benefits
+
+- A .hi-purple[combination] of "snapshot" comparisons over time
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Descriptive Statistics
+
+---
+
+# Variables and Distributions
+
+- Variables take on different values, we can describe a variable's .hi[distribution] (of these values)
+
+- We want to *visualize* and *analyze* distributions to search for meaningful patterns using **statistics** 
+
+---
+
+# Two Branches of Statistics 
+
+.pull-left[
+
+- Two main branches of statistics:
+
+1. .hi[Descriptive Statistics:] describes or summarizes the properties of a sample
+
+2. .hi[Inferential Statistics:] infers properties about a larger population from the properties of a sample<sup>.magenta[†]</sup> 
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/l2s6c0s55lsws6y/statsgraphs.jpg?raw=1)
+]
+]
+
+.footnote[<sup>.magenta[†]</sup> We'll encounter inferential statistics mainly in the context of regression later.]
+
+---
+
+# Histograms
+
+.pull-left[
+
+- A common way to present a *quantitative* variable's distribution is a .hi[histogram]
+    - The quantitative analog to the bar graph for a categorical variable
+
+- Divide up values into **bins** of a certain size, and count the number of values falling within each bin, representing them visually as bars 
+
+]
+
+.pull-right[
+
+```{r, echo=F}
+df<-tibble(x=rnorm(500,0,1))
+
+ggplot(df, aes(x = x))+
+  geom_histogram(color="white")+
+  theme_bw(base_family = "Fira Sans Condensed", base_size=20)
+```
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+.smallest[
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$
+]
+]
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+
+.smallest[
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$
+]
+
+]
+
+.code50[
+```{r histogram-input, echo=T}
+quizzes<-tibble(scores = c(0,62,66,71,71,74,76,79,83,86,88,93,95))
+```
+]
+]
+
+---
+
+# Histogram: Example
+
+.pull-left[
+
+.smallest[
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+$$\{ 0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95 \}$$
+]
+
+]
+
+.code50[
+```{r histogram-1, echo=T, eval=F}
+h<-ggplot(quizzes,aes(x=scores))+
+  geom_histogram(breaks = seq(0,100,10),
+                 color = "white",
+                 fill = "#56B4E9")+
+  scale_x_continuous(breaks = seq(0,100,10))+
+  scale_y_continuous(limits = c(0,6), expand = c(0,0))+
+  labs(x = "Scores",
+       y = "Number of Students")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+h
+```
+]
+]
+
+.pull-right[
+.center[
+```{r, ref.label="histogram-1", fig.retina=3}
+```
+]
+]
+---
+
+# Descriptive Statistics
+
+.pull-left[
+- We are often interested in the *shape* or *pattern* of a distribution, particularly: 
+    - Measures of **center**
+    - Measures of **dispersion**
+    - **Shape** of distribution 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/l2s6c0s55lsws6y/statsgraphs.jpg?raw=1)
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Measures of Center
+
+---
+
+# Mode
+
+- The .hi[mode] of a variable is simply its most frequent value
+
+- A variable can have multiple modes
+
+--
+
+.content-box-green[
+.green[**Example**]: a class of 13 students takes a quiz (out of 100 points) with the following results:
+
+$$\{ 0, 62, 66, \mathbf{71}, \mathbf{71}, 74, 76, 79, 83, 86, 88, 93, 95 \}$$
+]
+
+---
+
+# Mode
+
+.pull-left[
+
+- There is no dedicated `mode()` function in `R`, surprisingly
+
+- A workaround in `dplyr`: 
+
+```{r mode, echo=T, eval=F}
+quizzes %>%
+  count(scores) %>%
+  arrange(desc(n))
+```
+
+]
+
+.pull-right[
+```{r, ref.label="mode"}
+
+```
+]
+
+---
+
+# Multi-Modal Distributions
+
+.pull-left[
+
+- Looking at a histogram, the modes are the "peaks" of the distribution
+    - Note: depends on how wide you make the bins!
+
+- May be unimodal, bimodal, trimodal, etc
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+tibble(scores=c(0,33,33,33,33,35,62,66,71,71,74,76,79,83,86,88,93,95)) %>%
+  ggplot(data = .,
+         aes(x=scores))+
+  geom_histogram(breaks = seq(0,100,10),
+                 color = "white",
+                 fill = "#56B4E9")+
+  scale_x_continuous(breaks = seq(0,100,10))+
+  scale_y_continuous(limits = c(0,6),
+                     expand = c(0,0))+
+  labs(x = "Scores",
+       y = "Number of Students")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Symmetry and Skew I
+
+.pull-left[
+
+- A distribution is **symmetric** if it looks roughly the same on either side of the "center"
+
+- The thinner ends (far left and far right) are called the **tails** of a distribution
+]
+
+.pull-right[
+```{r, fig.retina=3}
+symmetric<-data.frame(x=rnorm(500,25,10))
+
+ggplot(symmetric,(aes(x)))+
+    geom_histogram(stat="bin",bins=10,color="white",fill="hotpink")+
+  scale_y_continuous(limits = c(0,130),
+                     expand = c(0,0))+
+    ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+
+```
+]
+
+---
+
+# Symmetry and Skew I
+
+.pull-left[
+
+- If one tail stretches farther than the other, distribution is **skewed** in the direction of the longer tail
+]
+
+.pull-right[
+```{r, fig.retina=3}
+skew.left<-data.frame(x=rbeta(500,5,1))
+
+ggplot(skew.left,(aes(x)))+
+    geom_histogram(stat="bin",bins=10,color="white",fill="indianred")+
+  scale_y_continuous(limits = c(0,175),
+                     expand = c(0,0))+
+    ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Outliers
+
+.pull-left[
+
+- .hi[Outlier]: extreme value that does not appear part of the general pattern of a distribution
+
+- Can strongly affect descriptive statistics
+
+- Might be the most informative part of the data
+
+- Could be the result of errors
+
+- Should always be explored and discussed!
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+h
+```
+]
+
+---
+
+class: inverse, center, middle
+# Measures of Center
+
+---
+
+# Arithmetic Mean (Population)
+
+- The natural measure of the center of a *population*'s distribution is its .hi["average"] or .hi[arithmetic mean `\\((\mu)\\)`]
+
+$$\mu=\frac{x_1+x_2+...+x_N}{N} = \frac{1}{N} \sum^N_{i=1} x_i$$
+
+- For $N$ values of variable $x$, "mu" is the sum of all individual $x$ values $(x_i)$ from 1 to $N$, divided by the $N$ number of values<sup>.magenta[†]</sup>
+
+- See [today's class notes](/class/2.1-class) for more about the .hi-purple[summation operator, `\\(\displaystyle\Sigma\\)`], it'll come up again!
+
+.footnote[<sup>.magenta[†]</sup> Note the mean need not be an actual value of the data!]
+
+---
+
+# Arithmetic Mean (Sample)
+
+.smaller[
+- When we have a *sample*, we compute the .hi[sample mean `\\((\bar{x})\\)`]
+
+$$\bar{x}=\frac{x_1+x_2+...+x_n}{n} = \frac{1}{n} \sum^n_{i=1} x_i$$
+
+- For $n$ values of variable $x$, "x-bar" is the sum of all individual $x$ values $(x_i)$ divided by the $n$ number of values
+]
+
+--
+
+.pull-left[
+.tiny[
+.content-box-green[
+.green[**Example**]:
+
+$$\{0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}$$
+
+$$\begin{align*}
+\bar{x}&=\frac{1}{13}(0+62+66+71+71+74+76+79+83+86+88+93+95)\\
+\bar{x}&=\frac{944}{13}\\
+\bar{x}&=72.62\\
+\end{align*}$$
+
+]
+]
+]
+--
+
+.pull-right[
+.code50[
+```{r, echo=T}
+quizzes %>%
+  summarize(mean=mean(scores))
+```
+]
+]
+
+---
+
+# Arithmetic Mean: Affected by Outliers
+
+- If we drop the outlier (0)
+
+--
+
+.pull-left[
+.tiny[
+.content-box-green[
+.green[**Example**]:
+
+$$\{62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}$$
+
+$$\begin{align*}
+\bar{x}&=\frac{1}{12}(62+66+71+71+74+76+79+83+86+88+93+95)
+&=\frac{944}{12}\\
+&=78.67\\
+\end{align*}$$
+]
+]
+]
+
+--
+
+.pull-right[
+.code50[
+```{r, echo=T}
+quizzes %>%
+  filter(scores>0) %>%
+  summarize(mean=mean(scores))
+```
+]
+]
+
+---
+
+# Median
+
+$$\{0, 62, 66, 71, 71, 74, \mathbf{76}, 79, 83, 86, 88, 93, 95\}$$
+
+- The .hi[median] is the midpoint of the distribution
+    - 50% to the left of the median, 50% to the right of the median
+
+- Arrange values in numerical order
+    - For odd $n$: median is middle observation
+    - For even $n$: median is average of two middle observations
+
+---
+
+# Mean, Median, and Outliers
+
+.center[
+![](https://www.dropbox.com/s/znl2rdi3f19r6ap/meanoutliers.jpg?raw=1)
+]
+
+---
+
+# Mean, Median, Symmetry, Skew I
+
+.pull-left[
+
+- Symmetric distribution: mean $\approx$ median
+
+```{r}
+symmetric<-tibble(x=c(1,2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 6, 6, 7))
+```
+
+```{r, echo=T}
+symmetric %>%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(symmetric,aes(x=x))+
+  geom_histogram(breaks=seq(0,7,1),color="black",fill="#56B4E9")+
+  geom_vline(aes(xintercept=mean(x)), color="red", linetype="dashed", size=1)+
+  geom_vline(aes(xintercept=median(x)), color="green", linetype="dotted", size=2)+
+  geom_label(aes(x=mean(x),y=4), color = "red", label = "mean")+
+  geom_label(aes(x=median(x),y=4.5), color = "green", label = "median")+
+  scale_x_continuous(breaks=seq(0,7,1))+
+  scale_y_continuous(limits = c(0,5.5),
+                     expand = c(0,0))+
+      ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Mean, Median, Symmetry, Skew II
+
+.pull-left[
+
+- Left-skewed: mean $<$ median
+
+```{r}
+leftskew<-data.frame(x=c(1,2,3,4,4,4,5,5,6,6,6,7,7))
+```
+
+```{r, echo=T}
+leftskew %>%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(leftskew,aes(x=x))+
+  geom_histogram(breaks=seq(0,7,1),color="black",fill="#56B4E9")+
+  geom_vline(aes(xintercept=mean(x)), color="red", linetype="dashed", size=1)+
+  geom_vline(aes(xintercept=median(x)), color="green", linetype="dotted", size=2)+
+  geom_label(aes(x=mean(x),y=4), color = "red", label = "mean")+
+  geom_label(aes(x=median(x),y=4.5), color = "green", label = "median")+
+  scale_x_continuous(breaks=seq(0,7,1))+
+  scale_y_continuous(limits = c(0,5.5),
+                     expand = c(0,0))+
+      ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+# Mean, Median, Symmetry, Skew III
+
+.pull-left[
+
+- Right-skewed: mean $>$ median
+
+```{r}
+rightskew<-tibble(x=c(1,1,2,2,2,3,3,4,4,4,5,6,7))
+```
+
+```{r, echo=T}
+rightskew %>%
+  summarize(mean = mean(x),
+            median = median(x))
+```
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+ggplot(rightskew,aes(x=x))+
+  geom_histogram(breaks=seq(0,7,1),color="black",fill="#56B4E9")+
+  geom_vline(aes(xintercept=mean(x)), color="red", linetype="dashed", size=1)+
+  geom_vline(aes(xintercept=median(x)), color="green", linetype="dotted", size=2)+
+  geom_label(aes(x=mean(x),y=4), color = "red", label = "mean")+
+  geom_label(aes(x=median(x),y=4.5), color = "green", label = "median")+
+  scale_x_continuous(breaks=seq(0,7,1))+
+  scale_y_continuous(limits = c(0,5.5),
+                     expand = c(0,0))+
+      ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+---
+
+class: inverse, center, middle
+# Measures of Dispersion
+
+---
+
+# Measures of Dispersion: Range
+
+- The more *variation* in the data, the less helpful a measure of central tendency will tell us
+
+- Beyond just the center, we also want to measure the spread
+
+- Simplest metric is .hi[range] $=max-min$
+
+---
+
+# Measures of Dispersion: 5 Number Summary I
+
+- Common set of summary statistics of a distribution: .hi["five number summary"]:
+
+.pull-left[
+.smallest[
+1. Minimum value
+2. 25<sup>th</sup> percentile $(Q_1$, median of first 50% of data)
+3. 50<sup>th</sup> percentile (median, $Q_2)$
+4. 25<sup>th</sup> percentile $(Q_3$, median of last 50% of data)
+5. Maximum value
+]
+]
+
+--
+
+.pull-right[
+
+.code60[
+```{r, echo=T}
+# Base R summary command (includes Mean)
+summary(quizzes$scores)
+
+quizzes %>% # dplyr
+  summarize(Min = min(scores),
+            Q1 = quantile(scores, 0.25),
+            Median = median(scores),
+            Q3 = quantile(scores, 0.75),
+            Max = max(scores))
+```
+]
+]
+---
+
+# Measures of Dispersion: 5 Number Summary II
+
+- The $n$<sup>th</sup> .hi-purple[percentile] of a distribution is the value that places $n$ percent of values beneath it
+
+```{r, echo = T}
+quizzes %>%
+  summarize("37th percentile" = quantile(scores,0.37))
+```
+
+---
+
+# Boxplots I
+
+.pull-left[
+.smallest[
+- .hi[Boxplots] are a great way to visualize the 5 number summary
+
+- **Height of box**: $Q_1$ to $Q_3$ (known as .hi-purple[interquartile range (IQR)], middle 50% of data)
+
+- **Line inside box**: median (50<sup>th</sup> percentile)
+
+- **"Whiskers"** identify data within $1.5 \times IQR$
+
+- Points *beyond* whiskers are .hi-purple[outliers]
+    - common definition: $Outlier >1.5 \times IQR$
+]
+]
+
+.pull-right[
+
+```{r}
+quizzes %>%
+  ggplot(data = .)+
+  aes(x = "",
+      y = scores)+
+  geom_boxplot()+
+  labs(x = "Quiz")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+
+```
+
+]
+
+---
+
+# Comparisons I
+
+- Boxplots (and five number summaries) are great for comparing two distributions
+
+.content-box-green[
+.green[**Example**]:
+
+$$\begin{align*} \text{Quiz 1}&: \{0, 62, 66, 71, 71, 74, 76, 79, 83, 86, 88, 93, 95\}	\\
+			\text{Quiz 2}&: \{50, 62, 72, 73, 79, 81, 82, 82, 86, 90, 94, 98, 99\} \\ \end{align*}$$
+
+]
+
+```{r}
+quizzes_new <- quizzes %>%
+  rename(quiz_1 = scores) %>% # rename to Quiz 1
+  mutate(student = 1:13) %>% # add students to track over 2 quizzes
+  select(student, everything()) %>% # move students to front
+  bind_cols(quiz_2 = c(50, 62, 72, 73, 79, 81, 82, 82, 86, 90, 94, 98, 99))
+```
+
+---
+
+# Comparisons II
+
+.pull-left[
+
+```{r, echo=T}
+quizzes_new %>% summary()
+```
+]
+
+.pull-right[
+
+```{r}
+quizzes_long<-gather(quizzes_new, key="student", value="score")
+
+ggplot(data = quizzes_long)+
+  aes(x = student,
+      y = score,
+      fill = student)+
+  geom_boxplot()+
+    labs(x = "Quiz")+
+  scale_x_discrete(labels=c("Quiz 1", "Quiz 2"))+
+  scale_fill_viridis_d()+
+  guides(fill=F)+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+]
+
+---
+
+# Aside: Making Nice Summary Tables I
+
+.smallest[
+- I don't like the options available for printing out summary statistics
+
+- So I wrote my own `R function` called `summary_table()` that makes nice summary tables (it uses `dplyr` and `tidyr`!). To use:
+
+1. Download the `summaries.R` [file](/files/summaries.R) from the website<sup>.magenta[†]</sup> and move it to your working directory/project folder
+
+2. Load the function with the `source()` command:<sup>.magenta[‡]</sup>
+
+]
+```{r, eval=F, echo = T}
+source("summaries.R")
+```
+
+
+.footnote[<sup>.magenta[†]</sup> One day I'll make this part of a package I'll write.
+
+<sup>.magenta[‡]</sup> If it *was* a package, then you'd load with `library()`. But you can run a single `.R` script with `source()`.]
+
+---
+
+# Aside: Making Nice Summary Tables II
+
+3) The function has at least 2 arguments: the `data.frame` (automatically piped in if you use the pipe!) and then all variables you want to summarize, separated by commas<sup>.magenta[†]</sup>
+
+```{r, echo=F, eval=T}
+source("../files/summaries.R")
+```
+
+
+```{r, echo=T}
+mpg %>%
+  summary_table(hwy, cty, cyl)
+```
+
+.footnote[<sup>.magenta[†]</sup> There is one restriction: No variable name can have an underscore `(_)` in it. You will have to rename them or else you will break the function!]
+
+---
+
+# Aside: Making Nice Summary Tables II
+
+4) When `knit`ted in `R markdown`, it looks nicer:
+
+```{r, echo=T, results="asis"}
+mpg %>%
+  summary_table(hwy, cty, cyl) %>%
+  knitr::kable(., format="html")
+```
+
+- We'll talk more about using `markdown` and making final products nicer when we discuss your paper project (have you forgotten?)
+
+---
+
+# Measures of Dispersion: Deviations
+
+- Every observation $i$ .hi-purple[deviates] from the mean of the data: 
+$$deviation_i = x_i-\mu	$$
+
+- There are as many deviations as there are data points $(n)$
+
+- We can measure the *average* or .hi[standard deviation] of a variable from its mean
+
+- Before we get there...
+
+---
+
+# Variance (Population)
+
+- The .hi[population variance `\\((\sigma^2)\\)`] of a *population* distribution measures the average of the *squared* deviations from the *population* mean $(\mu)$
+
+$$\sigma^2 = \frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2$$
+
+- Why do we square deviations?
+
+- What are these units? 
+
+---
+
+# Standard Deviation (Population)
+
+- Square root the variance to get the .hi[population standard deviation `\\((\sigma)\\)`], the average deviation from the population mean (in same units as $x$)
+
+$$\sigma=\sqrt{\sigma^2}=\sqrt{\frac{1}{N}\displaystyle\sum^N_{i=1} (x_i-\mu)^2	}$$
+
+---
+
+# Variance (Sample)
+
+- The .hi[sample variance `\\((s^2)\\)`] of a *sample* distribution measures the average of the *squared* deviations from the *sample* mean $(\bar{x})$
+
+$$\sigma^2 = \frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\bar{x})^2$$
+
+- Why do we divide by $n-1$?
+
+---
+
+# Standard Deviation (Sample)
+
+- Square root the sample variance to get the .hi[sample standard deviation `\\((s)\\)`], the average deviation from the *sample* mean (in same units as $x$)
+
+$$s=\sqrt{s^2}=\sqrt{\frac{1}{n-1}\displaystyle\sum^n_{i=1} (x_i-\bar{x})^2	}$$
+
+---
+
+# Sample Standard Deviation: Example
+
+.content-box-green[
+.green[**Example**]: Calculate the sample standard deviation for the following series: 
+
+$$\{2, 4, 6, 8, 10 \}$$
+
+]
+
+--
+
+```{r, echo=T}
+sd(c(2,4,6,8,10))
+```
+
+---
+
+# The Steps to Calculate sd(), Coded I
+
+```{r,echo =T}
+#  first let's save our data in a tibble
+sd_example<-tibble(x=c(2,4,6,8,10))
+
+# first find the mean (just so we know)
+
+sd_example %>%
+  summarize(mean(x))
+
+# now let's make some more columns:
+sd_example <- sd_example %>%
+  mutate(deviations = x-mean(x), # take deviations from mean
+         deviations_sq = deviations^2) # square them
+
+```
+
+---
+
+# The Steps to Calculate sd(), Coded II
+
+.pull-left[
+```{r, echo=T, eval=F}
+sd_example # see what we made
+```
+]
+
+.pull-right[
+```{r}
+sd_example
+```
+]
+---
+
+# The Steps to Calculate sd(), Coded III
+
+.pull-left[
+```{r, echo=T, eval=F}
+sd_example %>%
+  # sum the squared deviations
+  summarize(sum_sq_devs = sum(deviations_sq), 
+            # divide by n-1 to get variance
+            variance = sum_sq_devs/(n()-1), 
+            # square root to get sd
+            std_dev = sqrt(variance)) 
+```
+]
+.pull-right[
+```{r}
+sd_example %>%
+  summarize(sum_sq_devs = sum(deviations_sq), 
+            variance = sum_sq_devs/(n()-1),
+            std_dev = sqrt(variance)) 
+```
+
+]
+
+---
+
+# Sample Standard Deviation: You Try
+
+.content-box-blue[
+.blue[**You Try**]: Calculate the sample standard deviation for the following series: 
+
+$$\{1, 3, 5, 7 \}$$
+
+]
+
+--
+
+```{r, echo=T}
+sd(c(1,3,5,7))
+```
+
+---
+
+# Descriptive Statistics: Populations vs. Samples
+
+.pull-left[
+## Population parameters
+
+- **Population size**: $N$
+
+- **Mean**: $\mu$
+
+- **Variance**: $\sigma^2=\frac{1}{N} \displaystyle\sum^N_{i=1} (x_i-\mu)^2$
+
+- **Standard deviation**: $\sigma = \sqrt{\sigma^2}$
+]
+
+.pull-right[
+## Sample statistics
+
+- **Population size**: $n$
+
+- **Mean**: $\bar{x}$
+
+- **Variance**: $s^2=\frac{1}{n-1} \displaystyle\sum^n_{i=1} (x_i-\bar{x})^2$
+
+- **Standard deviation**: $s = \sqrt{s^2}$
+
+]

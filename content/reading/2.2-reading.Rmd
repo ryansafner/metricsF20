@@ -1,0 +1,12 @@
+---
+title: "2.2 — Random Variables and Distributions — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> Math and Probability Background Appendices B-I in Bailey
+
+Now that we return to the statistics, we will do a minimal overview of basic statistics and distributions. Review all of Bailey's appendices.

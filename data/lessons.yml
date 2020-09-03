@@ -40,10 +40,14 @@ lessons:
     header: True
 
   - title: "2.1 Data 101 and Descriptive Statistics"
-
+    class: "2.1-class"
+    slides: "2.1-slides"
+    reading: "2.1-reading"
+    
   - title: "2.2 Random Variables and Distributions"
-
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2**'
+    reading: "2.2-reading"
+    
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Sun Sept 13'
 
   - title: "2.3 OLS Linear Regression"
 
