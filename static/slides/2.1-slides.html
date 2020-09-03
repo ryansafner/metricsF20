@@ -111,6 +111,7 @@ class: inverse, center, middle
 # Inference Problem: Randomness
 
 .pull-left[
+.smaller[
 - Data is .hi-purple[random] due to .hi-purple[natural sampling variation]
   - Taking one sample of a population will yield slightly different information than another sample of the same population 
 - Common in statistics, *easy to fix*
@@ -118,7 +119,7 @@ class: inverse, center, middle
 - .hi[Inferential Statistics]: making claims about a wider population using sample data 
   - We use common tools and techniques to deal with randomness
 ]
-
+]
 .pull-right[
 .center[
 ![:scale 90%](https://www.dropbox.com/s/bsdtuddzjouwzr1/sampling.jpg?raw=1)
@@ -129,16 +130,18 @@ class: inverse, center, middle
 
 # The Two Problems: Where We're Heading...Ultimately
 
-`$$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$`
+.center[
+.b[Sample] `\(\underbrace{\rightarrow}_{\text{statistical inference}}\)` .b[Population] `\(\underbrace{\rightarrow}_{\text{causal indentification}}\)` .b[Unobserved Parameters]
+]
 
 - We want to .hi[identify] causal relationships between **population** variables
-    - Logically first thing to consider
-    - .hi-purple[Endogeneity problem]
+  - Logically first thing to consider
+  - .hi-purple[Endogeneity problem]
 
 - We'll use **sample** *statistics* to .hi-purple[infer] something about population *parameters*
-    - In practice, we'll only ever have a finite *sample distribution* of data
-    - We *don't* know the *population distribution* of data
-    - .hi-purple[Randomness problem]
+  - In practice, we'll only ever have a finite *sample distribution* of data
+  - We *don't* know the *population distribution* of data
+  - .hi-purple[Randomness problem]
 
 ---
 
