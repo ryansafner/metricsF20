@@ -40,24 +40,28 @@ class: inverse
 
 # Outline
 
-## [From Ricardian to Neoclassical Model](#)
-## [PPF: Increasing Costs](#4)
-## [Indifference Curves](#16)
-## [Autarky Optimum](#22)
-## [Measures of Center](#)
-## [Measures of Dispersion](#)
+## [The Two Big Problems with Data](#3)
+## [Data 101](#10)
+## [Descriptive Statistics](#31)
+## [Measures of Center](#39)
+## [Measures of Dispersion](#59)
+---
+
+class: inverse, center, middle
+
+# The Two Big Problems with Data
 
 ---
 
-# Review From 1.2: Two Big Problems with Data
+# Two Big Problems with Data
 
 .pull-left[
 
-- We want to use econometrics to **identify** causal relationships and make **inferences** about them
+- We want to use econometrics to .hi[identify] causal relationships and make .hi[inferences] about them
 
-1. Problem for **identification**: .hi[endogeneity]
+1. Problem for .hi[identification]: .hi-purple[endogeneity]
 
-2. Problem for **inference**: .hi[randomness]
+2. Problem for .hi[inference]: .hi-purple[randomness]
 
 ]
 
@@ -68,13 +72,13 @@ class: inverse
 
 ---
 
-# Review from 1.2: Identification Problem: Endogeneity
+# Identification Problem: Endogeneity
 
 .pull-left[
 
-- An independent variable $(X)$ is .hi[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable $(Y)$
+- An independent variable $(X)$ is .hi-purple[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable $(Y)$
 
-- An independent variable $(X)$ is .hi[endogenous] if its variation is *related* to other factors that affect the dependent variable $(Y)$
+- An independent variable $(X)$ is .hi-purple[endogenous] if its variation is *related* to other factors that affect the dependent variable $(Y)$
 ]
 
 .pull-right[
@@ -86,18 +90,92 @@ class: inverse
 
 ---
 
-# Review from 1.2: Inference Problem: Randomness
+# Identification Problem: Endogeneity
 
 .pull-left[
-- Data is random due to **natural sampling variation**
 
-    - Taking one sample of a population will yield slightly different information than another sample of the same population 
-    
+- An independent variable $(X)$ is .hi-purple[exogenous] if its variation is *unrelated* to other factors that affect the dependent variable $(Y)$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3, outwidth="90%", fig.align="center"}
+library(ggdag)
+#theme_set(theme_dag_blank())
+library(gridExtra)
+
+h1 <- dagify(Y ~ X,
+             coords=list(
+               x=c(X=1,Y=2),
+               y=c(X=1,Y=1)
+               )) %>% ggdag_parents("Y", stylized = FALSE) + 
+  labs(title = "X causes Y") + theme_dag_blank()+theme(legend.position = "none")
+
+h2 <- dagify(Y ~ X+Z,
+             coords=list(
+               x=c(Z=1,X=1,Y=2),
+               y=c(Z=2,X=1,Y=1.5)
+             )) %>% ggdag_parents("Y", stylized = FALSE) +
+  labs(title = "X and Z (independently) cause Y") + theme_void()+theme(legend.position = "none")
+
+grid.arrange(h1, h2, ncol=1)
+
+```
+
+]
+
+---
+
+# Identification Problem: Endogeneity
+
+.pull-left[
+
+- An independent variable $(X)$ is .hi-purple[endogenous] if its variation is *related* to other factors that affect the dependent variable $(Y)$
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3, outwidth="90%", fig.align="center"}
+h3 <- dagify(Y ~ X+Z, X ~Z,
+             coords=list(
+               x=c(X=1, Z=1.5, Y=2),
+               y=c(X=1, Z=2, Y=1)
+             )) %>% ggdag_parents("Y", stylized = FALSE) +
+  labs(title = "Z causes X and Y") + theme_void()+theme(legend.position = "none")
+
+h4 <- dagify(Y ~ Z, Z ~ X,
+             coords=list(
+               x=c(X=1, Z=1.5, Y=2),
+               y=c(X=1, Z=1, Y=1)
+               )) %>% ggdag_parents("Y", stylized = FALSE) + 
+  labs(title = "X Causes Y Indirectly Through Z") + theme_void()+theme(legend.position = "none")
+
+h5 <- dagify(Y ~ X+Z, Z ~X,
+             coords=list(
+               x=c(X=1, Z=1.5, Y=2),
+               y=c(X=1, Z=0.5, Y=1)
+             )) %>% ggdag_parents("Y", stylized = FALSE) +
+  labs(title = "X Causes Y (Directly and Via Z)") + theme_void()+theme(legend.position = "none")
+
+grid.arrange(h3, h4, h5, nrow=3)
+
+```
+
+]
+
+---
+
+# Inference Problem: Randomness
+
+.pull-left[
+- Data is .hi-purple[random] due to .hi-purple[natural sampling variation]
+  - Taking one sample of a population will yield slightly different information than another sample of the same population 
 - Common in statistics, *easy to fix*
 
-- **Inferential Statistics**: making claims about a wider population using sample data 
-
-    - We use common tools and techniques to deal with randomness
+- .hi[Inferential Statistics]: making claims about a wider population using sample data 
+  - We use common tools and techniques to deal with randomness
 ]
 
 .pull-right[
@@ -112,14 +190,14 @@ class: inverse
 
 $$\text{Sample} \underbrace{\rightarrow}_{\text{statistical inference}} \text{Population} \underbrace{\rightarrow}_{\text{causal indentification}} \text{Unobserved Parameters}$$
 
-- We want to .hi-purple[identify] causal relationships between **population** variables
+- We want to .hi[identify] causal relationships between **population** variables
     - Logically first thing to consider
-    - **Endogeneity problem**
+    - .hi-purple[Endogeneity problem]
 
 - We'll use **sample** *statistics* to .hi-purple[infer] something about population *parameters*
     - In practice, we'll only ever have a finite *sample distribution* of data
     - We *don't* know the *population distribution* of data
-    - **Randomness problem**
+    - .hi-purple[Randomness problem]
 
 ---
 
@@ -947,11 +1025,6 @@ ggplot(skew.left,(aes(x)))+
 h
 ```
 ]
-
----
-
-class: inverse, center, middle
-# Measures of Center
 
 ---
 
