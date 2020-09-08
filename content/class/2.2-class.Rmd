@@ -19,8 +19,8 @@ Today we finish your crash course/review of basic statistics with random variabl
 
 # Slides
 
-- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.1-slides.html)
-- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.1-slides.pdf)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.2-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.2-slides.pdf)
 
 # Live Class Session on Zoom
 
@@ -30,7 +30,7 @@ If you are unable to join today's live session, or if you want to review, you ca
 
 # Problem Set
 
-[Problem Set 1](/assignment/01-problem-set) answers are posted on that page.
+[Problem Set 1](/assignment/01-problem-set) answers are posted on that page in various formats.
 
 [Problem set 2](/assignment/02-problem-set) (on classes 2.1-2.2) is posted shortly, and is will be due by Sunday September 13.
 
@@ -45,7 +45,7 @@ library(mosaic) # load
 
 ## Creating Mathematical Functions
 
-You can create custom mathematical functions using mosaic by defining an R `function()` with multiple arguments. As a simple example, make the function $f(x) = 10x-x^2$ as follows:
+You can create custom mathematical functions using mosaic by defining an R `function()` with multiple arguments. As a simple example, make the function $f(x) = 10x-x^2$ (with one argument, $x$ since it is a univariate function) as follows:
 
 ```{r}
 # store as a named function, I'll call it "my_function"
@@ -58,7 +58,7 @@ my_function
 
 There are some notational requirements from `R` for making functions. Any coefficient in front of a variable (such as the 10 in `10x` must be explicitly multiplied by the variable, as in `10*x`).
 
-To use the function, simply define what the input `(x)` is and run your named function on it: 
+To *use* the function to calculate its value at a particular value of `x`, simply define what the `(x)` is and run your named function on it:
 
 ```{r}
 # f of 2 
@@ -71,7 +71,7 @@ my_function(c(2,4))
 my_function(2:7)
 
 # ALTERNATIVELY
-# define x first and then run function on it
+# define x first as a vector and then run function on it
 
 x<-c(2,4)
 my_function(x)
@@ -79,7 +79,7 @@ my_function(x)
 
 ## Graphing Mathematical Functions
 
-In `ggplot` there is a dedicated `stat_function()` (equivalent to a `geom_` layer) to graph mathematical and statistical functions. All that is needed is a `data.frame` of a range of `x` values to act as the source for `data`, and set `x` equal to those values for `aes`thetics. 
+In `ggplot` there is a dedicated `stat_function()` (equivalent to a `geom_` layer) to graph mathematical and statistical functions. All that is needed is a `data.frame` of a range of `x` values to act as the source for `data`, and set `x` equal to those values for `aes`thetics.
 
 ```{r, fig.retina=3}
 library(tidyverse)
@@ -104,7 +104,7 @@ ggplot(data = data.frame(x = 1:10))+
   stat_function(fun = my_function, color = "blue", size = 2, linetype = "dashed") 
 ```
 
-## Bultin Statistical Functions
+## Bult-in Statistical Functions
 
 There are some standard statistical distributions built into R. They require a combination of a specific prefix and a distribution. 
 

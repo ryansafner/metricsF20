@@ -186,6 +186,7 @@ $$f_X=p_i, \quad i=1,2,...,k$$
 
 .pull-left[
 
+.code50[
 ```{r, echo=T, eval=F}
 crashes<-tibble(number = c(0,1,2,3,4),
                 prob = c(0.80, 0.10, 0.06, 0.03, 0.01))
@@ -201,7 +202,7 @@ ggplot(data = crashes)+
 ```
 
 ]
-
+]
 .pull-right[
 
 ```{r, fig.retina=3}
@@ -258,7 +259,7 @@ ggplot(data = crashes)+
 # Discrete Random Variables: cdf Graph
 
 .pull-left[
-
+.code50[
 ```{r, echo=T, eval=T}
 crashes<-crashes %>%
   mutate(cum_prob = cumsum(prob))
@@ -278,6 +279,7 @@ ggplot(data = crashes)+
            base_size=20)
 ```
 
+]
 ]
 
 .pull-right[
@@ -334,7 +336,6 @@ $$E(X)=\sum^k_{i=1} p_i x_i$$
 .green[**Example**]:
 
 Let $X$ be a random variable that is described by the following pdf:
-]
 
 | $x_i$  | $P(X=x_i)$ |
 |--------|------------|
@@ -771,7 +772,6 @@ normal_pdf +
 
 ```{r, fig.retina=3}
 normal_pdf + 
-  stat_function(fun = shade99.7, geom="area", fill="#e0ecf4", alpha=0.6)+
   stat_function(fun = shade95, geom="area", fill="#9ebcda", alpha=0.6)+
   stat_function(fun = shade68, geom="area", fill="#8856a7", alpha=0.6)+
   annotate("text", x = 0, y = 0.11, label = "95%", color="#000000")+
@@ -907,30 +907,41 @@ This is 4.1 standard deviations $(\sigma)$ beneath the mean, an *extremely* low 
 
 # Standardizing Variables: From X to Z I
 
+.smallest[
 .content-box-green[
 .green[**Example**]: In the last quarter of 2015, a group of 64 mutual funds had a mean return of 2.4% with a standard deviation of 5.6%. These returns can be approximated by a normal distribution.
 
 What percent of the funds would you expect to be earning between -3.2% and 8.0% returns?
 
 ]
+]
 
 --
 
-Convert to standard normal to find $Z$-scores for 8 and $-3.2.$
+.smaller[
+Convert to standard normal to find $Z$-scores for $8$ and $-3.2.$
 
 $$P(-3.2 < X < 8)$$
 
+]
+
 --
 
+.smaller[
 $$P(\frac{-3.2-2.4}{5.6} < \frac{X-2.4}{5.6} < \frac{8-2.4}{5.6})$$
+]
 
 --
 
+.smaller[
 $$P(-1 < Z < 1)$$
+]
 
 --
 
+.smaller[
 $$P(X \pm 1\sigma)=0.68$$
+]
 
 ---
 
@@ -1090,7 +1101,7 @@ ggplot(data = tibble(x=-4:4))+
   labs(x = "X",
        y = "Probability")+
   scale_x_continuous(breaks=c(-1,1),
-                      label=c(expression(z[1]), expression(z[1])))+
+                      label=c(expression(z[1]), expression(z[2])))+
   theme_classic(base_family = "Fira Sans Condensed",
            base_size=20)
 
@@ -1215,8 +1226,11 @@ ggplot(data = tibble(x=35:115))+
 
 ]
 
+.smaller[
 - Probability a student gets **between a 65 and 85**
+]
 
+.code50[
 ```{r, echo=T}
 # subtract two left tails!
 pnorm(85, # larger number first!
@@ -1228,6 +1242,7 @@ pnorm(85, # larger number first!
         sd = 10,
         lower.tail = TRUE) #looking to left
 ```
+]
 ]
 
 .pull-right[

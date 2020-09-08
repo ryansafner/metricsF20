@@ -173,6 +173,7 @@ class: inverse, center, middle
 
 .pull-left[
 
+.code50[
 
 ```r
 crashes&lt;-tibble(number = c(0,1,2,3,4),
@@ -189,7 +190,7 @@ ggplot(data = crashes)+
 ```
 
 ]
-
+]
 .pull-right[
 
 &lt;img src="2.2-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" /&gt;
@@ -234,7 +235,7 @@ ggplot(data = crashes)+
 # Discrete Random Variables: cdf Graph
 
 .pull-left[
-
+.code50[
 
 ```r
 crashes&lt;-crashes %&gt;%
@@ -266,6 +267,7 @@ ggplot(data = crashes)+
            base_size=20)
 ```
 
+]
 ]
 
 .pull-right[
@@ -310,7 +312,6 @@ class: inverse, center, middle
 .green[**Example**]:
 
 Let `\(X\)` be a random variable that is described by the following pdf:
-]
 
 | `\(x_i\)`  | `\(P(X=x_i)\)` |
 |--------|------------|
@@ -780,30 +781,41 @@ This is 4.1 standard deviations `\((\sigma)\)` beneath the mean, an *extremely* 
 
 # Standardizing Variables: From X to Z I
 
+.smallest[
 .content-box-green[
 .green[**Example**]: In the last quarter of 2015, a group of 64 mutual funds had a mean return of 2.4% with a standard deviation of 5.6%. These returns can be approximated by a normal distribution.
 
 What percent of the funds would you expect to be earning between -3.2% and 8.0% returns?
 
 ]
+]
 
 --
 
-Convert to standard normal to find `\(Z\)`-scores for 8 and `\(-3.2.\)`
+.smaller[
+Convert to standard normal to find `\(Z\)`-scores for `\(8\)` and `\(-3.2.\)`
 
 `$$P(-3.2 &lt; X &lt; 8)$$`
 
+]
+
 --
 
+.smaller[
 `$$P(\frac{-3.2-2.4}{5.6} &lt; \frac{X-2.4}{5.6} &lt; \frac{8-2.4}{5.6})$$`
+]
 
 --
 
+.smaller[
 `$$P(-1 &lt; Z &lt; 1)$$`
+]
 
 --
 
+.smaller[
 `$$P(X \pm 1\sigma)=0.68$$`
+]
 
 ---
 
@@ -974,8 +986,11 @@ pnorm(80,
 
 ]
 
+.smaller[
 - Probability a student gets **between a 65 and 85**
+]
 
+.code50[
 
 ```r
 # subtract two left tails!
@@ -992,6 +1007,7 @@ pnorm(85, # larger number first!
 ```
 ## [1] 0.6826895
 ```
+]
 ]
 
 .pull-right[

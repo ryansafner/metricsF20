@@ -3,7 +3,7 @@ title: "Problem Set 1"
 author: "Answer Key"
 date: "ECON 480 — Fall 2020"
 output:
-    html_document:
+  html_document:
     df_print: paged
     theme: simplex
     toc: true 
@@ -19,7 +19,8 @@ output:
 ---
 
 ```{r message=FALSE, warning=FALSE, include=FALSE}
-library(pander)
+knitr::opts_chunk$set(echo = T,
+                      fig.retina = 3)
 ```
 
 Answers may be longer than I would deem sufficient on an exam. Some might vary slightly based on points of interest, examples, or personal experience. These suggested answers are designed to give you both the answer and a short explanation of *why* it is the answer.
