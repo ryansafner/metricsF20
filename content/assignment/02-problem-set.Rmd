@@ -1,0 +1,119 @@
+---
+title: "Problem Set 2"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+*Due by 11:59 PM Sunday September 6, 2020*
+
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/02-problem-set-pdf.pdf)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/02-problem-set.Rmd)
+
+<!--**ANSWERS:**
+
+- [<i class="fas fa-file-pdf"></i> `html`](/homeworks/02-problem-set-answers.html)
+- [<i class="fab fa-markdown"></i> `Markdown`](/homeworks/02-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/02-problem-set-answers.R) -->
+
+# Instructions
+
+There are several ways you can complete and turn in this homework assignment:
+
+1. Type up any applicable answers (saving any plots as images and including them) in a (e.g. Word) document and save it as a PDF *and* turn in a (commented!) *.R* file of commands for each relevant question. 
+
+2. If you wish to write out answers by hand, you may either print the <i class="fas fa-file-pdf"></i> pdf above or write your answers (all I need is your work and answers) on your own paper and then please scan/photograph & convert them **to a single PDF**, if they are easily readable, but this is *not preferred*. See my [guide to making a PDF](/reference/#how-to-make-a-pdf-for-submitting-assignments)
+
+3. Download the <i class="fab fa-markdown"></i> `.Rmd` file, do the homework in markdown, and email to me a single `knit`ted `html` or `pdf` file. Be sure that it shows all of your code (i.e. all chunks have `echo = TRUE` options), otherwise I will also ask for the markdown file.
+
+To minimize confusion, I suggest creating a new `R Project` (e.g. `hw1`) and storing any data and plots in that folder on your computer. See my [example workflow](https://github.com/ryansafner/workflow).
+
+You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.
+
+# Theory and Concepts
+
+## Question 1
+
+In your own words, explain the difference between endogeneity and exogeneity.
+
+## Question 2
+
+### Part A 
+
+In your own words, explain what (sample) standard deviation *means*.
+
+### Part B
+
+In your own words, explain how (sample) standard deviation *is calculated.* You may also write the formula, but it is not necessary.
+
+# Problems
+
+For the remaining questions, you may use `R` to *verify*, but please calculate all sample statistics by hand and show all work.
+
+## Question 3 
+
+Suppose you have a very small class of four students that all take a quiz. Their scores are reported as follows:
+
+$$\{83, 92, 72, 81\}$$
+
+
+### Part A 
+Calculate the median.
+
+### Part B
+Calculate the sample mean, $\bar{x}$.
+
+### Part C
+Calculate the sample standard deviation, $s$.
+
+### Part D
+Make or sketch a rough histogram of this data, with the size of each bin being 10 (i.e. 70's, 80's, 90's, 100's). You can draw this by hand or use `R`.^[If you are using `ggplot`, you want to use `+geom_histogram(breaks=seq(start,end,by))` and add `+scale_x_continuous(breaks=seq(start,end,by))`. For each, it creates bins in the histogram, and ticks on the x axis by creating a `seq`uence starting at `start` (a number), ending at `end` (number), `by` a certain interval (i.e. by `10`s.).] Is this distribution roughly symmetric or skewed? What would we expect about the mean and the median?
+
+### Part E
+Suppose instead the person who got the 72 did not show up that day to class, and got a 0 instead. Recalculate the mean and median. What happened and why? 
+
+
+## Question 4
+
+Suppose the probabilities of a visitor to Amazon’s website buying 0, 1, or 2 books are 0.2, 0.4, and 0.4 respectively. 
+
+### Part A
+Calculate the *expected number* of books a visitor will purchase.
+
+### Part B 
+Calculate the *standard deviation* of book purchases.
+
+### Part C 
+**Bonus**: try doing this in `R` by making an initial dataframe of the data, and then making new columns to the "table" like we did in class.
+
+## Question 5
+
+Scores on the SAT (out of 1600) are approximately normally distributed with a mean of 500 and standard deviation of 100. 
+
+### Part A 
+
+What is the probability of getting a score between a 400 and a 600?
+
+### Part B
+
+What is the probability of getting a score between a 300 and a 700?
+
+### Part C
+
+What is the probability of getting *at least* a 700?
+
+### Part D
+
+What is the probability of getting *at most* a 700?
+
+### Part E
+
+What is the probability of getting exactly a 500?
+
+## Question 6
+
+Redo problem 5 by using the `pnorm()` command in `R`.^[Hint: This function has four arguments: 1. the value of the random variable, 2. the mean of the distribution, 3. the sd of the distribution, and 4. `lower.tail` `TRUE` or `FALSE`.]

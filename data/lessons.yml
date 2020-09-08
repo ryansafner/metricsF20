@@ -46,8 +46,11 @@ lessons:
     
   - title: "2.2 Random Variables and Distributions"
     reading: "2.2-reading"
+    class: "2.2-class"
+    slides: "2.2-slides"
     
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 2** due Sun Sept 13'
+    assignment: "02-problem-set"
 
   - title: "2.3 OLS Linear Regression"
 

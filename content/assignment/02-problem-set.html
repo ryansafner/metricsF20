@@ -1,0 +1,77 @@
+---
+title: "Problem Set 2"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<p><em>Due by 11:59 PM Sunday September 6, 2020</em></p>
+<ul>
+<li><a href="/homeworks/02-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/homeworks/02-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--**ANSWERS:**
+
+- [<i class="fas fa-file-pdf"></i> `html`](/homeworks/02-problem-set-answers.html)
+- [<i class="fab fa-markdown"></i> `Markdown`](/homeworks/02-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/02-problem-set-answers.R) -->
+<h2 id="instructions">Instructions</h2>
+<p>There are several ways you can complete and turn in this homework assignment:</p>
+<ol style="list-style-type: decimal">
+<li><p>Type up any applicable answers (saving any plots as images and including them) in a (e.g. Word) document and save it as a PDF <em>and</em> turn in a (commented!) <em>.R</em> file of commands for each relevant question.</p></li>
+<li><p>If you wish to write out answers by hand, you may either print the <i class="fas fa-file-pdf"></i> pdf above or write your answers (all I need is your work and answers) on your own paper and then please scan/photograph &amp; convert them <strong>to a single PDF</strong>, if they are easily readable, but this is <em>not preferred</em>. See my <a href="/reference/#how-to-make-a-pdf-for-submitting-assignments">guide to making a PDF</a></p></li>
+<li><p>Download the <i class="fab fa-markdown"></i> <code>.Rmd</code> file, do the homework in markdown, and email to me a single <code>knit</code>ted <code>html</code> or <code>pdf</code> file. Be sure that it shows all of your code (i.e. all chunks have <code>echo = TRUE</code> options), otherwise I will also ask for the markdown file.</p></li>
+</ol>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>hw1</code>) and storing any data and plots in that folder on your computer. See my <a href="https://github.com/ryansafner/workflow">example workflow</a>.</p>
+<p>You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.</p>
+<h2 id="theory-and-concepts">Theory and Concepts</h2>
+<h3 id="question-1">Question 1</h3>
+<p>In your own words, explain the difference between endogeneity and exogeneity.</p>
+<h3 id="question-2">Question 2</h3>
+<h4 id="part-a">Part A</h4>
+<p>In your own words, explain what (sample) standard deviation <em>means</em>.</p>
+<h4 id="part-b">Part B</h4>
+<p>In your own words, explain how (sample) standard deviation <em>is calculated.</em> You may also write the formula, but it is not necessary.</p>
+<h2 id="problems">Problems</h2>
+<p>For the remaining questions, you may use <code>R</code> to <em>verify</em>, but please calculate all sample statistics by hand and show all work.</p>
+<h3 id="question-3">Question 3</h3>
+<p>Suppose you have a very small class of four students that all take a quiz. Their scores are reported as follows:</p>
+<p><span class="math display">\[\{83, 92, 72, 81\}\]</span></p>
+<h4 id="part-a-1">Part A</h4>
+<p>Calculate the median.</p>
+<h4 id="part-b-1">Part B</h4>
+<p>Calculate the sample mean, <span class="math inline">\(\bar{x}\)</span>.</p>
+<h4 id="part-c">Part C</h4>
+<p>Calculate the sample standard deviation, <span class="math inline">\(s\)</span>.</p>
+<h4 id="part-d">Part D</h4>
+<p>Make or sketch a rough histogram of this data, with the size of each bin being 10 (i.e. 70’s, 80’s, 90’s, 100’s). You can draw this by hand or use <code>R</code>.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">If you are using <code>ggplot</code>, you want to use <code>+geom_histogram(breaks=seq(start,end,by))</code> and add <code>+scale_x_continuous(breaks=seq(start,end,by))</code>. For each, it creates bins in the histogram, and ticks on the x axis by creating a <code>seq</code>uence starting at <code>start</code> (a number), ending at <code>end</code> (number), <code>by</code> a certain interval (i.e. by <code>10</code>s.).<br />
+<br />
+</span></span> Is this distribution roughly symmetric or skewed? What would we expect about the mean and the median?</p>
+<h4 id="part-e">Part E</h4>
+<p>Suppose instead the person who got the 72 did not show up that day to class, and got a 0 instead. Recalculate the mean and median. What happened and why?</p>
+<h3 id="question-4">Question 4</h3>
+<p>Suppose the probabilities of a visitor to Amazon’s website buying 0, 1, or 2 books are 0.2, 0.4, and 0.4 respectively.</p>
+<h4 id="part-a-2">Part A</h4>
+<p>Calculate the <em>expected number</em> of books a visitor will purchase.</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Calculate the <em>standard deviation</em> of book purchases.</p>
+<h4 id="part-c-1">Part C</h4>
+<p><strong>Bonus</strong>: try doing this in <code>R</code> by making an initial dataframe of the data, and then making new columns to the “table” like we did in class.</p>
+<h3 id="question-5">Question 5</h3>
+<p>Scores on the SAT (out of 1600) are approximately normally distributed with a mean of 500 and standard deviation of 100.</p>
+<h4 id="part-a-3">Part A</h4>
+<p>What is the probability of getting a score between a 400 and a 600?</p>
+<h4 id="part-b-3">Part B</h4>
+<p>What is the probability of getting a score between a 300 and a 700?</p>
+<h4 id="part-c-2">Part C</h4>
+<p>What is the probability of getting <em>at least</em> a 700?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>What is the probability of getting <em>at most</em> a 700?</p>
+<h4 id="part-e-1">Part E</h4>
+<p>What is the probability of getting exactly a 500?</p>
+<h3 id="question-6">Question 6</h3>
+<p>Redo problem 5 by using the <code>pnorm()</code> command in <code>R</code>.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hint: This function has four arguments: 1. the value of the random variable, 2. the mean of the distribution, 3. the sd of the distribution, and 4. <code>lower.tail</code> <code>TRUE</code> or <code>FALSE</code>.<br />
+<br />
+</span></span></p>

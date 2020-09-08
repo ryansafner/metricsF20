@@ -15,11 +15,11 @@ library(pander)
 - [<i class="fab fa-markdown"></i> `Download Markdown`](/assignments/01-problem-set.Rmd)
 - [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1569521)
 
-<!--**ANSWERS:**
+**ANSWERS:**
 
 - [<i class="fas fa-file-pdf"></i> `html`](/assignments/01-problem-set-answers.html)
 - [<i class="fab fa-markdown"></i> `Markdown`](/assignments/01-problem-set-answers.Rmd)
-- [<i class="fas fa-registered"></i> `R Script`](/assignments/01-problem-set-answers.R) -->
+- [<i class="fas fa-registered"></i> `R Script`](/assignments/01-problem-set-answers.R)
 
 # Instructions
 

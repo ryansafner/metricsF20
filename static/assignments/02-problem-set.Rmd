@@ -1,0 +1,139 @@
+---
+title: "Problem Set 2"
+author: "YOUR NAME HERE" # put your name here! 
+date: "ECON 480 — Fall 2020"
+output: html_document # change to pdf if you'd like, this will make a webpage (you can email it and open in any browser)
+---
+
+<!--CLICK "KNIT" ABOVE TO RENDER TO HTML, PDF, OR WORD OUTPUT
+In fact, try knitting right away and see what this produces!
+-->
+
+*Due by 11:59 PM Sunday September 13, 2020*
+
+# Theory and Concepts
+
+## Question 1
+### Part A
+**In your own words, explain the difference between endogeneity and exogeneity.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+## Question 2
+
+### Part A 
+
+**In your own words, explain what (sample) standard deviation _means_.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part B 
+
+**In your own words, explain how (sample) standard deviation _is calculated._ You may also write the formula, but it is not necessary.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+
+# Problems
+
+**For the remaining questions, you may use `R` to *verify*, but please calculate all sample statistics by hand and show all work.**
+
+## Question 3
+
+**Suppose you have a very small class of four students that all take a quiz. Their scores are reported as follows:**
+
+$$\{83, 92, 72, 81\}$$
+
+## Part A 
+**Calculate the median.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+## Part B 
+**Calculate the sample mean, $\bar{x}$**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+## Part C 
+**Calculate the sample standard deviation, $s$**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+## Part D
+**Make or sketch a rough histogram of this data, with the size of each bin being 10 (i.e. 70's, 80's, 90's, 100's). You can draw this by hand or use `R`.**^[If you are using `ggplot`, you want to use `+geom_histogram(breaks=seq(start,end,by))` and add `+scale_x_continuous(breaks=seq(start,end,by))`. For each, it creates bins in the histogram, and ticks on the x axis by creating a `seq`uence starting at `start` (a number), ending at `end` (number), `by` a certain interval (i.e. by `10`s.).] **Is this distribution roughly symmetric or skewed? What would we expect about the mean and the median?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r 5-c}
+# write your code here
+```
+
+
+## Part E
+
+**Suppose instead the person who got the 72 did not show up that day to class, and got a 0 instead. Recalculate the mean and median. What happened and why?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+
+## Question 4
+
+Suppose the probabilities of a visitor to Amazon’s website buying 0, 1, or 2 books are 0.2, 0.4, and 0.4 respectively. 
+
+### Part A
+**Calculate the _expected number_ of books a visitor will purchase.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part B
+**Calculate the _standard deviation_ of book purchases.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part C 
+**BONUS: try doing this in `R` by making an initial dataframe of the data, and then making new columns to the "table" like we did in class.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r 4-c}
+# write your code here
+```
+
+## Question 5
+
+Scores on the SAT (out of 1600) are approximately normally distributed with a mean of 500 and standard deviation of 100. 
+
+### Part A
+**What is the probability of getting a score between a 400 and a 600?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part B
+**What is the probability of getting a score between a 300 and a 700?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part C
+**What is the probability of getting _at least_ a 700?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part D
+**What is the probability of getting _at most_ a 700?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+### Part E
+**What is the probability of getting _exactly_ a 500?**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+## Question 6
+
+**Redo problem 5 by using the `pnorm()` command in `R`.**^[Hint: This function has four arguments: 1. the value of the random variable, 2. the mean of the distribution, 3. the sd of the distribution, and 4. `lower.tail` `TRUE` or `FALSE`.]
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r 6}
+# write your code here
+```
