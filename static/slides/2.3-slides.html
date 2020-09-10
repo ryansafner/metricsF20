@@ -344,10 +344,14 @@ r&amp;=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 `$$-1 \leq r \leq 1$$`
 .smallest[
 - Negative values `\(\implies\)` negative association
+
 - Positive values `\(\implies\)` positive association
+
 - Correlation of 0 `\(\implies\)` no association
+
 - As `\(|r| \rightarrow 1 \implies\)` the stronger the association
- - Correlation of `\(|r|=1 \implies\)` perfectly linear
+
+- Correlation of `\(|r|=1 \implies\)` perfectly linear
 ]
 ]
 
@@ -434,6 +438,14 @@ gapminder_cor_table&lt;-cor(gapminder_cor)
 gapminder_cor_table
 ```
 
+
+```
+##             gdpPercap         pop    lifeExp
+## gdpPercap  1.00000000 -0.02559958 0.58370622
+## pop       -0.02559958  1.00000000 0.06495537
+## lifeExp    0.58370622  0.06495537 1.00000000
+```
+
 ---
 
 # Correlation and Covariance in R II
@@ -453,7 +465,7 @@ corrplot(gapminder_cor_table, type="upper",
   
 .pull-right[
 
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
 ]
 
 ---
@@ -465,7 +477,7 @@ corrplot(gapminder_cor_table, type="upper",
 - Your Occasional Reminder: .hi[Correlation does not imply causation!]
     - I'll show you the difference in a few weeks (when we can actually talk about causation)
 
-- If `\(X\)` and `\(Y\)` are strongly correlated, `\(X\)` can still be **endogenous**!
+- If `\(X\)` and `\(Y\)` are strongly correlated, `\(X\)` can still be .hi-purple[endogenous]!
 
 - See [today's class notes page](/class/2.2-class) for more on Covariance and Correlation
 
@@ -502,37 +514,10 @@ class: inverse, center, middle
 
 `$$Y = a + bX$$`
 
-- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta
     - `\(a\)`: vertical intercept
     - `\(b\)`: slope
 
-.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`!]
-
-]
-
-.pull-right[
-
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
-
-]
-
----
-
-# Fitting a Line to Data
-
-.pull-left[
-
-- If an association appears linear, we can estimate the equation of a line that would "fit" the data
-
-`$$Y = a + bX$$`
-
-- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
-    - `\(a\)`: vertical intercept
-    - `\(b\)`: slope
-
-- How do we choose the equation that *best* fits the data? 
-
-.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`, the standard econometric notation.]
 
 ]
 
@@ -542,6 +527,30 @@ class: inverse, center, middle
 
 ]
 
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+`$$Y = a + bX$$`
+
+- Recall a linear equation describing a line contains:
+    - `\(a\)`: vertical intercept
+    - `\(b\)`: slope
+
+- How do we choose the equation that *best* fits the data? 
+
+]
+
+.pull-right[
+
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-16-1.png" width="504" /&gt;
+
+]
+
 
 ---
 
@@ -553,7 +562,7 @@ class: inverse, center, middle
 
 `$$Y = a + bX$$`
 
-- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+- Recall a linear equation describing a line contains:
     - `\(a\)`: vertical intercept
     - `\(b\)`: slope
 
@@ -561,12 +570,11 @@ class: inverse, center, middle
 
 - This process is called .hi[linear regression]
 
-.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`, the standard econometric notation.]
 
 ]
 
 .pull-right[
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-16-1.png" width="504" /&gt;
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-17-1.png" width="504" /&gt;
 
 ]
 
@@ -1022,7 +1030,7 @@ scatter
 ]
 
 .pull-right[
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-20-1.png" width="504" /&gt;
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-21-1.png" width="504" /&gt;
 ]
 
 
@@ -1044,7 +1052,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1061,7 +1069,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1081,7 +1089,7 @@ class: inverse, center, middle
 ]
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1102,7 +1110,7 @@ class: inverse, center, middle
 ]
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1129,7 +1137,7 @@ class: inverse, center, middle
 
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1156,7 +1164,7 @@ class: inverse, center, middle
 ]
 .pull-right[
 
-![](2.3-slides_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+![](2.3-slides_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
 
 ]
 
@@ -1233,7 +1241,7 @@ scatter
 ]
 
 .pull-right[
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" /&gt;
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" /&gt;
 
 ]
 
@@ -1570,7 +1578,7 @@ CASchool %&gt;%
 ]
 
 .pull-right[
-&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-38-1.png" width="504" /&gt;
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-39-1.png" width="504" /&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>

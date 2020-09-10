@@ -291,10 +291,14 @@ r&=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
 $$-1 \leq r \leq 1$$
 .smallest[
 - Negative values $\implies$ negative association
+
 - Positive values $\implies$ positive association
+
 - Correlation of 0 $\implies$ no association
+
 - As $|r| \rightarrow 1 \implies$ the stronger the association
- - Correlation of $|r|=1 \implies$ perfectly linear
+
+- Correlation of $|r|=1 \implies$ perfectly linear
 ]
 ]
 
@@ -464,6 +468,22 @@ gapminder_cor_table<-cor(gapminder_cor)
 gapminder_cor_table
 ```
 
+```{r,echo=F}
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor<- gapminder %>%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table<-cor(gapminder_cor)
+
+# view it
+gapminder_cor_table
+```
+
 ---
 
 # Correlation and Covariance in R II
@@ -512,7 +532,7 @@ corrplot(gapminder_cor_table, type="upper",
 - Your Occasional Reminder: .hi[Correlation does not imply causation!]
     - I'll show you the difference in a few weeks (when we can actually talk about causation)
 
-- If $X$ and $Y$ are strongly correlated, $X$ can still be **endogenous**!
+- If $X$ and $Y$ are strongly correlated, $X$ can still be .hi-purple[endogenous]!
 
 - See [today's class notes page](/class/2.2-class) for more on Covariance and Correlation
 
@@ -549,11 +569,10 @@ class: inverse, center, middle
 
 $$Y = a + bX$$
 
-- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+- Recall a linear equation describing a line contains:<sup>.magenta
     - $a$: vertical intercept
     - $b$: slope
 
-.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`!]
 
 ]
 
@@ -592,13 +611,11 @@ p+geom_abline(slope=-1, intercept=14, color="red", size=1)
 
 $$Y = a + bX$$
 
-- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+- Recall a linear equation describing a line contains:
     - $a$: vertical intercept
     - $b$: slope
 
 - How do we choose the equation that *best* fits the data? 
-
-.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`, the standard econometric notation.]
 
 ]
 
@@ -623,7 +640,7 @@ p+geom_abline(slope=-1, intercept=14, color="red", size=1)+
 
 $$Y = a + bX$$
 
-- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+- Recall a linear equation describing a line contains:
     - $a$: vertical intercept
     - $b$: slope
 
@@ -631,7 +648,6 @@ $$Y = a + bX$$
 
 - This process is called .hi[linear regression]
 
-.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`, the standard econometric notation.]
 
 ]
 
