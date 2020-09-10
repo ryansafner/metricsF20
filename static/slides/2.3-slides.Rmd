@@ -1,0 +1,1437 @@
+---
+title: "2.3 — OLS Linear Regression"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    #seal: false
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+library(ggthemes)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+class: inverse, center, middle
+# Exploring Relationships
+
+---
+
+# Bivariate Data and Relationships
+
+.pull-left[
+- We looked at single variables for descriptive statistics
+- Most uses of statistics in economics and business investigate relationships *between* variables
+
+.content-box-green[
+.smaller[
+.green[**Examples**]
+  - \# of police & crime rates
+  - healthcare spending & life expectancy
+  - government spending & GDP growth
+  - carbon dioxide emissions & temperatures
+]
+]
+]
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
+
+---
+
+# Bivariate Data and Relationships
+
+.pull-left[
+- We will begin with .hi-purple[bivariate] data for relationships between $X$ and $Y$
+
+- Immediate aim is to explore .hi[associations] between variables, quantified with .hi[correlation] and .hi[linear regression]
+
+- Later we want to develop more sophisticated tools to argue for .hi[causation]
+
+]
+
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
+
+---
+
+# Bivariate Data: Spreadsheets I
+
+.pull-left[
+
+```{r econfreedomtable, echo=T, eval=F}
+econfreedom <- read_csv("econfreedom.csv")
+head(econfreedom)
+```
+
+]
+
+.pull-right[
+```{r, echo=F, out.width ="90%"}
+econfreedom <- read_csv("../data/econfreedom.csv")
+head(econfreedom)
+```
+]
+
+- **Rows** are individual observations (countries)
+- **Columns** are variables on all individuals
+
+---
+
+# Bivariate Data: Spreadsheets II
+
+
+```{r echo=T}
+econfreedom %>%
+  glimpse()
+```
+
+---
+
+# Bivariate Data: Spreadsheets III
+
+```{r, echo=T, eval=F}
+source("summaries.R") # use my summary_table function
+
+econfreedom %>%
+    summary_table(ef, gdp)
+```
+
+```{r}
+source("../files/summaries.R") # use my summary_table function
+
+econfreedom %>%
+    summary_table(ef, gdp) %>%
+  knitr::kable(., format = "html")
+```
+
+---
+
+# Bivariate Data: Scatterplots
+
+.pull-left[
+
+- The best way to visualize an association between two variables is with a .hi[scatterplot]
+
+- Each point: pair of variable values $(x_i,y_i) \in X, Y$ for observation $i$
+
+.code50[
+```{r econfreedom-scatter, eval=F, echo = T}
+library("ggplot2")
+ggplot(data = econfreedom)+
+  aes(x = ef,
+      y = gdp)+
+  geom_point(aes(color = continent),
+             size = 2)+
+  labs(x = "Economic Freedom Index (2014)",
+       y = "GDP per Capita (2014 USD)",
+       color = "")+
+  scale_y_continuous(labels = scales::dollar)+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)+
+  theme(legend.position = "bottom")
+```
+]
+]
+
+.pull-right[
+```{r econfreedom-scatter-out, ref.label="econfreedom-scatter", fig.retina=3, fig.align="center"}
+```
+
+]
+
+---
+
+# Associations
+
+.pull-left[
+
+- Look for .hi-purple[association] between independent and dependent variables
+
+1. **Direction**: is the trend positive or negative?
+
+2. **Form**: is the trend linear, quadratic, something else, or no pattern?
+
+3. **Strength**: is the association strong or weak? 
+
+4. **Outliers**: do any observations break the trends above? 
+
+]
+
+.pull-right[
+```{r, ref.label="econfreedom-scatter", fig.retina=3, fig.align="center"}
+```
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Quantifying Relationships
+
+---
+
+# Covariance
+
+- For any two variables, we can measure their .hi[sample covariance, `\\(cov(X,Y)\\)`] or .hi[`\\(s_{X,Y}\\)`] to quantify how they vary *together*<sup>.magenta[†]</sup>
+
+--
+
+$$s_{X,Y}=E\big[(X-\bar{X})(Y-\bar{Y}) \big]$$
+
+--
+
+- Intuition: if $X$ is above its mean, would we expect $Y$:
+    - to be *above* its mean also $(X$ and $Y$ covary *positively*)
+    - to be *below* its mean $(X$ and $Y$ covary *negatively*)
+
+--
+
+- Covariance is a common measure, but the units are meaningless, thus we rarely need to use it so **don't worry about learning the formula**
+
+.footnote[<sup>.magenta[†]</sup> Henceforth we limit all measures to *samples*, for convenience. Population covariance is denoted `\\(\sigma_{X,Y}\\)`]
+
+---
+
+# Covariance, in R
+
+```{r, echo = T}
+# base R 
+cov(econfreedom$ef,econfreedom$gdp)
+```
+
+```{r, echo = T}
+# dplyr 
+
+econfreedom %>%
+  summarize(cov = cov(ef,gdp))
+```
+
+--
+
+8923 what, exactly?
+
+---
+
+# Correlation
+
+.smallest[
+- More convenient to *standardize* covariance into a more intuitive concept: .hi[correlation, `\\(\rho\\)`] or .hi[`\\(r\\)`] $\in [-1, 1]$
+
+]
+
+--
+
+.smallest[
+$$r_{X,Y}=\frac{s_{X,Y}}{s_X s_Y}=\frac{cov(X,Y)}{sd(X)sd(Y)}$$
+]
+
+--
+
+.smallest[
+- Simply weight covariance by the product of the standard deviations of $X$ and $Y$
+]
+
+--
+
+.smallest[
+- Alternatively, take the average<sup>.magenta[†]</sup> of the product of standardized $(Z$-scores for) each $(x_i,y_i)$ pair:<sup>.magenta[‡]</sup>
+]
+
+--
+
+.smallest[
+$$\begin{align*}
+r&=\frac{1}{n-1}\sum^n_{i=1}\bigg(\frac{x_i-\bar{X}}{s_X}\bigg)\bigg(\frac{y_i-\bar{Y}}{s_Y}\bigg)\\
+r&=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
+\end{align*}$$
+
+]
+
+.footnote[<sup>.magenta[†]</sup> Over n-1, a *sample* statistic!
+
+<sup>.magenta[‡]</sup> See today's [class notes page](/class/2.3-class) for example code to calculate correlation "by hand" in R using the second method.]
+
+---
+
+# Correlation: Interpretation
+
+.pull-left[
+
+- Correlation is standardized to 
+$$-1 \leq r \leq 1$$
+.smallest[
+- Negative values $\implies$ negative association
+- Positive values $\implies$ positive association
+- Correlation of 0 $\implies$ no association
+- As $|r| \rightarrow 1 \implies$ the stronger the association
+ - Correlation of $|r|=1 \implies$ perfectly linear
+]
+]
+
+.pull-right[
+
+```{r, echo=F}
+library("MASS")
+library("gridExtra")
+library("ggthemes")
+
+# generated data for specified correlation: https://stackoverflow.com/questions/13291308/generate-numbers-with-specific-correlation
+# colors chosen from http://colorbrewer2.org/#type=diverging&scheme=RdBu&n=6
+
+# corr of -.75 
+
+dfn75 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,-0.75,-0.75,1), ncol = 2),
+               empirical = TRUE)
+dfn75<-data.frame(dfn75)
+dfn75 <- dfn75 %>%
+  rename(y=X1,
+         x=X2)
+
+corrn75<-ggplot(dfn75, aes(x=x,
+                   y=y))+
+  geom_point(color="#b2182b")+
+  theme_void()+
+  labs(title="Correlation: -0.75")
+
+# corr of -.5 
+
+dfn50 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,-0.5,-0.5,1), ncol = 2),
+               empirical = TRUE)
+dfn50<-data.frame(dfn50)
+dfn50 <- dfn50 %>%
+  rename(y=X1,
+         x=X2)
+
+corrn50<-ggplot(dfn50, aes(x=x,
+                   y=y))+
+  geom_point(color="#ef8a62")+
+  theme_void()+
+  labs(title="Correlation: -0.50")
+
+# corr of -.25 
+
+dfn25 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,-0.25,-0.25,1), ncol = 2),
+               empirical = TRUE)
+dfn25<-data.frame(dfn25)
+dfn25 <- dfn25 %>%
+  rename(y=X1,
+         x=X2)
+
+corrn25<-ggplot(dfn25, aes(x=x,
+                   y=y))+
+  geom_point(color="#fddbc7")+
+  theme_void()+
+  labs(title="Correlation: -0.25")
+
+# corr of 0.25
+
+df25 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,0.25,0.25,1), ncol = 2),
+               empirical = TRUE)
+df25<-data.frame(df25)
+df25 <- df25 %>%
+  rename(y=X1,
+         x=X2)
+
+corr25<-ggplot(df25, aes(x=x,
+                   y=y))+
+  geom_point(color="#d1e5f0")+
+  theme_void()+
+  labs(title="Correlation: 0.25")
+
+# corr of .50 
+
+df50 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,0.50,0.50,1), ncol = 2),
+               empirical = TRUE)
+df50<-data.frame(df50)
+df50 <- df50 %>%
+  rename(y=X1,
+         x=X2)
+
+corr50<-ggplot(df50, aes(x=x,
+                   y=y))+
+  geom_point(color="#67a9cf")+
+  theme_void()+
+  labs(title="Correlation: 0.50")
+
+# corr of 0.75
+
+df75 <- mvrnorm(50, mu = c(0,0), Sigma = matrix(c(1,0.75,0.75,1), ncol = 2),
+               empirical = TRUE)
+df75<-data.frame(df75)
+df75 <- df75 %>%
+  rename(y=X1,
+         x=X2)
+
+corr75<-ggplot(df75, aes(x=x,
+                   y=y))+
+  geom_point(color="#2166ac")+
+  theme_void()+
+  labs(title="Correlation: 0.75")
+
+# arrange all on grid
+grid.arrange(corrn25, corrn50, corrn75, corr25, corr50, corr75, ncol=3)
+
+```
+]
+
+---
+
+# Guess the Correlation!
+
+.center[
+![:scale 25%](https://www.dropbox.com/s/70opitsw7jjpfko/guessthecorrelation.png?raw=1)
+
+[Guess the Correlation Game](http://guessthecorrelation.com/index.html)
+]
+
+---
+
+# Correlation and Covariance in R
+
+.pull-left[
+```{r, echo = T}
+# Base r: cov or cor(df$x, df$y)
+
+cov(econfreedom$ef, econfreedom$gdp)
+
+cor(econfreedom$ef, econfreedom$gdp)
+
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=T}
+# tidyverse method 
+
+econfreedom %>%
+  summarize(covariance = cov(ef, gdp),
+            correlation = cor(ef, gdp))
+
+```
+]
+
+---
+
+# Correlation and Covariance in R I
+
+- `corrplot` is a great package (install and then load) to **visualize** correlations in data
+
+```{r, echo=T, eval=F}
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor<- gapminder %>%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table<-cor(gapminder_cor)
+
+# view it
+gapminder_cor_table
+```
+
+---
+
+# Correlation and Covariance in R II
+
+.pull-left[
+
+```{r, echo=T, eval=F}
+
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", 
+         order = "alphabet", 
+         col = viridis::viridis(100)) # custom color
+```
+]
+
+--
+  
+.pull-right[
+
+```{r, fig.retina=3}
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor<- gapminder %>%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table<-cor(gapminder_cor)
+
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", # number for showing correlation coefficient
+         order ="alphabet", 
+         col=viridis::viridis(100))
+
+```
+]
+
+---
+
+# Correlation and Endogeneity
+
+.pull-left[
+
+- Your Occasional Reminder: .hi[Correlation does not imply causation!]
+    - I'll show you the difference in a few weeks (when we can actually talk about causation)
+
+- If $X$ and $Y$ are strongly correlated, $X$ can still be **endogenous**!
+
+- See [today's class notes page](/class/2.2-class) for more on Covariance and Correlation
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Always Plot Your Data!
+
+.center[
+![](https://d2f99xq7vri1nk.cloudfront.net/DinoSequentialSmaller.gif)
+]
+
+---
+
+class: inverse, center, middle
+
+# Linear Regression
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+$$Y = a + bX$$
+
+- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+    - $a$: vertical intercept
+    - $b$: slope
+
+.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`!]
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+x <- runif(100,1,9)
+e <- rnorm(100,0,2.5)
+y <- 12-0.5*x+e
+df <- tibble(x,y)
+
+p <- ggplot(df, aes(x=x,y=y))+
+  geom_point()+
+  scale_x_continuous(breaks = seq(0,20,1),
+                     limits = c(0,10),
+                     expand = c(0,0))+
+  scale_y_continuous(breaks = seq(0,20,2),
+                     limits = c(0,20),
+                     expand = c(0,0))+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)
+
+p+geom_abline(slope=-1, intercept=14, color="red", size=1)
+  #geom_smooth(method="lm", se=F)
+```
+
+]
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+$$Y = a + bX$$
+
+- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+    - $a$: vertical intercept
+    - $b$: slope
+
+- How do we choose the equation that *best* fits the data? 
+
+.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`, the standard econometric notation.]
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+p+geom_abline(slope=-1, intercept=14, color="red", size=1)+
+  geom_abline(slope=-0.125, intercept=10, color="orange", size=1)
+  #geom_smooth(method="lm", se=F)
+```
+
+]
+
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+$$Y = a + bX$$
+
+- Recall a linear equation describing a line contains:<sup>.magenta[†]</sup>
+    - $a$: vertical intercept
+    - $b$: slope
+
+- How do we choose the equation that *best* fits the data? 
+
+- This process is called .hi[linear regression]
+
+.footnote[<sup>.magenta[†]</sup> Note we'll use different symbols for `\\(a\\)` & `\\(b\\)`, the standard econometric notation.]
+
+]
+
+.pull-right[
+```{r, fig.retina=3}
+p+geom_abline(slope=-1, intercept=14, color="red", size=1)+
+  geom_abline(slope=-0.125, intercept=10, color="orange", size=1)+
+  geom_smooth(method="lm", se=F, color="green", size=2, fullrange = T)
+```
+
+]
+
+---
+
+# Population Linear Regression Model
+
+- Linear regression lets us estimate the slope of the .hi-purple[population] regression line between $X$ and $Y$ using .hi-purple[sample] data
+
+- We can make .hi-purple[statistical inferences] about the population slope coefficient
+  - eventually & hopefully: a .hi-purple[*causal* inference]
+
+- $\text{slope}=\frac{\Delta Y}{\Delta X}$: for a 1-unit change in $X$, how many units will this *cause* $Y$ to change?
+
+---
+
+# Class Size Example
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: What is the relationship between class size and educational performance?
+]
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Load the Data
+
+```{r, echo=TRUE}
+# install.packages("haven") # install for first use
+library("haven") # load for importing .dta files
+CASchool<-read_dta("../data/caschool.dta")
+```
+
+---
+
+# Class Size Example: Look at the Data I
+
+```{r, echo=T}
+glimpse(CASchool)
+```
+
+---
+
+# Class Size Example: Look at the Data II
+
+```{r, results="asis"}
+library(kableExtra)
+head(CASchool) %>%
+  knitr::kable(.,format="html") %>%
+  kable_styling(font_size = 8)
+```
+
+---
+
+# Class Size Example: Scatterplot 
+
+.pull-left[
+.code60[
+```{r, school-scatter, eval=F, echo =T}
+scatter <- ggplot(data = CASchool)+
+  aes(x = str,
+      y = testscr)+
+  geom_point(color = "blue")+
+  labs(x = "Student to Teacher Ratio",
+       y = "Test Score")+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size = 20)
+scatter
+```
+]
+]
+
+.pull-right[
+```{r, school-scatter-out, ref.label="school-scatter", fig.retina=3}
+```
+]
+
+---
+
+# Class Size Example: Slope I
+
+.pull-left[
+.smaller[
+- If we *change* $(\Delta)$ the class size by an amount, what would we expect the *change* in test scores to be?
+
+$$\beta = \frac{\text{change in test score}}{\text{change in class size}} = \frac{\Delta \text{test score}}{\Delta \text{class size}}$$
+
+- If we knew $\beta$, we could say that changing class size by 1 student will change test scores by $\beta$
+
+]
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope II
+
+.pull-left[
+.smaller[
+- Rearranging: 
+
+$$\Delta \text{test score} = \beta \times \Delta \text{class size}$$
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope II
+
+.pull-left[
+.smalelr[
+- Rearranging: 
+
+$$\Delta \text{test score} = \beta \times \Delta \text{class size}$$
+
+- Suppose $\beta=-0.6$. If we shrank class size by 2 students, our model predicts:
+
+$$\begin{align*}
+	\Delta \text{test score} &= -2 \times \beta\\
+	\Delta \text{test score} &= -2 \times -0.6\\
+	\Delta \text{test score}&= 1.2	\\
+\end{align*}$$
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope and Average Effect
+
+.pull-left[
+
+.smaller[
+$$\text{test score} = \beta_0 + \beta_{1} \times \text{class size}$$	
+
+- The line relating class size and test scores has the above equation
+
+- $\beta_0$ is the .hi[vertical-intercept], test score where class size is 0
+
+- $\beta_{1}$ is the .hi[slope] of the regression line
+
+- This relationship only holds .hi-purple[on average] for all districts in the population, *individual* districts are also affected by other factors
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Marginal Effects
+
+.pull-left[
+.smaller[
+- To get an equation that holds for *each* district, we need to include other factors
+
+$$\text{test score} = \beta_0 + \beta_1 \text{class size}+\text{other factors}$$
+
+- For now, we will ignore these until Unit III
+
+- Thus, $\beta_0 + \beta_1 \text{class size}$ gives the .hi-purple[average effect] of class sizes on scores
+
+- Later, we will want to estimate the .hi[marginal effect] (.hi[causal effect]) of each factor on an individual district's test score, holding all other factors constant
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Econometric Models Overview
+
+$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + u$$
+
+--
+
+.smallest[
+- $Y$ is the .hi[dependent variable] of interest
+    - AKA "response variable," "regressand," "Left-hand side (LHS) variable"
+]
+
+--
+
+.smallest[
+- $X_1$ and $X_2$ are .hi[independent variables]
+    - AKA "explanatory variables", "regressors," "Right-hand side (RHS) variables", "covariates"
+]
+--
+
+.smallest[
+- Our data consists of a spreadsheet of observed values of $(X_{1i}, X_{2i}, Y_i)$
+]
+
+--
+
+.smallest[
+- To model, we .hi-turquoise["regress Y on `\\(X_1\\)` and `\\(X_2\\)`"]
+]
+--
+.smallest[
+- $\beta_0$ and $\beta_1$ are .hi-purple[parameters] that describe the population relationships between the variables
+    - unknown! to be estimated!
+]
+--
+.smallest[
+- $u$ is the random .hi[error term]
+    - **'U'nobservable**, we can't measure it, and must model with assumptions about it
+]
+---
+
+# The Population Regression Model
+
+
+.pull-left[
+
+- How do we draw a line through the scatterplot? We do not know the **"true"** $\beta_0$ or $\beta_1$
+
+- We do have data from a *sample* of class sizes and test scores<sup>.magenta[†]</sup>
+
+- So the real question is, .hi-purple[how can we estimate `\\(\beta_0\\)` and `\\(\beta_1\\)`?]
+
+.quitesmall[
+
+<sup>.magenta[†]</sup> Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.retina=3}
+scatter
+```
+]
+
+
+---
+
+class: inverse, center, middle
+
+# Deriving OLS
+
+---
+
+# Deriving OLS
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+]
+]
+
+.pull-right[
+
+```{r,echo =F}
+
+x <- runif(25,0,10)
+e <- rnorm(25,0,1)
+y <- 2+0.5*x+e
+
+df <- tibble(x,y)
+p <- ggplot(df,
+       aes(x = x,
+           y = y))+
+  geom_point()+
+  scale_x_continuous(limits = c(0,10))+
+  scale_y_continuous(limits = c(0,10))+
+  #geom_smooth(method="lm")+
+  theme_void()
+
+p
+```
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+]
+]
+
+.pull-right[
+
+```{r,echo =F}
+
+p+geom_smooth(method="lm", se=F)
+```
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], $\hat{u}$ of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of $Y$ given $X$: 
+
+$$u_i = Y_i - \hat{Y_i}$$
+
+]
+]
+.pull-right[
+
+```{r,echo =F}
+library("broom")
+
+reg <- lm(y ~ x, data = df)
+
+reg_tidy <- tidy(reg)
+reg_aug <- augment(reg)
+
+p2 <- ggplot(reg_aug,
+       aes(x = x,
+           y = y))+
+  geom_point()+
+  geom_segment(aes(x=x, xend=x, y=y, yend=.fitted), color="red", linetype="dashed")+
+  geom_smooth(method="lm", se=F)+
+  scale_x_continuous(limits = c(0,10))+
+  scale_y_continuous(limits = c(0,10))+
+  theme_void()
+
+p2
+```
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], $\hat{u}$ of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of $Y$ given $X$: 
+
+$$u_i = Y_i - \hat{Y_i}$$
+
+- We square each residual
+]
+]
+.pull-right[
+
+```{r,echo =F}
+library("broom")
+
+p2+geom_rect(aes(xmin=x, xmax=x+.resid, ymin=y, ymax=y-.resid),alpha=0.25,color="red", fill="red", linetype="dashed")
+  #geom_tile(aes(x=x, y=y, width=.resid, height=.resid),alpha=0.125,fill="red",color="red")+
+```
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], $\hat{u}$ of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of $Y$ given $X$: 
+
+$$u_i = Y_i - \hat{Y_i}$$
+
+- We square each residual
+- Add all of these up: .hi[Sum of Squared Errors (SSE)]
+
+$$SSE = \sum^n_{i=1} u_i^2$$
+
+]
+
+]
+
+.pull-right[
+
+```{r,echo=F}
+p2+geom_rect(aes(xmin=x, xmax=x+.resid, ymin=y, ymax=y-.resid),alpha=0.25,color="red", fill="red", linetype="dashed")
+  #geom_tile(aes(x=x, y=y, width=.resid, height=.resid),alpha=0.125,fill="red",color="red")+
+```
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], $\hat{u}$ of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of $Y$ given $X$: 
+
+$$u_i = Y_i - \hat{Y_i}$$
+
+- We square each residual
+- Add all of these up: .hi[Sum of Squared Errors (SSE)]
+
+$$SSE = \sum^n_{i=1} u_i^2$$
+
+- .hi-purple[The line of best fit *minimizes* SSE]
+
+]
+]
+.pull-right[
+
+```{r,echo =F}
+p2+geom_rect(aes(xmin=x, xmax=x+.resid, ymin=y, ymax=y-.resid),alpha=0.25,color="red", fill="red", linetype="dashed")
+  #geom_tile(aes(x=x, y=y, width=.resid, height=.resid),alpha=0.125,fill="red",color="red")+
+```
+
+]
+
+---
+
+# *O* rdinary *L* east *S* quares Estimators
+
+- The .hi[Ordinary Least Squares (OLS) estimators] of the unknown population parameters $\beta_0$ and $\beta_1$, solve the calculus problem:
+
+$$\min_{\beta_0, \beta_1} \sum^n_{i=1}[\underbrace{Y_i-(\underbrace{\beta_0+\beta_1 X_i}_{\hat{Y_i}})}_{u}]^2$$
+
+--
+
+- Intuitively, OLS estimators .hi-purple[minimize the average squared distance between the actual values `\\((Y_i)\\)` and the predicted values `\\((\hat{Y}_i)\\)` along the estimated regression line]
+
+---
+
+# The OLS Regression Line
+
+- The .hi[OLS regression line] or .hi[sample regression line] is the linear function constructed using the OLS estimators:
+
+$$\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i$$
+
+--
+
+- $\hat{\beta_0}$ and $\hat{\beta_1}$ ("beta 0 hat" & "beta 1 hat") are the .hi[OLS estimators] of population parameters $\beta_0$ and $\beta_1$ using sample data
+
+--
+
+- The .hi[predicted value] of Y given X, based on the regression, is $E(Y_i|X_i)=\hat{Y_i}$ 
+
+--
+
+- The .hi-purple[residual] or .hi-purple[prediction error] for the $i^{th}$ observation is the difference between observed $Y_i$ and its predicted value, $\hat{u_i}=Y_i-\hat{Y_i}$
+
+---
+
+# The OLS Regression Estimators
+
+- The solution to the SSE minimization problem yields:<sup>.magenta[†]</sup>
+
+--
+
+$$\hat{\beta}_0=\bar{Y}-\hat{\beta_1}\bar{X}$$
+
+--
+
+$$\hat{\beta}_1=\frac{\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\frac{s_{XY}}{s^2_X}= \frac{cov(X,Y)}{var(X)}$$
+
+
+.footnote[<sup>.magenta[†]</sup> See [next's class notes page](/class/2.4-class) for proofs.]
+---
+
+class: inverse, center, middle
+
+# Our Class Size Example in R
+
+---
+
+# Class Size Scatterplot (Again)
+
+.pull-left[
+
+```{r school-scatter-2, echo=T, eval=F}
+scatter
+```
+
+- There is some true (unknown) population relationship: 
+$$\text{test score}=\beta_0+\beta_1 \times str$$
+
+- $\beta_1=\frac{\Delta \text{test score}}{\Delta \text{str}}= ??$
+
+]
+
+.pull-right[
+```{r, ref.label="school-scatter-2", fig.retina=3}
+```
+
+]
+
+---
+
+# Class SIze Scatterplot with Regression Line
+
+.pull-left[
+
+```{r school-scatter-line, echo=T, eval=F}
+scatter+
+  geom_smooth(method = "lm", color = "red") #<<
+```
+
+
+]
+
+.pull-right[
+```{r school-scatter-line-out, echo=F}
+scatter+
+  geom_smooth(method = "lm", color = "red") #<<
+```
+
+]
+
+---
+
+# OLS in R
+
+.left-code[
+```{r, echo=T}
+# run regression of testscr on str
+school_reg <- lm(testscr ~ str, 
+                 data = CASchool)
+```
+]
+
+.right-plot[
+.smaller[
+Format for regression is `lm(y ~ x, data = df)`
+
+- `y` is dependent variable (listed first!)
+
+- `~` means "modeled by" or "explained by"
+
+- `x` is the independent variable
+
+- `df` is name of dataframe where data is stored
+]
+]
+
+---
+
+# OLS in R II
+
+.left-code[
+```{r, echo=T}
+# look at reg object
+school_reg
+```
+]
+.right-plot[
+- Stored as an `lm` object called `school_reg`, a `list` object
+]
+
+---
+
+# OLS in R III
+
+
+.pull-left[
+.smaller[
+- Looking at the `summary`, there's a lot of information here!
+
+- These objects are cumbersome, come from a much older, pre-`tidyverse` epoch of `base R`
+
+- Luckily, we now have `tidy` ways of working with regressions!
+]
+]
+
+.pull-right[
+.code50[
+```{r, echo=T}
+summary(school_reg) # get full summary
+```
+]
+]
+
+---
+
+# Tidy OLS in R: broom I
+
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+.footnote[<sup>.magenta[†]</sup> See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
+
+]
+.right-column[
+.smaller[
+- The `broom` package allows us to *tidy* up regression objects<sup>.magenta[†]</sup>
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
+]
+
+.code50[
+```{r, echo=T}
+# load packages
+library(broom)
+
+# tidy regression output
+tidy(school_reg)
+```
+]
+
+]
+
+---
+
+# Tidy OLS in R: broom II
+
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+.footnote[<sup>.magenta[†]</sup> See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
+
+]
+.right-column[
+.smaller[
+- The `broom` package allows us to *tidy* up regression objects<sup>.magenta[†]</sup>
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
+]
+
+.code50[
+```{r, echo=T}
+# load packages
+library(broom)
+
+# tidy regression output (with confidence intervals!)
+tidy(school_reg,
+     conf.int = TRUE) #<<
+```
+
+]
+]
+
+
+---
+
+# More broom Tools: glance
+
+- `glance()` shows us a lot of overall regression statistics and diagnostics
+    - We'll interpret these in the next lecture and beyond
+
+```{r, echo=T}
+# look at regression statistics and diagnostics
+glance(school_reg)
+```
+
+
+---
+
+# More broom Tools: augment
+
+.pull-left[
+
+- `augment()` creates useful new variables in the stored `lm` object
+    - `.fitted` are fitted (predicted) values from model, i.e. $\hat{Y}_i$
+    - `.resid` are residuals (errors) from model, i.e. $\hat{u}_i$
+]
+
+.pull-right[
+.code40[
+```{r, echo=T}
+# add regression-based values to data
+augment(school_reg)
+```
+]
+]
+
+
+---
+
+# Class Size Regression Result I
+
+- Using OLS, we find:
+$$\widehat{\text{test score}}=689.9-2.28 \times str$$ 
+
+---
+
+# Class Size Regression Result II
+
+- There's a great package called `equatiomatic` that prints this equation in `markdown` or $\LaTeX$. 
+
+```{r, results="asis"}
+library(equatiomatic)
+extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+```
+
+--
+
+Here was my code: 
+
+```{r, echo = T}
+# install.packages("equatiomatic") # install for first use
+library(equatiomatic) # load it
+extract_eq(school_reg, # regression lm object
+           use_coefs = TRUE, # use names of variables
+           coef_digits = 2, # round to 2 digits
+           fix_signs = TRUE) # fix negatives (instead of + -)
+```
+
+- In `R` chunk in `R markdown`, set `{r, results="asis"}` to print this raw output to be rendered
+
+---
+
+# Class Size Regression: A Data Point
+
+.pull-left[
+.smaller[
+- One district in our sample is Richmond, CA:
+]
+
+.code60[
+```{r, echo = T}
+CASchool %>%
+  filter(district=="Richmond Elementary") %>%
+  dplyr::select(district, testscr, str)
+```
+]
+
+.smallest[
+- Predicted value:
+$$\widehat{\text{Test Score}}_{\text{Richmond}}=698-2.28(22) \approx 648$$
+
+- Residual
+$$\hat{u}_{Richmond}=672-648 \approx 24$$
+
+]
+]
+
+.pull-right[
+```{r, echo=FALSE, fig.retina=3}
+
+Richmond <- CASchool %>%
+  filter(district=="Richmond Elementary")
+
+ggplot(data = CASchool,
+       aes(x = str,
+           y = testscr))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  geom_point(data = Richmond, color="magenta")+
+  geom_text(data = Richmond, color="magenta", label="Richmond", vjust=-1)+
+  geom_segment(x=22,y=672.4, xend=22,yend=648,linetype=2, color="magenta")+ #connect Richmond to regression line to show residual
+  labs(x = "Student to Teacher Ratio",
+       y = "Test Score")+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size = 20)
+```
+]

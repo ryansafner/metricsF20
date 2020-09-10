@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>2.3 — OLS Linear Regression</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 2.3 — OLS Linear Regression
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+class: inverse, center, middle
+# Exploring Relationships
+
+---
+
+# Bivariate Data and Relationships
+
+.pull-left[
+- We looked at single variables for descriptive statistics
+- Most uses of statistics in economics and business investigate relationships *between* variables
+
+.content-box-green[
+.smaller[
+.green[**Examples**]
+  - \# of police &amp; crime rates
+  - healthcare spending &amp; life expectancy
+  - government spending &amp; GDP growth
+  - carbon dioxide emissions &amp; temperatures
+]
+]
+]
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
+
+---
+
+# Bivariate Data and Relationships
+
+.pull-left[
+- We will begin with .hi-purple[bivariate] data for relationships between `\(X\)` and `\(Y\)`
+
+- Immediate aim is to explore .hi[associations] between variables, quantified with .hi[correlation] and .hi[linear regression]
+
+- Later we want to develop more sophisticated tools to argue for .hi[causation]
+
+]
+
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
+
+---
+
+# Bivariate Data: Spreadsheets I
+
+.pull-left[
+
+
+```r
+econfreedom &lt;- read_csv("econfreedom.csv")
+head(econfreedom)
+```
+
+]
+
+.pull-right[
+
+```
+## # A tibble: 6 x 6
+##      X1 Country   ISO      ef    gdp continent
+##   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;    
+## 1     1 Albania   ALB    7.4   4543. Europe   
+## 2     2 Algeria   DZA    5.15  4784. Africa   
+## 3     3 Angola    AGO    5.08  4153. Africa   
+## 4     4 Argentina ARG    4.81 10502. Americas 
+## 5     5 Australia AUS    7.93 54688. Oceania  
+## 6     6 Austria   AUT    7.56 47604. Europe
+```
+]
+
+- **Rows** are individual observations (countries)
+- **Columns** are variables on all individuals
+
+---
+
+# Bivariate Data: Spreadsheets II
+
+
+
+```r
+econfreedom %&gt;%
+  glimpse()
+```
+
+```
+## Rows: 112
+## Columns: 6
+## $ X1        &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, …
+## $ Country   &lt;chr&gt; "Albania", "Algeria", "Angola", "Argentina", "Australia", "…
+## $ ISO       &lt;chr&gt; "ALB", "DZA", "AGO", "ARG", "AUS", "AUT", "BHR", "BGD", "BE…
+## $ ef        &lt;dbl&gt; 7.40, 5.15, 5.08, 4.81, 7.93, 7.56, 7.60, 6.35, 7.51, 6.22,…
+## $ gdp       &lt;dbl&gt; 4543.0880, 4784.1943, 4153.1463, 10501.6603, 54688.4459, 47…
+## $ continent &lt;chr&gt; "Europe", "Africa", "Africa", "Americas", "Oceania", "Europ…
+```
+
+---
+
+# Bivariate Data: Spreadsheets III
+
+
+```r
+source("summaries.R") # use my summary_table function
+
+econfreedom %&gt;%
+    summary_table(ef, gdp)
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variable &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Obs &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std. Dev. &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ef &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 112 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.81 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.42 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.40 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.86 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.78 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; gdp &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 112 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 206.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1307.46 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5123.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17302.66 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89590.81 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14488.49 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 19523.54 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Bivariate Data: Scatterplots
+
+.pull-left[
+
+- The best way to visualize an association between two variables is with a .hi[scatterplot]
+
+- Each point: pair of variable values `\((x_i,y_i) \in X, Y\)` for observation `\(i\)`
+
+.code50[
+
+```r
+library("ggplot2")
+ggplot(data = econfreedom)+
+  aes(x = ef,
+      y = gdp)+
+  geom_point(aes(color = continent),
+             size = 2)+
+  labs(x = "Economic Freedom Index (2014)",
+       y = "GDP per Capita (2014 USD)",
+       color = "")+
+  scale_y_continuous(labels = scales::dollar)+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size=20)+
+  theme(legend.position = "bottom")
+```
+]
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/econfreedom-scatter-out-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Associations
+
+.pull-left[
+
+- Look for .hi-purple[association] between independent and dependent variables
+
+1. **Direction**: is the trend positive or negative?
+
+2. **Form**: is the trend linear, quadratic, something else, or no pattern?
+
+3. **Strength**: is the association strong or weak? 
+
+4. **Outliers**: do any observations break the trends above? 
+
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-5-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+class: inverse, center, middle
+
+# Quantifying Relationships
+
+---
+
+# Covariance
+
+- For any two variables, we can measure their .hi[sample covariance, `\\(cov(X,Y)\\)`] or .hi[`\\(s_{X,Y}\\)`] to quantify how they vary *together*&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+--
+
+`$$s_{X,Y}=E\big[(X-\bar{X})(Y-\bar{Y}) \big]$$`
+
+--
+
+- Intuition: if `\(X\)` is above its mean, would we expect `\(Y\)`:
+    - to be *above* its mean also `\((X\)` and `\(Y\)` covary *positively*)
+    - to be *below* its mean `\((X\)` and `\(Y\)` covary *negatively*)
+
+--
+
+- Covariance is a common measure, but the units are meaningless, thus we rarely need to use it so **don't worry about learning the formula**
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Henceforth we limit all measures to *samples*, for convenience. Population covariance is denoted `\\(\sigma_{X,Y}\\)`]
+
+---
+
+# Covariance, in R
+
+
+```r
+# base R 
+cov(econfreedom$ef,econfreedom$gdp)
+```
+
+```
+## [1] 8922.933
+```
+
+
+```r
+# dplyr 
+
+econfreedom %&gt;%
+  summarize(cov = cov(ef,gdp))
+```
+
+```
+## # A tibble: 1 x 1
+##     cov
+##   &lt;dbl&gt;
+## 1 8923.
+```
+
+--
+
+8923 what, exactly?
+
+---
+
+# Correlation
+
+.smallest[
+- More convenient to *standardize* covariance into a more intuitive concept: .hi[correlation, `\\(\rho\\)`] or .hi[`\\(r\\)`] `\(\in [-1, 1]\)`
+
+]
+
+--
+
+.smallest[
+`$$r_{X,Y}=\frac{s_{X,Y}}{s_X s_Y}=\frac{cov(X,Y)}{sd(X)sd(Y)}$$`
+]
+
+--
+
+.smallest[
+- Simply weight covariance by the product of the standard deviations of `\(X\)` and `\(Y\)`
+]
+
+--
+
+.smallest[
+- Alternatively, take the average&lt;sup&gt;.magenta[†]&lt;/sup&gt; of the product of standardized `\((Z\)`-scores for) each `\((x_i,y_i)\)` pair:&lt;sup&gt;.magenta[‡]&lt;/sup&gt;
+]
+
+--
+
+.smallest[
+`$$\begin{align*}
+r&amp;=\frac{1}{n-1}\sum^n_{i=1}\bigg(\frac{x_i-\bar{X}}{s_X}\bigg)\bigg(\frac{y_i-\bar{Y}}{s_Y}\bigg)\\
+r&amp;=\frac{1}{n-1}\sum^n_{i=1}Z_XZ_Y\\
+\end{align*}$$`
+
+]
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Over n-1, a *sample* statistic!
+
+&lt;sup&gt;.magenta[‡]&lt;/sup&gt; See today's [class notes page](/class/2.3-class) for example code to calculate correlation "by hand" in R using the second method.]
+
+---
+
+# Correlation: Interpretation
+
+.pull-left[
+
+- Correlation is standardized to 
+`$$-1 \leq r \leq 1$$`
+.smallest[
+- Negative values `\(\implies\)` negative association
+- Positive values `\(\implies\)` positive association
+- Correlation of 0 `\(\implies\)` no association
+- As `\(|r| \rightarrow 1 \implies\)` the stronger the association
+ - Correlation of `\(|r|=1 \implies\)` perfectly linear
+]
+]
+
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Guess the Correlation!
+
+.center[
+![:scale 25%](https://www.dropbox.com/s/70opitsw7jjpfko/guessthecorrelation.png?raw=1)
+
+[Guess the Correlation Game](http://guessthecorrelation.com/index.html)
+]
+
+---
+
+# Correlation and Covariance in R
+
+.pull-left[
+
+```r
+# Base r: cov or cor(df$x, df$y)
+
+cov(econfreedom$ef, econfreedom$gdp)
+```
+
+```
+## [1] 8922.933
+```
+
+```r
+cor(econfreedom$ef, econfreedom$gdp)
+```
+
+```
+## [1] 0.5867018
+```
+]
+
+--
+
+.pull-right[
+
+```r
+# tidyverse method 
+
+econfreedom %&gt;%
+  summarize(covariance = cov(ef, gdp),
+            correlation = cor(ef, gdp))
+```
+
+```
+## # A tibble: 1 x 2
+##   covariance correlation
+##        &lt;dbl&gt;       &lt;dbl&gt;
+## 1      8923.       0.587
+```
+]
+
+---
+
+# Correlation and Covariance in R I
+
+- `corrplot` is a great package (install and then load) to **visualize** correlations in data
+
+
+```r
+library(corrplot) # see more at https://github.com/taiyun/corrplot
+library(RColorBrewer) # for color scheme used here
+library(gapminder) # for gapminder data
+
+# need to make a corelation matrix with cor(); can only include numeric variables
+gapminder_cor&lt;- gapminder %&gt;%
+  dplyr::select(gdpPercap, pop, lifeExp)
+
+# make a correlation table with cor (base R)
+gapminder_cor_table&lt;-cor(gapminder_cor)
+
+# view it
+gapminder_cor_table
+```
+
+---
+
+# Correlation and Covariance in R II
+
+.pull-left[
+
+
+```r
+corrplot(gapminder_cor_table, type="upper", 
+         method = "circle", 
+         order = "alphabet", 
+         col = viridis::viridis(100)) # custom color
+```
+]
+
+--
+  
+.pull-right[
+
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+]
+
+---
+
+# Correlation and Endogeneity
+
+.pull-left[
+
+- Your Occasional Reminder: .hi[Correlation does not imply causation!]
+    - I'll show you the difference in a few weeks (when we can actually talk about causation)
+
+- If `\(X\)` and `\(Y\)` are strongly correlated, `\(X\)` can still be **endogenous**!
+
+- See [today's class notes page](/class/2.2-class) for more on Covariance and Correlation
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Always Plot Your Data!
+
+.center[
+![](https://d2f99xq7vri1nk.cloudfront.net/DinoSequentialSmaller.gif)
+]
+
+---
+
+class: inverse, center, middle
+
+# Linear Regression
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+`$$Y = a + bX$$`
+
+- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+    - `\(a\)`: vertical intercept
+    - `\(b\)`: slope
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`!]
+
+]
+
+.pull-right[
+
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+`$$Y = a + bX$$`
+
+- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+    - `\(a\)`: vertical intercept
+    - `\(b\)`: slope
+
+- How do we choose the equation that *best* fits the data? 
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`, the standard econometric notation.]
+
+]
+
+.pull-right[
+
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" /&gt;
+
+]
+
+
+---
+
+# Fitting a Line to Data
+
+.pull-left[
+
+- If an association appears linear, we can estimate the equation of a line that would "fit" the data
+
+`$$Y = a + bX$$`
+
+- Recall a linear equation describing a line contains:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+    - `\(a\)`: vertical intercept
+    - `\(b\)`: slope
+
+- How do we choose the equation that *best* fits the data? 
+
+- This process is called .hi[linear regression]
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note we'll use different symbols for `\\(a\\)` &amp; `\\(b\\)`, the standard econometric notation.]
+
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-16-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Population Linear Regression Model
+
+- Linear regression lets us estimate the slope of the .hi-purple[population] regression line between `\(X\)` and `\(Y\)` using .hi-purple[sample] data
+
+- We can make .hi-purple[statistical inferences] about the population slope coefficient
+  - eventually &amp; hopefully: a .hi-purple[*causal* inference]
+
+- `\(\text{slope}=\frac{\Delta Y}{\Delta X}\)`: for a 1-unit change in `\(X\)`, how many units will this *cause* `\(Y\)` to change?
+
+---
+
+# Class Size Example
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: What is the relationship between class size and educational performance?
+]
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Load the Data
+
+
+```r
+# install.packages("haven") # install for first use
+library("haven") # load for importing .dta files
+CASchool&lt;-read_dta("../data/caschool.dta")
+```
+
+---
+
+# Class Size Example: Look at the Data I
+
+
+```r
+glimpse(CASchool)
+```
+
+```
+## Rows: 420
+## Columns: 21
+## $ observat &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…
+## $ dist_cod &lt;dbl&gt; 75119, 61499, 61549, 61457, 61523, 62042, 68536, 63834, 6233…
+## $ county   &lt;chr&gt; "Alameda", "Butte", "Butte", "Butte", "Butte", "Fresno", "Sa…
+## $ district &lt;chr&gt; "Sunol Glen Unified", "Manzanita Elementary", "Thermalito Un…
+## $ gr_span  &lt;chr&gt; "KK-08", "KK-08", "KK-08", "KK-08", "KK-08", "KK-08", "KK-08…
+## $ enrl_tot &lt;dbl&gt; 195, 240, 1550, 243, 1335, 137, 195, 888, 379, 2247, 446, 98…
+## $ teachers &lt;dbl&gt; 10.90, 11.15, 82.90, 14.00, 71.50, 6.40, 10.00, 42.50, 19.00…
+## $ calw_pct &lt;dbl&gt; 0.5102, 15.4167, 55.0323, 36.4754, 33.1086, 12.3188, 12.9032…
+## $ meal_pct &lt;dbl&gt; 2.0408, 47.9167, 76.3226, 77.0492, 78.4270, 86.9565, 94.6237…
+## $ computer &lt;dbl&gt; 67, 101, 169, 85, 171, 25, 28, 66, 35, 0, 86, 56, 25, 0, 31,…
+## $ testscr  &lt;dbl&gt; 690.80, 661.20, 643.60, 647.70, 640.85, 605.55, 606.75, 609.…
+## $ comp_stu &lt;dbl&gt; 0.34358975, 0.42083332, 0.10903226, 0.34979424, 0.12808989, …
+## $ expn_stu &lt;dbl&gt; 6384.911, 5099.381, 5501.955, 7101.831, 5235.988, 5580.147, …
+## $ str      &lt;dbl&gt; 17.88991, 21.52466, 18.69723, 17.35714, 18.67133, 21.40625, …
+## $ avginc   &lt;dbl&gt; 22.690001, 9.824000, 8.978000, 8.978000, 9.080333, 10.415000…
+## $ el_pct   &lt;dbl&gt; 0.000000, 4.583333, 30.000002, 0.000000, 13.857677, 12.40875…
+## $ read_scr &lt;dbl&gt; 691.6, 660.5, 636.3, 651.9, 641.8, 605.7, 604.5, 605.5, 608.…
+## $ math_scr &lt;dbl&gt; 690.0, 661.9, 650.9, 643.5, 639.9, 605.4, 609.0, 612.5, 616.…
+## $ aowijef  &lt;dbl&gt; 35.77982, 43.04933, 37.39445, 34.71429, 37.34266, 42.81250, …
+## $ es_pct   &lt;dbl&gt; 1.000000, 3.583333, 29.000002, 1.000000, 12.857677, 11.40875…
+## $ es_frac  &lt;dbl&gt; 0.01000000, 0.03583334, 0.29000002, 0.01000000, 0.12857677, …
+```
+
+---
+
+# Class Size Example: Look at the Data II
+
+&lt;table class="table" style="font-size: 8px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; observat &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; dist_cod &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; county &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; district &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gr_span &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; enrl_tot &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; teachers &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; calw_pct &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; meal_pct &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; computer &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; testscr &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; comp_stu &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; expn_stu &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; str &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; avginc &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; el_pct &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; read_scr &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_scr &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; aowijef &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; es_pct &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; es_frac &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 75119 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Alameda &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Sunol Glen Unified &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 195 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.5102 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.0408 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 67 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 690.80 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3435898 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6384.911 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.88991 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22.690001 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 691.6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 690.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35.77982 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0100000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61499 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Butte &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Manzanita Elementary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 240 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.15 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15.4167 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 47.9167 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 101 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 661.20 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4208333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5099.381 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.52466 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.824000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.583334 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 660.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 661.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.04933 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.583334 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0358333 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61549 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Butte &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Thermalito Union Elementary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1550 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 82.90 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 55.0323 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 76.3226 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 169 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 643.60 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1090323 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5501.955 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.69723 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.978000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30.000002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 636.3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 650.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.39445 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.000002 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2900000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61457 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Butte &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Golden Feather Union Elementary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 243 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 14.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36.4754 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77.0492 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 647.70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3497942 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7101.831 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17.35714 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.978000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 651.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 643.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.71429 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0100000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61523 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Butte &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Palermo Union Elementary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1335 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.1086 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78.4270 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 171 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 640.85 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1280899 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5235.988 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18.67133 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.080333 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.857677 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 641.8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 639.9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.34266 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.857677 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1285768 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 62042 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Fresno &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Burrel Union Elementary &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; KK-08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 137 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6.40 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.3188 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 86.9565 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 605.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1824818 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5580.147 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21.40625 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10.415000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 12.408759 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 605.7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 605.4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.81250 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.408759 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1140876 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Class Size Example: Scatterplot 
+
+.pull-left[
+.code60[
+
+```r
+scatter &lt;- ggplot(data = CASchool)+
+  aes(x = str,
+      y = testscr)+
+  geom_point(color = "blue")+
+  labs(x = "Student to Teacher Ratio",
+       y = "Test Score")+
+  theme_pander(base_family = "Fira Sans Condensed",
+           base_size = 20)
+scatter
+```
+]
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/school-scatter-out-1.png" width="504" /&gt;
+]
+
+---
+
+# Class Size Example: Slope I
+
+.pull-left[
+.smaller[
+- If we *change* `\((\Delta)\)` the class size by an amount, what would we expect the *change* in test scores to be?
+
+`$$\beta = \frac{\text{change in test score}}{\text{change in class size}} = \frac{\Delta \text{test score}}{\Delta \text{class size}}$$`
+
+- If we knew `\(\beta\)`, we could say that changing class size by 1 student will change test scores by `\(\beta\)`
+
+]
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope II
+
+.pull-left[
+.smaller[
+- Rearranging: 
+
+`$$\Delta \text{test score} = \beta \times \Delta \text{class size}$$`
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope II
+
+.pull-left[
+.smalelr[
+- Rearranging: 
+
+`$$\Delta \text{test score} = \beta \times \Delta \text{class size}$$`
+
+- Suppose `\(\beta=-0.6\)`. If we shrank class size by 2 students, our model predicts:
+
+`$$\begin{align*}
+	\Delta \text{test score} &amp;= -2 \times \beta\\
+	\Delta \text{test score} &amp;= -2 \times -0.6\\
+	\Delta \text{test score}&amp;= 1.2	\\
+\end{align*}$$`
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Slope and Average Effect
+
+.pull-left[
+
+.smaller[
+`$$\text{test score} = \beta_0 + \beta_{1} \times \text{class size}$$`	
+
+- The line relating class size and test scores has the above equation
+
+- `\(\beta_0\)` is the .hi[vertical-intercept], test score where class size is 0
+
+- `\(\beta_{1}\)` is the .hi[slope] of the regression line
+
+- This relationship only holds .hi-purple[on average] for all districts in the population, *individual* districts are also affected by other factors
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Class Size Example: Marginal Effects
+
+.pull-left[
+.smaller[
+- To get an equation that holds for *each* district, we need to include other factors
+
+`$$\text{test score} = \beta_0 + \beta_1 \text{class size}+\text{other factors}$$`
+
+- For now, we will ignore these until Unit III
+
+- Thus, `\(\beta_0 + \beta_1 \text{class size}\)` gives the .hi-purple[average effect] of class sizes on scores
+
+- Later, we will want to estimate the .hi[marginal effect] (.hi[causal effect]) of each factor on an individual district's test score, holding all other factors constant
+
+]
+]
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/80sb1duv6e2tazd/smallclass.jpg?raw=1)
+]
+]
+
+---
+
+# Econometric Models Overview
+
+`$$Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + u$$`
+
+--
+
+.smallest[
+- `\(Y\)` is the .hi[dependent variable] of interest
+    - AKA "response variable," "regressand," "Left-hand side (LHS) variable"
+]
+
+--
+
+.smallest[
+- `\(X_1\)` and `\(X_2\)` are .hi[independent variables]
+    - AKA "explanatory variables", "regressors," "Right-hand side (RHS) variables", "covariates"
+]
+--
+
+.smallest[
+- Our data consists of a spreadsheet of observed values of `\((X_{1i}, X_{2i}, Y_i)\)`
+]
+
+--
+
+.smallest[
+- To model, we .hi-turquoise["regress Y on `\\(X_1\\)` and `\\(X_2\\)`"]
+]
+--
+.smallest[
+- `\(\beta_0\)` and `\(\beta_1\)` are .hi-purple[parameters] that describe the population relationships between the variables
+    - unknown! to be estimated!
+]
+--
+.smallest[
+- `\(u\)` is the random .hi[error term]
+    - **'U'nobservable**, we can't measure it, and must model with assumptions about it
+]
+---
+
+# The Population Regression Model
+
+
+.pull-left[
+
+- How do we draw a line through the scatterplot? We do not know the **"true"** `\(\beta_0\)` or `\(\beta_1\)`
+
+- We do have data from a *sample* of class sizes and test scores&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+- So the real question is, .hi-purple[how can we estimate `\\(\beta_0\\)` and `\\(\beta_1\\)`?]
+
+.quitesmall[
+
+&lt;sup&gt;.magenta[†]&lt;/sup&gt; Data are student-teacher-ratio and average test scores on Stanford 9 Achievement Test for 5th grade students for 420 K-6 and K-8 school districts in California in 1999, (Stock and Watson, 2015: p. 141)]
+
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-20-1.png" width="504" /&gt;
+]
+
+
+---
+
+class: inverse, center, middle
+
+# Deriving OLS
+
+---
+
+# Deriving OLS
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+]
+]
+
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+]
+]
+
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], `\(\hat{u}\)` of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of `\(Y\)` given `\(X\)`: 
+
+`$$u_i = Y_i - \hat{Y_i}$$`
+
+]
+]
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], `\(\hat{u}\)` of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of `\(Y\)` given `\(X\)`: 
+
+`$$u_i = Y_i - \hat{Y_i}$$`
+
+- We square each residual
+]
+]
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], `\(\hat{u}\)` of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of `\(Y\)` given `\(X\)`: 
+
+`$$u_i = Y_i - \hat{Y_i}$$`
+
+- We square each residual
+- Add all of these up: .hi[Sum of Squared Errors (SSE)]
+
+`$$SSE = \sum^n_{i=1} u_i^2$$`
+
+]
+
+]
+
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Deriving OLS 
+
+.pull-left[
+.smallest[
+- Suppose we have some data points
+- We add a line
+- The .hi[residual], `\(\hat{u}\)` of each data point is the difference between the .hi-purple[actual] and the .hi-purple[predicted] value of `\(Y\)` given `\(X\)`: 
+
+`$$u_i = Y_i - \hat{Y_i}$$`
+
+- We square each residual
+- Add all of these up: .hi[Sum of Squared Errors (SSE)]
+
+`$$SSE = \sum^n_{i=1} u_i^2$$`
+
+- .hi-purple[The line of best fit *minimizes* SSE]
+
+]
+]
+.pull-right[
+
+![](2.3-slides_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# *O* rdinary *L* east *S* quares Estimators
+
+- The .hi[Ordinary Least Squares (OLS) estimators] of the unknown population parameters `\(\beta_0\)` and `\(\beta_1\)`, solve the calculus problem:
+
+`$$\min_{\beta_0, \beta_1} \sum^n_{i=1}[\underbrace{Y_i-(\underbrace{\beta_0+\beta_1 X_i}_{\hat{Y_i}})}_{u}]^2$$`
+
+--
+
+- Intuitively, OLS estimators .hi-purple[minimize the average squared distance between the actual values `\\((Y_i)\\)` and the predicted values `\\((\hat{Y}_i)\\)` along the estimated regression line]
+
+---
+
+# The OLS Regression Line
+
+- The .hi[OLS regression line] or .hi[sample regression line] is the linear function constructed using the OLS estimators:
+
+`$$\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i$$`
+
+--
+
+- `\(\hat{\beta_0}\)` and `\(\hat{\beta_1}\)` ("beta 0 hat" &amp; "beta 1 hat") are the .hi[OLS estimators] of population parameters `\(\beta_0\)` and `\(\beta_1\)` using sample data
+
+--
+
+- The .hi[predicted value] of Y given X, based on the regression, is `\(E(Y_i|X_i)=\hat{Y_i}\)` 
+
+--
+
+- The .hi-purple[residual] or .hi-purple[prediction error] for the `\(i^{th}\)` observation is the difference between observed `\(Y_i\)` and its predicted value, `\(\hat{u_i}=Y_i-\hat{Y_i}\)`
+
+---
+
+# The OLS Regression Estimators
+
+- The solution to the SSE minimization problem yields:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+--
+
+`$$\hat{\beta}_0=\bar{Y}-\hat{\beta_1}\bar{X}$$`
+
+--
+
+`$$\hat{\beta}_1=\frac{\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\frac{s_{XY}}{s^2_X}= \frac{cov(X,Y)}{var(X)}$$`
+
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; See [next's class notes page](/class/2.4-class) for proofs.]
+---
+
+class: inverse, center, middle
+
+# Our Class Size Example in R
+
+---
+
+# Class Size Scatterplot (Again)
+
+.pull-left[
+
+
+```r
+scatter
+```
+
+- There is some true (unknown) population relationship: 
+`$$\text{test score}=\beta_0+\beta_1 \times str$$`
+
+- `\(\beta_1=\frac{\Delta \text{test score}}{\Delta \text{str}}= ??\)`
+
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-27-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Class SIze Scatterplot with Regression Line
+
+.pull-left[
+
+
+```r
+scatter+
+* geom_smooth(method = "lm", color = "red")
+```
+
+
+]
+
+.pull-right[
+![](2.3-slides_files/figure-html/school-scatter-line-out-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# OLS in R
+
+.left-code[
+
+```r
+# run regression of testscr on str
+school_reg &lt;- lm(testscr ~ str, 
+                 data = CASchool)
+```
+]
+
+.right-plot[
+.smaller[
+Format for regression is `lm(y ~ x, data = df)`
+
+- `y` is dependent variable (listed first!)
+
+- `~` means "modeled by" or "explained by"
+
+- `x` is the independent variable
+
+- `df` is name of dataframe where data is stored
+]
+]
+
+---
+
+# OLS in R II
+
+.left-code[
+
+```r
+# look at reg object
+school_reg
+```
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ str, data = CASchool)
+## 
+## Coefficients:
+## (Intercept)          str  
+##      698.93        -2.28
+```
+]
+.right-plot[
+- Stored as an `lm` object called `school_reg`, a `list` object
+]
+
+---
+
+# OLS in R III
+
+
+.pull-left[
+.smaller[
+- Looking at the `summary`, there's a lot of information here!
+
+- These objects are cumbersome, come from a much older, pre-`tidyverse` epoch of `base R`
+
+- Luckily, we now have `tidy` ways of working with regressions!
+]
+]
+
+.pull-right[
+.code50[
+
+```r
+summary(school_reg) # get full summary
+```
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ str, data = CASchool)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -47.727 -14.251   0.483  12.822  48.540 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 698.9330     9.4675  73.825  &lt; 2e-16 ***
+## str          -2.2798     0.4798  -4.751 2.78e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 18.58 on 418 degrees of freedom
+## Multiple R-squared:  0.05124,	Adjusted R-squared:  0.04897 
+## F-statistic: 22.58 on 1 and 418 DF,  p-value: 2.783e-06
+```
+]
+]
+
+---
+
+# Tidy OLS in R: broom I
+
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
+
+]
+.right-column[
+.smaller[
+- The `broom` package allows us to *tidy* up regression objects&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
+]
+
+.code50[
+
+```r
+# load packages
+library(broom)
+
+# tidy regression output
+tidy(school_reg)
+```
+
+```
+## # A tibble: 2 x 5
+##   term        estimate std.error statistic   p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)   699.       9.47      73.8  6.57e-242
+## 2 str            -2.28     0.480     -4.75 2.78e-  6
+```
+]
+
+]
+
+---
+
+# Tidy OLS in R: broom II
+
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; See more at [broom.tidyverse.org](https://broom.tidyverse.org/).]
+
+]
+.right-column[
+.smaller[
+- The `broom` package allows us to *tidy* up regression objects&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+- The `tidy()` function creates a *tidy* `tibble` of regression output
+]
+
+.code50[
+
+```r
+# load packages
+library(broom)
+
+# tidy regression output (with confidence intervals!)
+tidy(school_reg,
+*    conf.int = TRUE)
+```
+
+```
+## # A tibble: 2 x 7
+##   term        estimate std.error statistic   p.value conf.low conf.high
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 (Intercept)   699.       9.47      73.8  6.57e-242   680.      718.  
+## 2 str            -2.28     0.480     -4.75 2.78e-  6    -3.22     -1.34
+```
+
+]
+]
+
+
+---
+
+# More broom Tools: glance
+
+- `glance()` shows us a lot of overall regression statistics and diagnostics
+    - We'll interpret these in the next lecture and beyond
+
+
+```r
+# look at regression statistics and diagnostics
+glance(school_reg)
+```
+
+```
+## # A tibble: 1 x 12
+##   r.squared adj.r.squared sigma statistic p.value    df logLik   AIC   BIC
+##       &lt;dbl&gt;         &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1    0.0512        0.0490  18.6      22.6 2.78e-6     1 -1822. 3650. 3663.
+## # … with 3 more variables: deviance &lt;dbl&gt;, df.residual &lt;int&gt;, nobs &lt;int&gt;
+```
+
+
+---
+
+# More broom Tools: augment
+
+.pull-left[
+
+- `augment()` creates useful new variables in the stored `lm` object
+    - `.fitted` are fitted (predicted) values from model, i.e. `\(\hat{Y}_i\)`
+    - `.resid` are residuals (errors) from model, i.e. `\(\hat{u}_i\)`
+]
+
+.pull-right[
+.code40[
+
+```r
+# add regression-based values to data
+augment(school_reg)
+```
+
+```
+## # A tibble: 420 x 8
+##    testscr   str .fitted .resid .std.resid    .hat .sigma  .cooksd
+##      &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;
+##  1    691.  17.9    658.   32.7      1.76  0.00442   18.5 0.00689 
+##  2    661.  21.5    650.   11.3      0.612 0.00475   18.6 0.000893
+##  3    644.  18.7    656.  -12.7     -0.685 0.00297   18.6 0.000700
+##  4    648.  17.4    659.  -11.7     -0.629 0.00586   18.6 0.00117 
+##  5    641.  18.7    656.  -15.5     -0.836 0.00301   18.6 0.00105 
+##  6    606.  21.4    650.  -44.6     -2.40  0.00446   18.5 0.0130  
+##  7    607.  19.5    654.  -47.7     -2.57  0.00239   18.5 0.00794 
+##  8    609   20.9    651.  -42.3     -2.28  0.00343   18.5 0.00895 
+##  9    612.  19.9    653.  -41.0     -2.21  0.00244   18.5 0.00597 
+## 10    613.  20.8    652.  -38.9     -2.09  0.00329   18.5 0.00723 
+## # … with 410 more rows
+```
+]
+]
+
+
+---
+
+# Class Size Regression Result I
+
+- Using OLS, we find:
+`$$\widehat{\text{test score}}=689.9-2.28 \times str$$` 
+
+---
+
+# Class Size Regression Result II
+
+- There's a great package called `equatiomatic` that prints this equation in `markdown` or `\(\LaTeX\)`. 
+
+$$
+\operatorname{testscr} = 698.93 - 2.28(\operatorname{str}) + \epsilon
+$$
+
+--
+
+Here was my code: 
+
+
+```r
+# install.packages("equatiomatic") # install for first use
+library(equatiomatic) # load it
+extract_eq(school_reg, # regression lm object
+           use_coefs = TRUE, # use names of variables
+           coef_digits = 2, # round to 2 digits
+           fix_signs = TRUE) # fix negatives (instead of + -)
+```
+
+```
+## $$
+## \operatorname{testscr} = 698.93 - 2.28(\operatorname{str}) + \epsilon
+## $$
+```
+
+- In `R` chunk in `R markdown`, set `{r, results="asis"}` to print this raw output to be rendered
+
+---
+
+# Class Size Regression: A Data Point
+
+.pull-left[
+.smaller[
+- One district in our sample is Richmond, CA:
+]
+
+.code60[
+
+```r
+CASchool %&gt;%
+  filter(district=="Richmond Elementary") %&gt;%
+  dplyr::select(district, testscr, str)
+```
+
+```
+## # A tibble: 1 x 3
+##   district            testscr   str
+##   &lt;chr&gt;                 &lt;dbl&gt; &lt;dbl&gt;
+## 1 Richmond Elementary    672.    22
+```
+]
+
+.smallest[
+- Predicted value:
+`$$\widehat{\text{Test Score}}_{\text{Richmond}}=698-2.28(22) \approx 648$$`
+
+- Residual
+`$$\hat{u}_{Richmond}=672-648 \approx 24$$`
+
+]
+]
+
+.pull-right[
+&lt;img src="2.3-slides_files/figure-html/unnamed-chunk-38-1.png" width="504" /&gt;
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

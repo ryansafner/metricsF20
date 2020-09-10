@@ -1,0 +1,10 @@
+---
+title: "2.3 — OLS Linear Regression — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> @Bailey[3.1, Math and Probability Background Appendices D-E]

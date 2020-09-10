@@ -90,7 +90,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="#slides">Slides</a></li>
 <li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
 <li><a href="#problem-set">Problem Set</a></li>
-<li><a href="#appendix-graphing-statistical-and-mathematical-functions-in-r">Appendix: Graphing Statistical and Mathematical Functions in R</a><ul>
+<li><a href="#math-appendix-properties-of-expected-value-and-variance">Math Appendix: Properties of Expected Value and Variance</a></li>
+<li><a href="#r-appendix-graphing-statistical-and-mathematical-functions-in-r">R Appendix: Graphing Statistical and Mathematical Functions in R</a><ul>
 <li><a href="#creating-mathematical-functions">Creating Mathematical Functions</a></li>
 <li><a href="#graphing-mathematical-functions">Graphing Mathematical Functions</a></li>
 <li><a href="#bult-in-statistical-functions">Bult-in Statistical Functions</a></li>
@@ -114,7 +115,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h2 id="problem-set">Problem Set</h2>
 <p><a href="/assignment/01-problem-set">Problem Set 1</a> answers are posted on that page in various formats.</p>
 <p><a href="/assignment/02-problem-set">Problem set 2</a> (on classes 2.1-2.2) is posted shortly, and is will be due by Sunday September 13.</p>
-<h2 id="appendix-graphing-statistical-and-mathematical-functions-in-r">Appendix: Graphing Statistical and Mathematical Functions in R</h2>
+<h2 id="math-appendix-properties-of-expected-value-and-variance">Math Appendix: Properties of Expected Value and Variance</h2>
+<p>There are several useful mathematical properties of expected value and variance.</p>
+<p>** Property 1**: the expected value of a constant is itself.</p>
+<p>For any constant, <span class="math inline">\(c\)</span></p>
+<h2 id="r-appendix-graphing-statistical-and-mathematical-functions-in-r">R Appendix: Graphing Statistical and Mathematical Functions in R</h2>
 <p>The <code>mosaic</code> package is useful for making and using mathematical functions in <code>R</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;mosaic&quot;) install for first use</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(mosaic) <span class="co"># load </span></span></code></pre></div>
@@ -260,8 +265,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># take 10 draws from a normal distribution with:</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a>      <span class="dt">mean =</span> <span class="dv">2</span>, <span class="co"># mean of 2</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>      <span class="dt">sd =</span> <span class="dv">1</span>) <span class="co"># sd of 1</span></span></code></pre></div>
-<pre><code>##  [1] 1.6104310 1.9231495 2.2904889 2.0607366 0.7249267 3.8357193 2.5922424
-##  [8] 2.8113668 2.0674754 2.0670325</code></pre>
+<pre><code>##  [1] 1.251334 2.044953 2.058334 2.174531 2.017270 3.781309 1.064950 1.665704
+##  [9] 1.755174 1.699147</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Get probability of a random variable being less than or equal to a value (cdf) from a normal distribution:</li>
 </ol>

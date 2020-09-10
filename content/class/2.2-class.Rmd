@@ -34,7 +34,15 @@ If you are unable to join today's live session, or if you want to review, you ca
 
 [Problem set 2](/assignment/02-problem-set) (on classes 2.1-2.2) is posted shortly, and is will be due by Sunday September 13.
 
-# Appendix: Graphing Statistical and Mathematical Functions in R
+# Math Appendix: Properties of Expected Value and Variance
+
+There are several useful mathematical properties of expected value and variance.
+
+** Property 1**: the expected value of a constant is itself.
+
+For any constant, $c$
+
+# R Appendix: Graphing Statistical and Mathematical Functions in R
 
 The `mosaic` package is useful for making and using mathematical functions in `R`.
 
