@@ -289,6 +289,20 @@ Below is a list of good data sources depending on the types of topics you might 
 
 # How to Make a PDF (For Submitting Assignments)
 
+## Using an App on Your Phone
+
+There are many good apps out there that will allow you to take photos and convert them to PDFs. **This is actually a *better* method** than using your computer (described below), since theses apps optimize your photos for PDFs (using your computer to convert will often result in very large PDF file sizes!). Here are a few apps you can use:
+
+- [Scannable <i class="fab fa-apple"></i>](https://evernote.com/products/scannable)^[If you use [Evernote](https://evernote.com/) for notes (I do, it's amazing), this can sync up and store your PDFs in Evernote]
+- [Turboscan <i class="fab fa-apple"></i><i class="fab fa-android"></i>](https://turboscanapp.com/index.html)
+- [Image to PDF Converter Free <i class="fab fa-android"></i>](https://play.google.com/store/apps/details?id=com.innover.imagetopdf&hl=en_US)
+- [PDF Converter Pro <i class="fab fa-android"></i>](https://play.google.com/store/apps/details?id=com.twansoftware.pdfconverterpro&hl=en_US)
+- [Simple Scan <i class="fab fa-apple"></i>](https://apps.apple.com/us/app/simple-scanner-doc-scan-app-for-scanning-document-as/id1035256307)
+
+Personally, I use Scannable — primarily because of its association with Evernote, if you wanted a recommendation. But note it does not exist on Android. I also have successfully used Turboscan in the past.
+
+## Using Images Sent to Your Computer
+
 Most modern versions of operating system have a built-in tool in the File Viewer (or Finder) menus, after clicking on one or multiple files, to create a PDF from the files.
 
 So first take photos on your smartphone of your written work (one photo per page). **Please try to frame your photos properly!** Put your paper flat on a solid surface (table, desk, the floor, etc). Get the whole page within the borders of the photo, and not too much background. I don't need to see half of your desk or bed as you are taking the photo! Take a look at it and make sure it is legible.
@@ -310,7 +324,3 @@ As I use a Mac, I will show you how Mac OS has a neat feature built into Finder,
 ![](/images/photos_to_pdf3.png)
 
 Here is the [<i class="fas fa-file-pdf"></i> example PDF](../files/photos_to_pdf.pdf).
-
-**3. On Linux**
-
-If you use Linux, I assume you know your way around a computer well enough to make a PDF! 🤖
