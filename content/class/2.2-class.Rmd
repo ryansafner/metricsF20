@@ -38,9 +38,45 @@ If you are unable to join today's live session, or if you want to review, you ca
 
 There are several useful mathematical properties of expected value and variance.
 
-** Property 1**: the expected value of a constant is itself.
+**Property 1**: the expected value of a constant is itself, and the variance of a constant is 0.
+
+$$\begin{align*}
+E(c)&=c\\
+var(c)&=0\\
+sd(c)&=0\\
+\end{align*}$$
 
 For any constant, $c$
+
+- Example: $E(2)=2$, $var(2)=0$, $sd(2)=0$
+
+**Property 2**: adding or subtracting a constant to a random variable and then taking the mean or variance:
+
+$$\begin{align*}
+E(X \pm c)&=E(X) \pm c\\
+var(X \pm c)&=X\\
+sd(X \pm c)&=X\\
+\end{align*}$$
+
+For any constant, $c$
+
+- Example: $E(2+X)=2+E(X)$, $var(2+X)=var(X)$, $sd(2+X)=sd(X)$
+
+**Property 3**: multiplying a constant to a random variable and then taking the mean or variance:
+
+$$\begin{align*}
+E(aX)&=E(X) aE(X)\\
+var(aX)&=a^2var(X)\\
+sd(aX)&=|a|sd(X)\\
+\end{align*}$$
+
+For any constant, $a$
+
+- Example: $E(2X)=2E(X)$, $var(2X)=4var(X)$, $sd(2X)=2sd(X)$
+
+**Property 4**: the expected value of the sum of two random variables is equal to the sum of each random variable's expected value:
+
+$$E(X \pm Y)=E(X) \pm E(Y)$$
 
 # R Appendix: Graphing Statistical and Mathematical Functions in R
 

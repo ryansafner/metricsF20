@@ -301,6 +301,8 @@ There are many good apps out there that will allow you to take photos and conver
 
 Personally, I use Scannable — primarily because of its association with Evernote, if you wanted a recommendation. But note it does not exist on Android. I also have successfully used Turboscan in the past.
 
+Additionally, as Hood students, you all have **Onedrive**, you can use the app on your phone to scan documents with photos and convert them to PDFs. 
+
 ## Using Images Sent to Your Computer
 
 Most modern versions of operating system have a built-in tool in the File Viewer (or Finder) menus, after clicking on one or multiple files, to create a PDF from the files.

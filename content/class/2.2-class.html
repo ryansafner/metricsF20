@@ -117,8 +117,38 @@ code span.wa { color: #bf0303; } /* Warning */
 <p><a href="/assignment/02-problem-set">Problem set 2</a> (on classes 2.1-2.2) is posted shortly, and is will be due by Sunday September 13.</p>
 <h2 id="math-appendix-properties-of-expected-value-and-variance">Math Appendix: Properties of Expected Value and Variance</h2>
 <p>There are several useful mathematical properties of expected value and variance.</p>
-<p>** Property 1**: the expected value of a constant is itself.</p>
+<p><strong>Property 1</strong>: the expected value of a constant is itself, and the variance of a constant is 0.</p>
+<p><span class="math display">\[\begin{align*}
+E(c)&amp;=c\\
+var(c)&amp;=0\\
+sd(c)&amp;=0\\
+\end{align*}\]</span></p>
 <p>For any constant, <span class="math inline">\(c\)</span></p>
+<ul>
+<li>Example: <span class="math inline">\(E(2)=2\)</span>, <span class="math inline">\(var(2)=0\)</span>, <span class="math inline">\(sd(2)=0\)</span></li>
+</ul>
+<p><strong>Property 2</strong>: adding or subtracting a constant to a random variable and then taking the mean or variance:</p>
+<p><span class="math display">\[\begin{align*}
+E(X \pm c)&amp;=E(X) \pm c\\
+var(X \pm c)&amp;=X\\
+sd(X \pm c)&amp;=X\\
+\end{align*}\]</span></p>
+<p>For any constant, <span class="math inline">\(c\)</span></p>
+<ul>
+<li>Example: <span class="math inline">\(E(2+X)=2+E(X)\)</span>, <span class="math inline">\(var(2+X)=var(X)\)</span>, <span class="math inline">\(sd(2+X)=sd(X)\)</span></li>
+</ul>
+<p><strong>Property 3</strong>: multiplying a constant to a random variable and then taking the mean or variance:</p>
+<p><span class="math display">\[\begin{align*}
+E(aX)&amp;=E(X) aE(X)\\
+var(aX)&amp;=a^2var(X)\\
+sd(aX)&amp;=|a|sd(X)\\
+\end{align*}\]</span></p>
+<p>For any constant, <span class="math inline">\(a\)</span></p>
+<ul>
+<li>Example: <span class="math inline">\(E(2X)=2E(X)\)</span>, <span class="math inline">\(var(2X)=4var(X)\)</span>, <span class="math inline">\(sd(2X)=2sd(X)\)</span></li>
+</ul>
+<p><strong>Property 4</strong>: the expected value of the sum of two random variables is equal to the sum of each random variable’s expected value:</p>
+<p><span class="math display">\[E(X \pm Y)=E(X) \pm E(Y)\]</span></p>
 <h2 id="r-appendix-graphing-statistical-and-mathematical-functions-in-r">R Appendix: Graphing Statistical and Mathematical Functions in R</h2>
 <p>The <code>mosaic</code> package is useful for making and using mathematical functions in <code>R</code>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;mosaic&quot;) install for first use</span></span>
@@ -151,11 +181,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="graphing-mathematical-functions">Graphing Mathematical Functions</h3>
 <p>In <code>ggplot</code> there is a dedicated <code>stat_function()</code> (equivalent to a <code>geom_</code> layer) to graph mathematical and statistical functions. All that is needed is a <code>data.frame</code> of a range of <code>x</code> values to act as the source for <code>data</code>, and set <code>x</code> equal to those values for <code>aes</code>thetics.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ────────────</code></pre>
 <pre><code>## ✓ tibble  3.0.3     ✓ purrr   0.3.4
 ## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ───────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ─────────────────────
 ## x mosaic::count()            masks dplyr::count()
 ## x purrr::cross()             masks mosaic::cross()
 ## x mosaic::do()               masks dplyr::do()
@@ -265,8 +295,8 @@ code span.wa { color: #bf0303; } /* Warning */
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># take 10 draws from a normal distribution with:</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a>      <span class="dt">mean =</span> <span class="dv">2</span>, <span class="co"># mean of 2</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>      <span class="dt">sd =</span> <span class="dv">1</span>) <span class="co"># sd of 1</span></span></code></pre></div>
-<pre><code>##  [1] 2.399739 2.771751 1.694264 1.010256 1.318444 3.887799 1.281276 2.525654
-##  [9] 3.461928 2.850906</code></pre>
+<pre><code>##  [1] 2.7816194 0.7435959 1.9172501 2.4024459 3.4148629 3.5037810 2.8308621
+##  [8] 0.6146721 4.0643610 4.6366762</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Get probability of a random variable being less than or equal to a value (cdf) from a normal distribution:</li>
 </ol>
