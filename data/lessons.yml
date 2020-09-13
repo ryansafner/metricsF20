@@ -58,11 +58,14 @@ lessons:
     slides: "2.3-slides"
     
   - title: "2.4 OLS: Goodness of Fit and Bias"
-
+    reading: "2.4-reading"
+    
   - title: "2.5 OLS: Precision and Diagnostics"
-
+    reading: "2.5-reading"
+    
   - title: "2.6 Inference for Regression"
-
+    reading: "2.6-reading"
+    
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3**'
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'

@@ -1,0 +1,22 @@
+---
+title: "2.6 — Inference for Regression — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> [Ch. 4] in @Bailey
+- [<i class="fas fa-external-link-square-alt"></i> Ch. 10 (optionally 8-9) in *Modern Dive* ](https://moderndive.netlify.com/10-inference-for-regression.html)
+- [<i class="fab fa-youtube"></i> *Last Week Tonight with John Oliver*: Scientific Studies](https://www.youtube.com/watch?v=0Rnq1NpHdmw)
+- [<i class="fas fa-external-link-square-alt"></i> Visualizing Probability and Inference ](https://seeing-theory.brown.edu/frequentist-inference/index.html)
+
+Bailey teaches inferential statistics in the classical way (with reference to theoretical $Z$ and $t$ distributions, and $Z$ and $t$ tests). This is all valid. Again, you may wish to brush up with [Khan Academy](https://www.khanacademy.org/math/statistics-probability)^[From sampling distributions through significance tests, for this. Though the whole class is helpful!].
+
+The latter "book" (also free online, like R4DS) uses the `infer` package to run simulations for inferential statistics. Chapter 10 is focused on regression (but I also recommend the chapters leading up to it, which are on inferential statistics broadly, using this method).
+
+Also be sure to watch the excellent and hilarious discussion of the limits and misuses of scientific studies and statistical significance $(p$-values) in the *Last Week Tonight* clip.
+
+The final link is a great website for visualizing basic statistic concepts like probability, distributions, confidence intervals, hypothesis tests, central limit theorem, and regression.
+

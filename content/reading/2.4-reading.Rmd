@@ -1,0 +1,10 @@
+---
+title: "2.4 — Goodness of Fit, Bias, and Precision — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> @Bailey[3.2-3.4, 3.7-3.8]

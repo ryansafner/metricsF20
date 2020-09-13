@@ -1,0 +1,10 @@
+---
+title: "2.5 — OLS: Precision and Diagnostics — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> @Bailey[Finish Ch. 3]
