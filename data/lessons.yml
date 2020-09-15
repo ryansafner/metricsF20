@@ -59,6 +59,8 @@ lessons:
     
   - title: "2.4 OLS: Goodness of Fit and Bias"
     reading: "2.4-reading"
+    class: "2.4-class"
+    slides: "2.4-slides"
     
   - title: "2.5 OLS: Precision and Diagnostics"
     reading: "2.5-reading"
