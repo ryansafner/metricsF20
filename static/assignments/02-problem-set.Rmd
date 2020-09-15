@@ -14,7 +14,6 @@ In fact, try knitting right away and see what this produces!
 # Theory and Concepts
 
 ## Question 1
-### Part A
 **In your own words, explain the difference between endogeneity and exogeneity.**
 
 <!--WRITE YOUR ANSWERS BELOW -->

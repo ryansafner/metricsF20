@@ -1,0 +1,307 @@
+---
+title: "2.4 — OLS: Goodness of Fit and Bias — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, September 15, 2019*
+
+# Overview
+
+Today we continue looking at basic OLS regression. We will cover how to measure if a regression line is a good fit (using $R^2$ and $\sigma_u$ or SER), and whether OLS estimators are *biased*. These will depend on four critical *assumptions about $u$.* 
+
+In doing so, we begin an ongoing exploration into inferential statistics, which will finally become clear in another week. The most confusing part is recognizing that there is a *sampling distribution of each OLS estimator*. We want to measure the center of that sampling distribution, to see if the estimator is *biased*. Next class we will measure the spread of that distribution. 
+
+We continue the extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, [Stock and Watson, 2007](https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources). Download and follow along with the data from today's example:^[Note this is a `.dta` Stata file. You will need to (install and) load the package `haven` to `read_dta()` Stata files into a dataframe.]
+
+- [<i class="fas fa-table"></i> `caschool.dta`](http://metricsf20.classes.ryansafner.com/data/caschool.dta)
+
+I have also made a RStudio Cloud project documenting all of the things we have been doing with this data that may help you when you start working with regressions (next class):
+
+- [<i class="fas fa-cloud"></i> Class Size Regression Analysis](https://rstudio.cloud/spaces/83147/project/1611251)
+
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.4-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.4-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Problem Set
+
+[Problem Set 1](/assignment/01-problem-set) answers are posted on that page in various formats.
+
+[Problem set 2](/assignment/02-problem-set) answers are posted on that page in various formats.
+
+# Appendix: OLS Estimators
+
+## Deriving the OLS Estimators
+
+The population linear regression model is: 
+
+$$Y_i=\beta_0+\beta_1 X_i + u _i$$
+
+The errors $(u_i)$ are unobserved, but for candidate values of $\hat{\beta_0}$ and $\hat{\beta_1}$, we can obtain an estimate of the residual. Algebraically, the error is: 
+
+$$\hat{u_i}=    Y_i-\hat{\beta_0}-\hat{\beta_1}X_i$$
+
+Recall our goal is to find $\hat{\beta_0}$ and $\hat{\beta_1}$ that *minimizes* the sum of squared errors (SSE): 
+
+$$SSE= \sum^n_{i=1} \hat{u_i}^2$$
+
+So our minimization problem is:
+
+$$\min_{\hat{\beta_0}, \hat{\beta_1}} \sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1}X_i)^2$$
+
+Using calculus, we take the partial derivatives and set it equal to 0 to find a minimum. The first order conditions are:
+
+$$\begin{align*}
+\frac{\partial SSE}{\partial \hat{\beta_0}}&=-2\displaystyle\sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1} X_i)=0\\
+\frac{\partial SSE}{\partial \hat{\beta_1}}&=-2\displaystyle\sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1} X_i)X_i=0\\
+\end{align*}$$
+
+### Finding $\hat{\beta_0}$
+
+Working with the first FOC, divide both sides by $-2$: 
+
+$$\displaystyle\sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1} X_i)=0$$
+
+Then expand the summation across all terms and divide by $n$: 
+
+$$\underbrace{\frac{1}{n}\sum^n_{i=1} Y_i}_{\bar{Y}}-\underbrace{\frac{1}{n}\sum^n_{i=1}\hat{\beta_0}}_{\hat{\beta_0}}-\underbrace{\frac{1}{n}\sum^n_{i=1} \hat{\beta_1} X_i}_{\hat{\beta_1}\bar{X}}=0$$
+
+Note the first term is $\bar{Y}$, the second is $\hat{\beta_0}$, the third is $\hat{\beta_1}\bar{X}$.^[From the [rules about summation operators](https://metricsf19.classes.ryansafner.com/class/07-class/#the-summation-operator), we define the mean of a random variable $X$ as $\bar{X}=\frac{1}{n}\displaystyle\sum_{i=1}^n X_i$. The mean of a constant, like $\beta_0$ or $\beta_1$ is itself.]
+
+So we can rewrite as: 
+$$\bar{Y}-\hat{\beta_0}-\beta_1=0$$
+
+Rearranging:
+
+$$\hat{\beta_0}=\bar{Y}-\bar{X}\beta_1$$
+
+### Finding $\hat{\beta_1}$
+
+To find $\hat{\beta_1}$, take the second FOC and divide by $-2$: 
+
+$$\displaystyle\sum^n_{i=1} (Y_i-\hat{\beta_0}-\hat{\beta_1} X_i)X_i=0$$
+
+From the formula for $\hat{\beta_0}$, substitute in for $\hat{\beta_0}$:
+
+$$\displaystyle\sum^n_{i=1} \bigg(Y_i-[\bar{Y}-\hat{\beta_1}\bar{X}]-\hat{\beta_1} X_i\bigg)X_i=0$$
+
+Combining similar terms:
+
+$$\displaystyle\sum^n_{i=1} \bigg([Y_i-\bar{Y}]-[X_i-\bar{X}]\hat{\beta_1}\bigg)X_i=0$$
+
+Distribute $X_i$ and expand terms into the subtraction of two sums (and pull out $\hat{\beta_1}$ as a constant in the second sum:
+
+$$\displaystyle\sum^n_{i=1} [Y_i-\bar{Y}]X_i-\hat{\beta_1}\displaystyle\sum^n_{i=1}[X_i-\bar{X}]X_i=0$$
+
+Move the second term to the righthand side: 
+
+$$\displaystyle\sum^n_{i=1} [Y_i-\bar{Y}]X_i=\hat{\beta_1}\displaystyle\sum^n_{i=1}[X_i-\bar{X}]X_i$$
+
+Divide to keep just $\hat{\beta_1}$ on the right:
+
+$$\frac{\displaystyle\sum^n_{i=1} [Y_i-\bar{Y}]X_i}{\displaystyle\sum^n_{i=1}[X_i-\bar{X}]X_i}=\hat{\beta_1}$$
+
+Note that from the [rules about summation operators](https://metricsf19.classes.ryansafner.com/class/07-class/#the-summation-operatorproperties): 
+
+$$\displaystyle\sum^n_{i=1} [Y_i-\bar{Y}]X_i=\displaystyle\sum^n_{i=1} (Y_i-\bar{Y})(X_i-\bar{X})$$
+
+and: 
+
+$$\displaystyle\sum^n_{i=1} [X_i-\bar{X}]X_i=\displaystyle\sum^n_{i=1} (X_i-\bar{X})(X_i-\bar{X})=\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2$$
+
+Plug in these two facts: 
+
+$$\frac{\displaystyle\sum^n_{i=1} (Y_i-\bar{Y})(X_i-\bar{X})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\hat{\beta_1}$$
+
+## Algebraic Properties of OLS Estimators
+
+The OLS residuals $\hat{u}$ and predicted values $\hat{Y}$ are chosen by the minimization problem to satisfy: 
+
+1. The expected value (average) error is 0: 
+$$E(u_i)=\frac{1}{n}\displaystyle \sum_{i=1}^n \hat{u_i}=0$$
+
+2. The covariance between $X$ and the errors is 0:
+$$\hat{\sigma}_{X,u}=0$$
+
+Note the first two properties imply strict **exogeneity**. That is, this is only a valid model if $X$ and $u$ are not correlated.
+
+3. The expected predicted value of $Y$ is equal to the expected value of $Y$:
+$$\bar{\hat{Y}}=\frac{1}{n} \displaystyle\sum_{i=1}^n \hat{Y_i} = \bar{Y}$$
+
+4. Total sum of squares is equal to the explained sum of squares plus sum of squared errors:
+$$\begin{align*}TSS&=ESS+SSE\\
+\sum_{i=1}^n (Y_i-\bar{Y})^2&=\sum_{i=1}^n (\hat{Y_i}-\bar{Y})^2 + \sum_{i=1}^n {u}^2\\
+\end{align*}$$
+
+Recall $R^2$ is $\frac{ESS}{TSS}$ or $1-SSE$
+
+5. The regression line passes through the point $(\bar{X},\bar{Y})$, i.e. the mean of $X$ and the mean of $Y$.
+
+## Bias in $\hat{\beta_1}$
+
+Begin with the formula we derived for $\hat{\beta_1}$:
+
+$$\hat{\beta_1}=\frac{\displaystyle \sum^n_{i=1} (Y_i-\bar{Y})(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+
+Recall from **Rule 6** of summations, we can rewrite the numerator as 
+
+$$\begin{align*}
+	=&\displaystyle \sum^n_{i=1} (Y_i-\bar{Y})(X_i-\bar{X})\\
+	=& \displaystyle \sum^n_{i=1} Y_i(X_i-\bar{X})\\
+\end{align*}$$
+
+$$\hat{\beta_1}=\frac{\displaystyle \sum^n_{i=1} Y_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+
+We know the true population relationship is expressed as:
+
+$$Y_i=\beta_0+\beta_1 X_i+u_i$$
+
+Substituting this in for $Y_i$ in equation 2:
+
+$$\hat{\beta_1}=\frac{\displaystyle \sum^n_{i=1} (\beta_0+\beta_1X_i+u_i)(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+Breaking apart the sums in the numerator:
+
+$$\hat{\beta_1}=\frac{\displaystyle \sum^n_{i=1} \beta_0(X_i-\bar{X})+\displaystyle \sum^n_{i=1} \beta_1X_i(X_i-\bar{X})+\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+
+We can simplify equation 4 using **Rules 4 and 5** of summations
+
+1. The first term in the numerator $\left[\displaystyle \sum^n_{i=1} \beta_0(X_i-\bar{X})\right]$ has the constant $\beta_0$, which can be pulled out of the summation. This gives us the summation of deviations, which add up to 0 as per **Rule 4**:
+
+$$\begin{align*}
+\displaystyle \sum^n_{i=1} \beta_0(X_i-\bar{X})&= \beta_0 \displaystyle \sum^n_{i=1} (X_i-\bar{X})\\
+&=\beta_0 (0)\\
+&=0\\
+\end{align*}$$
+
+2. The second term in the numerator  $\left[\displaystyle \sum^n_{i=1} \beta_1X_i(X_i-\bar{X})\right]$ has the constant $\beta_1$, which can be pulled out of the summation. Additionally, **Rule 5** tells us $\displaystyle \sum^n_{i=1} X_i(X_i-\bar{X})=\displaystyle \sum^n_{i=1}(X_i-\bar{X})^2$:
+
+$$\begin{align*}
+\displaystyle \sum^n_{i=1} \beta_1X_1(X_i-\bar{X})&= \beta_1 \displaystyle \sum^n_{i=1} X_i(X_i-\bar{X})\\
+&=\beta_1\displaystyle \sum^n_{i=1}(X_i-\bar{X})^2\\
+\end{align*}$$
+
+When placed back in the context of being the numerator of a fraction, we can see this term simplifies to just $\beta_1$:
+
+$$\begin{align*}
+	\frac{\beta_1\displaystyle \sum^n_{i=1}(X_i-\bar{X})^2}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} &=\frac{\beta_1}{1} \times \frac{\displaystyle \sum^n_{i=1}(X_i-\bar{X})^2}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}\\
+	&=\beta_1	\\
+\end{align*}$$
+
+Thus, we are left with: 
+
+$$\hat{\beta_1}=\beta_1+\frac{\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+
+Now, take the expectation of both sides:
+
+$$E[\hat{\beta_1}]=E\left[\beta_1+\frac{\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} \right]$$
+
+We can break this up, using properties of expectations. First, recall $E[a+b]=E[a]+E[b]$, so we can break apart the two terms. 
+
+$$E[\hat{\beta_1}]=E[\beta_1]+E\left[\frac{\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} \right]$$
+
+Second, the true population value of $\beta_1$ is a constant, so $E[\beta_1]=\beta_1$.
+
+Third, since we assume $X$ is also "fixed" and not random, the variance of $X$, $\displaystyle\sum_{i=1}^n (X_i-\bar{X})$, in the denominator, is just a constant, and can be brought outside the expectation. 
+
+$$E[\hat{\beta_1}]=\beta_1+\frac{E\left[\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})\right]	}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$$
+
+Thus, the properties of the equation are primarily driven by the expectation $E\bigg[\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})\bigg]$. We now turn to this term. 
+
+Use the property of summation operators to expand the numerator term: 
+
+$$\begin{align*}
+	\hat{\beta_1}&=\beta_1+\frac{\displaystyle \sum^n_{i=1} u_i(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} \\
+		\hat{\beta_1}&=\beta_1+\frac{\displaystyle \sum^n_{i=1} (u_i-\bar{u})(X_i-\bar{X})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} \\
+\end{align*}$$
+
+Now divide the numerator and denominator of the second term by $\frac{1}{n}$. Realize this gives us the covariance between $X$ and $u$ in the numerator and variance of $X$ in the denominator, based on their respective definitions.
+
+$$\begin{align*}
+	\hat{\beta_1}&=\beta_1+\cfrac{\frac{1}{n}\displaystyle \sum^n_{i=1} (u_i-\bar{u})(X_i-\bar{X})}{\frac{1}{n}\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2} \\
+	\hat{\beta_1}&=\beta_1+\cfrac{cov(X,u)}{var(X)} \\
+	\hat{\beta_1}&=\beta_1+\cfrac{s_{X,u}}{s_X^2} \\
+\end{align*}$$
+
+By the Zero Conditional Mean assumption of OLS, $s_{X,u}=0$. 
+
+Alternatively, we can express the bias in terms of correlation instead of covariance:
+
+$$E[\hat{\beta_1}]=\beta_1+\cfrac{cov(X,u)}{var(X)}$$
+
+From the definition of correlation:
+
+$$\begin{align*}
+	 cor(X,u)&=\frac{cov(X,u)}{s_X s_u}\\
+	 cor(X,u)s_Xs_u &=cov(X,u)\\
+\end{align*}$$
+
+Plugging this in: 
+
+$$\begin{align*}
+E[\hat{\beta_1}]&=\beta_1+\frac{cov(X,u)}{var(X)} \\
+E[\hat{\beta_1}]&=\beta_1+\frac{\big[cor(X,u)s_xs_u\big]}{s^2_X} \\
+E[\hat{\beta_1}]&=\beta_1+\frac{cor(X,u)s_u}{s_X} \\
+E[\hat{\beta_1}]&=\beta_1+cor(X,u)\frac{s_u}{s_X} \\
+\end{align*}$$
+
+## Proof of the Unbiasedness of $\hat{\beta_1}$
+
+Begin with equation:^[Admittedly, this is a simplified version where $\hat{\beta_0}=0$, but there is no loss of generality in the results.]
+
+$$\hat{\beta_1}=\frac{\sum Y_iX_i}{\sum X_i^2}$$
+
+Substitute for $Y_i$:
+
+$$\hat{\beta_1}=\frac{\sum (\beta_1 X_i+u_i)X_i}{\sum X_i^2}$$
+
+Distribute $X_i$ in the numerator:
+
+$$\hat{\beta_1}=\frac{\sum \beta_1 X_i^2+u_iX_i}{\sum X_i^2}$$
+
+Separate the sum into additive pieces:
+
+$$\hat{\beta_1}=\frac{\sum \beta_1 X_i^2}{\sum X_i^2}+\frac{u_i X_i}{\sum X_i^2}$$
+
+$\beta_1$ is constant, so we can pull it out of the first sum:
+
+$$\hat{\beta_1}=\beta_1 \frac{\sum X_i^2}{\sum X_i^2}+\frac{u_i X_i}{\sum X_i^2}$$
+
+Simplifying the first term, we are left with:
+
+$$\hat{\beta_1}=\beta_1 +\frac{u_i X_i}{\sum X_i^2}$$
+
+Now if we take expectations of both sides: 
+
+$$E[\hat{\beta_1}]=E[\beta_1] +E\left[\frac{u_i X_i}{\sum X_i^2}\right]$$
+
+$\beta_1$ is a constant, so the expectation of $\beta_1$ is itself. 
+
+$$E[\hat{\beta_1}]=\beta_1 +E\bigg[\frac{u_i X_i}{\sum X_i^2}\bigg]$$
+
+Using the properties of expectations, we can pull out $\frac{1}{\sum X_i^2}$ as a constant:
+
+$$E[\hat{\beta_1}]=\beta_1 +\frac{1}{\sum X_i^2} E\bigg[\sum u_i X_i\bigg]$$
+
+Again using the properties of expectations, we can put the expectation inside the summation operator (the expectation of a sum is the sum of expectations):
+
+$$E[\hat{\beta_1}]=\beta_1 +\frac{1}{\sum X_i^2}\sum E[u_i X_i]$$
+
+Under the exogeneity condition, the correlation between $X_i$ and $u_i$ is 0.
+
+$$E[\hat{\beta_1}]=\beta_1$$
