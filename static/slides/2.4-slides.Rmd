@@ -53,6 +53,18 @@ extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
 
 ```
 
+class: inverse
+
+# Outline
+
+### [Goodness of Fit](#3)
+
+### [Bias: The Sampling Distributions of the OLS Estimators](#28)
+
+### [Bias and Exogeneity](#43)
+
+---
+
 class: inverse, center, middle
 # Goodness of Fit
 
