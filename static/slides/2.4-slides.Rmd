@@ -60,13 +60,37 @@ class: inverse, center, middle
 
 # Models
 
+.pull-left[
+
 > "All models are wrong. But some are useful." - George Box
 
---
+]
 
-# All of Statistics: 
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
+
+---
+
+# Models
+
+.pull-left[
+
+> "All models are wrong. But some are useful." - George Box
+
+### All of Statistics: 
 
 $$Observed_i = \widehat{Model}_i + Error_i$$
+
+]
+
+.pull-right[
+.center[
+![](../images/statsgraphs.jpg)
+]
+]
 
 ---
 
@@ -81,7 +105,7 @@ $$Observed_i = \widehat{Model}_i + Error_i$$
 $$\underbrace{Y_i}_{Observed}=\underbrace{\widehat{Y_i}}_{Model}+\underbrace{\hat{u}}_{Error}$$
 
 
-- Recall OLS estimators are chosen specifically to minimize the .hi[Sum of Squared Errors (SSE)]: $\left(\displaystyle \sum^n_{i=1}\hat{u_i}^2\right)$
+- Recall OLS estimators chosen to minimize .hi[Sum of Squared Errors (SSE)]: $\left(\displaystyle \sum^n_{i=1}\hat{u_i}^2\right)$
 
 ---
 
@@ -586,6 +610,7 @@ class: inverse, center, middle
 1. The expected value of the residuals is 0
 $$E[u]=0$$
 
+]
 ]
 
 .pull-right[
