@@ -1,0 +1,93 @@
+---
+title: "2.5 — OLS: Precision and Diagnostics - R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
+<ul>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1637755"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
+<li><a href="/r/2.5-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/11-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/11-r-practice-answers.Rmd)-->
+<h3 id="question-1">Question 1</h3>
+<p>Our <a href="https://github.com/fivethirtyeight/data/tree/master/congress-trump-score">data</a> comes from fivethirtyeight’s <a href="https://projects.fivethirtyeight.com/congress-trump-score/">Trump Congress tracker</a>. Download and read in (<code>read_csv</code>) the data.</p>
+<ul>
+<li><a href="/data/congress-trump-score.csv"><i class="fas fa-table"></i> <code>congress-trump-score.csv</code></a></li>
+</ul>
+<h3 id="question-2">Question 2</h3>
+<p>Look at the data with <code>glimpse()</code>.</p>
+<h3 id="question-3">Question 3</h3>
+<p>We want to see <em>how does the percentage that a member of Congress’ agrees with President Trump (<code>agree_pct</code>) depend on the result of the 2016 Presidential election in their district (<code>net_trump_vote</code>)</em>? First, plot a scatterplot of <code>agree_pct</code> on <code>net_trump_vote</code>. Add a regression line with an additional layer of <code>geom_smooth(method="lm")</code>.</p>
+<h3 id="question-4">Question 4</h3>
+<p>Find the correlation between <code>agree_pct</code> and <code>net_trump_vote</code>.</p>
+<h3 id="question-5">Question 5</h3>
+<p>We weant to predict the following model:</p>
+<p><span class="math display">\[\widehat{\text{agree_pct}}= \hat{\beta_0}+\hat{\beta_1}\text{net_trump_vote}\]</span></p>
+<p>Run a regression, and save it as an object. Now get a <code>summary()</code> of it.</p>
+<h4 id="part-a">Part A</h4>
+<p>What is <span class="math inline">\(\hat{\beta_0}\)</span>? What does it mean in the context of our question?</p>
+<h4 id="part-b">Part B</h4>
+<p>What is <span class="math inline">\(\hat{\beta_1}\)</span>? What does it mean in the context of our question?</p>
+<h4 id="part-c">Part C</h4>
+<p>What is <span class="math inline">\(R^2\)</span>? What does it mean?</p>
+<h4 id="part-d">Part D</h4>
+<p>What is the <span class="math inline">\(SER\)</span>? What does it mean?</p>
+<h3 id="question-6">Question 6</h3>
+<p>We can look at regression outputs in a tidier way, with the <code>broom</code> package.</p>
+<h4 id="part-a-1">Part A</h4>
+<p>Install and then load <code>broom</code>.</p>
+<h4 id="part-b-1">Part B</h4>
+<p>Run the function <code>tidy()</code> on your regression object (saved in question 5). Save this as an object and then look at it.</p>
+<h4 id="part-c-1">Part C</h4>
+<p>Run the <code>glance()</code> function on your original regression object. What does it show you?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Now run the <code>augment()</code> function on your original regression object, and save this as an object. Look at it. What does it show you?</p>
+<h3 id="question-7">Question 7</h3>
+<p>Now let’s start looking at the residuals of the regression.</p>
+<h4 id="part-a-2">Part A</h4>
+<p>Take the augmented regression object from Question 6-D and use it as the source of your data to create a histogram, where <span class="math inline">\(x\)</span> is <code>.resid</code>. Does it look roughly normal?</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Take the augmented regression object and make a residual plot, which is a scatterplot where <code>x</code> is the normal <code>x</code> variable, and <code>y</code> is the <code>.resid</code>. Feel free to add a horizontal line at 0 with <code>geom_hline(yintercept=0)</code>.</p>
+<h3 id="question-8">Question 8</h3>
+<p>Now let’s try presenting your results in a regression table. Install and load <code>huxtable</code>, and run the <code>huxreg()</code> command. Your main input is your regression object you saved in Question 5. Feel free to customize the output of this table (see the slides).</p>
+<h3 id="question-9">Question 9</h3>
+<p>Now let’s check for heteroskedasticity.</p>
+<h4 id="part-a-3">Part A</h4>
+<p>Looking at the scatterplot and residual plots in Questions 3 and 7B, do you think the errors are heteroskedastic or homoskedastic?</p>
+<h4 id="part-b-3">Part B</h4>
+<p>Install and load the <code>lmtest</code> package and run <code>bptest</code> on your regression object. Was the data heteroskedastic or homoskedastic?</p>
+<h4 id="part-c-2">Part C</h4>
+<p>Now let’s make some heteroskedasticity-robust standard errors. Install and load the <code>estimatr</code> package and use the <code>lm_robust()</code> command (instead of the <code>lm()</code> command) to run a new regression (and save it). Make sure you add <code>se_type="stata"</code> inside the command to calculate robust SEs. Look at it. What changes?</p>
+<h4 id="part-d-2">Part D</h4>
+<p>Now let’s see this in a nice regression table. Use <code>huxreg()</code> again, but add both your original regression and your regression saved in part C. Notice any changes?</p>
+<h3 id="question-10">Question 10</h3>
+<p>Now let’s check for outliers.</p>
+<h4 id="part-a-4">Part A</h4>
+<p>Just looking at the scatterplot in Question 3, do you see any outliers?</p>
+<h4 id="part-b-4">Part B</h4>
+<p>Install and load the <code>car</code> package. Run the <code>outlierTest</code> command on your regression object. Does it detect any outliers?</p>
+<h4 id="part-c-3">Part C</h4>
+<p>Look in your original data to match this outlier with an observation. Hint: use the <code>slice()</code> command, as the outlier test gave you an observation (row) number!</p>
+<h3 id="question-11-optional">Question 11 (Optional)</h3>
+<p>This data is still a bit messy. Let’s check in on your <code>tidyverse</code> skills again! For example, we’d probably like to plot our scatterplots with colors for Republican and Democratic party. Or plot by the House and the Senate.</p>
+<h4 id="part-a-5">Part A</h4>
+<p>First, the variable <code>congress</code> (session of Congress) seems a bit off. Get a <code>count()</code> of <code>congress</code>.</p>
+<h4 id="part-b-5">Part B</h4>
+<p>Let’s get rid of the <code>0</code> values for <code>congress</code> (someone made a mistake coding this, probably). Also, while we’re at it, let’s take <code>agree_pct</code> and <code>mutate</code> a variable that is a proper percentage (i.e. <code>*100</code>).</p>
+<h4 id="part-c-4">Part C</h4>
+<p>The variable <code>party</code> is also quite a mess. <code>count()</code> by <code>party</code> to see. Then let’s <code>mutate</code> a variable to make a better measure of political party - just <code>"Republican"</code>, <code>"Democrat"</code>, and <code>"Independent"</code>. Try doing this with the <code>case_when()</code> command (as your <code>mutate</code> formula).<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">The syntax for <code>case_when()</code> is to have a series of <code>condition ~ "Outcome"</code>, separated by commas. For example, one condition is to assign both <code>"Democrat"</code> and <code>"D"</code> to <code>"Democrat"</code>, as in <code>party %in% c("Democrat", "D") ~ "Democrat"</code>. You could also do this with a few <code>ifelse()</code> commands, but that’s a bit more awkward.<br />
+<br />
+</span></span> When you’re done <code>count()</code> by your new party variable to make sure it worked.</p>
+<h4 id="part-d-3">Part D</h4>
+<p>Now plot a scatterplot (same as Question 3) and set <code>color</code> to your party variable. Notice <code>R</code> uses its own default colors, which don’t match to the actual colors these political parties use! Make a vector where you define the party colors as follows: <code>party_colors &lt;- c("Democrat" = "blue", "Republican" = "red", "Independent" = "gray")</code>. Then, run your plot again, adding the following line to customize the colors <code>+scale_colour_manual("Parties", values = party_colors)</code>.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>"Parties"</code> is the title that will show up on the legend, feel free to edit it, or remove the legend with another layer <code>+guides(color = F)</code>.<br />
+<br />
+</span></span></p>
+<h4 id="part-e">Part E</h4>
+<p>Now facet your scatterplot by <code>chamber</code>.</p>

@@ -1,0 +1,68 @@
+---
+title: "2.5: OLS: Precision and Diagnostics - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, October 1, 2019*
+
+# Overview
+
+Last class and this class we are looking at the *sampling distibution* of OLS estimators (particularly $\hat{\beta_1})$. Last class we looked at what the *center* of the distribution was - the true $\beta_1$ - so long as the assumptions about $u$ hold:
+
+- When $cor(X,u)=0$, $X$ is *exogenous* and the OLS estimators are *unbiased*.
+- What $cor(X,u)\neq 0$, $X$ is *endogenous* and the OLS estimators are *biased*.
+
+Today we continue looking at the *sampling distibution* by determining the variation in $\hat{beta_1}$ (it's variance or its standard error^[The square root of variance, as always!]). We look at the formula and see the three major determinants of variation in $\hat{\beta_1}$:
+
+1. Goodness of fit of the regression $(SER$ or $\hat{\sigma_u}$
+2. Sample size $n$
+3. Variation in $X$
+
+We also look at the diagnostics of a regression by looking at its residuals $(\hat{u_i})$ for anomalies. We focus on the problem of *heteroskedasticity* (where the variation in $\hat{u_i])$ changes over the range of $X$, which violates assumption 2 (errors are homoskedastic): how to detect it, test it, and fix it with some packages. We also look at outliers, which can bias the regression. Finally, we also look at how to present regression results. 
+
+We continue the extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, [Stock and Watson, 2007](https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources). Download and follow along with the data from today's example:^[Note this is a `.dta` Stata file. You will need to (install and) load the package `haven` to `read_dta()` Stata files into a dataframe.]
+
+- [<i class="fas fa-table"></i> `caschool.dta`](http://metricsf19.classes.ryansafner.com/data/caschool.dta)
+
+I have also made a RStudio Cloud project documenting all of the things we have been doing with this data that may help you when you start working with regressions:
+
+- [<i class="fas fa-cloud"></i> Class Size Regression Analysis](https://rstudio.cloud/spaces/83147/project/1611251)
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.5-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.5-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Practice Problems
+
+Today you will be working on [R practice problems](/r/2.5-r-practice.html). Check back later for solutions. 
+
+# New Packages Mentioned
+
+- `broom`: for tidy regression outputs, summary statistics, and adding $\hat{Y_i}$ and $\hat{u_i}$ into the dataframe
+- `huxtable`: to present regression output in a table with `huxreg()`
+- `lmtest`: for testing for heteroskedasticity in errors with `bptest()`
+- `car`: for testing for outliers with `outlierTest()`
+- `estimatr`: for calculating robust standard errors with `lm_robust()`
+
+# Assignments: Problem Set 2 Answers
+
+[Problem Set 2](/assignment/01-problem-set.html) answers are posted.
+
+# Appendix: Robust Standard Errors in R
+
+This, since I started using `huxtable` instead of another package (`stargazer`) to make regression tables, I have gone all in on `estimatr`'s `lm_robust()` option to calculate robust standard errors. Before this, there were some other methods that I had to resort to. You can read about that in [this blog post](http://ryansafner.com/post/replicating-statas-robust-option-for-ols-standard-errors-in-r).

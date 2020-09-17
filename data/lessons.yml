@@ -64,6 +64,10 @@ lessons:
     
   - title: "2.5 OLS: Precision and Diagnostics"
     reading: "2.5-reading"
+    reading: "2.5-reading"
+    class: "2.5-class"
+    slides: "2.5-slides"
+    r: "2.5-r-practice"
     
   - title: "2.6 Inference for Regression"
     reading: "2.6-reading"

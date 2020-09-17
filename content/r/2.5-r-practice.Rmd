@@ -1,0 +1,128 @@
+---
+title: "2.5 — OLS: Precision and Diagnostics - R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1637755)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/2.5-r-practice-rmd.Rmd)
+
+<!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/11-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/11-r-practice-answers.Rmd)-->
+
+
+## Question 1
+Our [data](https://github.com/fivethirtyeight/data/tree/master/congress-trump-score) comes from fivethirtyeight's [Trump Congress tracker](https://projects.fivethirtyeight.com/congress-trump-score/). Download and read in (`read_csv`) the data.
+
+- [<i class="fas fa-table"></i> `congress-trump-score.csv`](/data/congress-trump-score.csv)
+
+## Question 2
+Look at the data with `glimpse()`. 
+
+## Question 3
+We want to see *how does the percentage that a member of Congress' agrees with President Trump (`agree_pct`) depend on the result of the 2016 Presidential election in their district (`net_trump_vote`)*? First, plot a scatterplot of `agree_pct` on `net_trump_vote`. Add a regression line with an additional layer of `geom_smooth(method="lm")`.
+
+## Question 4
+Find the correlation between `agree_pct` and `net_trump_vote`.
+
+## Question 5
+We weant to predict the following model:
+
+$$\widehat{\text{agree_pct}}= \hat{\beta_0}+\hat{\beta_1}\text{net_trump_vote}$$
+
+Run a regression, and save it as an object. Now get a `summary()` of it.
+
+### Part A
+What is $\hat{\beta_0}$? What does it mean in the context of our question?
+
+### Part B
+What is $\hat{\beta_1}$? What does it mean in the context of our question?
+
+### Part C
+What is $R^2$? What does it mean?
+
+### Part D
+What is the $SER$? What does it mean?
+
+## Question 6
+We can look at regression outputs in a tidier way, with the `broom` package. 
+
+### Part A
+Install and then load `broom`.
+
+### Part B
+Run the function `tidy()` on your regression object (saved in question 5). Save this as an object and then look at it.
+
+### Part C
+Run the `glance()` function on your original regression object. What does it show you?
+
+### Part D
+Now run the `augment()` function on your original regression object, and save this as an object. Look at it. What does it show you?
+
+## Question 7
+Now let's start looking at the residuals of the regression. 
+
+### Part A
+Take the augmented regression object from Question 6-D and use it as the source of your data to create a histogram, where $x$ is `.resid`. Does it look roughly normal?
+
+### Part B
+Take the augmented regression object and make a residual plot, which is a scatterplot where `x` is the normal `x` variable, and `y` is the `.resid`. Feel free to add a horizontal line at 0 with `geom_hline(yintercept=0)`. 
+
+## Question 8
+Now let's try presenting your results in a regression table. Install and load `huxtable`, and run the `huxreg()` command. Your main input is your regression object you saved in Question 5. Feel free to customize the output of this table (see the slides).
+
+## Question 9
+Now let's check for heteroskedasticity. 
+
+### Part A
+Looking at the scatterplot and residual plots in Questions 3 and 7B, do you think the errors are heteroskedastic or homoskedastic?
+
+### Part B
+Install and load the `lmtest` package and run `bptest` on your regression object. Was the data heteroskedastic or homoskedastic?
+
+### Part C
+Now let's make some heteroskedasticity-robust standard errors. Install and load the `estimatr` package and use the `lm_robust()` command (instead of the `lm()` command) to run a new regression (and save it). Make sure you add `se_type="stata"` inside the command to calculate robust SEs. Look at it. What changes?
+
+### Part D
+Now let's see this in a nice regression table. Use `huxreg()` again, but add both your original regression and your regression saved in part C. Notice any changes?
+
+## Question 10
+Now let's check for outliers. 
+
+### Part A
+Just looking at the scatterplot in Question 3, do you see any outliers?
+
+### Part B
+Install and load the `car` package. Run the `outlierTest` command on your regression object. Does it detect any outliers?
+
+### Part C
+Look in your original data to match this outlier with an observation. Hint: use the `slice()` command, as the outlier test gave you an observation (row) number!
+
+## Question 11 (Optional)
+
+This data is still a bit messy. Let's check in on your `tidyverse` skills again! For example, we'd probably like to plot our scatterplots with colors for Republican and Democratic party. Or plot by the House and the Senate.
+
+### Part A
+First, the variable `congress` (session of Congress) seems a bit off. Get a `count()` of `congress`.
+
+### Part B
+Let's get rid of the `0` values for `congress` (someone made a mistake coding this, probably). Also, while we're at it, let's take `agree_pct` and `mutate` a variable that is a proper percentage (i.e. `*100`).
+
+### Part C
+The variable `party` is also quite a mess. `count()` by `party` to see. Then let's `mutate` a variable to make a better measure of political party - just `"Republican"`, `"Democrat"`, and `"Independent"`. Try doing this with the `case_when()` command (as your `mutate` formula).^[The syntax for `case_when()` is to have a series of `condition ~ "Outcome"`, separated by commas. For example, one condition is to assign both `"Democrat"` and `"D"` to `"Democrat"`, as in `party %in% c("Democrat", "D") ~ "Democrat"`. You could also do this with a few `ifelse()` commands, but that's a bit more awkward.] When you're done `count()` by your new party variable to make sure it worked.
+
+### Part D
+Now plot a scatterplot (same as Question 3) and set `color` to your party variable. Notice `R` uses its own default colors, which don't match to the actual colors these political parties use! Make a vector where you define the party colors as follows: `party_colors <- c("Democrat" = "blue", "Republican" = "red", "Independent" = "gray")`. Then, run your plot again, adding the following line to customize the colors `+scale_colour_manual("Parties", values = party_colors)`.^[`"Parties"` is the title that will show up on the legend, feel free to edit it, or remove the legend with another layer `+guides(color = F)`.]
+
+### Part E
+Now facet your scatterplot by `chamber`.

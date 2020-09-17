@@ -394,7 +394,7 @@ blockquote {
   background-color: #eee;
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
-  font-size: 26px;
+  /*font-size: 26px;  removed */
 }
 
 .remark-slide table thead th { border-bottom: 2px solid #666; }
