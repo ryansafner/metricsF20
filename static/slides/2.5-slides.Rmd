@@ -56,6 +56,23 @@ extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
 
 ```
 
+
+class: inverse
+
+# Outline
+
+### [Variation in $\hat{\beta_1}$](#5)
+
+### [Presenting Regression Results](#10)
+
+### [Diagnostics about Regression](#23)
+
+### [Problem: Heteroskedasticity](#33)
+
+### [Outliers](#54)
+
+---
+
 # The Sampling Distribution of $\hat{\beta_1}$
 
 .pull-left[
@@ -953,6 +970,7 @@ ggplot(data = CASchool)+
       y = testscr)+
   geom_point(color="blue")+
   geom_smooth(method="lm", color="red")+
+  scale_x_continuous(breaks = seq(14,26,2))+
   labs(x = "Student to Teacher Ratio",
        y = "Test Score")+
   theme_pander(base_family = "Fira Sans Condensed",
@@ -983,6 +1001,7 @@ ggplot(data = CASchool)+
   geom_point(color="blue")+
   geom_vline(xintercept=seq(14,26,2), linetype="dashed", size=1)+
   geom_smooth(method="lm", color="red")+
+  scale_x_continuous(breaks = seq(14,26,2))+
   labs(x = "Student to Teacher Ratio",
        y = "Test Score")+
   theme_pander(base_family = "Fira Sans Condensed",
@@ -1013,6 +1032,7 @@ ggplot(data = CASchool)+
   geom_point(color="blue")+
   geom_vline(xintercept=seq(14,26,2), linetype="dashed", size=1)+
   geom_smooth(method="lm", color="red")+
+  scale_x_continuous(breaks = seq(14,26,2))+
   labs(x = "Student to Teacher Ratio",
        y = "Test Score")+
   theme_pander(base_family = "Fira Sans Condensed",
@@ -1050,6 +1070,45 @@ ggplot(data = aug_reg_het)+
        y = "Test Score")+
   theme_pander(base_family = "Fira Sans Condensed",
            base_size=14)
+```
+
+]
+
+---
+
+# Heteroskedasticity: Another View
+
+.pull-left[
+
+- Using the `ggridges` package
+
+- Plotting the (conditional) distribution of errors by STR
+
+- See that the variation in errors $(\hat{u})$ changes across class sizes!
+]
+
+.pull-right[
+```{r, echo = F}
+library(ggridges)
+library(viridis)
+
+CASchool_aug %>%
+  mutate(bins = cut_interval(str, n = 10)) %>% 
+ggplot(data = .)+
+  aes(x = .resid,
+      y = bins)+
+  geom_density_ridges_gradient(
+    aes(fill = ..x..),
+    color = "white",
+    scale = 2.5,
+    size = 0.5
+  )+
+  geom_vline(xintercept = 0, size =1 , linetype="dashed")+
+  scale_fill_viridis_c()+
+  labs(x = expression(hat(u)),
+       y = "Student Teacher Ratio")+
+  theme_pander()+
+  theme(legend.position="FALSE")
 ```
 
 ]
@@ -1151,13 +1210,49 @@ ggplot(data = aug_het_reg)+
 
 ---
 
-# What Might Cause Heteroskedastic Errors?
+# Heteroskedasticity: Another View
 
 .pull-left[
 
+- Using the `ggridges` package
+
+- Plotting the (conditional) distribution of errors by x
+
+]
+
+.pull-right[
+```{r, echo = F}
+aug_het_reg %>%
+  mutate(bins = cut_interval(x, n = 10)) %>% 
+ggplot(data = .)+
+  aes(x = .resid,
+      y = bins)+
+  geom_density_ridges_gradient(
+    aes(fill = ..x..),
+    color = "white",
+    scale = 2.5,
+    size = 0.5
+  )+
+  geom_vline(xintercept = 0, size =1 , linetype="dashed")+
+  scale_fill_viridis_c()+
+  labs(x = expression(hat(u)),
+       y = "x")+
+  theme_pander()+
+  theme(legend.position="FALSE")
+```
+
+]
+
+---
+
+# What Might Cause Heteroskedastic Errors?
+
+.pull-left[
+.smallest[
 $$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}educ_i$$
 
-```{r}
+
+```{r, echo =F}
 library(wooldridge)
 wage_reg<-lm(wage~educ, data=wage1)
 huxreg("Wage" = wage_reg,
@@ -1168,6 +1263,7 @@ huxreg("Wage" = wage_reg,
                       "SER" = "sigma"),
        number_format = 2)
 ```
+]
 ]
 
 .pull-right[
@@ -1194,10 +1290,9 @@ wage_plot
 # What Might Cause Heteroskedastic Errors?
 
 .pull-left[
-
+.smallest[
 $$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}educ_i$$
 
-.smallest[
 ```{r}
 library(wooldridge)
 wage_reg<-lm(wage~educ, data=wage1)
@@ -1254,6 +1349,41 @@ ggplot(data = aug_wage_reg)+
 
 ```
 ]
+---
+
+# Heteroskedasticity: Another View
+
+.pull-left[
+
+- Using the `ggridges` package
+
+- Plotting the (conditional) distribution of errors by education
+
+]
+
+.pull-right[
+```{r, echo = F}
+aug_wage_reg %>%
+  mutate(bins = cut_interval(educ, n = 10)) %>% 
+ggplot(data = .)+
+  aes(x = .resid,
+      y = bins)+
+  geom_density_ridges_gradient(
+    aes(fill = ..x..),
+    color = "white",
+    scale = 2.5,
+    size = 0.5
+  )+
+  geom_vline(xintercept = 0, size =1 , linetype="dashed")+
+  scale_fill_viridis_c()+
+  labs(x = expression(hat(u)),
+       y = "Years of Education")+
+  theme_pander()+
+  theme(legend.position="FALSE")
+```
+
+]
+
 ---
 
 # Detecting Heteroskedasticity I
@@ -1446,12 +1576,13 @@ ggplot(CA.simple, aes(str,testscr))+
 
 .pull-left[
 
-.smallest[
+.quitesmall[
 .regtable[
 ```{r, echo = F}
 school_outlier_reg<-lm(testscr~str, data=CA.outlier)
 ```
 
+.code60[
 ```{r, echo = T}
 huxreg("No Outliers" = school_reg,
        "Outliers" = school_outlier_reg,
@@ -1465,7 +1596,7 @@ huxreg("No Outliers" = school_reg,
 ]
 ]
 ]
-
+]
 .pull-right[
 ```{r, ref.label="outlier-plot"}
 ```

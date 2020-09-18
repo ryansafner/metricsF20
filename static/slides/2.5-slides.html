@@ -25,6 +25,23 @@ class: center, middle, inverse, title-slide
 
 
 
+
+class: inverse
+
+# Outline
+
+### [Variation in `\(\hat{\beta_1}\)`](#5)
+
+### [Presenting Regression Results](#10)
+
+### [Diagnostics about Regression](#23)
+
+### [Problem: Heteroskedasticity](#33)
+
+### [Outliers](#54)
+
+---
+
 # The Sampling Distribution of `\(\hat{\beta_1}\)`
 
 .pull-left[
@@ -798,18 +815,36 @@ class: inverse, center, middle
 
 ---
 
-# More Obvious Heteroskedasticity
+# Heteroskedasticity: Another View
 
 .pull-left[
 
-- Visual cue: data is "fan-shaped"
-    - Data points are closer to line in some areas
-    - Data points are more spread from line in other areas
+- Using the `ggridges` package
+
+- Plotting the (conditional) distribution of errors by STR
+
+- See that the variation in errors `\((\hat{u})\)` changes across class sizes!
 ]
 
 .pull-right[
-
 &lt;img src="2.5-slides_files/figure-html/unnamed-chunk-30-1.png" width="504" /&gt;
+
+]
+
+---
+
+# More Obvious Heteroskedasticity
+
+.pull-left[
+
+- Visual cue: data is "fan-shaped"
+    - Data points are closer to line in some areas
+    - Data points are more spread from line in other areas
+]
+
+.pull-right[
+
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" /&gt;
 ]
 
 
@@ -826,43 +861,24 @@ class: inverse, center, middle
 
 .pull-right[
 
-&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-31-1.png" width="504" /&gt;&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-31-2.png" width="504" /&gt;
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-32-1.png" width="504" /&gt;&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-32-2.png" width="504" /&gt;
 ]
 
 ---
 
-# What Might Cause Heteroskedastic Errors?
+# Heteroskedasticity: Another View
 
 .pull-left[
 
-`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}educ_i$$`
+- Using the `ggridges` package
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
-<col><col><tr>
-<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Wage</th></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Intercept</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.90&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.68)&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Years of Schooling</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.54 ***</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.05)&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R-Squared</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.16&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">SER</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.38&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
-<tr>
-<th colspan="2" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
-</table>
+- Plotting the (conditional) distribution of errors by x
 
 ]
 
 .pull-right[
-
 &lt;img src="2.5-slides_files/figure-html/unnamed-chunk-33-1.png" width="504" /&gt;
+
 ]
 
 ---
@@ -870,10 +886,10 @@ class: inverse, center, middle
 # What Might Cause Heteroskedastic Errors?
 
 .pull-left[
-
+.smallest[
 `$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}educ_i$$`
 
-.smallest[
+
 <table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
 <col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Wage</th></tr>
@@ -900,8 +916,62 @@ class: inverse, center, middle
 
 .pull-right[
 
-&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" /&gt;&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-35-2.png" width="504" /&gt;
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-35-1.png" width="504" /&gt;
 ]
+
+---
+
+# What Might Cause Heteroskedastic Errors?
+
+.pull-left[
+.smallest[
+`$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}educ_i$$`
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
+<col><col><tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Wage</th></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Intercept</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.90&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.68)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Years of Schooling</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.54 ***</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.05)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">526&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R-Squared</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.16&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">SER</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.38&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th colspan="2" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+</table>
+
+]
+]
+
+.pull-right[
+
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-37-1.png" width="504" /&gt;&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-37-2.png" width="504" /&gt;
+]
+---
+
+# Heteroskedasticity: Another View
+
+.pull-left[
+
+- Using the `ggridges` package
+
+- Plotting the (conditional) distribution of errors by education
+
+]
+
+.pull-right[
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-38-1.png" width="504" /&gt;
+
+]
+
 ---
 
 # Detecting Heteroskedasticity I
@@ -1018,7 +1088,7 @@ huxreg("Normal" = school_reg,
 .pull-right[
 .font80[
 .regtable[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-42">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-45">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Normal</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Robust</th></tr>
 <tr>
@@ -1100,10 +1170,11 @@ class: inverse, center, middle
 
 .pull-left[
 
-.smallest[
+.quitesmall[
 .regtable[
 
 
+.code60[
 
 ```r
 huxreg("No Outliers" = school_reg,
@@ -1116,7 +1187,7 @@ huxreg("No Outliers" = school_reg,
        number_format = 2)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-44">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-47">
 <col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">No Outliers</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Outliers</th></tr>
 <tr>
@@ -1140,9 +1211,9 @@ huxreg("No Outliers" = school_reg,
 ]
 ]
 ]
-
+]
 .pull-right[
-&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-45-1.png" width="504" /&gt;
+&lt;img src="2.5-slides_files/figure-html/unnamed-chunk-48-1.png" width="504" /&gt;
 ]
 
 ---
@@ -1174,7 +1245,7 @@ CA.outlier %&gt;%
   slice(c(422,423,421)) 
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-46">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-49">
 <col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">observat</th><th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">district</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">testscr</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">str</th></tr>
 <tr>
