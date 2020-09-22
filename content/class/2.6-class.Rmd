@@ -1,5 +1,5 @@
 ---
-title: "2.6 — Statistical Inference  Class Notes"
+title: "2.6 — Statistical Inference — Class Notes"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
@@ -26,8 +26,8 @@ That being said, this semester I am *not* going to cover them in the standard wa
 
 # Slides
 
-- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.5-slides.html)
-- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.5-slides.pdf)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.6-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.6-slides.pdf)
 
 # Live Class Session on Zoom
 

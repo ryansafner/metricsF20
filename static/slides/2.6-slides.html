@@ -32,8 +32,21 @@ class: inverse
 
 # Outline
 
-### R
+### [Why Uncertainty Matters](#3)
 
+### [Confidence Intervals](#16)
+
+### [Confidence Intervals Using the infer Package](#24)
+
+### [Hypothesis Testing](#58)
+
+### [Digression: p-Values and the Philosophy of Science](#85)
+
+---
+
+class: inverse, center, middle
+
+# Why Uncertainty Matters
 
 ---
 
@@ -44,12 +57,12 @@ class: inverse
 - We use econometrics to .hi-purple[identify] causal relationships and make .hi-purple[inferences] about them
 
 1. Problem for .hi-purple[identification]: .hi[endogeneity]
-    - `\(X\)` is **exogenous** if its variation is *unrelated* to other factors `\((u)\)` that affect `\(Y\)`
-    - `\(X\)` is **endogenous** if its variation is *related* to other factors `\((u)\)` that affect `\(Y\)`
+  - `\(X\)` is **exogenous** if `\(cor(x, u) = 0\)`
+  - `\(X\)` is **endogenous** if `\(cor(x, u) \neq 0\)`
 
 2. Problem for .hi-purple[inference]: .hi[randomness]
-    - Data is random due to **natural sampling variation**
-    - Taking one sample of a population will yield slightly different information than another sample of the same population
+  - Data is random due to **natural sampling variation**
+  - Taking one sample of a population will yield slightly different information than another sample of the same population
 ]
 
 ]
