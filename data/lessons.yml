@@ -69,10 +69,15 @@ lessons:
     slides: "2.5-slides"
     r: "2.5-r-practice"
     
-  - title: "2.6 Inference for Regression"
+  - title: "2.6 Statistical Inference"
     reading: "2.6-reading"
+    class: "2.6-class"
+    slides: "2.6-slides"
     
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3**'
+  - title: "2.7 Inference for Regression"
+    reading: "2.7-reading"
+
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3** due Sunday Sept 27'
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam**'
 
