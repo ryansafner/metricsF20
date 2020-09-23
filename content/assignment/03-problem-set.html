@@ -1,0 +1,146 @@
+---
+title: "Problem Set 3"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<p><em>Due by Thursday, October 10, 2019</em></p>
+<ul>
+<li><a href="/homeworks/03-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/homeworks/03-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--**ANSWERS:**
+
+- [<i class="fas fa-file-pdf"></i> `html`](/homeworks/03-problem-set-answers.html)
+- [<i class="fab fa-markdown"></i> `Markdown`](/homeworks/03-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/03-problem-set-answers.R) -->
+<h2 id="instructions">Instructions</h2>
+<p>There are several ways you can complete and turn in this homework assignment:</p>
+<ol style="list-style-type: decimal">
+<li><p>Type up any applicable answers (saving any plots as images and including them) in a (e.g. Word) document and save it as a PDF <em>and</em> turn in a (commented!) <em>.R</em> file of commands for each relevant question.</p></li>
+<li><p>If you wish to write out answers by hand, you may either print the <i class="fas fa-file-pdf"></i> pdf above or write your answers (all I need is your work and answers) on your own paper and then please scan/photograph &amp; convert them <strong>to a single PDF</strong>, if they are easily readable, but this is <em>not preferred</em>. See my <a href="/reference/#how-to-make-a-pdf-for-submitting-assignments">guide to making a PDF</a></p></li>
+<li><p>Download the <i class="fab fa-markdown"></i> <code>.Rmd</code> file, do the homework in markdown, and email to me a single <code>knit</code>ted <code>html</code> or <code>pdf</code> file. Be sure that it shows all of your code (i.e. all chunks have <code>echo = TRUE</code> options), otherwise I will also ask for the markdown file.</p></li>
+</ol>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>hw3</code>) and storing any data and plots in that folder on your computer. See my <a href="https://github.com/ryansafner/workflow">example workflow</a>.</p>
+<p>You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.</p>
+<h2 id="theory-and-concepts">Theory and Concepts</h2>
+<h3 id="question-1">Question 1</h3>
+<p>In your own words, describe what exogeneity and endogeneity mean, and how they are related to bias in our regression. What things can we learn about the bias if we know <span class="math inline">\(X\)</span> is endogenous?</p>
+<h3 id="question-2">Question 2</h3>
+<p>In your own words, describe what <span class="math inline">\(R^2\)</span> means. How do we calculate it, what does it tell us, and how do we interpret it?</p>
+<h3 id="question-3">Question 3</h3>
+<p>In your own words, describe what the standard error of the regression (<span class="math inline">\(SER\)</span>) means. How do we calculate it, what does it tell us, and how do we interpret it?</p>
+<h3 id="question-4">Question 4</h3>
+<p>In your own words, describe what homoskedasticity and heteroskedasticity mean: both in ordinary English, and in terms of the graph of the OLS regression line.</p>
+<h3 id="question-5">Question 5</h3>
+<p>In your own words, describe what the variation in <span class="math inline">\(\hat{\beta_1}\)</span> (either variance or standard error) means, or is measuring. What three things determine the variation, and in what way?</p>
+<h3 id="question-6">Question 6</h3>
+<p>In your own words, describe what a <span class="math inline">\(p\)</span>-value means, and how it is used to establish statistical significance.</p>
+<h3 id="question-7">Question 7</h3>
+<p>A researcher is interested in examining the impact of illegal music downloads on commercial music sales. The author collects data on commercial sales of the top 500 singles from 2017 (<span class="math inline">\(Y\)</span>) and the number of downloads from a web site that allows `file sharing’ (<span class="math inline">\(X\)</span>). The author estimates the following model</p>
+<p><span class="math display">\[\text{music sales}_i = \beta_0+\beta_1 \text{illegal downloads}_i + u_i\]</span></p>
+<p>The author finds a large, positive, and statistically significant estimate of <span class="math inline">\(\hat{\beta_1}\)</span>. The author concludes these results demonstrate that illegal downloads actually <em>boost</em> music sales. Is this an unbiased estimate of the impact of illegal music on sales? Why or why not? Do you expect the estimate to overstate or understate the true relationship between illegal downloads and sales?</p>
+<h3 id="question-8">Question 8</h3>
+<p>A pharmaceutical company is interested in estimating the impact of a new drug on cholesterol levels. They enroll 200 people in a clinical trial. People are randomly assigned the treatment group or into the control group. Half of the people are given the new drug and half the people are given a sugar pill with no active ingredient. To examine the impact of dosage on reductions in cholesterol levels, the authors of the study regress the following model:</p>
+<p><span class="math display">\[\text{cholesterol level}_i = \beta_0+\beta_1 \text{dosage level}_i + u_i\]</span></p>
+<p>For people in the control group, dosage level<span class="math inline">\(_i=0\)</span> and for people in the treatment group, dosage level<span class="math inline">\(_i\)</span> measures milligrams of the active ingredient. In this case, the authors find a large, negative, statistically significant estimate of <span class="math inline">\(\hat{\beta_1}\)</span>. Is this an unbiased estimate of the impact of dosage on change in cholesterol level? Why or why not? Do you expect the estimate to overstate or understate the true relationship between dosage and cholesterol level?</p>
+<h2 id="theory-problems">Theory Problems</h2>
+<p>For the following questions, please <em>show all work</em> and explain answers as necessary. You may lose points if you only write the correct answer. You may use <code>R</code> to <em>verify</em> your answers, but you are expected to reach the answers in this section “manually.”</p>
+<h3 id="question-9">Question 9</h3>
+<p>A researcher wants to estimate the relationship between average weekly earnings <span class="math inline">\((AWE\)</span>, measured in dollars) and <span class="math inline">\(Age\)</span> (measured in years) using a simple OLS model. Using a random sample of college-educated full-time workers aged 25-65 yields the following:</p>
+<p><span class="math display">\[\widehat{AWE} = 696.70+9.60 \, Age\]</span></p>
+<h4 id="part-a">Part A</h4>
+<p>Interpret what <span class="math inline">\(\hat{\beta_0}\)</span> means in this context.</p>
+<h4 id="part-b">Part B</h4>
+<p>Interpret what <span class="math inline">\(\hat{\beta_1}\)</span> means in this context.</p>
+<h4 id="part-c">Part C</h4>
+<p>The <span class="math inline">\(R^2=0.023\)</span> for this regression. What are the units of the <span class="math inline">\(R^2\)</span>, and what does this mean?</p>
+<h4 id="part-d">Part D</h4>
+<p>The <span class="math inline">\(SER, \, \hat{\sigma_u}=624.1\)</span> for this regression. What are the units of the SER in this context, and what does it mean? Is the SER large in the context of this regression?</p>
+<h4 id="part-e">Part E</h4>
+<p>Suppose Maria is 20 years old. What is her predicted <span class="math inline">\(\widehat{AWE}\)</span>?</p>
+<h4 id="part-f">Part F</h4>
+<p>Suppose the data shows her <em>actual</em> <span class="math inline">\(AWE\)</span> is $430. What is her residual? Is this a relatively good or a bad prediction?<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: compare your answer here to your answer in Part D.<br />
+<br />
+</span></span></p>
+<h4 id="part-g">Part G</h4>
+<p>What does the error term, <span class="math inline">\(\hat{u_i}\)</span> represent in this case? What might individuals have different values of <span class="math inline">\(u_i\)</span>?</p>
+<h4 id="part-h">Part H</h4>
+<p>Do you think that <span class="math inline">\(Age\)</span> is exogenous? Why or why not? Would we expect <span class="math inline">\(\hat{\beta_1}\)</span> to be too <em>large</em> or too <em>small</em>?</p>
+<h3 id="question-10">Question 10</h3>
+<p>Suppose a researcher is interested in estimating a simple linear regression model:</p>
+<p><span class="math display">\[Y_i=\beta_0+\beta_1X_i+u_i\]</span>
+In a sample of 48 observations, she generates the following descriptive statistics:</p>
+<ul>
+<li><span class="math inline">\(\bar{X}=30\)</span></li>
+<li><span class="math inline">\(\bar{Y}=63\)</span></li>
+<li><span class="math inline">\(\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2= 6900\)</span></li>
+<li><span class="math inline">\(\displaystyle\sum^n_{i=1}(Y_i-\bar{Y})^2= 29000\)</span></li>
+<li><span class="math inline">\(\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})=13800\)</span></li>
+<li><span class="math inline">\(\displaystyle\sum^n_{i=1}\hat{u}^2=1656\)</span></li>
+</ul>
+<h4 id="part-a-1">Part A</h4>
+<p>What is the OLS estimate of <span class="math inline">\(\hat{\beta_1}\)</span>?</p>
+<h4 id="part-b-1">Part B</h4>
+<p>What is the OLS estimate of <span class="math inline">\(\hat{\beta_0}\)</span>?</p>
+<h4 id="part-c-1">Part C</h4>
+<p>Suppose the OLS estimate of <span class="math inline">\(\hat{\beta_1}\)</span> has a standard error of <span class="math inline">\(0.072\)</span>. Could we probably reject a null hypothesis of <span class="math inline">\(H_0: \beta_1=0\)</span> at the 95% level?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Calculate the <span class="math inline">\(R^2\)</span> for this model. How much variation in <span class="math inline">\(Y\)</span> is explained by our model?</p>
+<h4 id="part-e-1">Part E</h4>
+<p>How large is the average residual?</p>
+<h2 id="r-questions">R Questions</h2>
+<p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
+<h3 id="question-11">Question 11</h3>
+<ul>
+<li><a href="http://metricsf20.classes.ryansafner.com/data/mlbattend.csv"><i class="fas fa-table"></i> <code>mlbattend.csv</code></a></li>
+</ul>
+<p>Download the <code>MLBattend</code> dataset. This data contains data on attendance at major league baseball games for all 32 MLB teams from the 1970s-2000. We want to answer the following question:</p>
+<blockquote>
+<p>“How big is home-field advantage in baseball? Does a team with higher attendance at home games over their season have score more runs over their season?”</p>
+</blockquote>
+<h4 id="part-a-2">Part A</h4>
+<p>Clean up the data a bit by making a new variable to measure home attendance in millions. This will make it easier to interpret your regression later on.</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Get the correlation between Runs Scored and Home Attendance.</p>
+<h4 id="part-c-2">Part C</h4>
+<p>Plot a scatterplot of Runs Scored (<code>y</code>) on Home Attendance (<code>x</code>). Add a regression line.</p>
+<h4 id="part-d-2">Part D</h4>
+<p>Run a regression of Runs Scored on Home Attendance. What are <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\hat{\beta_1}\)</span>? Interpret them in the context of our question.</p>
+<h4 id="part-e-2">Part E</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-f-1">Part F</h4>
+<p>Make a regression table of the output.</p>
+<h4 id="part-g-1">Part G</h4>
+<p>Now let’s start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?</p>
+<h4 id="part-h-1">Part H</h4>
+<p>Make a residual plot.</p>
+<h4 id="part-i">Part I</h4>
+<p>Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.</p>
+<h4 id="part-j">Part J</h4>
+<p>Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.</p>
+<h4 id="part-k">Part K</h4>
+<p>What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?</p>
+<h4 id="part-l">Part L</h4>
+<p>Now we’ll try out the <code>infer</code> package to understand the <span class="math inline">\(p\)</span>-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part D as an object. Then, install and load the <code>infer</code> package, and then calculate the slope<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
+<br />
+</span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
+<br />
+</span></span> for 1000 additional simulated samples<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote"><code>generate(reps = 1000, type = "permute")</code><br />
+<br />
+</span></span>, and save this as an object (it’s a <code>tibble</code>). Then, use this to <code>get_p_value()</code><span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Set <code>obs_stat</code> equal to your observed slope, and set <code>direction = "two_sided"</code><br />
+<br />
+</span></span>. Compare to the <span class="math inline">\(p\)</span>-value given by <code>lm()</code> and <code>tidy()</code> above.</p>
+<h4 id="part-m">Part M</h4>
+<p>Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. <em>Regardless</em> of which method you use, add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
+<br />
+</span></span></p>
+<h4 id="part-n">Part N</h4>
+<p>Get the 95% confidence interval for your slope estimate,<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
+<br />
+</span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />
+<br />
+</span></span> Compare this to what you get with <code>tidy()</code> above.</p>

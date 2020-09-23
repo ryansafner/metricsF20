@@ -1,5 +1,5 @@
 ---
-title: "2.4 — OLS: Precision and Diagnostics — R Practice"
+title: "2.5 — OLS: Precision and Diagnostics — R Practice"
 author: "YOUR NAME"
 date: "`r Sys.Date()`"
 output:

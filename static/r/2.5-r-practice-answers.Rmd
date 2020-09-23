@@ -1,7 +1,7 @@
 ---
-title: "2.6 OLS: Precision and Diagnostics - R Practice (Solutions)"
-author: "Ryan Safner"
-date: "`r Sys.Date()`"
+title: "2.5 — OLS: Precision and Diagnostics - R Practice"
+author: "Solutions"
+date: "ECON 480 — Econometrics — Fall 2020"
 output:
   html_document:
     df_print: paged
@@ -16,14 +16,6 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-# Set Up
-To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
-
-Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
-
-- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/575252)
-
 
 ## Question 1
 Our [data](https://github.com/fivethirtyeight/data/tree/master/congress-trump-score) comes from fivethirtyeight's [Trump Congress tracker](https://projects.fivethirtyeight.com/congress-trump-score/). Download and read in (`read_csv`) the data.
