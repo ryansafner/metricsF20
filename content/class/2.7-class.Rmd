@@ -1,0 +1,50 @@
+---
+title: "2.7 — Inference for Regression — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, September 24, 2020*
+
+# Overview
+
+Today we finish our discussion of statistical inference, focusing on hypothesis testing about our regression. We will hopefully have time at the end to work on a few practice problems.
+
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/2.7-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/2.7-slides.pdf)
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Practice Problems
+
+You will be finishing up [R practice problems](/r/2.5-r-practice.html) from last class. Answers are posted on that page.
+
+# Assignments: Problem Set 3 & Midterm Exam
+
+[Problem Set 3](/assignment/03-problem-set.html) is posted and is due by 11:59 PM Sunday September 27 by upload on Blackboard. Please see that page for more information on how to submit (there are multiple ways!).
+
+The midterm exam (on 1.1-2.7) will be next week. I will provide more information this week. We will dedicate time for review and questions on class Tuesday, September 29
+
+# New Packages Mentioned
+
+- `infer`: for simulation for statistical inference
+
+# Assignments: Problem Set 3 Due Sunday September 27, Midterm
+
+[Problem Set 3](/assignment/03-problem-set) will be due Thursday Sunday, September 27. 
+
+Exam 1 (on 1.1-2.7) will be next week (week of September 28), I will provide more details before the weekend — there will be an Exam 1 page that you can go to from the schedule that will contain more information. We save some time for review on Tuesday, September 29.

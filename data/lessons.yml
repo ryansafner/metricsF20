@@ -76,7 +76,10 @@ lessons:
     
   - title: "2.7 Inference for Regression"
     reading: "2.7-reading"
-
+    class: "2.7-class"
+    slides: "2.7-slides"
+    r: "2.7-r-practice"
+    
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 3** due Sunday Sept 27'
     assignment: "03-problem-set"
 

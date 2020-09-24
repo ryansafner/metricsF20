@@ -1,0 +1,80 @@
+---
+title: "2.7 — Inference for Regression - R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1637755)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/2.5-r-practice-rmd.Rmd)
+
+
+## Question 1
+
+Let’s use the `diamonds` data built into `ggplot`. Simply load `tidyverse` and then to be clear, save this as a tibble (feel free to rename it) with `diamonds <- diamonds`.
+
+## Question 2
+
+Suppose we want to estimate the following relationship:
+
+$$\text{price}_i = \beta_0 + \beta_1 \text{carat}_i + u_i$$
+
+Run a regression of `price` on `carat` using `lm()` and get a `summary`.
+
+### Part A
+
+What is $\hat{\beta_1}$? Interpret it in the context of our regression.
+
+### Part B
+
+Use `broom`'s `tidy()` command, and calculate a confidence interval by including `conf.int = T` inside `tidy()`. What is the 95% confidence interval for $\hat{\beta_1}$, and what does it mean? Save these endpoints 
+
+## Question 3
+
+Now let’s use `infer`. Install it if you don’t have it, then load it.
+
+## Part A
+
+Let’s generate a confidence interval. First `specify()` the model relationship, then `generate()` `reps = 1000` repetitions of the sample using a `type = bootstrap`, then have it `calculate(stat = "slope")`. What does it show you?
+
+## Part B
+
+Continue the pipeline from part A, next have it `get_confidence_interval()`. Set `level = 0.95, type = "se"` and `point_estimate` equal to our estimated $\hat{\beta_1}$ from Question 2.
+
+## Part C
+
+Now instead of `get_confidence_interval()`, pipe into `visualize()` to see the distribution.
+
+## Question 4
+
+Now let’s test the following hypothesis:
+
+$$\begin{align*}
+H_0: \beta_1 &= 0\\
+H_1: \beta_1 &\neq 0\\
+\end{align*}$$
+
+### Part A
+
+What does the output of `summary` or of `tidy` from Question 2 tell you?
+
+### Part B
+
+Let’s now do this with `infer`. First `specify()` the model relationship, then `generate()` `reps = 1000` repetitions of the sample using a `type = permute`, then have it `calculate(stat = "slope")`. What does it show you?
+
+## Part C
+
+Continue the pipeline from part B, next have it `get_p_value()`.
+
+## Part D
+
+Instead of `get_p_value()`, pipe into `visualize(obs_stat = sample_slope).`

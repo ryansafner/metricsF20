@@ -1,9 +1,11 @@
 ---
-title: "2.6 — Statistical Inference — Readings"
+title: "2.7 — Inference for Regression — Readings"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
 ---
+
+Note these readings are the same as last class, 2.6!
 
 # Strongly Recommended
 
