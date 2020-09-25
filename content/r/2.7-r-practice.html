@@ -11,8 +11,10 @@ editor_options:
 <p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
 <p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
 <ul>
-<li><a href="https://rstudio.cloud/spaces/83147/project/1637755"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
-<li><a href="/r/2.5-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+<li><p><a href="https://rstudio.cloud/spaces/83147/project/1673840"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></p></li>
+<li><p><a href="/r/2.7-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></p></li>
+<li><p><a href="/r/2.7-r-practice-answers.html"><i class="fas fa-external-link-square-alt"></i> <code>Answer Key (html)</code></a></p></li>
+<li><p><a href="/r/2.7-r-practice-answers.Rmd"><i class="fab fa-markdown"></i> <code>Answer Key (markdown)</code></a></p></li>
 </ul>
 <h3 id="question-1">Question 1</h3>
 <p>Let’s use the <code>diamonds</code> data built into <code>ggplot</code>. Simply load <code>tidyverse</code> and then to be clear, save this as a tibble (feel free to rename it) with <code>diamonds &lt;- diamonds</code>.</p>
@@ -23,15 +25,17 @@ editor_options:
 <h4 id="part-a">Part A</h4>
 <p>What is <span class="math inline">\(\hat{\beta_1}\)</span>? Interpret it in the context of our regression.</p>
 <h4 id="part-b">Part B</h4>
-<p>Use <code>broom</code>’s <code>tidy()</code> command, and calculate a confidence interval by including <code>conf.int = T</code> inside <code>tidy()</code>. What is the 95% confidence interval for <span class="math inline">\(\hat{\beta_1}\)</span>, and what does it mean? Save these endpoints</p>
+<p>Use <code>broom</code>’s <code>tidy()</code> command, and calculate a confidence interval by including <code>conf.int = T</code> inside <code>tidy()</code>. What is the 95% confidence interval for <span class="math inline">\(\hat{\beta_1}\)</span>, and what does it mean? Save these endpoints as an object.</p>
 <h3 id="question-3">Question 3</h3>
 <p>Now let’s use <code>infer</code>. Install it if you don’t have it, then load it.</p>
 <h3 id="part-a-1">Part A</h3>
-<p>Let’s generate a confidence interval. First <code>specify()</code> the model relationship, then <code>generate()</code> <code>reps = 1000</code> repetitions of the sample using a <code>type = bootstrap</code>, then have it <code>calculate(stat = "slope")</code>. What does it show you?</p>
+<p>Let’s generate a confidence interval. First <code>specify()</code> the model relationship, then <code>generate()</code> <code>reps = 1000</code> repetitions of the sample using a <code>type = bootstrap</code>, then have it <code>calculate(stat = "slope")</code>.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Note this will take a few minutes, its doing a lot of calculations!<br />
+<br />
+</span></span> What does it show you?</p>
 <h3 id="part-b-1">Part B</h3>
 <p>Continue the pipeline from part A, next have it <code>get_confidence_interval()</code>. Set <code>level = 0.95, type = "se"</code> and <code>point_estimate</code> equal to our estimated <span class="math inline">\(\hat{\beta_1}\)</span> from Question 2.</p>
 <h3 id="part-c">Part C</h3>
-<p>Now instead of <code>get_confidence_interval()</code>, pipe into <code>visualize()</code> to see the distribution.</p>
+<p>Now instead of <code>get_confidence_interval()</code>, pipe into <code>visualize()</code> to see the distribution. If you saved the confidence interval endpoints from part 1B, you can finally add <code>+shade_ci(endpoints = ...)</code> setting the argument equal to whatever you called your object containing the confidence interval.</p>
 <h3 id="question-4">Question 4</h3>
 <p>Now let’s test the following hypothesis:</p>
 <p><span class="math display">\[\begin{align*}
@@ -41,8 +45,8 @@ H_1: \beta_1 &amp;\neq 0\\
 <h4 id="part-a-2">Part A</h4>
 <p>What does the output of <code>summary</code> or of <code>tidy</code> from Question 2 tell you?</p>
 <h4 id="part-b-2">Part B</h4>
-<p>Let’s now do this with <code>infer</code>. First <code>specify()</code> the model relationship, then <code>generate()</code> <code>reps = 1000</code> repetitions of the sample using a <code>type = permute</code>, then have it <code>calculate(stat = "slope")</code>. What does it show you?</p>
+<p>Let’s now do this with <code>infer</code>. First <code>specify()</code> the model relationship, then <code>hypothesize(null = "independence")</code> to declare <span class="math inline">\(H_0: \beta_1 = 0\)</span>, then <code>generate()</code> <code>reps = 1000</code> repetitions of the sample using a <code>type = permute</code>, then have it <code>calculate(stat = "slope")</code>. What does it show you?</p>
 <h3 id="part-c-1">Part C</h3>
-<p>Continue the pipeline from part B, next have it <code>get_p_value()</code>.</p>
+<p>Continue the pipeline from part B, next have it <code>get_p_value()</code>. Inside this function, set <code>obs_stat</code> equal to our <span class="math inline">\(\hat{\beta_1}\)</span> we found, and set <code>direction = "both"</code> to run a two-sided test, since our alternative hypothesis is two-sided, <span class="math inline">\(H_1: \beta_1 \neq 0\)</span>.</p>
 <h3 id="part-d">Part D</h3>
-<p>Instead of <code>get_p_value()</code>, pipe into <code>visualize(obs_stat = sample_slope).</code></p>
+<p>Instead of <code>get_p_value()</code>, pipe into <code>visualize(obs_stat = ... , direction = "both").</code> where <code>...</code> is our estimated <span class="math inline">\(\hat{\beta_1}\)</span>.</p>

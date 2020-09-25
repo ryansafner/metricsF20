@@ -1,0 +1,30 @@
+\documentclass{article}
+\usepackage{amssymb, amsmath, booktabs, caption}
+\usepackage[margin=1in]{geometry}
+\usepackage{tikz, pgfplots}
+\usetikzlibrary{shapes,arrows}
+\pgfmathdeclarefunction{gauss}{2}{%
+  \pgfmathparse{1/(#2*sqrt(2*pi))*exp(-((x-#1)^2)/(2*#2^2))}%
+}
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+\begin{itemize}
+		\item $Y_i=\beta_0+\beta_1 X_i+u_i$
+		\item $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1} X_i$
+		\item $\hat{u_i}=Y_i-\hat{Y_i}$
+		\item $SSE=\displaystyle \sum^n_{i=1} \hat{u_i}^2$
+		\item $\hat{\beta_0} = \bar{Y}-\hat{\beta_1}\bar{X}	$
+		\item $ \hat{\beta_1} = \displaystyle\frac{\displaystyle\sum^n_{i=1} (X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1} (X_i-\bar{X})^2}$
+		\item $E[\hat{\beta_1}]= \beta_1+ corr(X_i, u_i)\frac{\sigma_{u}}{\sigma_X}$
+		\item $var[\hat{\beta_1}] = \displaystyle\frac{\sigma_u^2}{n \times var[X]}$
+		\item $ESS = \displaystyle \sum^n_{i=1} (\hat{Y_i}-\bar{Y})^2$
+		\item $TSS = \displaystyle \sum^n_{i=1} (Y_i-\bar{Y})^2$
+		\item $SER = \sigma_u= \sqrt{\displaystyle\frac{SSE}{n-2}}$
+\end{itemize}
+
+\end{document}

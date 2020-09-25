@@ -84,6 +84,7 @@ lessons:
     assignment: "03-problem-set"
 
   - title: '<i class="fas fa-star"></i> **Midterm Exam** week of Sept 28'
+    assignment: "01-exam"
 
   - title: '<span class="fake-header-table">III. Extensions to Regression</span>'
     header: True
