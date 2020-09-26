@@ -1,0 +1,48 @@
+---
+title: "Midterm Exam"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+**Exam 1 will be available 5:00 PM Tuesday, September 29 through 10:00 PM Sunday October 4 on Blackboard**^[Go to our class Blackboard page, on the blue navigation bar on the left, click Assignments, you will find Exam 1.]
+
+If you have any approved testing accomodations, please let me know ASAP and we will make arrangements. Given the time you have to complete the exam, I will not look favorably on excuses given on Sunday.
+
+While the exam is out, I (or our TA) will not answer any questions related to 1.1-2.7 content at Office Hours, by email, or Slack. We can, of course, still discuss other things. If you have questions, please discuss them with me before 5 PM Tuesday Sept 29!
+
+# Exam Instructions (<i class="fas fa-exclamation-circle"></i> Important, Please read)
+
+This test will be available on Blackboard as a *timed* assignment. You will have **2 hours once you open the test on Blackboard**. You will *not* need the whole time, I have given you some extra to accomodate the technical difficulties of taking an exam at home. **Please pick a time to take it where you know you will have 2 hours**. You may close the exam page and come back to it, but *the timer will continue to run* once the exam is first opened.
+
+You must show all of your work (for calculation problems), either by typing your steps into the answer form, or you may upload (or as a *last* resort (please!), email me them before your time runs out), handwritten steps to the exam, solving your problems.
+
+This is an **open note, open book** exam, but **do not use the internet beyond our class website, or contact each other**^[Google won't help you here. Everything you need should be in your notes, homeworks, or slides anyway!] I will automatically interpret substantially-similarly-written answers, obviously-googled answers, and messaging between students as cheating or plagiarism, respectively. Either will earn you a 0, and be reported. Answers should be *in your own words*, I will also deduct points for blatant copy-pastes off my slides (those are *my* words, not yours!).
+
+**There will be no use of R on the exam**. However, you *should* be familiar with certain outputs of R that I can ask you questions about (such as regression output from `lm()`, `tidy()`, etc.).
+
+**There will be few, if any, calculation questions**. Questions are more about *interpretation* of concepts and interpretting numbers in the context of various regressions and research questions.
+
+There is a **practice exam** on Blackboard that **I would like you to take**, so you can see what the exam will look like, and to make sure you can access and complete it. **Please try this before Sunday September 27 and email me if you ran into any issues.** This is to help make sure this format works for everyone.
+
+# Concepts Study Guide
+
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/midtermconcepts.pdf)
+<!-- [<i class="fas fa-external-link-square-alt"></i> Review Questions Slides](/slides/midterm-review.html) -->
+
+# "Practice" Exam
+
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/01-old-exam.pdf)
+
+# Formula Sheet
+
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/midtermformulas.pdf)
+
+
+# My Advice
+
+Make sure you do all of the homework problems and learn from the answer keys to the homeworks, as well as the in-class practice problems. While some of the questions should be novel applications, conceptual questions on homeworks will get you in the right headspace to think about answering a question on an exam.
