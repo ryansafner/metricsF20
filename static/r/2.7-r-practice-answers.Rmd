@@ -218,7 +218,7 @@ If you are wondering, the test-statistic was calculated, as described in the sli
 $$\begin{align*}
 t & = \frac{\text{estimate} - \text{null hypothesis}}{\text{SE(estimate)}}\\
 t & = \frac{7756.43 - 0}{14.07}\\
-t &\approx \frac}551.3 \\
+t &\approx 551.3 \\
 \end{align*}$$
 
 If the null hypothesis were true $(\beta_1=0)$, the probability that we get a test-statistic at least as extreme as 551.3 (essentially, 551 standard deviations away!!) is virtually 0. You can see this when we visualize using infer, below.
