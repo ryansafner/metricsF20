@@ -1,7 +1,7 @@
 ---
 title: "Problem Set 3"
 author: "ECON 480 - Fall 2019"
-date: "Due by Thursday, October 10, 2019"
+date: "Due by Sunday, September 27, 2020"
 output: pdf_document
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "Problem Set 3"
 author: "YOUR NAME HERE" # put your name here! 
-date: "ECON 480 - Fall 2019"
+date: "ECON 480 - Fall 2020"
 output: html_document # change to pdf if you'd like, this will make a webpage (you can email it and open in any browser)
 ---
 
@@ -9,7 +9,7 @@ output: html_document # change to pdf if you'd like, this will make a webpage (y
 In fact, try knitting right away and see what this produces!
 -->
 
-*Due by Thursday, October 10, 2019*
+*Due by Sundat, October 27, 2020*
 
 # Instructions
 
