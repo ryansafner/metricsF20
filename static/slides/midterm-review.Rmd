@@ -55,20 +55,19 @@ What does heteroskedasticity mean? Does heteroskedasticity **bias** $\hat{\beta_
 
 Is this data likely heteroskedastic or homoskedastic?
 
-```{r}
+```{r, fig.align="center", fig.width=12}
 library(tidyverse)
-het_data<-tibble(x = runif(500,0,2),
-                 y = rnorm(500,x,x))
+het_data<-tibble(x = runif(500,-3,3),
+                 y = rnorm(500, 0, sd = 2 + x^2))
 
 ggplot(data = het_data)+
   aes(x = x,
       y = y)+
   geom_point(color="blue")+
   geom_smooth(method="lm", color="red")+
-  scale_x_continuous(breaks=seq(0,10,1))+
     labs(x = "X",
        y = "Y")+
-  theme_bw(base_family = "Fira Sans Condensed",
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
            base_size=20)
 ```
 
@@ -91,11 +90,11 @@ Which is most important?
 
 # Question 7
 
-$$Wages_i=\hat{\beta_0}+\hat{\beta_1}Education+u_i$$
+$$Wages_i=\beta_0+\beta_1Education+u_i$$
 
-What is in $u_i$?
+a. What is in $u_i$?
 
-Is $\hat{\beta_1}$ likely biased?
+b. Is $\hat{\beta_1}$ likely biased?
 
 ---
 
@@ -165,3 +164,27 @@ H_1: \, & \beta_1 \neq 0 \\
 Is this test one-sided or two-sided? 
 
 We find the $p$-value is 0.02. What is our conclusion? Be specific and precise in your wording!
+
+---
+
+# Question 16
+
+Suppose we ran that hypothesis test on our finding. What can we conclude?
+
+.pull-left[
+.smallest[
+```{r}
+summary(lm(y~x, data = het_data))
+```
+]
+]
+
+.pull-right[
+.smallest[
+```{r}
+huxreg(reg,        statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"))
+```
+]
+]

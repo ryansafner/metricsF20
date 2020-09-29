@@ -36,8 +36,7 @@ There is a **practice exam** on Blackboard that **I would like you to take**, so
 
 # Midterm Review Questions
 
-- [<i class="fas fa-chalkboard-teacher"></i> Midterm Review Questions](/static/midterm-review.html)
-
+- [<i class="fas fa-chalkboard-teacher"></i> Midterm Review Questions](/static/slides/midterm-review.html)
 
 # "Practice" Exam
 
