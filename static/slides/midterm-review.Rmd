@@ -1,0 +1,167 @@
+---
+title: "Midterm Review Questions"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+# Question 1
+
+What does **endogenous** mean, in words? What about statistically?
+
+---
+
+# Question 2
+
+If a regression is biased (from endogeneity), what can we learn about the bias?
+
+---
+
+# Question 3
+
+What does heteroskedasticity mean? Does heteroskedasticity **bias** $\hat{\beta_1}$?
+
+---
+
+# Question 4
+
+Is this data likely heteroskedastic or homoskedastic?
+
+```{r}
+library(tidyverse)
+het_data<-tibble(x = runif(500,0,2),
+                 y = rnorm(500,x,x))
+
+ggplot(data = het_data)+
+  aes(x = x,
+      y = y)+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_x_continuous(breaks=seq(0,10,1))+
+    labs(x = "X",
+       y = "Y")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+---
+
+# Question 5
+
+- What three things impact the variation of $\hat{\beta_1}$? How?
+
+---
+
+# Question 6
+
+
+What are the four assumptions we make about the error term?
+
+Which is most important?
+
+---
+
+# Question 7
+
+$$Wages_i=\hat{\beta_0}+\hat{\beta_1}Education+u_i$$
+
+What is in $u_i$?
+
+Is $\hat{\beta_1}$ likely biased?
+
+---
+
+# Question 8
+
+What does $R^2$ measure? What does it mean? How do we calculate it?
+
+---
+
+# Question 9
+
+What does $\sigma_u$ (SER) measure? What does it mean?
+
+---
+
+# Question 10
+
+Interpret all of these numbers (except Adjusted R-squared and the last line): 
+
+```{r}
+summary(lm(y~x, data = het_data))
+```
+
+---
+
+# Question 11
+
+Interpret all of these numbers: 
+
+```{r}
+reg<-lm(y~x, data = het_data)
+library(huxtable)
+huxreg(reg,        statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"))
+```
+
+---
+
+# Question 12
+
+Suppose $Y$ is normally distributed with a mean of 10 and a standard error of 5. What is the probability that $Y$ is between 5 and 15?
+
+---
+
+# Question 13
+
+Explain what a $Z$-score means.
+
+---
+
+# Question 14
+
+Explain what a $p$-value means. :) 
+
+---
+
+# Question 15
+
+We run the following hypothesis test at $\alpha=0.05$: 
+
+$$\begin{align*}
+H_0: \, & \beta_1=0\\
+H_1: \, & \beta_1 \neq 0 \\
+\end{align*}$$
+
+Is this test one-sided or two-sided? 
+
+We find the $p$-value is 0.02. What is our conclusion? Be specific and precise in your wording!

@@ -31,17 +31,21 @@ There is a **practice exam** on Blackboard that **I would like you to take**, so
 
 # Concepts Study Guide
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/midtermconcepts.pdf)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/midtermconcepts.pdf)
 <!-- [<i class="fas fa-external-link-square-alt"></i> Review Questions Slides](/slides/midterm-review.html) -->
+
+# Midterm Review Questions
+
+- [<i class="fas fa-chalkboard-teacher"></i> Midterm Review Questions](/static/midterm-review.html)
+
 
 # "Practice" Exam
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/01-old-exam.pdf)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/01-old-exam.pdf)
 
 # Formula Sheet
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/examprep/midtermformulas.pdf)
-
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/midtermformulas.pdf)
 
 # My Advice
 
