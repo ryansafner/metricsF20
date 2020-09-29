@@ -1,0 +1,646 @@
+---
+title: "Problem Set 3"
+author: "Answer Key"
+date: "ECON 480 — Fall 2020"
+output:
+  html_document:
+    df_print: paged
+    #theme: simplex
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+Answers may be longer than I would deem sufficient on an exam. Some might vary slightly based on points of interest, examples, or personal experience. These suggested answers are designed to give you both the answer and a short explanation of *why* it is the answer.
+
+# Theory and Concepts
+
+## Question 1
+**In your own words, describe what exogeneity and endogeneity mean, and how they are related to bias. What can we learn about the bias if we know $X$ is endogenous?**
+
+The OLS estimators $\hat{\beta_0}$ and $\hat{\beta_1}$ are unbiased estimates of the true population parameters $\beta_0$ and $\beta_1$ if and only if $X$ is *exogenous.* That is to say, if $cor(X,u)=0$ (i.e. there is no correlation between $X$ and any unobserved variable that affects $Y$), then $E[\hat{\beta_1}]=\beta_1$. 
+
+If $X$ *is* correlated with the error term, then $X$ is *endogenous.* The true expected value of the OLS estimator is 
+$$E[\hat{\beta_1}]=\beta_1+cor(X,u)\frac{\sigma_u}{\sigma_X}$$
+
+The bias is $\big(E[\hat{\beta_1}]-\beta_1\big)$, i.e. the difference between average estimated sample slope and the `true' population slope, so we can determine first the *size* of the bias based on how large $cor(X,u)$ is. The stronger the correlation, the larger the bias. 
+
+Second, we can determine the *direction* of the bias depending on the sign of $cor(X,u)$. 
+
+- If $X$ and $u$ are positively correlated (move in the same direction), we know that we have *overstated* the true effect of $\Delta X$ on $\Delta Y$, since a change in $Y$ is picking up both a change in $X$ and a further change (in the same direction as $X$) in the unobserved $u$. 
+
+- If the correlation is negative (move in opposite directions), we know that we have *understated* the true effect of $\Delta X$ on $\Delta Y$, since a change in $Y$ is picking up both a change in $X$ that is dampened by a change in the opposite direction of $u$.
+
+## Question 2
+**In your own words, describe what $R^2$ means. How do we calculate it, what does it tell us, and how do we interpret it?**
+
+The $R^2$ is a measure of how well the OLS regression line "fits" our observed data points. It is the proportion of the total variation in $Y$ (TSS) that is *explained* by the variation from our model (ESS):
+
+$$\begin{align*}
+	R^2&=\frac{ESS}{TSS}= \frac{\sum (\hat{Y_i}-\bar{Y})^2}{\sum(Y_i-\bar{Y})^2}
+\end{align*}$$
+
+Equivalently, it can be found by subtracting the proportion of *unexplained* variation in $Y$ (SSE/TSS) from 1:
+
+$$R^2=1-\frac{SSE}{TSS}=1-\frac{\sum (u_i)^2}{\sum (Y_i-\bar{Y})^2}$$
+
+This is because $\frac{SSE+ESS}{TSS}=1$. Finally, $R^2$ is the square of the correlation coefficient between $X$ and $Y$, $R^2=(r_{X,Y})^2$
+
+The closer $R^2$ is to 1, the better the fit, the closer to 0, the poorer the fit.
+
+## Question 3
+In your own words, describe what the standard error of the regression ($SER$) means. How do we calculate it, what does it tell us, and how do we interpret it?
+
+SER $(\hat{\sigma_u}$) is the average size of the error (or residual), $\hat{u_i}$, that is, the average distance from the regression line to the actual data value for $Y$ at a given $X$. The goal of OLS is to minimize this (well, technically minimize the *sum* of *squared* errors!).
+
+$$\begin{align*}
+	SER&=\sqrt{\frac{1}{n-2}\sum \hat{u_i}^2}\\
+	SER &=\sqrt{\frac{SSE}{n-2}}\\
+\end{align*}$$
+
+We calculate it by squaring the residuals (to get a positive distance) and taking the mean of them by adding them all up and dividing by $n-2$, and then taking the square root to return to normal (non-squared) units. 
+
+We divide by $n-2$ rather than by $n$ due to the degrees of freedom correction for calculating two prior statistics with our data already, $\hat{\beta_0}$ and $\hat{\beta_1}$.
+
+## Question 4
+**In your own words, describe what homoskedasticity and heteroskedasticity mean: both in ordinary English, and in terms of the graph of the OLS regression line.**
+
+*Homoskedasticity* means the errors are distributed with the same variance for all levels of X. Knowing anything about X will not tell us anything about the distribution of errors at that level of X.
+
+*Heteroskedasticity* means the errors are distributed differently for different levels of X. So, at different levels of X, there will be much more or much less variation in the residuals. 
+
+## Question 5
+**In your own words, describe what the variation in $\hat{\beta_1}$ (either variance or standard error) means, or is measuring. What three things determine the variation, and in what way?**
+
+The variation of $\hat{\beta_1}$ (either it's variance or standard error) is a measure of how *precise* our estimate is. This idea comes from the sampling distribution of $\hat{\beta_1}$, since it is a random variable: if we were to take other samples and calculate the slope of a regression line $\hat{\beta_1}$ for each, the estimate would vary from sample to sample.
+
+The standard error of $\hat{\beta_1}$ (square this to get variance) is: 
+
+$$se(\hat{\beta_1})=\frac{\sigma_u}{\sqrt{n} \times se(X)}$$
+
+The three things that affect it are:
+
+1. Goodness of Fit of the Regression $(\sigma_u)$ or $SER$. The worse the fit, the higher the $SER$, and the worse the precision (higher standard error) of $\hat{\beta_1}$.
+
+2. Sample size, $n$: the more data, the better the precision (lower standard error) of $\hat{\beta_1}$.
+
+3. Standard error of $X$: the more variation (spread) in $X$-values, the better the precision (lower standard error) of $\hat{\beta_1}$.
+
+See the graphs in [slides 6-8](https://metricsf19.classes.ryansafner.com/slides/11-slides#6) of class 2.5 for more.
+
+## Question 6
+**In your own words, describe what a $p$-value means, and how it is used to establish statistical significance.**
+
+The $p$-value is the probability that, if the null hypothesis were true, of observing a test statistic at least as extreme as the one found in our sample. Specifically, if $H_0: \beta_1$, it is the probability of getting a sample slope at least as extreme as the one in our sample, if the slope were truly 0.^[Note in the classic sense, the $p$-value is actually measuring the probability of a *test statistic* $(t)$ being at least as extreme as ours. The test statistic essentially standardizes our sample statistic $(\hat{\beta_1})$ so that it measures standard deviations from the null-hypothesized value (i.e. 0), much like a $Z$-score.]
+
+$$Prob(\delta \geq \delta_i|H_0\text{ is true})$$
+
+where $\delta$ is a test-statistic and $\delta_i$ is the test statistic we obtained from our sample.
+
+Another way to interpret this is that the $p$-value is the probability we commit a Type I error: the probability that, if the null hypothesis were true, we falsely reject it from our sample evidence.
+
+Be careful, the $p$-value is not the probability that our alternative hypothesis is true given our findings (commonly believed)! In fact it is basically the opposite, the probability of our findings being valid given the null hypothesis!
+
+## Question 7
+**A researcher is interested in examining the impact of illegal music downloads on commercial music sales. The author collects data on commercial sales of the top 500 singles from 2017 ($Y$) and the number of downloads from a web site that allows `file sharing' ($X$). The author estimates the following model**
+
+$$\text{music sales}_i = \beta_0+\beta_1 \text{illegal downloads}_i + u_i$$
+
+**The author finds a large, positive, and statistically significant estimate of $\hat{\beta_1}$. The author concludes these results demonstrate that illegal downloads actually *boost* music sales. Is this an unbiased estimate of the impact of illegal music on sales? Why or why not? Do you expect the estimate to overstate or understate the true relationship between illegal downloads and sales?**
+
+Does knowing the amount of illegal downloads an artist has convey any information about other variables that affect music sales? In other words, we are asking if $E[u|X]=0$ (or more simply, $cor(X,u)=0)$. 
+	
+It is likely that artists and songs that are the most heavily pirated are the most popular ones, and also are likely have very high music sales. Economists say piracy is like a tax on success--it happens more to those who are already successful and less to those who are still trying to make it big. 
+	
+In any case, illegal downloads is probably endogenous. Since there is likely a positive correlation between music sales and popularity (in the error term), and popularity is also positively correlated with music sales, it is likely that we are *overstating* the effect of illegal downloads on sales. In other words, $\hat{\beta_1}$ is also picking up the positive effect of popular songs, and is too large. The true estimate of $\beta_1$ is likely much lower than measured. 
+
+## Question 8
+**A pharmaceutical company is interested in estimating the impact of a new drug on cholesterol levels. They enroll 200 people in a clinical trial. People are randomly assigned the treatment group or into the control group. Half of the people are given the new drug and half the people are given a sugar pill with no active ingredient. To examine the impact of dosage on reductions in cholesterol levels, the authors of the study regress the following model:**
+
+$$\text{cholesterol level}_i = \beta_0+\beta_1 \text{dosage level}_i + u_i$$
+
+**For people in the control group, dosage level$_i=0$ and for people in the treatment group, dosage level$_i$ measures milligrams of the active ingredient. In this case, the authors find a large, negative, statistically significant estimate of $\hat{\beta_1}$. Is this an unbiased estimate of the impact of dosage on change in cholesterol level? Why or why not? Do you expect the estimate to overstate or understate the true relationship between dosage and cholesterol level?**
+
+**NOTE: I should have removed this question, since I reordered my lessons this year and we skipped (so far), random controlled trials. I will not grade, nor will you be responsible, for this question!**
+
+Does knowing whether (or how much) a person was treated convey any information about other characteristics that affect cholesterol level (in $u_i$)? Again, we are asking if $E[u|X]=0$ or $cor(X, u)=0$
+	
+In this case, the answer is clearly no, the equations do hold and treatment is exogenous. $X_i$ is determined by random assignment, some people assigned a the drug, and some nothing at all. But, the important fact is that dosage is determined randomly so we expect that on average it will not be correlated with $u$. In this case, $E[\hat{\beta_1}]=\beta_1$, $\hat{\beta_1}$ is unbiased. 
+
+# Theory Problems
+
+For the following questions, please *show all work* and explain answers as necessary. You may lose points if you only write the correct answer. You may use `R` to *verify* your answers, but you are expected to reach the answers in this section "manually."
+
+## Question 9
+
+A researcher wants to estimate the relationship between average weekly earnings $(AWE$, measured in dollars) and $Age$ (measured in years) using a simple OLS model. Using a random sample of college-educated full-time workers aged 25-65 yields the following:
+
+$$\widehat{AWE} = 696.70+9.60\ \, Age$$
+
+### Part A
+**Interpret what $\hat{\beta_0}$ means in this context.**
+
+$\hat{\beta_0}$ is 696.70. This is the vertical intercept of the regression line. It means that a person that is 0 years old earns a $696.70 per week on average. This is often nonsensical, so we don't often care about the economic meaning of the intercept. 
+
+### Part B
+**Interpret what $\hat{\beta_1}$ means in this context.**
+
+$\hat{\beta_1}$ is 9.60 This is the slope of the regression line. It means that for every year older a person is, they can expect their wages to increase by $9.60, on average. This is the marginal effect of Age on AWE (and the causal effect if this model were exogenous).
+
+### Part C
+**The $R^2=0.023$ for this regression. What are the units of the $R^2$, and what does this mean?**
+
+$R^2$ has no units, it is the proportion of variation in $AWE$ that is explained by our model, between 0 and 1. This model explains only 2.3% of the variation in $AWE$, meaning this model is poor, and the line does not fit the data points well.
+
+### Part D
+**The $SER, \, \hat{\sigma_u}=624.1$ for this regression. What are the units of the SER in this context, and what does it mean? Is the SER large in the context of this regression?**
+
+$SER$ is measured in the same units as the dependent variable, $AWE$, so it is measured in dollars. It is the average error or residual for an individual, the difference (in dollars) between OLS' predicted $\widehat{AWE}$ for that person, and their true $AWE$ in the data. This SER is quite big, $624 in average weekly earnings.
+
+### Part E
+**Suppose Maria is 20 years old. What is her predicted $\widehat{AWE}$?**
+
+$$\begin{align*}
+\widehat{AWE}_{Maria}&=696.70+9.60(20)\\
+&=888.70\\
+\end{align*}$$
+
+### Part F
+**Suppose the data shows her *actual* $AWE$ is $430. What is her residual? Is this a relatively good or a bad prediction?**^[Hint: compare your answer here to your answer in Part D.]
+
+$$\begin{align*}
+\widehat{u}_{Maria}&=Y_{Maria}-\widehat{Y}_{Maria}\\
+&=430-888.70\\
+&=-458.70\\
+\end{align*}$$
+
+This actually a relatively good prediction, as it is much lower than the average prediction error (SER), which was 624.1.
+
+### Part G
+**What does the error term, $u_i$ represent in this case? What might individuals have different values of $u_i$?**
+
+The error term represents *all* factors *other* than age that affects an individual's average weekly earnings. This could include things like experience, ability, job type, education level, conscienciousness etc.
+
+### Part H
+**Do you think that $Age$ is exogenous? Why or why not? Would we expect $\hat{\beta_1}$ to be too *large* or too *small*?**
+
+It's very unlikely that $Age$ is exogenous. Knowing someone's age likely gives us information about $u$: we can guess about their experience or level of education (they are likely higher for older people), and most of these positively affect wages. Thus, we have probably *overstimated* the effect of age on earnings (i.e. $\hat{\beta_1}$), and the true $\beta_1$ is likely smaller.
+
+## Question 10
+
+Suppose a researcher is interested in estimating a simple linear regression model:
+
+$$Y_i=\beta_0+\beta_1X_i+u_i$$
+In a sample of 48 observations, she generates the following descriptive statistics:
+
+- $\bar{X}=30$
+- $\bar{Y}=63$
+- $\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2= 6900$
+- $\displaystyle\sum^n_{i=1}(Y_i-\bar{Y})^2= 29000$
+- $\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})=13800$
+- $\displaystyle\sum^n_{i=1}\hat{u}^2=1656$
+
+### Part A
+**What is the OLS estimate of $\hat{\beta_1}$?**
+
+The formula for $\hat{\beta_1}=\frac{\displaystyle\sum^n_{i=1}(X_i-\bar{X})(Y_i-\bar{Y})}{\displaystyle\sum^n_{i=1}(X_i-\bar{X})^2}=\frac{cov(X,Y)}{var(X)}	= \frac{13800}{6900}=2$
+
+### Part B
+**What is the OLS estimate of $\hat{\beta_0}$?**
+
+The formula for $\hat{\beta_0}=\bar{Y}-\hat{\beta_1}\bar{X}=63-30(2)=3$
+
+### Part C
+**Suppose the OLS estimate of $\hat{\beta_1}$ has a standard error of $0.072$. Could we probably reject a null hypothesis of $H_0: \beta_1=0$ at the 95% level?**
+
+Yes, we could reject the null hypothesis as the estimate of $\hat{\beta_1}=2$ is more than 2 times its standard error of 0.072. The test-statistic would actually be
+
+$$\begin{align*}
+t&=\frac{\hat{\beta_1}-\beta_{1,0}}{se(\hat{\beta_1})}\\
+t&=\frac{2-0}{0.072}\\
+t&\approx 27.78\end{align*}$$
+
+This is well beyond the critical value needed to reject $H_0$, and the $p$-value would be basically 0.
+
+### Part D
+**Calculate the $R^2$ for this model. How much variation in $Y$ is explained by our model?**
+
+We know TSS (4\textsuperscript{th} bullet point) and SSE (last bullet point). 
+
+$$\begin{align*}
+R^2&=1-\frac{SSE}{TSS}\\
+&=1-\frac{1656}{29000}\\
+&=1-0.057\\
+&=0.943\\
+\end{align*}$$
+
+This model explains 94.3% of the variation in $Y_i$. 
+
+### Part E
+**How large is the average residual?**
+
+We need to find the standard error of the regression (SER), but luckily we know the SSE (last bullet point)
+
+$$\begin{align*}
+SER &= \sqrt{\frac{SSE}{n-2}}\\
+&=\sqrt{\frac{1656}{48-2}}\\
+&=\sqrt{36}\\
+&= 6\\
+\end{align*}$$
+
+This tells us the average residual is 36 (units of $Y$).
+
+# R Questions
+
+For the following problems, please attach/write the answers to each question on the same document as the previous problems, but also include a printed/attached (and commented!) *.R* script file of your commands to answer the questions. 
+
+## Question 11
+
+Download the `MLBattend` dataset from Blackboard. This data contains data on attendance at major league baseball games for all 32 MLB teams from the 1970s-2000.
+
+```{r}
+# first load tidyverse 
+library(tidyverse)
+
+# import data
+mlb<-read_csv("../data/MLBAttend.csv")
+```
+
+### Part A 
+
+**Clean up the data a bit by making a new variable to measure home attendance in millions. This will make it easier to interpret your regression later on.**
+
+```{r}
+# make home attendance variable in millions
+mlb<-mlb %>%
+  mutate(home_attend_mil=home_attend/1000000)
+```
+
+### Part B
+
+**Get the correlation between Runs Scored and Home Attendance.**
+
+```{r}
+# summarize and get correlation
+mlb %>%
+  summarize(Correlation = cor(runs_scored, home_attend_mil))
+```
+
+
+### Part C
+
+**Plot a scatterplot of Runs Scored (`y`) on Home Attendance (`x`). Add a regression line.**
+
+```{r}
+# create scatterplot with regression line 
+scatter<-ggplot(data = mlb)+
+  aes(x = home_attend_mil,
+      y = runs_scored)+
+  geom_point()+
+  geom_smooth(method="lm")
+scatter
+```
+
+### Part D
+
+**Run a regression of Runs Scored on Home Attendance. What are $\beta_0$ and $\hat{\beta_1}$? Interpret them in the context of our question.**
+
+```{r}
+# run regression, save as reg
+reg<-lm(runs_scored ~ home_attend_mil, data = mlb)
+
+# get summary of reg
+summary(reg)
+```
+
+```{r}
+# Here I'm going to save beta 0 hat and beta 1 hat
+# as objects to call up in the text of the markdown document
+# We'll need broom and tidy() first
+library(broom)
+reg_tidy<-tidy(reg)
+
+reg_tidy
+
+# first beta 0 hat 
+
+beta_0_hat<-reg_tidy %>%
+  filter(term=="(Intercept)") %>% # look at intercept row
+  pull(estimate) %>% # extract beta 0 hat
+  round(., 2) # round to 2 decimal places
+
+beta_0_hat # check 
+
+# now beta 1 hat 
+
+beta_1_hat<-reg_tidy %>%
+  filter(term=="home_attend_mil") %>% # look at X-variable row
+  pull(estimate) %>% # extract beta 1 hat
+  round(., 2) # round to 2 decimal places
+
+beta_1_hat
+```
+
+$\hat{\beta_0}=$ `r beta_0_hat`
+$\hat{\beta_1}$: `r beta_1_hat`
+
+Teams that have a home attendance of 0 over their season score 572.618 runs. For every additional 1 million fans attending at home games over the season, a team score s68.798 more runs.
+
+### Part E
+
+**Write out the estimated regression equation.**
+
+$$\widehat{\text{Runs scored}_i}=572.618-68.798 \text{ Home attendance (mil)}$$
+
+```{r}
+# if you are using markdown, try out the equatiomatic package
+#install.packages("equatiomatic")
+library(equatiomatic)
+extract_eq(reg, # the regression
+           use_coefs = TRUE, # use the estimated numbers
+           coef_digits = 3, # how many digits to show
+           fix_signs = TRUE) # fix negatives
+```
+
+### Part F
+
+**Make a regression table of the output.**
+
+```{r}
+# load huxtable
+library(huxtable)
+huxreg(reg, # this is sufficient, the rest is decoration
+       coefs = c("Constant" = "(Intercept)",
+                 "Home Attendance (Millions)" = "home_attend_mil"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 3)
+```
+
+### Part G
+
+**Now let's start running some diagnostics of the regression. Make a histogram of the residuals. Do they look roughly normal?**
+
+```{r}
+# here we need broom's augment() command to add residuals to the data
+
+# load broom
+library(broom)
+# augment the regression, save as reg_aug
+reg_aug<-reg %>%
+  augment()
+
+# now we use this as the data in our histogram plot in ggplot, (x is .resid)
+ggplot(data = reg_aug)+
+  aes(x = .resid)+
+  geom_histogram(color="white")
+```
+
+They do look roughly normal.
+
+### Part H
+
+**Make a residual plot.**
+
+```{r}
+# this is another plot from reg_aug, where x is home attendance and y is .fitted
+ggplot(data = reg_aug)+
+  aes(x = home_attend_mil,
+      y = .resid)+
+  geom_point()+
+  geom_hline(yintercept=0, color="red")
+```
+
+### Part I
+
+**Test the regression for heteroskedasticity. Are the errors homoskedastic or heteroskedastic? Generate robust standard errors. Make a regression output table, with one column with regular standard errors and another with robust standard errors.**
+
+```{r}
+# this requires the lmtest package for the bptest() command
+
+# install.packages("lmtest")
+# load lmtest
+library(lmtest)
+bptest(reg)
+```
+
+The null hypothesis $H_0$ is that the errors are homoskedastic. The $p$-value for this test is very large, so we *cannot* reject the null hypothesis. 
+
+This is good, it means the errors are homoskedastic, and our OLS estimators' standard errors are accurate and do not need to be corrected for heteroskedasticity.
+
+### Part J
+
+**Test the data for outliers. If there are any, identify which team(s) and season(s) are outliers.**
+
+```{r}
+# this requires the car package for the outlierTest() command
+
+# install.packages("car")
+# load car
+
+library(car)
+outlierTest(reg)
+```
+
+This test detected one outlier, which is observation (row) number 816. Let's look it up:
+
+```{r}
+mlb %>%
+  slice(816)
+```
+
+The Toronto Blue Jays' 1981 season is an outlier. Just for kicks, let's point it out on the scatterplot.
+
+```{r}
+outlier<-mlb %>%
+  slice(816)
+
+library(ggrepel)
+scatter+ # our scatterplot saved from part c
+  geom_point(data = outlier,
+             aes(x = home_attend_mil,
+                 y = runs_scored),
+             color = "red")+
+  geom_text_repel(data = outlier,
+             aes(x = home_attend_mil,
+                 y = runs_scored),
+             label = "1981 Blue Jays",
+             color = "red")
+```
+
+
+### Part K
+
+**What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?**
+
+This is an interpretation question, no need to calculate anything. The marginal effect is $\hat{\beta_1}$: for every 1 additional million fans attending home games over a team's season, the team scores 69 more runs.
+
+Looking back at the regression output in part c, the $t$-score for the hypothesis test $H_0: \, \beta_1=0$, $H_1: \, \beta_1 \neq 0$ is 16.45, yielding a very very small $p$-value. We have sufficient evidence to reject $H_0$ in favor of our alternative hypothesis, that there is a relationship between home attendance and runs scored over a season.
+
+### Part L
+
+**Now we'll try out the `infer` package to understand the $p$-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample $\hat{\beta_1}$ from your regression in Part D as an object. Then, install and load the `infer` package, and then calculate the slope^[`calculate(stat = "slope")`] under the null hypothesis that there is no connection between attendance and runs.^[`hypothesize(null = "independence")`] for 1000 additional simulated samples^[`generate(reps = 1000, type = "permute")`], and save this as an object (it's a `tibble`). Then, use this to `get_p_value()`^[Set `obs_stat` equal to your observed slope, and set `direction = "two_sided"`]. Compare to the $p$-value given by `lm()` and `tidy()` above.**
+
+```{r}
+# save slope from our regression as sample_slope
+
+sample_slope<-reg_tidy %>%
+  filter(term=="home_attend_mil") %>%
+  pull(estimate)
+
+# double check it worked
+sample_slope
+# note I could also just use the beta_1_hat I optionally made in Part D
+
+# make 1000 simulations of sample slopes under null hypothesis that slope = 0
+
+#install.packages(infer)
+library(infer) # load infer
+slope_simulations<-mlb %>% # save as a tibble
+  specify(runs_scored ~ home_attend_mil) %>% # our lm model
+  hypothesize(null = "independence") %>% # null hypothesis, slope = 0 (X and Y independent)
+  generate(reps = 1000, type = "permute") %>% # make 1000 permutations
+  calculate(stat = "slope") # calculate the sample slope of each permutation
+
+# make sure it worked
+slope_simulations %>%
+  head(., n = 10) # there are a LOT! I only print the first 10 for space
+
+slope_simulations %>%
+  get_p_value(obs_stat = sample_slope,
+              direction = "both")
+```
+
+The $p$-value is basically 0. According to the regression output in part D, it is smaller than 0.00000000000000002.
+
+### Part M
+
+**Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the $p$-value.^[You can use `ggplot2` to plot a histogram in the normal way and add a `geom_vline()`, setting `xintercept` equal to your saved object with the sample $\hat{\beta_1}$ value. *Alternatively*, you can use `infer` to pipe your `tibble` of simulations into `visualize()`, and inside `visualize()` set `obs_stat` equal to your saved $\hat{\beta_1}$ object. *Regardless* of which method you use, add `+shade_p_value()`. Inside this, set `obs_stat` equal to your saved slope, and add `direction = "two_sided"`.]**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# now make a histogram of this
+slope_simulations %>%
+  visualize(obs_stat = sample_slope)+
+  shade_p_value(obs_stat = sample_slope, # set the obs_stat equal to our saved slope from above
+                direction = "both") # two-sided test, shade both sides
+```
+
+
+```{r}
+# infer no longer shades the p-value, so I'll do it manually
+
+slope_simulations %>%
+  ggplot(data = .)+
+  aes(x = stat)+ # slope from simulations
+  geom_histogram(color = "white", # the histogram
+                 fill = "indianred")+
+  # add "shading" for p-value's two sides
+  # right side
+  geom_rect(xmin=68.798,
+            xmax=100,
+            ymin=0,
+            ymax=450,
+            fill = "pink",
+            alpha=0.4)+
+  # left side
+  geom_rect(xmin=-100,
+            xmax=-68.798,
+            ymin=0,
+            ymax=450,
+            fill = "pink",
+            alpha=0.4)+
+  # add vertical line for our sample slope
+  geom_vline(xintercept = sample_slope,
+             color = "red",
+             size = 2)+
+  # add label
+  geom_label(x = sample_slope,
+             y = 200,
+             color = "red",
+             label = expression(paste("Our ", hat(beta[1]))))+
+  scale_x_continuous(breaks=c(-75,-50,-25,0,25,50,75),
+                     limits=c(-75,75),
+                     expand=c(0,0))+
+  scale_y_continuous(limits=c(0,450),
+                       expand=c(0,0))+
+  labs(x = expression(paste("Distribution of ", hat(beta[1]), " under ", H[0], " that ", beta[1]==0)),
+       y = "Samples")+
+    theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+
+Note this is the sampling distribution of $\hat{\beta_1}$ under the null hypothesis (the true $\beta_1=0)$. Values on the horizontal axis are values of $\hat{\beta_1}$, *not* the number of standard deviations away from the null hypothesis.
+
+What the test-statistic does is standardize this distribution much like we would standardize a distribution to the standard normal distribution via calculating $Z$-scores.
+
+Let me visualize what would happen (and this is what R does to calculate the `t value` and associationed `p`-value.) 
+
+```{r}
+slope_simulations %>%
+  summarize(mean = mean(stat), # get the mean slope of the simulated distribution of slopes
+            se = (sd(stat))) # get the standard error of the slope 
+```
+
+```{r}
+# standardize slopes to t-statistics
+tstatistics<-slope_simulations %>%
+  mutate(tscores = ((stat - mean(stat))/sd(stat)))
+
+our_t<-((sample_slope-mean(slope_simulations$stat))/sd(slope_simulations$stat))
+
+# what is our t-statistic?
+our_t
+
+# now plot t-statistics %>%
+ggplot(data = tstatistics)+
+  aes(x = tscores)+ # slope from simulations
+  geom_histogram(color = "white", # the histogram
+                 fill = "indianred")+
+  # add vertical line for our sample slope's t-statistic
+  geom_vline(xintercept = our_t,
+             color = "red",
+             size = 2)+
+  #add label
+  geom_label(x = our_t,
+             y = 50,
+             color = "red",
+             label = "Our t")
+```
+
+This is off slightly (see the t-statistic R calculated in part C), but it gives you an idea. Our test-statistic is somewhere around 14-16, this means it is 14-16 standard deviations away from 0, so again, a very very low p-value!
+
+### Part N
+
+**Get the 95% confidence interval for your slope estimate,^[`tidy()` your original regression, with `conf.int = TRUE` inside the command, then `select(conf.low, conf.high)` and `filter` by your `x` variable. Save this as an object.] and then make a histogram of the simulated slopes (like part L), but instead, add `+shade_confidence_interval()`.^[Inside of this, set `endpoints` equal to the object you just made with the low and high confidence interval values.] Compare this to what you get with `tidy()` above.**
+
+<!--WRITE YOUR ANSWERS BELOW -->
+
+```{r}
+# save as a tibble called "ci_values"
+ci_values<-slope_simulations %>%
+  get_confidence_interval(level = 0.95,
+                          type = "se",
+                          point_estimate = sample_slope)
+
+# see what we made
+ci_values
+
+# we'll use this for the endpoints in the shade_ci() command 
+
+slope_simulations %>%
+  visualize(obs_stat = sample_slope)+
+  shade_confidence_interval(endpoints = ci_values)
+```
+
+
