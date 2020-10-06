@@ -23,6 +23,10 @@ For now, we will understand causality to mean the average treatment effect (ATE)
 
 Of course, the bigger problem is it is very difficult, often impossible, to run a RCT to test a hypothesis. So economists have developed a toolkit of clever techniques to identify causal effects in “natural experiments” or “quasi-experiments” that sufficiently *simulate* a RCT. Knowledge of this repertoire of tools is truly why modern economists are in demand by government and business (not supply and demand models, etc)!
 
+# Readings
+
+Please see [today’s suggested readings](/reading/3.1-reading). There are a number of useful readings (in addition to your textbook) that can help you understand the material for today. 
+
 # Slides
 
 - [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.1-slides.html)
