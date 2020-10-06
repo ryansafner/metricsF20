@@ -1,0 +1,225 @@
+---
+title: "Empirical Research Paper Project"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<blockquote>
+<p>“How can I know what I think until I see what I say?” — E. M. Forster on Writing</p>
+</blockquote>
+<blockquote>
+<p>“No economist has achieved scientific success as a result of a statistically significant coefficient. Massed observations, clever common sense, elegant theorems, new policies, sagacious economic reasoning, historical perspective, relevant accounting, these have all led to scientific success. Statistical significance has not.” — McCloskey and Ziliak, “The Cult of Statistical Significance” (1996: 112)</p>
+</blockquote>
+<!--- [<i class="fas fa-external-link-square-alt"></i> Writing and Reading Empirical Papers Slides](/slides/paper-slides.html)
+- [<i class="fab fa-github"></i> Example Paper Project](https://github.com/ryansafner/example_empirical_paper)-->
+<h2 id="overview">Overview</h2>
+<p>Your task is to write a research paper on any topic in political economy of your choosing so long as it has an empirical component. The purpose of this paper is threefold: (1) to demonstrate to me that you have mastered the material of this course, (2) to develop your writing, communication, and data analysis skills, and (3) to help you develop, strengthen, and/or modify your own views by grappling with them in writing. As a reminder, this paper constitutes 25% of your final course grade.</p>
+<p>I will spend a significant portion of one class discussing more about the writing process, and provide a detailed guide to help you choose a topic, craft arguments, and write a good paper.</p>
+<p>I am <em>NOT</em> looking for a survey of existing research, a series of block quotes showing what some economist said about X, a regurgitation of my lectures, a list of pros and cons with a last minute conclusion, a book review, and so on. I also do <em>NOT</em> want you to compress <em>everything</em> about econometrics you learned from this class into a single paper. You should only use those insights that are <em>relevant</em> to your topic and your argument (it may only be one or two things!).</p>
+<p>I am looking for a paper that attempts to answer a specific research question of interest to economists by using data analysis. You should be able to summarize your paper in one or two sentences – the specific research question your paper addresses, your method for answering it, and your results. It should be a <em>reasonably</em> original paper (it is difficult with limited knowledge, time, and data to offer something truly original), and it should be your own take on the topic. <strong>I expect you to, at the very least, have one multivariate regression used to reach your conclusions. I do not expect or require you to find statistically significant results.</strong></p>
+<p>Please note that, while you are not required to, I highly recommend discussing your ideas with me over email or in person. I will also read any drafts you would like to submit to me early, and provide you with helpful comments, subject to my own availability. I will stop accepting drafts to provide comments by November 30.</p>
+<h2 id="length-references-mechanics">Length, References, &amp; Mechanics</h2>
+<p>I hesitate to give formal length requirements, because most students will write the bare minimum, and also because different papers have different optimal lengths. What truly matters is that your paper is long enough to say what you need to say, to say it well, and to say it briefly. <em>Ceterus paribus</em>, if papers <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> say the same thing, but paper <span class="math inline">\(B\)</span> says it in half the length (without sacrificing key arguments), paper <span class="math inline">\(B\)</span> is a better paper. You will also find that simply by including the necessary components of an empirical paper (plots, tables, etc.), your page count will by necessity increase on its own.</p>
+<p>Since you of course still want to know what a good length will be, my <em>rule of thumb</em> is that your paper should be about <strong><span class="math inline">\(\mathbf{10\pm 5}\)</span> pages</strong> (size 12 font, double spaced, 1" margins). This will depend on the topic you have chosen to written on, your data, and your own personal writing style.</p>
+<p>I would also like you to use scholarly references, that is, articles from economics journals and cite them properly. I do not have a minimum requirement of the amount of references, but I expect you to have at least <strong>2-5 scholarly references</strong>, depending on your paper topic and thesis. I am not particularly picky about exactly how you format your citations or bibliography, just please be consistent, and do not use footnotes or endnotes (only because they annoy me). I <em>suggest</em> the APA author-year-page in-text citation format that is fairly standard in economics journals, i.e.: “The division of labor is limited by the extent of the market,” (Smith 1776: 27). Look at my slides or my handouts for a suggested bibliography style. If you use <code>.bib</code> files, the default formatting is fine.</p>
+<h2 id="sources-for-inspiration">Sources for Inspiration</h2>
+<p>Here is a list of a few places you might consider to dig up some information on your topic, or to help you find a topic. Just be sure to read and cite the actual sources that these secondary sources cite.</p>
+<ul>
+<li>Major news outlets (e.g. CNN, Wall Street Journal, New York Times, USA Today, Huffington Post, the Guardian) and wherever you may find your news (e.g. reddit, Buzzfeed, etc) both for current events, and also their Opinion/Commentary sections for other op-eds to learn from and/or critique</li>
+<li>Wikipedia – no seriously, it is the first place I go to learn about a new topic. Just be sure to actually investigate the underlying research and use that for your references!</li>
+<li>Economics Podcasts
+<ul>
+<li><a href="http://econtalk.org">Econtalk</a> – a fantastic podcast series by Russ Roberts that interviews famous economists, philosophers, businesspeople, and other figures who have an impact on the world of ideas</li>
+<li><a href="http://freakonomics.com/">Freakonomics (Radio)</a> – another great podcast by one of the authors of the famed <em>Freakonomics</em> books about intermediate-level economic topics, often an in-depth series of interviews on a major issue</li>
+<li><a href="http://npr.org/sections/money">NPR Planet Money</a> – another good podcast series on economics topics and current events, much shorter and more 10,000-foot level approach than Econtalk or Freakonomics</li>
+</ul></li>
+<li>Popular Economists’ Blogs/Blogs on Economics:
+<ul>
+<li><a href="http://marginalrevolution.com">Marginal Revolution</a> – Tyler Cowen &amp; Alex Tabarrok (head and shoulders above the rest!)</li>
+<li><a href="http://cafehayek.org">Cafe Hayek</a> – Don Boudreaux (libertarian-leaning, mostly just Don on trade and micro-policy)</li>
+<li><a href="http://econlog.org">EconLog</a> – Bryan Caplan, David Henderson (libertarian-leaning, good analysis)</li>
+<li><a href="http://krugman.blogs.nytimes.com/">The Conscience of a Liberal</a> – Paul Krugman at New York Times (strong left-wing politics)</li>
+<li><a href="https://johnhcochrane.blogspot.com/">The Grumpy Economist</a> – John Cochrane (Chicago School approach)</li>
+<li><a href="http://gregmankiw.blogspot.com">Greg Mankiw’s Blog</a> – Greg Mankiw (moderate conservative, New Keynesian approach)</li>
+<li><a href="http://timharford.com/articles/undercovereconomist/">Undercover Economist</a> – Tim Harford (British, non-political, very easy to understand)</li>
+<li><a href="https://chrisblattman.com/">Chris Blattman</a> – Chris Blattman (great on economic development, poverty, and conflict in poor countries)</li>
+<li><a href="http://slatestarcodex.com">Slate Star Codex</a> – “Scott Alexander” (a pseudonym, apparently a Medical Student, but one of the most lucid social science blogs ever written)</li>
+<li><a href="https://fivethirtyeight.com/">Fivethirtyeight</a> – Nate Silver &amp; co. (a journalist, but a <em>leader</em> on using data and statistics in social science and journalism)</li>
+<li><a href="http://andrewgelman.com">Andrew Gelman</a> – Andrew Gelman (a statistician, but another <em>leader</em> on using data and statistics for social science)</li>
+</ul></li>
+</ul>
+<h2 id="data-sources">Data Sources</h2>
+<p>While it is one thing to find a topic to write on, it is an altogether different animal to find data to use to test empirical research questions. You will find out quickly that the constraint to writing an empirical paper is not the set of topics or questions to write on (though that is often a challenge itself!), but the data available to use.</p>
+<p>Depending on the topic, you can also collect your own data, and many times you will want to create a custom dataset by simply combining data from different sources.</p>
+<p><strong>General Databases of Datasets</strong></p>
+<ul>
+<li><a href="https://toolbox.google.com/datasetsearch">Google Database Search</a></li>
+<li><a href="https://www.kaggle.com/datasets">Kaggle</a></li>
+<li><a href="https://hls.harvard.edu/library/research/find-a-database/#hlsnav-databases-for-legal-and-law-related-research">Harvard Law School: Find a Database</a></li>
+</ul>
+<p><strong>Good R Packages for Getting Data in R Format</strong><span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Some of these come from <a href="http://www.nickchk.com/econometrics.html">Nick Huntington-Klein’s excellent list</a>.<br />
+<br />
+</span></span></p>
+<p>Below are packages written by and for R users that link up with the API of key data sets for easy use in R. Each link goes to the documentation and description of each package.</p>
+<p>Don’t forget to install<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>install.packages("name_of_package")</code><br />
+<br />
+</span></span> first and then load it with <code>library()</code>.</p>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/wbstats/wbstats.pdf"><code>wbstats</code></a> provides access to all the data available on the <strong>World Bank</strong> API, which is basically everything on their website. The World Bank keeps track of <em>many</em> country-level indicators over time.</li>
+<li><a href="https://cran.r-project.org/web/packages/tidycensus/tidycensus.pdf"><code>tidycensus</code></a> gives you access to data from the <strong>US Census</strong> and the <strong>American Community Survey.</strong> These are the largest high-quality data sets you’ll find of cross-sectional data on individual people in the US. You’ll need to get a (free) API key from the website (or ask me for mine).</li>
+<li><a href="https://cran.r-project.org/web/packages/fredr/vignettes/fredr.html"><code>fredr</code></a> gets data from the <strong>Federal Reserve’s Economic Database (FRED)</strong>. You’ll need to get a (free) API key from the website (or ask me for mine).</li>
+<li><a href="https://cran.r-project.org/web/packages/tidyquant/index.html"><code>tidyquant</code></a> gets data from a number of financial sources (including `fredr).</li>
+<li><a href="https://cran.r-project.org/web/packages/icpsrdata/icpsrdata.pdf"><code>icpsrdata</code></a> downloads data from the <strong>Inter-university Consortium for Political and Social Research</strong> (you’ll need an account and a keycode). ICPSR is a database of datasets from published social science papers for the purposes of reproducibility.</li>
+<li><a href="https://cran.r-project.org/web/packages/NHANES/NHANES.pdf"><code>NHANES</code></a> uses data from the <strong>US National Health and Nutrition Examination Survey.</strong></li>
+<li><a href="https://cran.r-project.org/web/packages/ipumsr/vignettes/ipums.html"><code>ipumsr</code></a> has <strong>census data</strong> from <em>all around the world</em>, in addition to the US census, <strong>American Community Survey</strong>, and <strong>Current Population Survey</strong>. If you’re doing international micro work, look at IPUMS. It’s also the easiest way to get the <strong>Current Population Survey (CPS)</strong>, which is very popular for labor economics. Unfortunately ipumsr won’t get the data from within R; you’ll have to make your own data extract on the IPUMS website and download it. But ipumsr will read that file into R and preserve things like names and labels.</li>
+<li><a href="https://github.com/UrbanInstitute/education-data-package-r"><code>education-data-package-r</code></a><span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Note you will need to install <code>devtools</code> package first, and then install the package directly from Github with the command <code>devtools::install_github('UrbanInstitute/education-data-package-r')</code><br />
+<br />
+</span></span> is the Urban Institute’s data data on educational institutions in the US, including colleges (in IPEDS) and K-12 schools (in CCD). This package also has data on county-level poverty rates from SAIPE.</li>
+<li><a href="https://cran.r-project.org/web/packages/psidR/psidR.pdf"><code>psidR</code></a> is the <strong>Panel Study of Income Dynamics</strong>. This study doesn’t just follow people over their lifetimes, it follows their children too, generationally! A great source for studying how things follow families through generations.</li>
+<li><a href="https://cran.r-project.org/web/packages/atus/atus.pdf"><code>atus</code></a> is th e <strong>American Time Use Survey</strong>, which is a large cross-sectional data set with information on how people spend their time.</li>
+<li><a href="https://ilostat.github.io/Rilostat/index.html"><code>Rilostat</code></a> uses data from the <strong>International Labor Organization.</strong> This contains lots of different statistics on labor, like employment, wage gaps, etc., generally aggregated to the national level and changing over time.</li>
+<li><a href="https://github.com/xmarquez/democracyData"><code>democracyData</code></a><span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Note you will need to install <code>devtools</code> package first, and then install the package directly from Github with the command <code>devtools::install_github('xmarquez/democracyData')</code><br />
+<br />
+</span></span> is a great “package for accessing and manipulating existing measures of democracy.”</li>
+<li><a href="https://cran.rstudio.com/web/packages/politicaldata/index.html"><code>politicaldata</code></a> provides useful functions for obtaining commonly-used data in political analysis and political science, including from sources such as the Comparative Agendas Project (which provides data on politics and policy from 20+ countries), the MIT Election and Data Science Lab, and FiveThirtyEight.</li>
+</ul>
+<p>Here is a list of good data sources depending on the types of topics you might be interested in writing on:</p>
+<ul>
+<li><a href="https://qog.pol.gu.se/data/dataextras/datasources">Quality of Government Data</a> has an extremely wide range of data sources pertaining to measures of institutions. The data itself can be found <a href="https://qog.pol.gu.se/data/datadownloads/qogstandarddata">here</a>.</li>
+<li>National and State Accounts Data: <a href="http://www.bea.doc.gov/">Bureau of Economic Analysis</a></li>
+<li>Labor Market and Price Data: <a href="http://www.bls.gov/">Bureau of Labor Statistics</a></li>
+<li>Macroeconomic Data: <a href="https://fred.stlouisfed.org/">Federal Reserve Economic Data (FRED)</a>, <a href="https://datacatalog.worldbank.org/dataset/world-development-indicators">World Development Indicators (World Bank)</a>, <a href="https://www.rug.nl/ggdc/productivity/pwt/">Penn World Table</a></li>
+<li>International Data: <a href="http://www.nationmaster.com/">NationMaster.com</a>, <a href="http://rru.worldbank.org/DoingBusiness/">Doing Business</a>, <a href="ttp://www.ciesin.org/data.html">CIESIN</a></li>
+<li>Census Data: <a href="http://www.census.gov/">U.S. Census Bureau</a></li>
+<li>Sports Data: <a href="http://spotrac.com">Spotrac</a>, <a href="https://sites.google.com/site/rodswebpages/codes">Rodney Fort’s Sports Data</a></li>
+<li>Data Clearing House: <a href="http://www.stat-usa.gov/">Stat USA</a>, <a href="http://www.fedstats.gov/">Fedstats</a>, <a href="http://www.census.gov/prod/www/statistical-abstract-us.html">Statistical Abstract of the United States</a>, <a href="http://rfe.org">Resources for Economists</a></li>
+<li>Political and Social Data: <a href="http://www.icpsr.umich.edu/">ICPSR</a>, <a href="http://fec.gov">Federal Election Commission</a>, <a href="http://voteview.uh.edu/default_nomdata.htm">Poole and Rosenthal Roll Call Data (Voting ideology)</a>, <a href="https://www.rochester.edu/college/faculty/hgoemans/data.htm">Archigos Data on Political Leaders</a>, <a href="http://thomas.loc.gov/">Library of Congress: Thomas (Legislation)</a>, <a href="http://www.biz.uiowa.edu/iem/">Iowa Electronic Markets (Prediction Markets)</a></li>
+<li>War and Violence Data: <a href="http://www.correlatesofwar.org/data-sets">Correlates of War</a></li>
+<li>State Level Data: <a href="http://ippsr.msu.edu/public-policy/correlates-state-policy">Correlates of State Policy</a></li>
+<li>Health Data: <a href="http://www.cdc.gov/scientific.htm">Centers for Disease Control</a>, <a href="http://wonder.cdc.gov/DataSets.shtml">CDC Wonder System</a></li>
+<li>Crime Data: <a href="http://www.ojp.usdoj.gov/bjs/">Bureau of Justice Statistics</a></li>
+<li>Education Data: <a href="http://www.nces.ed.gov/">National Center for Education Statistics</a></li>
+<li>Environmental Data: <a href="http://www.epa.gov/ceisweb1/ceishome/">EPA</a></li>
+<li>Religion Data: <a href="http://www.arda.tm/">American Religion Data Archiva (ARDA)</a></li>
+<li>Financial Data: <a href="http://www.cob.ohio-state.edu/cgi-bin/DB_Search/db_search.cgi?setup_file=finance.setup.cgi">Financial Data Finder</a>{Financial Data Finder}</li>
+<li>Philanthropy Data: <a href="http://nccs.urban.org/">The Urban Institute</a></li>
+</ul>
+<p>Most government agencies and non-profit organizations have publicly available data on the issue you are concerned with, and will be your first place to look.</p>
+<h2 id="grading-rubric-and-deadlines">Grading Rubric and Deadlines</h2>
+<p>While it may be possible for many papers in your college career, is not a paper you can write the last minute and do well on. To ensure that you do not get too far behind, I have split the assignment into stages that are due at different intervals over the semester. Note that your topic can and may change depending on what you are able to find and work with. <strong>The hardest part is finding data that allows you to test a research question</strong>. It is primarily for this reason that writing an empirical paper on what you want is very difficult.</p>
+<table>
+<colgroup>
+<col width="27%" />
+<col width="18%" />
+<col width="23%" />
+<col width="30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Assignment</th>
+<th>Points</th>
+<th>Due Date</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Abstract</td>
+<td>5</td>
+<td>Sun Oct 11</td>
+<td>Short summary of your ideas</td>
+</tr>
+<tr class="even">
+<td>Literature Review</td>
+<td>10</td>
+<td>Sun Nov 1</td>
+<td>1-3 paragraphs on 2-3 scholarly sources</td>
+</tr>
+<tr class="odd">
+<td>Data Description</td>
+<td>10</td>
+<td>Sun Nov 15</td>
+<td>Description of data sources, and some summary statistics</td>
+</tr>
+<tr class="even">
+<td>Presentation</td>
+<td>5</td>
+<td>Thurs Nov 19</td>
+<td>Short presentation of your project so far</td>
+</tr>
+<tr class="odd">
+<td>Final Paper Due</td>
+<td>70</td>
+<td>Tues Nov 22</td>
+<td>Email to me paper, data, and code</td>
+</tr>
+</tbody>
+</table>
+<p>All assignments are due by emails to me.</p>
+<ul>
+<li><p><strong>Abstract</strong>: write a short paragraph (3-6 sentences) summarizing: what rough topic you want to look at, a specific research question that you think you can get data to test, where you think you might be able to get some data. It’s okay that much of this is speculative and you might change your mind or do very different things later!</p></li>
+<li><p><strong>Data Description</strong>: describe what data you managed to find (a few paragraphs): where is/are the dataset(s) from? What variables are included, and how are they measured (e.g. what units, categories, etc)? Give us some summary statistics of the data (a table would be nice, some scatterplots and histograms would be nice), are there any interesting patterns?</p></li>
+<li><p><strong>Literature Review</strong>: find 2-3 scholarly sources (ideally scholarly journal articles) that discuss your research question (or related topics), especially if they have empirical findings. Explain what these sources found, how they found it, and how your paper relates to this literature. Don’t worry about being original!</p></li>
+<li><p><strong>Presentation</strong>: a 5-10 minute presentation of what you have so far. Different people will be at different stages, since your paper is not due yet! Use this as an opportunity to get feedback from me and your classmates, that might help you finish your project. Using some slides to show tables, models, and plots is highly recommended.
+<!--  - [<i class="fas fa-file-pdf"></i> Example](/papers/Presentation_example.pdf) --></p></li>
+<li><p><strong>Final Paper Due</strong>: <em>email</em> the full paper to me (see below for what should be in the email).</p></li>
+</ul>
+<p>The remaining 70% for the final product are broken down as follows:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Persuasiveness</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Clarity</td>
+<td>10</td>
+</tr>
+<tr class="odd">
+<td>Econometric Validity</td>
+<td>20</td>
+</tr>
+<tr class="even">
+<td>Economic Soundness</td>
+<td>20</td>
+</tr>
+<tr class="odd">
+<td>Organization</td>
+<td>5</td>
+</tr>
+<tr class="even">
+<td>References</td>
+<td>5</td>
+</tr>
+<tr class="odd">
+<td>TOTAL</td>
+<td>70</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Persuasiveness</strong>: How persuasive is your argument? Would a reasonably educated college-level reader who is familiar with economics and statistics but not necessarily this course find themselves understanding your argument and agreeing with you? [Write for an audience wider than just members of this class. Therefore, don’t use terms, sources, or “inside jokes” that only other students in this class (and no one else) would understand.] Remember, your goal is not to convince <em>me</em> (though you may), your goal is to convince <em>any educated reader</em>, and I grade you the probability that this is likely. You are the lawyer, I am the judge, and your audience is the jury.</li>
+<li><strong>Clarity</strong> How clear is your paper? Is it clear what your research question is, how you answer it, and what your results are? Can you summarize these in a sentence or two? Are there confusing passages, excessive jargon or passive voice, or irrelevant arguments and examples?</li>
+<li><strong>Econometric Validity</strong>: Is your econometric model sensible and plausible? Do you adequately address the assumptions and limitations of your model? Do you use appropriate data? Do you adequately describe your data, identify patterns, aberrations, and clearly generate testable hypotheses from your data? Would someone else, given your data, be able to replicate your findings?</li>
+<li><strong>Economic Soundness</strong>: Do you place your empirical question in a broader context of applying economic principles? Do you describe relevant economic policies, institutions, relationships, and/or other relevant economic principles to the questions you are asking? Are your theories and hypotheses about relationships between data plausible and intuitive? Do you makes sense of your hypotheses and the results of your analysis and connect them to sound economic principles? Is your question, strategy, and/or results of interest to economists? <strong>You will lose up to 20 points for papers that have no economic content.</strong></li>
+<li><strong>Organization:</strong> Is your paper organized? Have you presented your separate arguments/examples in a logical order? Is it clear when you are moving on from one section to another? Is it clear when and where you are summarizing and concluding? Is your paper presented according to professional norms (e.g. summary statistics tables, regression tables, etc)?</li>
+<li><strong>References:</strong> Does your paper use multiple scholarly references? Does it properly cite them in the text for main ideas borrowed and for direct quotations (if applicable)? Are they consistently listed at the end in a references section?</li>
+<li><strong>Style:</strong> Is your paper interesting and easy to read? Does it engage the reader? Is it written in active voice? This is somewhat subjective, and hence, the smallest portion of your grade.</li>
+</ul>
+<h3 id="emailing-your-final-version-to-me">Emailing Your Final Version to Me</h3>
+<p>When you send your final email (by Tuesday November 22), it should contain the following files:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Your final paper as a <code>.pdf</code>.</strong> It should include an abstract and bibliography and all tables and figures contained within it.</li>
+<li><strong>The (commented!) code used for your data analysis</strong> (i.e. loading data, making tables, making plots, running regressions). These can be either <code>.R</code> files: one or multiple (one-per-task) are equally fine OR a <code>.Rmd</code> file. I want to know <em>how</em> you reached the results you got! <strong>Reproducibility is the goal!</strong></li>
+<li><strong>Your data used</strong>, in whatever original format you found it (e.g. <code>.csv</code>, <code>.xlsx</code>, <code>.dta</code>)</li>
+</ol>
+<p>Again, you are not obligated to use <code>R Markdown</code> to write your paper. Microsoft Word is fine.</p>

@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>3.5: Causal Inference and DAGs</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 3.5: Causal Inference and DAGs
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# You Don’t Need an RCT to Talk Causally
+
+---
+
+# The Causal Revolution
+
+.pull-left[
+- Statistics profession is obstinant that we cannot say anything about causality
+  - Statisticians: causation is simply a subset of correlation, where correlation is `\(-1\)` or `\(1\)`
+
+- But you have to! It's how the human brain works!
+
+- We can't concieve of (spurious) correlation without some causation
+
+]
+
+.pull-right[
+
+.center[
+![:scale 70%](https://www.dropbox.com/s/qp9m156rcxqp3nc/bookofwhy.jpg?raw=1)
+]
+]
+
+---
+
+# The Causal Revolution
+
+.center[
+![](../images/causaltwitter.png)
+]
+
+
+---
+
+# RCTs and Evidence-Based Policy
+
+- .hi-purple[Should we *ONLY* base policies on the evidence from Randomized Controlled Trials?]
+
+--
+
+.pull-left[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;|￣￣￣￣￣￣￣￣￣￣|&lt;br&gt; IF U DONT SMOKE,&lt;br&gt; U ALREADY &lt;br&gt; BELIEVE IN&lt;br&gt; CAUSAL INFERENCE&lt;br&gt; WITHOUT&lt;br&gt; RANDOMIZED TRIALS&lt;br&gt;|＿＿＿＿＿＿＿＿＿＿| &lt;br&gt; (\__/) ||&lt;br&gt; (•ㅅ•) ||&lt;br&gt; / 　 づ&lt;a href="https://twitter.com/hashtag/HistorianSignBunny?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#HistorianSignBunny&lt;/a&gt; &lt;a href="https://twitter.com/hashtag/Epidemiology?src=hash&amp;amp;ref_src=twsrc%5Etfw"&gt;#Epidemiology&lt;/a&gt;&lt;/p&gt;&amp;mdash; Ellie Murray (@EpiEllie) &lt;a href="https://twitter.com/EpiEllie/status/1017622949799571456?ref_src=twsrc%5Etfw"&gt;July 13, 2018&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt; 
+
+]
+
+--
+
+.pull-right[
+
+.center[
+
+Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
+
+![](https://www.dropbox.com/s/9mimwcoamiv54tf/rctparachutesstudy.png?raw=1)
+]
+
+]
+
+---
+
+# RCTs and Evidence-Based Policy III
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/5ptmdhgeyerhr4a/rctparachutes1.jpg?raw=1)
+]
+]
+
+--
+
+.pull-right[
+.center[
+![:scale 80%](https://www.dropbox.com/s/3knd5wy8h4eyq1j/rctparachutes2.jpg?raw=1)
+]
+
+]
+
+---
+
+# Correlation and Causation I
+
+.center[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;&amp;quot;Correlation implies casuation,&amp;quot; the dean whispered as he handed me my PhD.&lt;br&gt;&lt;br&gt;&amp;quot;But then why-&amp;quot;&lt;br&gt;&lt;br&gt;&amp;quot;Because if they knew, they wouldn&amp;#39;t need us.&amp;quot;&lt;/p&gt;&amp;mdash; David Robinson (@drob) &lt;a href="https://twitter.com/drob/status/877976063942512640?ref_src=twsrc%5Etfw"&gt;June 22, 2017&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+]
+
+---
+
+# Correlation and Causation I
+
+.center[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;&amp;quot;Correlation implies casuation,&amp;quot; the dean whispered as he handed me my PhD.&lt;br&gt;&lt;br&gt;&amp;quot;But then why-&amp;quot;&lt;br&gt;&lt;br&gt;&amp;quot;Because if they knew, they wouldn&amp;#39;t need us.&amp;quot;&lt;/p&gt;&amp;mdash; David Robinson (@drob) &lt;a href="https://twitter.com/drob/status/877976063942512640?ref_src=twsrc%5Etfw"&gt;June 22, 2017&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+]
+
+---
+
+# What Does Causation Mean?
+
+.pull-left[
+
+- “Correlation does not imply causation”
+  - this is exactly backwards!
+  - this is just pointing out that exogeneity is violated
+  
+]
+
+.pull-right[
+.center[
+![](../images/causation.jpg)
+]
+]
+
+---
+
+# What Does Causation Mean?
+
+.pull-left[
+
+- “Correlation does not imply causation”
+  - this is exactly backwards!
+  - this is just pointing out that exogeneity is violated
+  
+- “Correlation implies causation”
+  - for an association, there must be *some* causal chain of variables that relate `\(X\)` and `\(Y\)`
+  - but not necessarily merely `\(X \mapsto Y\)`
+
+]
+
+.pull-right[
+.center[
+![](../images/causation.jpg)
+]
+]
+
+---
+# What Does Causation Mean?
+
+.pull-left[
+
+- “Correlation does not imply causation”
+  - this is exactly backwards!
+  - this is just pointing out that exogeneity is violated
+  
+- “Correlation implies causation”
+  - for an association, there must be *some* causal chain of variables that relate `\(X\)` and `\(Y\)`
+  - but not necessarily merely `\(X \mapsto Y\)`
+
+- “Correlation plus exogeneity is causation.”
+]
+
+.pull-right[
+.center[
+![](../images/causation.jpg)
+]
+]
+
+---
+
+# Correlation and Causation
+
+.center[
+
+&lt;blockquote class="twitter-tweet"&gt;&lt;p lang="en" dir="ltr"&gt;Causality isn&amp;#39;t achieved; it&amp;#39;s approached.&lt;/p&gt;&amp;mdash; John B. Holbein (@JohnHolbein1) &lt;a href="https://twitter.com/JohnHolbein1/status/982635508089180161?ref_src=twsrc%5Etfw"&gt;April 7, 2018&lt;/a&gt;&lt;/blockquote&gt; &lt;script async src="https://platform.twitter.com/widgets.js" charset="utf-8"&gt;&lt;/script&gt;
+
+]
+
+---
+
+# Correlation and Causation
+
+.pull-left[
+- .onfire[Correlation:]
+  - Math &amp; Statistics
+  - Computers, AI, Machine learning can figure this out (even better than humans)
+
+- .onfire[Causation:]
+  - Philosophy, Intuition, Theory
+  - .shout[Counterfactual thinking], unique to humans (vs. animals or machines)
+  - Computers *cannot* yet figure this out
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/c91a06o91rf3e5h/causation.jpg?raw=1)
+]
+]
+
+---
+
+# Causation Requires Counterfactual Thinking
+
+.pull-left[
+.center[
+![:scale 70%](https://www.dropbox.com/s/6n3dg3xpizsxpsj/ladderofcausation.png?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![:scale 70%](https://www.dropbox.com/s/qp9m156rcxqp3nc/bookofwhy.jpg?raw=1)
+]
+]
+
+---
+
+background-image: url(https://www.dropbox.com/s/zsx3pa4m51p82dj/twopaths.jpg?raw=1)
+background-size: cover
+
+---
+
+# Recall: The Fundamental Problem of Causal Inference I
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J^0=3\)` | `\(Y_M^0=5\)` | 
+| `\(Y_J^1=4\)` | `\(Y_M^1=5\)` |
+| `\(Y_J^1-Y_J^0=1\)` | `\(Y_M^1-Y_M^0=0\)` |
+| `\(Y_J=(Y_J^1)=4\)` | `\(Y_M=(Y_M^0)=5\)` | 
+
+]
+
+.right-column[
+
+- Recall example from [class 1.2](/class/02-class)
+
+- John will choose to buy health insurance
+
+- Maria will choose to not buy health insurance
+
+- Health insurance improves John's score by 1, has no effect on Maria's score
+
+- Note, all we can observe in the data are their health outcomes *after* they have chosen (not) to buy health insurance: `\(Y_J=4\)` and `\(Y_M=5\)`
+
+- .whisper[*Observed* difference] between John and Maria: `$$Y_J-Y_M=-1$$`
+]
+
+---
+
+# Recall: Counterfactuals
+
+.left-column[
+
+| John      | Maria     |
+|-----------|-----------|
+| ![](https://www.dropbox.com/s/5vh181yeg0p91t7/coldman2.jpg?raw=1) | ![](https://www.dropbox.com/s/7qa0gtuy29us4p2/femalejogger2.jpg?raw=1) |
+| `\(Y_J=4\)` | `\(Y_M=5\)` | 
+
+This is all the data we *actually* observe
+]
+
+.right-column[
+- Observed difference between John and Maria: 
+`$$Y_J-Y_M=\underbrace{Y^1_J-Y^0_M}_{=-1}$$`
+
+- Recall:
+    - John has bought health insurance `\((Y^1_J)\)`
+    - Maria has not bought insurance `\((Y^0_M)\)`
+
+- We don't see the .shout[counterfactuals]: 
+    - John's score *without* insurance
+    - Maria score *with* insurance
+
+]
+
+---
+
+# Causal Inference
+
+.pull-left[
+
+- We will seek to understand what causality *is* and how we can approach finding it
+
+- We will also explore the different common .shout[research designs] meant to .whisper[identify] causal relationships
+
+- **These skills**, more than supply &amp; demand, constrained optimization models, ISLM, etc, **are the tools and comparative advantage of a modern research economist**
+    - Why all big companies (especially in tech) have entire economics departments in them
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/yw8t5xsa8dgei71/coding.jpeg?raw=1)
+]
+]
+
+---
+
+# Clever Research Designs Identify Causality
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-1-1.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# What Then IS Causation?
+
+.pull-left[
+
+- `\(X\)` causes `\(Y\)` if we can intervene and change `\(X\)` without changing anything else, and `\(Y\)` changes
+- `\(Y\)` "listens to" `\(X\)`
+    - `\(X\)` may not be the only thing that causes `\(Y\)`
+
+]
+
+.pull-right[
+.center[
+![:scale 80%](https://www.dropbox.com/s/6w66jcc9gmw3hw4/lightswitch.jpg?raw=1)
+]
+]
+
+---
+
+# What Then IS Causation?
+
+.pull-left[
+
+- `\(X\)` causes `\(Y\)` if we can intervene and change `\(X\)` without changing anything else, and `\(Y\)` changes
+- `\(Y\)` "listens to" `\(X\)`
+    - `\(X\)` may not be the only thing that causes `\(Y\)`
+
+.content-box-green[
+.green[**Example**]
+
+If `\(X\)` is a light switch, and `\(Y\)` is a light:
+
+- Flipping the switch `\((X)\)` causes the light to go on `\((Y)\)`
+- But NOT if the light is burnt out (No `\(Y\)` despite `\(X\)`)
+- OR if the light was already on `\((Y\)` without `\(X\)`)
+]
+
+]
+
+.pull-right[
+.center[
+![:scale 80%](https://www.dropbox.com/s/6w66jcc9gmw3hw4/lightswitch.jpg?raw=1)
+]
+]
+
+---
+
+# Less-Clear Causal Claims
+
+.content-box-green[
+.green[**Example**]
+
+- Getting a college degree raises your wages
+
+]
+
+--
+
+.content-box-green[
+.green[**Example**]
+
+- Tariffs reduce the volume of international trade
+
+]
+
+---
+
+# Non-Causal Claims 
+
+- All of the following have non-zero correlations. Are they causal?
+
+.content-box-green[
+.green[**Example**]
+
+- Greater ice cream sales cause more violent crime
+- Rooster crows cause the sun to rise in the morning
+
+]
+
+--
+
+- Less clear: 
+
+.content-box-green[
+.green[**Example**]
+
+- Colds tend to clear up a few days after you take Vitamin-C
+- The economy performs better or worse depending on the political party in power
+
+]
+
+---
+
+# Counterfactuals
+
+- The *sine qua non* of causal claims are .shout[counterfactuals]: what would `\(Y\)` have been if `\(X\)` had been different?
+- It is **impossible** to make a counterfactual claim from data alone! Need a causal model of the data-generating process!
+
+---
+
+# Counterfactuals and RCTs
+
+- Again, RCTs are invoked as the gold standard for their ability to make counterfactual claims:
+- Treatment/intervention `\((X)\)` is *randomly assigned* to individuals, and then outcome `\(Y\)` is measured
+
+&gt; If person i who recieved treatment *had not recieved* the treatment, we can predict what his outcome *would have been*
+
+&gt; If person j who did not recieve treatment *had recieved treatment*, we can predict what her outcome *would have been*
+
+- We can say this because, on average, treatment and control groups are *the same before treatment*
+
+---
+
+# From RCTs to Causal Models
+
+- RCTs are but the best-known method of a large, growing science of .shout[causal inference]
+- We need a .shout[causal model] to describe the .shout[data-generating process (DGP)]
+- Requires us to make some .whisper[assumptions]
+
+
+---
+
+class: inverse, center, middle
+
+# Causal Diagrams
+
+---
+
+# Causal Diagrams/DAGs
+
+.pull-left[
+- A surprisingly simple, yet rigorous and powerful method of modeling is using a .shout[causal diagram] or .shout[Directed Acyclic Graph (DAG)]
+
+- A simple series of nodes (variables) connected by arrows that indicate causal effects
+    - Arrows can only go one way ("directed") and can never loop back ("acyclic")
+]
+
+.pull-right[
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-2-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Drawing a DAG
+
+- Causal diagram (DAG) is the *model* of what you think the data-generating process is
+
+- Useful to help figure out how to *identify* particular relationships of interest
+
+- Requires some common sense/economic intutition
+
+- Remember, all models are wrong, we just need them to be *useful*!
+
+---
+
+# Drawing a DAG: Example
+
+.pull-left[
+
+- Suppose we have data on three variables
+  - `IP`: how much a firm spends on IP lawsuits 
+  - `tech`: whether a firm is in tech industry
+  - `profit`: firm profits
+
+- They are all correlated with each other, but what's are the causal relationships? 
+
+- We need our own **causal model** (from theory, intuition, etc) to sort
+  - Data alone will not tell us!
+]
+
+.pull-right[
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-3-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Drawing a DAG: 
+
+.pull-left[
+
+1. Consider all the variables likely to be important to the data-generating process (including variables we can't observe!)
+
+2. For simplicity, combine some similar ones together or prune those that aren't very important
+
+3. Consider which variables are likely to affect others, and draw arrows connecting them
+
+4. Test some testable implications of the model (to see if we have a correct one!)
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+
+---
+
+# Side Notes
+
+.pull-left[
+
+- Drawing an arrow requires a direction - making a statement about causality!
+
+- *Omitting* an arrow makes an equally important statement too!
+  - In fact, we will *need* omitted arrows to show causality!
+
+- If two variables are correlated, but neither causes the other, it's likely they are both caused by another (perhaps unobserved) variable - add it!
+
+- There should be no *cycles* or *loops* (if so, there's probably another missing variable, such as time)
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/v5vwsadw5vs448t/causality.jpg?raw=1)
+]
+]
+---
+
+# DAG Example I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: what is the effect of education on wages?
+]
+
+- Education ("treatment" or "exposure")
+
+- Wages ("outcome" or "response")
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# DAG Example I
+
+.pull-left[
+
+- What other variables are important?
+  - Ability
+  - Socioeconomic status
+  - Demographics
+  - Phys. Ed. requirements
+  - Year of birth
+  - Location
+  - Schooling laws
+  - Job connections
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# DAG Example I
+
+.pull-left[
+
+- In social science and complex systems, 1000s of variables could plausibly be in DAG!
+
+- So simplify:
+  - Ignore trivial things (Phys. Ed. requirement)
+  - Combine similar variables (Socioeconomic status, Demographics, Location `\(\rightarrow\)` Background)
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# DAG Example II
+
+.pull-left[
+
+- Background, Year of birth, Location, Compulsory schooling, all cause education
+
+- Background, year of birth, location, job connections probably cause wages
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# DAG Example III
+
+.pull-left[
+
+- Background, Year of birth, Location, Compulsory schooling, all cause education
+
+- Background, year of birth, location, job connections probably cause wages
+
+- Job connections in fact is probably caused by education!
+
+- Location and background probably both caused by unobserved factor `(u1)`
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# DAG Example IV
+
+.pull-left[
+
+- This is messy, but we have a causal model!
+
+- Makes our assumptions **explicit**, and many of them are **testable**
+
+- DAG suggests certain relationships that will *not* exist:
+  - all relationships between `laws` and `conx` go through `educ`
+  - so if we controlled for `educ`, then `cor(laws,conx)` should be zero!
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Let the Computer Do It: Dagitty.net I
+
+.pull-left[
+.center[
+
+![](https://www.dropbox.com/s/zhqgfyvk2x4z863/dagitty.png?raw=1)
+]
+]
+
+.pull-right[
+
+- [Dagitty.net](http://dagitty.net) is a great tool to make these and give you testable implications
+
+- Click `Model -&gt; New Model`
+
+- Name your "exposure" variable `\((X\)` of interest) and "outcome" variable `\((Y)\)`
+
+]
+
+---
+
+# Let the Computer Do It: Dagitty.net II
+
+.pull-left[
+.center[
+
+![](https://www.dropbox.com/s/qu6839emzoitb1c/dagittyex1.png?raw=1)
+]
+]
+
+.pull-right[
+
+- Click and drag to move nodes around
+
+- Add a new variable by double-clicking
+
+- Add an arrow by double-clicking one variable and then double-clicking on the target (do again to remove arrow)
+
+]
+
+---
+
+# Let the Computer Do It: Dagitty.net III
+
+.pull-left[
+.center[
+
+![](https://www.dropbox.com/s/a55b66p8i4znjto/dagittyex2.png?raw=1)
+]
+]
+
+.pull-right[
+
+- Tells you **how to identify your effect**! (upper right)
+
+&gt; Minimal sufficient adjustment sets containing background, location, year for estimating the total effect of educ on wage:
+background, location, year
+
+- Tells you **some testable implications** (middle right)
+  - *conditional independencies*, take the last one:
+  - `job_connections` `\(\perp\)` `year` | `educ`
+  - means: holding constant `educ`, there should be no correlation between `job_connections` and `year` - can test this with data!
+
+]
+
+---
+
+# Implications
+
+- In order to .onfire[identify] the effect of education on wages, our model implies we need to control for background, location, and year
+  - note: we do *not* need to control for anything else!
+
+--
+
+- How to control for them?
+  - many ways, we've learned one: multivariate regression:
+  
+--
+
+`$$wages=\beta_0+\beta_1 \, educ + \beta_2 \, background + \beta_3 \, location + \beta_4 \, year$$`
+
+--
+
+- How did Dagitty know what we needed to do? Some simple rules (below)
+
+---
+
+# Causal Effect
+
+.pull-left[
+.center[
+
+![](https://www.dropbox.com/s/o7h0zbpvej0zuf5/dagittycontrolled.png?raw=1)
+]
+]
+
+.pull-right[
+
+- If we control for `background`, `location`, and `year`, we can **identify** the causal effect of `educ` `\(\rightarrow\)` `wage`.
+
+
+]
+
+---
+
+
+# You Can Draw DAGs In R
+
+.pull-left[
+
+- New package: `ggdag`
+- Arrows are made with formula notation: `Y~X` means "`Y` is caused by `X`"
+
+
+```r
+library(ggdag)
+dagify(wage~educ+conx+year+bckg+loc,
+       educ~bckg+year+loc+laws,
+       conx~educ,
+       bckg~u1,
+       loc~u1) %&gt;% 
+  ggdag()+
+  theme_dag()
+```
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+class: inverse, center, middle
+
+# DAG Rules
+
+---
+
+# DAGs I
+
+.pull-left[
+
+- Typical notation: 
+
+- `\(X\)` is independent variable of interest
+  - Epidemiology: .onfire["intervention"]
+
+- `\(Y\)` is dependent/.onfire["response"] variable
+
+- Other variables use other letters
+]
+
+.pull-right[
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# DAGs and Causal Effects
+
+.pull-left[
+
+- Arrows indicate causal effect (in proper direction)
+
+- Two types of causal effect:
+    1. Direct effects `\(X \rightarrow Y\)`
+]
+
+.pull-right[
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+# DAGs and Causal Effects
+
+.pull-left[
+
+- Arrows indicate causal effect (in proper direction)
+
+- Two types of causal effect:
+
+1. Direct effects `\(X \rightarrow Y\)`
+
+2. Indirect effects `\(X \rightarrow M \rightarrow Y\)` 
+  - `\(M\)` is a "mediator" variable, the mechanism by which `\(X\)` affects `\(Y\)`
+]
+
+.pull-right[
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+# DAGs and Causal Effects
+
+.pull-left[
+
+- Arrows indicate causal effect (in proper direction)
+
+- Two types of causal effect:
+
+1. Direct effects `\(X \rightarrow Y\)`
+
+2. Indirect effects `\(X \rightarrow M \rightarrow Y\)` 
+  - `\(M\)` is a "mediator" variable, the mechanism by which `\(X\)` affects `\(Y\)`
+
+3. You of course might have both! 
+]
+
+.pull-right[
+
+&lt;img src="3.2-slides_files/figure-html/unnamed-chunk-15-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+---
+
+# Confounders
+
+.pull-left[
+
+- `\(Z\)` is a .shout[confounder] of `\(X \rightarrow Y\)`, `\(Z\)` affects both `\(X\)` and `\(Y\)`
+
+- `\(cor(X,Y)\)` is made up of two parts:
+    - The value of `\(Y\)` is affected by the value of `\(X\)` `\((X \rightarrow Y\)`, good!)
+    - `\(Z\)` affects both the values of `\(X\)` and `\(Y\)` (A spurious correlation between `\(X\)` and `\(Y\)`, bad!)  
+
+- Failing to control for `\(Z\)` will .whisper[bias] our estimate of the causal effect of `\(X \rightarrow Y\)`! 
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Confounders
+
+.pull-left[
+
+- Confounders are the DAG-equivalent of .shout[omitted variable bias]
+
+- Biased regression `\(Y=\beta_0+\beta_1 X\)` leaving out `\(Z\)`
+
+- `\(\hat{\beta}_1\)` picks up both:
+  - `\(X \rightarrow Y\)`
+  - `\(X \leftarrow Z \rightarrow Y\)`
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-17-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Front Doors and Back Doors
+
+.pull-left[
+
+- With this graph, there are two paths that connect `\(X\)` and `\(Y\)`&lt;sup&gt;1&lt;/sup&gt;:
+
+1. A .shout[causal "front-door" path] `\(X \rightarrow Y\)`
+    - Good, what we want to measure
+    
+2. A .shout[non-causal "back-door" path] `\(X \leftarrow Z \rightarrow Y\)`
+    - At least one causal arrow runs in the opposite direction
+    - Bad, adds a confounding bias
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+
+]
+
+.footnote[&lt;sup&gt;1&lt;/sup&gt; Regardless of the directions of the arrows!]
+
+---
+
+# Controlling I 
+
+.pull-left[
+
+- If we can .onfire[control for] `\(Z\)`, we can *block* the back-door path `\(X \leftarrow Z \rightarrow Y\)`
+    - Essentially, delete the arrow(s) connecting `\(X\)`, `\(Z\)`, and `\(Y\)`
+
+- This would only leave the front-door, `\(X \rightarrow Y\)`
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Controlling II 
+
+.pull-left[
+
+- How to "control for" `\(Z\)`? We want to remove its influence over determining the values of `\(X\)` and `\(Y\)`
+
+- Multiple methods exist, but we've done this with .shout[multivariate regression]
+
+- At the simplest level, consider only looking at values of `\(X\)` and `\(Y\)` for all observations that have the *same* value of `\(Z\)`
+  - removes causal influence `\(Z\)` has on `\(X\)` and on `\(Y\)`
+  - leaves only the influence `\(X\)` has on `\(Y\)`!
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-20-1.png)&lt;!-- --&gt;
+
+]
+---
+
+# Controlling III
+
+.pull-left[
+
+- Controlling for a single variable along a long causal path is sufficient to block that path!
+
+- Causal path: `\(X \rightarrow Y\)`
+- Backdoor path: `\(X \leftarrow A \rightarrow B \rightarrow C \rightarrow Y\)`
+
+- It is sufficient to block this backdoor by controlling **either** `\(A\)` **or** `\(B\)` **or** `\(C\)`!
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-21-1.png)&lt;!-- --&gt;
+]
+---
+
+# The Back Door Criterion
+
+.pull-left[
+
+- To achieve proper .onfire[identification] of the causal effect:
+
+- The .shout["back-door criterion"]: control for the minimal amount of variables sufficient to ensure that no back-door exists between `\(X\)` and `\(Y\)`
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# The Back Door Criterion
+
+.pull-left[
+
+- Implications of the Back-door criterion:
+
+1. You *only* need to control for the variables that keep a back-door open, *not all other variables!*
+
+.content-box-green[
+.green[**Example**]:
+
+- `\(X \rightarrow Y\)` (front-door)
+- `\(X \leftarrow A \rightarrow B \rightarrow Y\)` (back-door)
+
+- Need only control for `\(A\)` *or* `\(B\)` to block the one back-door path
+- `\(Z\)` has no effect on `\(X\)`, and therefore we don't need to control for it! 
+
+] 
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# The Back Door Criterion: Colliders
+
+.pull-left[
+
+- A case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["collider"].
+
+.content-box-green[
+.green[**Example**]:
+
+- `\(X \rightarrow Y\)` (front-door)
+- `\(X \leftarrow A \rightarrow B \leftarrow C \rightarrow Y\)` (back-door, but **blocked by collider!**)
+
+- `\(B\)` is a collider because both `\(A\)` and `\(C\)` point to it
+] 
+
+- A collider automatically *blocks* a path
+- If you control for the collider, it *opens* a path (bad idea if it's a backdoor path)
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-24-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# The Back Door Criterion: Colliders
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]:
+
+- `\(Flu\)`: getting the flu
+- `\(Bus\)`: being hit by a bus
+- `\(Hos\)`: being in the hospital
+
+- Both `\(Flu\)` and `\(Bus\)` send you to `\(Hos\)` (arrows)
+
+- Knowing `\(Flu\)` doesn't tell us about `\(Bus\)` (no arrow)
+
+- Conditional on being in `\(Hos\)`, negative association between `\(Flu\)` and `\(Bus\)` (spurious!) 
+] 
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-25-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Collider Example: Gender Discrimination I
+
+.pull-left[
+
+.content-box-green[
+.green[**Example**]: How much of wage disparities are caused by gender-based discrimination?
+
+1. `\(discr \rightarrow wage\)` (Causal path)
+2. `\(discr \rightarrow occup \rightarrow wage\)` (Causal path)
+3. `\(discr \leftarrow gender \rightarrow occup \rightarrow wage\)` (BLOCKED back door!)
+4. `\(discr \leftarrow gender \rightarrow occup \leftarrow abil \rightarrow wage\)` (BLOCKED back door!)
+5. `\(discr \rightarrow occup \leftarrow abil \rightarrow wage\)` (BLOCKED back door!)
+
+- Should we control for `occup`?
+] 
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-26-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Collider Example: Gender Discrimination II
+
+.pull-left[
+
+- If we *control* for occupation:
+  - opens backdoor paths 3, 4, 5!
+  - creates spurious `cor(abil,discr)` where there wasn't one!
+  - also closes causal path 2! (discriminatory reasons genders choose different occupations)
+  
+- **Can't identify causal effect** controlling for `occup` alone!
+  - *Could* if you could control for `occup` *and* `abil` (but perhaps `abil` is unobserved)
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-27-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# The Front Door Criterion: Mediators I
+
+.pull-left[
+
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
+
+.content-box-green[
+.green[**Example**]:
+
+- `\(X \rightarrow M \rightarrow Y\)` (front-door)
+- `\(X \leftarrow A \rightarrow Y\)` (back-door)
+- `\(X \leftarrow B \rightarrow Y\)` (back-door)
+
+- Should we control for `\(M\)`? 
+- If we did, this would block the front-door! 
+
+]
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-28-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# The Front Door Criterion: Mediators II
+
+.pull-left[
+
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
+
+.content-box-green[
+.green[**Example**]:
+
+- If we control for `\(M\)`, this would block the front-door! 
+
+- If we can estimate `\(X \rightarrow M\)` and `\(M \rightarrow Y\)` (note, no back-doors to either of these!), we can estimate `\(X \rightarrow Y\)`
+] 
+
+- This is the .whisper[front door method]
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-29-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+
+# The Front Door Criterion: Mediators III
+
+.pull-left[
+
+- Tobacco industry claimed that `\(cor(smoking, cancer)\)` could be spurious due to a confounding `gene` that affects both!
+  - Smoking `gene` is unobservable
+
+- Suppose smoking causes `tar` buildup in lungs, which cause `cancer`
+
+- We should *not* control for `tar`, it's on the **front-door path**
+  - This is how scientific studies can relate smoking to cancer
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-30-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Recap
+
+.pull-left[
+
+Thus, to achieve .onfire[causal identification], control for the minimal amount of variables such that:
+
+1. Ensure that **no back-door path remains open**
+    - Close back-door paths by *controlling* for any variable along that path
+    - Colliders along a path *automatically* close that path
+
+2. Ensure that **no front-door path is closed**
+
+]
+
+.pull-right[
+
+![](3.2-slides_files/figure-html/unnamed-chunk-31-1.png)&lt;!-- --&gt;
+
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

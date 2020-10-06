@@ -1,0 +1,25 @@
+---
+title: "3.1 — The Fundamental Problem of Causal Inference & Potential Outcomes — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> [Ch. 1] in @Bailey
+- [<i class="fas fa-file-pdf"></i> Ch. 4 in Cunningham (2020), *Causal Inference, the Mixtape*](http://scunning.com/causalinference_norap.pdf#chapter*.47)
+- [<i class="fab fa-wikipedia-w"></i> Rubin Causal Model](https://en.wikipedia.org/wiki/Rubin_causal_model)
+
+Bailey begins the book with a discussion of causality and random control trials that is pretty good. 
+
+The potential outcomes notation (e.g. $Y_i^{1}$ and $Y_i^{0})$ and model comes from a very famous 1974 paper by Donald Rubin in psychology. You can read more about it in Cunningham (2020) above, or the Wikipedia entry on the model.
+
+Scott Cunningham’s excellent (and free!) *Causal Inference, the Mixtape* has a great discussion of the history, and examples, of potential outcomes in an accessible way.
+
+The classic example that most economists (including myself) were taught about causality is the treatment of the Rubin model in Angrist and Pischke’s *Mostly Harmless Econometrics* (one of the classic books on econometrics). You do not need to buy that book for this class, but if you will be doing data work in your future, or going to graduate school, this book is a must own and read:
+
+- [<i class="fas fa-book"></i> Angrist and Pischke, 2009, *Mostly Harmless Econometrics*](https://www.amazon.com/Mostly-Harmless-Econometrics-Empiricists-Companion/dp/0691120358)
+
+My health insurance example is lifted directly out of this book.
+

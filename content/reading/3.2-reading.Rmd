@@ -1,0 +1,25 @@
+---
+title: "3.2 — Causal Inference II: DAGs — Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+DAGs are a trendy new concept in econometrics and causal inference, so much so that they have yet to find their way into any major econometrics textbook! There are some resources, however, that you can look to for understanding how they work (and I base much of my lecture off of them).
+
+# Recommended Readings
+
+- [<i class="fas fa-file-pdf"></i> Ch. 3 in Cunningham (2020), *Causal Inference, the Mixtape*](http://scunning.com/causalinference_norap.pdf#chapter*.38)
+- [<i class="fas fa-book"></i> Pearl and MacKenzie, (2018), *The Book of Why*](https://www.amazon.com/Book-Why-Science-Cause-Effect/dp/046509760X)
+- [<i class="fas fa-external-link-square-alt"></i> Heiss (2020), Causal Inference"](https://github.com/andrewheiss/heiss-causal-inference/blob/master/10-causal-inference.pdf)
+- [<i class="fas fa-external-link-square-alt"></i> Huntington-Klein (2019), Dagitty.net Cheat Sheet"](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Dagitty_Cheat_Sheet.pdf)
+- [<i class="fas fa-external-link-square-alt"></i> Huntington-Klein (2019), Causal Diagrams Cheat Sheet"](https://nickch-k.github.io/introcausality/Cheat%20Sheets/Causal_Diagrams_Cheat_Sheet.pdf)
+- [<i class="fas fa-external-link-square-alt"></i> My blog post on "Econometrics, Data Science, and Causal Inference"](https://ryansafner.com/post/econometrics-data-science-and-causal-inference/)
+
+The *best* book to get more into the philosophy of causality and the major origin of DAGs is Judea Pearl (and David McKenzie)'s *The Book of Why*. We owe much to Pearl, he is the flagship of the causal revolution (outside of econometrics).^[He has an interesting and contentious relationship to economics.] And [his twitter](https://twitter.com/yudapearl) is pretty amusing.
+
+The best instantiation of DAGs and causal inference into a "textbook" on econometrics and methods is Scott Cunningham's (open source!) *Causal Inference: The Mixtape* chapter on DAGs. Nick Huntington-Klein has some great lecture slides, and some cheat sheets on using Dagitty.net and understanding DAGs.
+
+Andrew Heiss, a political science professor, has a great recent book chapter on causal inference using DAGs, complete with instructions on how to do it in R and dagitty.net.
+
+Finally, I have a blog post discussing the difference between econometrics, causal inference, and data science. The end touches on causality, DAGs, and Pearl.

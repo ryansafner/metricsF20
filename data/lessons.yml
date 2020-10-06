@@ -36,7 +36,7 @@ lessons:
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 1** due Sun Sept 6'
     assignment: "01-problem-set"
 
-  - title: '<span class="fake-header-table">II. Linear Regression</span>'
+  - title: '<span class="fake-header-table">II. Linear Regression and Statistical Inference</span>'
     header: True
 
   - title: "2.1 Data 101 and Descriptive Statistics"
@@ -86,16 +86,20 @@ lessons:
   - title: '<i class="fas fa-star"></i> **Midterm Exam** week of Sept 28'
     assignment: "01-exam"
 
-  - title: '<span class="fake-header-table">III. Extensions to Regression</span>'
+  - title: '<span class="fake-header-table">III. Causal Inference</span>'
     header: True
 
-  - title: "3.1 Omitted Variable Bias"
+  - title: "3.1 The Fundamental Problem of Causal Inference & Potential Outcomes"
+    class: "3.1-class"
+    reading: "3.1-reading"
+    slides: "3.1-slides"
 
-  - title: "3.2 Multivariate OLS Estimators: Bias, Precision, and Fit"
+  - title: "3.2 Causal Inference II: DAGs"
+    reading: "3.2-reading"
 
-  - title: "3.3 Causal Inference"
+  - title: "3.3 Omitted Variable Bias"
 
-  - title: "3.4 Model Specification"
+  - title: "3.4 Multivariate OLS Estimators: Bias, Precision, and Fit"
 
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4**'
 
@@ -109,26 +113,24 @@ lessons:
 
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
 
-  - title: '<span class="fake-header-table">IV. Panel Data Models</span>'
+  - title: '<span class="fake-header-table">IV. Panel Data & Advanced Models</span>'
     header: True
 
   - title: "4.1 Panel Data and Fixed Effects Models"
 
   - title: "4.2 Difference-in-Difference Models"
 
+  - title: "4.3 Instrumental Variables Models"
+  
+  - title: "4.4 Regression Discontinuity Models"
+  
+  - title: "4.5 Binary Dependent Variables Models"
+
+  - title: "4.6 Prediction, Classification, & Machine Learning"
+  
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
-
-  - title: "**Final Exam**" 
-
-  - title: "**Empirical Research Paper Project Due**" 
-
-  - title: '<span class="fake-header-table">End of Semester/Advanced Regression</span>'
-    header: True
-    
-  - title: "5.1 Instrumental Variables Models"
   
-  - title: "5.2 Regression Discontinuity Models"
+  - title: "**Empirical Research Paper Project** Due Sunday Nov 22"
+    assignment: "paper-project"
   
-  - title: "5.3 Binary Dependent Variables Models"
-
-  - title: "5.4 Prediction, Classification, & Machine Learning"
+  - title: "**Final Exam** Tuesday Nov 24"
