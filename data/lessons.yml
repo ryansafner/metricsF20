@@ -102,14 +102,16 @@ lessons:
   - title: "3.4 Multivariate OLS Estimators: Bias, Precision, and Fit"
 
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4**'
+  
+  - title: "3.6 Writing an Empirical Paper"
 
-  - title: "3.6 Regression with Categorical Data"
+  - title: "3.7 Regression with Categorical Data"
 
-  - title: "3.7 Regression with Interaction Effects"
+  - title: "3.8 Regression with Interaction Effects"
 
-  - title: "3.8 Polynomial Regression"
+  - title: "3.9 Polynomial Regression"
 
-  - title: "3.9 Logarithmic Regression"
+  - title: "3.10 Logarithmic Regression"
 
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
 

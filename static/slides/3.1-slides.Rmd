@@ -31,41 +31,21 @@ knitr::opts_chunk$set(echo=F,
                       warning=F,
                       fig.retina =3)
 library(tidyverse)
-library(parallel)
-library(ggthemes)
-library(broom)
 set.seed(256)
 update_geom_defaults("label", list(family = "Fira Sans Condensed"))
-```
-
-```{r regression-setup, echo=F, results="hide"}
-
-library(haven)
-CASchool<-read_dta("../data/caschool.dta")
-
-# run regression of testscr on str
-school_reg <- lm(testscr ~ str, 
-                 data = CASchool)
-
-library(broom)
-school_reg_tidy <- tidy(school_reg,
-     conf.int = TRUE) # add confidence intervals
-CASchool_aug <- augment(school_reg)
-
-
 ```
 
 class: inverse
 
 # Outline
 
-### [First Pass at Causation: RCTs](#85)
+### [First Pass at Causation: RCTs](#9)
 
-### [Potential Outcomes](#)
+### [Potential Outcomes](#15)
 
-### [Quasi-Experiments](#)
+### [Natural Experiments](#46)
 
-### [Attack of/on the Randomistas](#)
+### [Attack of/on the Randomistas](#53)
 
 ---
 
@@ -957,7 +937,7 @@ Control Group
 ---
 
 class: inverse, center, middle
-# Quasi-Experiments
+# Natural Experiments
 
 ---
 
