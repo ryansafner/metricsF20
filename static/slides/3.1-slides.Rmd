@@ -65,7 +65,7 @@ class: inverse
 
 ### [Quasi-Experiments](#)
 
-### [Revenge of the Randomistas](#)
+### [Attack of/on the Randomistas](#)
 
 ---
 
@@ -217,15 +217,15 @@ Classic (simplified) procedure of a randomized control trial (RCT) from medicine
 
 ---
 
-# Random Control Trials (RCTs) II
+# Random Control Trials (RCTs) III
 
 .center[
-![](../images/scienceplacebocomic.PNG)
+![:scale 50%](../images/scienceplacebocomic.PNG)
 ]
 
 ---
 
-# Random Control Trials (RCTs) III
+# Random Control Trials (RCTs) IV
 
 .pull-left[
 
@@ -276,7 +276,7 @@ Treatment Group
 ![:scale 100%](https://www.dropbox.com/s/xvjphzlwechgip6/3oranges.jpg?raw=1)
 Control Group
 
-(Selection Bias)
+.orange[(Selection Bias)]
 ]
 ]
 ]
@@ -778,7 +778,7 @@ $$\begin{align*}
 | Maria | ? | .purple[5.0] | ? | 
 | **Average** | ? | ? | ? | 
 
-- We never get to see each person's .hi-turqoise[counterfactual] state to compare and calculate ITEs or ATE
+- We never get to see each person's .hi-turquoise[counterfactual] state to compare and calculate ITEs or ATE
   - Maria with insurance $\color{#e64173}{Y^1_M}$
   - John without insurance $\color{#6A5ACD}{Y^0_J}$
 
@@ -1022,14 +1022,22 @@ class: inverse, center, middle
 
 .left-column[
 .center[
-![:scale 100%](https://www.dropbox.com/s/kc1yx6q6iao26mo/jonsnow.jpg?raw=1)
+![:scale 75%](../images/jonsnowmeme.jpg)
 
-Jon Snow
+1813-1858
 ]
 ]
 
 .right-column[
+.smallest[
+- John Snow utilized the [first famous natural experiment](http://blogs.plos.org/publichealth/2013/03/11/john-snow-the-first-epidemiologist/) to establish the foundations of epidemiology and the germ theory of disease
 
+- Water pumps with sources *downstream* of a sewage dump in the Thames river spread cholera while water pumps with sources *upstream* did not
+]
+
+.center[
+![:scale 60%](https://www.dropbox.com/s/s8ar35t7sjklf4k/choleramap.jpg?raw=1)
+]
 ]
 
 ---
@@ -1045,10 +1053,11 @@ Jon Snow
 ]
 
 .right-column[
-
+.smallest[
 - John Snow utilized the [first famous natural experiment](http://blogs.plos.org/publichealth/2013/03/11/john-snow-the-first-epidemiologist/) to establish the foundations of epidemiology and the germ theory of disease
 
 - Water pumps with sources *downstream* of a sewage dump in the Thames river spread cholera while water pumps with sources *upstream* did not
+]
 
 .center[
 ![:scale 60%](https://www.dropbox.com/s/s8ar35t7sjklf4k/choleramap.jpg?raw=1)
@@ -1070,7 +1079,7 @@ Jon Snow
 
 class: inverse, center, middle
 
-# Revenge of the Randomistas
+# Attack of/on the Randomistas
 
 ---
 
@@ -1092,8 +1101,9 @@ background-size: cover
 
 .pull-right[
 .center[
-
-Source: [Vox (Oct 14, 2019)](https://www.vox.com/future-perfect/2019/10/14/20913928/nobel-prize-economics-duflo-banerjee-kremer)
+.smallest[
+[Vox (Oct 14, 2019)](https://www.vox.com/future-perfect/2019/10/14/20913928/nobel-prize-economics-duflo-banerjee-kremer)
+]
 
 ![](https://www.dropbox.com/s/119oeqictaktgsw/voxnobelrcts.png?raw=1)
 
@@ -1107,7 +1117,7 @@ Source: [Vox (Oct 14, 2019)](https://www.vox.com/future-perfect/2019/10/14/20913
 .left-column[
 
 .center[
-![:scale 75%](https://www.dropbox.com/s/z1mnxolnzhvuv27/deaton.jpg?raw=1)
+![:scale 75%](../images/deaton.jpg)
 
 Angus Deaton
 
@@ -1116,11 +1126,13 @@ Economics Nobel 2015
 
 ]
 .right-column[
+.smaller[
+> The RCT is a useful tool, but I think that is a mistake to put method ahead of substance. I have written papers using RCTs...[but] no RCT can ever legitimately claim to have established causality. My theme is that RCTs have no special status, they have no exemption from the problems of inference that econometricians have always wrestled with, and there is nothing that they, and only they, can accomplish.
 
-> The RCT is a useful tool, but I think that is a mistake to put method ahead of substance. I have written papers using RCTs. Like other methods of investigation, they are often useful, and, like other methods, they have dangers and drawbacks. Methodological prejudice can only tie our hands...**It is not true that an RCT, when feasible, will always do better than an observational study.** This should not be controversial [but] might still make some uncomfortable, particularly the second [statement]: (a) RCTs are affected by the same problems of inference and estimation that economists have faced using other methods, and (b) no RCT can ever legitimately claim to have established causality. **My theme is that RCTs have no special status, they have no exemption from the problems of inference that econometricians have always wrestled with, and there is nothing that they, and only they, can accomplish.**
+]
 ]
 
-.source[Deaton, Angus, 2019, "[Randomization in the Tropics Revisited: A Theme and Eleven Variations](https://scholar.princeton.edu/sites/default/files/deaton/files/deaton_randomization_revisited_v2_2019_01.pdf)," Working Paper]
+.source[Deaton, Angus, 2019, [“Randomization in the Tropics Revisited: A Theme and Eleven Variations”](https://scholar.princeton.edu/sites/default/files/deaton/files/deaton_randomization_revisited_v2_2019_01.pdf), Working Paper]
 
 ---
 
@@ -1128,7 +1140,7 @@ Economics Nobel 2015
 
 .left-column[
 .center[
-![:scale 75%](https://www.dropbox.com/s/e6mbwn4oba8w7lx/pritchett.jpg?raw=1)
+![:scale 75%](../images/pritchett.jpg)
 
 Lant Pritchett
 
@@ -1136,11 +1148,12 @@ Lant Pritchett
 ]
 
 .right-column[
+.smallest[
+> “People keep saying that the recent Nobelists "studied global poverty." This is exactly wrong. They made a commitment to a method, not a subject, and their commitment to method prevented them from studying global poverty.”
 
-> People keep saying that the recent Nobelists "studied global poverty." This is exactly wrong. They made a commitment to a method, not a subject, and their commitment to method prevented them from studying global poverty.
+> “At a conference at Brookings in 2008 Paul Romer (last years Nobelist) said: "You guys are like going to a doctor who says you have an allergy and you have cancer. With the skin rash we can divide you skin into areas and test variety of substances and identify with precision and some certainty the cause. Cancer we have some ideas how to treat it but there are a variety of approaches and since we cannot be sure and precise about which is best for you, we will ignore the cancer and not treat it.”
 
-> At a conference at Brookings in 2008 Paul Romer (last years Nobelist) said: "You guys are like going to a doctor who says you have an allergy and you have cancer. With the skin rash we can divide you skin into areas and test variety of substances and identify with precision and some certainty the cause. Cancer we have some ideas how to treat it but there are a variety of approaches and since we cannot be sure and precise about which is best for you, we will ignore the cancer and not treat it."
-
+]
 ]
 
 .source[[Source](https://www.facebook.com/lant.pritchett/posts/10218688602381690)]
@@ -1152,7 +1165,7 @@ Lant Pritchett
 .left-column[
 
 .center[
-![:scale 75%](https://www.dropbox.com/s/z1mnxolnzhvuv27/deaton.jpg?raw=1)
+![:scale 75%](../images/deaton.jpg)
 
 Angus Deaton
 
@@ -1162,33 +1175,81 @@ Economics Nobel 2015
 ]
 .right-column[
 
-> "Lant Pritchett is so fun to listen to, sometimes you could forget that he is completely full of shit."
+> “Lant Pritchett is so fun to listen to, sometimes you could forget that he is completely full of shit.”
 
 ]
 
 .source[[Source](https://medium.com/@ismailalimanik/lant-pritchett-the-debate-about-rcts-in-development-is-over-ec7a28a82c17)]
-
 
 ---
 
 # RCTs and Evidence-Based Policy
 
 .pull-left[
-
+.smallest[
 - Programs *randomly* assign treatment to different individuals and measure causal effect of treatment
 
-- **RAND Health Insurance Study**
+- Some do: 
 
-- **Oregon Medicaid Expansion**
+- **RAND Health Insurance Study**: randomly give people health insurance
 
-- **HUD's Moving to Opportunity**
+- **Oregon Medicaid Expansion**: randomly give people Medicaid
 
-- **Tennessee STAR**
+- **HUD's Moving to Opportunity**: randomly give people moving vouchers
 
+- **Tennessee STAR**: randomly assign students to large vs. small classes
+
+]
 ]
 
 .pull-right[
 .center[
 ![](https://www.dropbox.com/s/j0kwzqb2ptusckt/madlaboratory.jpg?raw=1)
 ]
+]
+
+---
+
+# RCTs and External Validity
+
+.pull-left[
+.smaller[
+- Even if a study is .hi-purple[internally valid] (used statistics correctly, etc.) we must still worry about .hi-purple[external validity]:
+
+- Is the finding .hi-turquoise[generalizable] to the whole population?
+
+- If we find something in India, does that extend to Bolivia? France?
+
+- Subjects of studies & surveys are often .hi-purple[WEIRD]: .hi-purple[W]estern, .hi-purple[E]ducated, and from .hi-purple[I]ndustrialized .hi-purple[R]ich .hi-purple[D]emocracies
+]
+]
+
+.pull-right[
+.center[
+![](../images/weirdpsychology.png)
+
+.smallest[
+[APA (2010)](https://www.apa.org/monitor/2010/05/weird)
+]
+]
+]
+
+---
+
+# RCTs and External Validity
+
+.pull-left[
+.center[
+![](../images/vapingstudy.png)
+]
+
+]
+
+--
+
+.pull-right[
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">IN MICE<a href="https://t.co/mLuKBRhsAb">https://t.co/mLuKBRhsAb</a></p>&mdash; justsaysinmice (@justsaysinmice) <a href="https://twitter.com/justsaysinmice/status/1305905728591335424?ref_src=twsrc%5Etfw">September 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+[In Mice twitter account](https://twitter.com/justsaysinmice?lang=en)
 ]
