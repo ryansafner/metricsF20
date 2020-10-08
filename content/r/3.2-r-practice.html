@@ -1,0 +1,37 @@
+---
+title: "3.2 — Causal Inference and DAGs — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
+<!--- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/2.3-r-practice-rmd.Rmd)-->
+<h2 id="part-a-dag-practice">Part A DAG Practice</h2>
+<p>For each of the following examples:</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li>Write out <em>all</em> of the causal pathways from <code>X</code> (treatment of interest) to <code>Y</code> (outcome of interest).</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li>Identify which variable(s) need to be controlled for to estimate the causal effect of <code>X</code> on <code>Y</code>. You can use <a href="http://dagitty.net"><code>dagitty.net</code></a> to help you, but you should start trying to recognize these on your own!</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li>Draw the DAGs in <code>r</code> using <code>ggdag</code>. After setting up the dag with <code>dagify()</code> (and specifying <code>exposure</code> and <code>outcome</code> inside <code>dagify</code>), pipe that into <code>ggdag()</code>. Try again piping it instead into <code>ggdag_status()</code> (to highlight what is X and what is Y). Try again piping it instead into <code>ggdag_adjustment_set()</code> to show what needs to be controlled.</li>
+</ol></li>
+</ul>
+<p>Don’t forget to install <code>ggdag</code>!</p>
+<h3 id="question-1">Question 1</h3>
+<p><img src="/r/3.2-r-practice_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<h3 id="question-2">Question 2</h3>
+<p><img src="/r/3.2-r-practice_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<h3 id="question-3">Question 3</h3>
+<p><img src="/r/3.2-r-practice_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<h3 id="question-4">Question 4</h3>
+<p><img src="/r/3.2-r-practice_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<h3 id="question-5">Question 5</h3>
+<p><img src="/r/3.2-r-practice_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>

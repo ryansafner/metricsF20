@@ -96,7 +96,10 @@ lessons:
 
   - title: "3.2 Causal Inference II: DAGs"
     reading: "3.2-reading"
-
+    class: "3.2-class"
+    slides: "3.2-slides"
+    r: "3.2-r-practice"
+    
   - title: "3.3 Omitted Variable Bias"
 
   - title: "3.4 Multivariate OLS Estimators: Bias, Precision, and Fit"

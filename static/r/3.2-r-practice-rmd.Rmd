@@ -1,0 +1,331 @@
+---
+title: "3.5: Causal Inference and DAGs - R Practice"
+author: "YOUR NAME"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    #theme: 
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/692655)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/17-r-practice-rmd.Rmd)
+
+# Part A DAG Practice
+
+For each of the following DAGs:^[You can use [`dagitty.net`](http://dagitty.net) to help you, but you should start trying to recognize these on your own!]
+
+- i. Write out *all* of the causal pathways from `X` (treatment of interest) to `Y` (outcome of interest).
+- ii. Identify which variable(s) need to be controlled for to estimate the causal effect of `X` on `Y`.
+- iii. Write out the regression equation (abstractly) for properly identifying the causal effect, based on part ii.
+
+```{r, echo=F, message=F, warning=F}
+# load to draw DAGs! 
+library(tidyverse)
+library(ggdag)
+```
+
+## Example A
+
+```{r, fig.retina=3}
+dagify(Y~X+Z,
+       X~Z,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Example B
+
+```{r, fig.retina=3}
+dagify(Y~X+M,
+       M~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Example C
+
+```{r, fig.retina=3}
+dagify(Y~X+Z+B,
+       Z~B+A,
+       X~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Example D
+
+```{r, fig.retina=3}
+dagify(Y~X+B+C,
+       Z~B+A,
+       X~A,
+       C~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Example E
+
+```{r, fig.retina=3}
+dagify(Y~X+Z+A,
+       Z~X+A+B,
+       B~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+# Part B Empirical Example
+
+## Question 1
+
+Install the `wooldridge` package if you do not already have it installed.^[This package contains datasets used in Jeffrey Wooldrige's *Introductory Econometrics: A Modern Approach* (the textbook that I used in *my* econometrics classes years ago!)] We will use the `bwght` data from `wooldridge`^[Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” *Review of Economics and Statistics* 79: 596-593.]
+
+Let's just look at the following variables:
+
+| Variable | Description |
+|----------|-------------|
+| `bwght` | Birth Weight (ounces) |
+| `cigs` | Cigarettes smoked per day while pregnant (1988) |
+| `motheduc` | Mother's education (number of years) |
+| `cigprice` | Price of cigarette pack (1988) |
+| `faminc` | Family's income in $1,000s (1988) |
+
+> We want to explore how a mother smoking during pregnancy affects the baby's birthweight (which may have strong effects on outcomes over the child's life).
+
+Just to be explicit about it, assign this as some dataframe (feel free to change the name), i.e.: 
+
+```{r}
+# install.packages("wooldridge")
+library(wooldridge)
+bwght<-wooldridge::bwght
+```
+
+## Question 2
+Make a correlation table for our variables listed above.^[Hints: `select()` these variables and then pipe them into `cor(., use="pairwise.complete.obs")` to use only observations for which there are data on each variable (to avoid `NA`'s).]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 3
+
+Consider the following causal model:
+
+```{r}
+library(ggdag)
+dagify(bwght~cigs+inc,
+       cigs~price+educ+inc,
+       inc~educ,
+       exposure = "cigs",
+       outcome = "bwght") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+Note what we are hypothesizing:
+
+- `bwght` is caused by `cigs` and `inc`
+- `cigs` are caused by `price`, `educ`, and `inc`
+- `inc` is caused by `educ`
+
+See also how this is written into the notation in R to make the DAG.
+
+Create this model on [dagitty.net](htpp://dagitty.net).
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 4
+What does `dagitty` tell us the testable implications of this causal model?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 5
+
+Test each implication given to you by `dagitty.` 
+
+- For independencies $(x \perp y)$: run a regression of $y$ on $x$.
+- For *conditional* independencies $(x \perp y | z, a)$: run a regression of $y$ on $x, z, a$.
+
+For each, test against the null hypothesis that the relevant coefficient $(\hat{\beta_1})$ is 0 (i.e. $x$ and $y$ are indeed independent).
+
+Does this causal model hold up well?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 6
+List *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 7
+What is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 8
+Estimate the causal effect by running the appropriate regression.^[Note, on `dagitty`, you can change a variable on the diagram to be "*adjusted*" (controlled for) by double-clicking it and then hitting the `A` key.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 9
+We saw some effect between `faminc` and `cigprice`. Perhaps there are unobserved factors (such as the economy's performance) that affect both. Add an unobserved factor `u1` to your `dagitty` model.^[Note, on `dagitty`, you can make a variable be "*unobserved*" by double-clicking it and then hitting the `U` key.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 10
+Perhaps our model is poorly specified. Maybe `motheduc` actually has a causal effect on `bwght`? Tweak your model from Question 9 on `dagitty` to add this potential relationship. What testable implications does this new model imply?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 11
+Test these implications appropriately, like you did in Question 5. Does this model hold up well?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 12
+
+Under this new causal model, list *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 13
+
+Under this new causal model, what is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 14
+
+Estimate the causal effect in this new model by running the appropriate regression. Compare your answers to those in question 8.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 15
+Try out drawing this model using the  `ggdag` package in R. See my DAG in question 3 for an example.
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```

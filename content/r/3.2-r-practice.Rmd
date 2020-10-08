@@ -1,0 +1,87 @@
+---
+title: "3.2 — Causal Inference and DAGs — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+<!--- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/2.3-r-practice-rmd.Rmd)-->
+
+# Part A DAG Practice
+
+For each of the following examples:
+
+- i. Write out *all* of the causal pathways from `X` (treatment of interest) to `Y` (outcome of interest).
+- ii. Identify which variable(s) need to be controlled for to estimate the causal effect of `X` on `Y`. You can use [`dagitty.net`](http://dagitty.net) to help you, but you should start trying to recognize these on your own!
+- iii. Draw the DAGs in `r` using `ggdag`. After setting up the dag with `dagify()` (and specifying `exposure` and `outcome` inside `dagify`), pipe that into `ggdag()`. Try again piping it instead into `ggdag_status()` (to highlight what is X and what is Y). Try again piping it instead into `ggdag_adjustment_set()` to show what needs to be controlled.
+
+Don’t forget to install `ggdag`!
+
+```{r, echo=F, message=F, warning=F}
+# load to draw DAGs! 
+library(tidyverse)
+library(ggdag)
+```
+
+## Question 1
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z,
+       X~Z,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Question 2
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+M,
+       M~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Question 3
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z+B,
+       Z~B+A,
+       X~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Question 4
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+B+C,
+       Z~B+A,
+       X~A,
+       C~X,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+## Question 5
+
+```{r, echo=F, fig.retina=3}
+dagify(Y~X+Z+A,
+       Z~X+A+B,
+       B~A,
+       exposure = "X",
+       outcome = "Y") %>% 
+  ggdag(stylized = FALSE, seed=2)+theme_dag_blank()+theme(legend.position = "none")
+```

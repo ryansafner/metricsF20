@@ -1,5 +1,5 @@
 ---
-title: "3.5: Causal Inference and DAGs"
+title: "3.2 — Causal Inference and DAGs"
 subtitle: "ECON 480 • Econometrics • Fall 2020"
 author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
 #date:
@@ -34,26 +34,33 @@ set.seed(256)
 update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 ```
 
-# You Don’t Need an RCT to Talk Causally
+class: inverse
+
+# Outline
+
+### [Correlation vs. Causation](#3)
+
+### [Causal Diagrams](#3)
+
+### [DAG Rules](#16)
 
 ---
 
-# The Causal Revolution
+# You Don’t Need an RCT to Talk About Causality
 
 .pull-left[
 - Statistics profession is obstinant that we cannot say anything about causality
-  - Statisticians: causation is simply a subset of correlation, where correlation is $-1$ or $1$
 
 - But you have to! It's how the human brain works!
 
-- We can't concieve of (spurious) correlation without some causation
+- We can’t concieve of (spurious) correlation without some causation
 
 ]
 
 .pull-right[
 
 .center[
-![:scale 70%](https://www.dropbox.com/s/qp9m156rcxqp3nc/bookofwhy.jpg?raw=1)
+![:scale 70%](../images/causation.jpg)
 ]
 ]
 
@@ -62,7 +69,7 @@ update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 # The Causal Revolution
 
 .center[
-![](../images/causaltwitter.png)
+![:scale 80%](../images/causaltwitter.png)
 ]
 
 
@@ -114,21 +121,16 @@ Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
 
 ---
 
-# Correlation and Causation I
+class: inverse, center, middle
 
-.center[
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;Correlation implies casuation,&quot; the dean whispered as he handed me my PhD.<br><br>&quot;But then why-&quot;<br><br>&quot;Because if they knew, they wouldn&#39;t need us.&quot;</p>&mdash; David Robinson (@drob) <a href="https://twitter.com/drob/status/877976063942512640?ref_src=twsrc%5Etfw">June 22, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-]
+# Correlation vs. Causation
 
 ---
-
 # Correlation and Causation I
 
 .center[
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;Correlation implies casuation,&quot; the dean whispered as he handed me my PhD.<br><br>&quot;But then why-&quot;<br><br>&quot;Because if they knew, they wouldn&#39;t need us.&quot;</p>&mdash; David Robinson (@drob) <a href="https://twitter.com/drob/status/877976063942512640?ref_src=twsrc%5Etfw">June 22, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">&quot;Correlation implies casuation,&quot; the dean hi-purpleed as he handed me my PhD.<br><br>&quot;But then why-&quot;<br><br>&quot;Because if they knew, they wouldn&#39;t need us.&quot;</p>&mdash; David Robinson (@drob) <a href="https://twitter.com/drob/status/877976063942512640?ref_src=twsrc%5Etfw">June 22, 2017</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ]
 
@@ -138,10 +140,33 @@ Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
 
 .pull-left[
 
+.smallest[
+- “Correlation does not imply causation”
+  - this is exactly backwards!
+  - this is just pointing out that exogeneity is violated
+]
+]
+
+.pull-right[
+.center[
+![](../images/causation.jpg)
+]
+]
+
+---
+
+# What Does Causation Mean?
+
+.pull-left[
+.smallest[
 - “Correlation does not imply causation”
   - this is exactly backwards!
   - this is just pointing out that exogeneity is violated
   
+- “Correlation implies causation”
+  - for an association, there must be *some* causal chain of variables that relate $X$ and $Y$
+  - but not necessarily merely $X \rightarrow Y$
+]
 ]
 
 .pull-right[
@@ -156,37 +181,18 @@ Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
 
 .pull-left[
 
+.smallest[
 - “Correlation does not imply causation”
   - this is exactly backwards!
   - this is just pointing out that exogeneity is violated
   
 - “Correlation implies causation”
   - for an association, there must be *some* causal chain of variables that relate $X$ and $Y$
-  - but not necessarily merely $X \mapsto Y$
-
-]
-
-.pull-right[
-.center[
-![](../images/causation.jpg)
-]
-]
-
----
-# What Does Causation Mean?
-
-.pull-left[
-
-- “Correlation does not imply causation”
-  - this is exactly backwards!
-  - this is just pointing out that exogeneity is violated
-  
-- “Correlation implies causation”
-  - for an association, there must be *some* causal chain of variables that relate $X$ and $Y$
-  - but not necessarily merely $X \mapsto Y$
+  - but not necessarily merely $X \rightarrow Y$
 
 - “Correlation plus exogeneity is causation.”
 ]
+]
 
 .pull-right[
 .center[
@@ -198,24 +204,14 @@ Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
 
 # Correlation and Causation
 
-.center[
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Causality isn&#39;t achieved; it&#39;s approached.</p>&mdash; John B. Holbein (@JohnHolbein1) <a href="https://twitter.com/JohnHolbein1/status/982635508089180161?ref_src=twsrc%5Etfw">April 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-]
-
----
-
-# Correlation and Causation
-
 .pull-left[
-- .onfire[Correlation:]
+- .hi-purple[Correlation:]
   - Math & Statistics
   - Computers, AI, Machine learning can figure this out (even better than humans)
 
-- .onfire[Causation:]
+- .hi-purple[Causation:]
   - Philosophy, Intuition, Theory
-  - .shout[Counterfactual thinking], unique to humans (vs. animals or machines)
+  - .hi[Counterfactual thinking], unique to humans (vs. animals or machines)
   - Computers *cannot* yet figure this out
 
 ]
@@ -223,6 +219,22 @@ Source: [British Medical Journal](https://www.bmj.com/content/363/bmj.k5094)
 .pull-right[
 .center[
 ![](https://www.dropbox.com/s/c91a06o91rf3e5h/causation.jpg?raw=1)
+]
+]
+
+---
+
+# The Causal Revolution
+
+.pull-left[
+.center[
+![](https://www.dropbox.com/s/qp9m156rcxqp3nc/bookofwhy.jpg?raw=1)
+]
+]
+
+.pull-right[
+.center[
+![](../images/judea-pearl.jpg)
 ]
 ]
 
@@ -255,7 +267,7 @@ background-size: cover
 
 - We will seek to understand what causality *is* and how we can approach finding it
 
-- We will also explore the different common .shout[research designs] meant to .whisper[identify] causal relationships
+- We will also explore the different common .hi[research designs] meant to .hi-purple[identify] causal relationships
 
 - **These skills**, more than supply & demand, constrained optimization models, ISLM, etc, **are the tools and comparative advantage of a modern research economist**
     - Why all big companies (especially in tech) have entire economics departments in them
@@ -278,39 +290,47 @@ ggplot(data = tibble(x=c(0,10),
                      y=c(0,10)))+
   aes(x = x,
       y = y)+
-  geom_label(x=1,y=2, label="Correlation", size =10, color = "#fde0dd")+
-  geom_label(x=5,y=2, label="Causation", size = 10, color = "#7a0177")+
+  geom_text(x=1,y=0.75, label="Correlation", size =10, color = "#fde0dd")+
+  geom_text(x=5,y=0.75, label="Causation", size = 10, color = "#7a0177")+
   
   
-  geom_label(x=1,y=4, label="Differences", size =5, color = "#fde0dd")+
-  geom_label(x=1,y=3.5, label="Pre-Post", size =5, color = "#fde0dd")+
-  geom_label(x=2,y=4.5, label="Multiple Regression", size =5, color = "#fbb4b9")+
-  geom_label(x=2,y=3.5, label="Matching", size =5, color = "#fbb4b9")+
-    geom_label(x=3,y=5, label="Fixed Effects", size =5, color = "#f768a1")+
-    geom_label(x=3.5,y=4.5, label="Diff-in-Diff", size =5, color = "#c51b8a")+
-  geom_label(x=4,y=3.5, label="Natural Experiments", size =5, color = "#c51b8a")+
-  geom_label(x=3.5,y=4, label="Regression Discontinuity", size =5, color = "#c51b8a")+
-  geom_label(x=5,y=4.5, label="RCTs", size =5, color = "#7a0177")+
-  annotate("segment", x = 1, xend = 5, y = 3, yend = 3, colour = "black", size=2, alpha=1, arrow=arrow(length=unit(0.5,"cm"), ends="last", type="closed"))+
+  geom_text(x=1,y=1.5, label="Differences", size =5, color = "#fde0dd")+
+  geom_text(x=1,y=1.25, label="Pre-Post", size =5, color = "#fde0dd")+
+  geom_text(x=2,y=1.75, label="Multiple Regression", size =5, color = "#fbb4b9")+
+  geom_text(x=2,y=1.25, label="Matching", size =5, color = "#fbb4b9")+
+    geom_text(x=3,y=2, label="Fixed Effects", size =5, color = "#f768a1")+
+    geom_text(x=3.5,y=2.25, label="Diff-in-Diff", size =5, color = "#c51b8a")+
+  geom_text(x=4,y=1.25, label="Natural Experiments", size =5, color = "#c51b8a")+
+  geom_text(x=3.5,y=1.5, label="Regression Discontinuity", size =5, color = "#c51b8a")+
+  geom_text(x=5,y=1.75, label="RCTs", size =5, color = "#7a0177")+
+  annotate("segment", x = 1, xend = 5, y = 1, yend = 1, colour = "black", size=2, alpha=1, arrow=arrow(length=unit(0.5,"cm"), ends="last", type="closed"))+
   scale_x_continuous(breaks=seq(0,6,1),
                      limits=c(0,6))+
-  scale_y_continuous(breaks=seq(1,5,1),
-                     limits=c(1,5))+
+  scale_y_continuous(breaks=seq(0,3,1),
+                     limits=c(0.5,2.3))+
   theme_void()
-    
-
 ```
+
+---
+
+# Correlation and Causation
+
+.center[
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Causality isn&#39;t achieved; it&#39;s approached.</p>&mdash; John B. Holbein (@JohnHolbein1) <a href="https://twitter.com/JohnHolbein1/status/982635508089180161?ref_src=twsrc%5Etfw">April 7, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+]
 
 ---
 
 # What Then IS Causation?
 
 .pull-left[
-
+.smallest[
 - $X$ causes $Y$ if we can intervene and change $X$ without changing anything else, and $Y$ changes
-- $Y$ "listens to" $X$
-    - $X$ may not be the only thing that causes $Y$
-
+- $Y$ “listens to” $X$
+  - $X$ may not be the only thing that causes $Y$!
+]
 ]
 
 .pull-right[
@@ -324,10 +344,10 @@ ggplot(data = tibble(x=c(0,10),
 # What Then IS Causation?
 
 .pull-left[
-
+.smallest[
 - $X$ causes $Y$ if we can intervene and change $X$ without changing anything else, and $Y$ changes
-- $Y$ "listens to" $X$
-    - $X$ may not be the only thing that causes $Y$
+- $Y$ “listens to” $X$
+  - $X$ may not be the only thing that causes $Y$!
 
 .content-box-green[
 .green[**Example**]
@@ -340,7 +360,7 @@ If $X$ is a light switch, and $Y$ is a light:
 ]
 
 ]
-
+]
 .pull-right[
 .center[
 ![:scale 80%](https://www.dropbox.com/s/6w66jcc9gmw3hw4/lightswitch.jpg?raw=1)
@@ -349,62 +369,47 @@ If $X$ is a light switch, and $Y$ is a light:
 
 ---
 
-# Less-Clear Causal Claims
-
-.content-box-green[
-.green[**Example**]
-
-- Getting a college degree raises your wages
-
-]
-
---
-
-.content-box-green[
-.green[**Example**]
-
-- Tariffs reduce the volume of international trade
-
-]
-
----
-
 # Non-Causal Claims 
 
-- All of the following have non-zero correlations. Are they causal?
+- All of the following have non-zero correlations. Are they *causal*?
 
 .content-box-green[
 .green[**Example**]
 
-- Greater ice cream sales cause more violent crime
-- Rooster crows cause the sun to rise in the morning
-
-]
-
---
-
-- Less clear: 
-
-.content-box-green[
-.green[**Example**]
-
-- Colds tend to clear up a few days after you take Vitamin-C
-- The economy performs better or worse depending on the political party in power
-
+- Greater ice cream sales $\rightarrow$ more violent crime
+- Rooster crows $\rightarrow$ the sun rises in the morning
+- Taking Vitamin C $\rightarrow$ Colds go away a few days later
+- Political party in power $\rightarrow$ economy performs better or worse
 ]
 
 ---
 
 # Counterfactuals
 
-- The *sine qua non* of causal claims are .shout[counterfactuals]: what would $Y$ have been if $X$ had been different?
-- It is **impossible** to make a counterfactual claim from data alone! Need a causal model of the data-generating process!
+.pull-left[
+
+- The *sine qua non* of causal claims are .hi[counterfactuals]: what would $Y$ have been if $X$ had been different?
+
+- It is **impossible** to make a counterfactual claim from data alone! 
+
+- Need a (theoretical) .hi-purpl[causal model] of the data-generating process!
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/zsx3pa4m51p82dj/twopaths.jpg?raw=1)
+]
+]
 
 ---
 
 # Counterfactuals and RCTs
 
+.pull-left[
+.smallest[
 - Again, RCTs are invoked as the gold standard for their ability to make counterfactual claims:
+
 - Treatment/intervention $(X)$ is *randomly assigned* to individuals, and then outcome $Y$ is measured
 
 > If person i who recieved treatment *had not recieved* the treatment, we can predict what his outcome *would have been*
@@ -413,14 +418,32 @@ If $X$ is a light switch, and $Y$ is a light:
 
 - We can say this because, on average, treatment and control groups are *the same before treatment*
 
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/zsx3pa4m51p82dj/twopaths.jpg?raw=1)
+]
+]
 ---
 
 # From RCTs to Causal Models
 
-- RCTs are but the best-known method of a large, growing science of .shout[causal inference]
-- We need a .shout[causal model] to describe the .shout[data-generating process (DGP)]
-- Requires us to make some .whisper[assumptions]
+.pull-left[
+- RCTs are but the best-known method of a large, growing science of .hi[causal inference]
 
+- We need a .hi[causal model] to describe the .hi[data-generating process (DGP)]
+
+- Requires us to make some .hi-purple[assumptions]
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/zsx3pa4m51p82dj/twopaths.jpg?raw=1)
+]
+]
 
 ---
 
@@ -433,7 +456,7 @@ class: inverse, center, middle
 # Causal Diagrams/DAGs
 
 .pull-left[
-- A surprisingly simple, yet rigorous and powerful method of modeling is using a .shout[causal diagram] or .shout[DAG]:
+- A surprisingly simple, yet rigorous and powerful method of modeling is using a .hi[causal diagram] or .hi[DAG]:
   - .hi[Directed]: Each node has arrows that points only one direction
   - .hi[Acyclic]: Arrows only have one direction, and cannot loop back
   - .hi[Graph]
@@ -481,8 +504,6 @@ dag
 
 - A visual model of the data-generating process, encodes our understanding of the causal relationships
 
-- Fancy math (“do-calculus”) provides rules for how to control variables to identify causal effects
-
 - Requires some common sense/economic intutition
 
 - Remember, all models are wrong, we just need them to be *useful*!
@@ -498,10 +519,34 @@ dag
 
 ---
 
-# Drawing a DAG: Example
+# Causal Diagrams/DAGs
 
 .pull-left[
 
+- Our light switch example of causality
+
+.center[
+![:scale 60%](https://www.dropbox.com/s/6w66jcc9gmw3hw4/lightswitch.jpg?raw=1)
+]
+
+]
+
+.pull-right[
+```{r}
+dagify(light ~ switch + burnt,
+       exposure = "switch",
+       outcome = "light") %>%
+  ggdag_status()+theme_dag()+theme(legend.position="none")
+```
+
+]
+
+---
+
+# Drawing a DAG: Example
+
+.pull-left[
+.smallest[
 - Suppose we have data on three variables
   - `IP`: how much a firm spends on IP lawsuits 
   - `tech`: whether a firm is in tech industry
@@ -509,8 +554,9 @@ dag
 
 - They are all correlated with each other, but what's are the causal relationships? 
 
-- We need our own **causal model** (from theory, intuition, etc) to sort
+- We need our own .hi-purple[causal model] (from theory, intuition, etc) to sort
   - Data alone will not tell us!
+]
 ]
 
 .pull-right[
@@ -584,7 +630,7 @@ grid.arrange(h1, h2, h3, h4, h5, h6, ncol=2)
 # Drawing a DAG: 
 
 .pull-left[
-
+.smallest[
 1. Consider all the variables likely to be important to the data-generating process (including variables we can't observe!)
 
 2. For simplicity, combine some similar ones together or prune those that aren't very important
@@ -594,7 +640,7 @@ grid.arrange(h1, h2, h3, h4, h5, h6, ncol=2)
 4. Test some testable implications of the model (to see if we have a correct one!)
 
 ]
-
+]
 .pull-right[
 
 .center[
@@ -607,16 +653,16 @@ grid.arrange(h1, h2, h3, h4, h5, h6, ncol=2)
 # Side Notes
 
 .pull-left[
-
+.smallest[
 - Drawing an arrow requires a direction - making a statement about causality!
 
 - *Omitting* an arrow makes an equally important statement too!
   - In fact, we will *need* omitted arrows to show causality!
 
-- If two variables are correlated, but neither causes the other, it's likely they are both caused by another (perhaps unobserved) variable - add it!
+- If two variables are correlated, but neither causes the other, likely they are both caused by another (perhaps **unobserved**) variable - add it!
 
-- There should be no *cycles* or *loops* (if so, there's probably another missing variable, such as time)
-
+- There should be no *cycles* or *loops* (if so, there’s probably another missing variable, such as time)
+]
 ]
 
 .pull-right[
@@ -634,15 +680,21 @@ grid.arrange(h1, h2, h3, h4, h5, h6, ncol=2)
 .green[**Example**]: what is the effect of education on wages?
 ]
 
-- Education ("treatment" or "exposure")
+- Education $(X$, “treatment” or “exposure”)
 
-- Wages ("outcome" or "response")
+- Wages $(Y$, “outcome” or “response”)
 ]
 
 .pull-right[
 
 ```{r, echo = F}
-dagify(wage~educ) %>% 
+edu_earn_coords <- list(x = c(educ = 2, wage = 4, year = 2, bckg = 4, 
+                              loc = 3, conx = 3, laws = 1, u1 = 3),
+                        y = c(educ = 2, wage = 2, year = 3, bckg = 3, 
+                              loc = 3, conx = 1, laws = 2, u1 = 4))
+dagify(wage~educ,
+       coords = edu_earn_coords) %>% 
+  tidy_dagitty(seed = 2) %>%
   ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
@@ -668,7 +720,9 @@ dagify(wage~educ) %>%
 .pull-right[
 
 ```{r, echo = F}
-dagify(wage~educ) %>% 
+dagify(wage~educ,
+       coords = edu_earn_coords) %>% 
+  tidy_dagitty(seed = 2) %>%
   ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
@@ -679,18 +733,20 @@ dagify(wage~educ) %>%
 # DAG Example I
 
 .pull-left[
-
+.smallest[
 - In social science and complex systems, 1000s of variables could plausibly be in DAG!
 
 - So simplify:
   - Ignore trivial things (Phys. Ed. requirement)
-  - Combine similar variables (Socioeconomic status, Demographics, Location $\rightarrow$ Background)
+  - Combine similar variables (Socioeconomic status, Demographics, Location) $\rightarrow$ Background
 ]
-
+]
 .pull-right[
 
 ```{r, echo = F}
-dagify(wage~educ) %>% 
+dagify(wage~educ,
+       coords = edu_earn_coords) %>%
+  tidy_dagitty(seed = 2) %>%
   ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
@@ -711,8 +767,12 @@ dagify(wage~educ) %>%
 
 ```{r, echo = F}
 dagify(wage~educ+conx+year+bckg+loc,
-       educ~bckg+year+loc+laws) %>%
-  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+       educ~bckg+year+loc+laws,
+       coords = edu_earn_coords,
+       outcome = "wage",
+       exposure = "educ") %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -729,7 +789,7 @@ dagify(wage~educ+conx+year+bckg+loc,
 
 - Job connections in fact is probably caused by education!
 
-- Location and background probably both caused by unobserved factor `(u1)`
+- Location and background probably both caused by unobserved factor (`u1`)
 ]
 
 .pull-right[
@@ -739,8 +799,12 @@ dagify(wage~educ+conx+year+bckg+loc,
        educ~bckg+year+loc+laws,
        conx~educ,
        bckg~u1,
-       loc~u1) %>% 
-  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+       loc~u1,
+       coords = edu_earn_coords,
+       outcome = "wage",
+       exposure = "educ") %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -767,8 +831,13 @@ dagify(wage~educ+conx+year+bckg+loc,
        educ~bckg+year+loc+laws,
        conx~educ,
        bckg~u1,
-       loc~u1) %>% 
-  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+       loc~u1,
+       coords = edu_earn_coords,
+       outcome = "wage",
+       exposure = "educ") %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+
 ```
 
 ]
@@ -827,38 +896,18 @@ dagify(wage~educ+conx+year+bckg+loc,
 ]
 
 .pull-right[
+.smallest[
+- Tells you .hi-purple[how to identify your effect]! (upper right)
 
-- Tells you **how to identify your effect**! (upper right)
-
-> Minimal sufficient adjustment sets containing background, location, year for estimating the total effect of educ on wage:
+> .hi-purple[Minimal sufficient adjustment sets] containing background, location, year for estimating the total effect of educ on wage:
 background, location, year
 
-- Tells you **some testable implications** (middle right)
-  - *conditional independencies*, take the last one:
+- Tells you some .hi-turquoise[testable implications] (middle right)
+  - .hi-turquoise[conditional independencies], for example (last):
   - `job_connections` $\perp$ `year` | `educ`
   - means: holding constant `educ`, there should be no correlation between `job_connections` and `year` - can test this with data!
-
 ]
-
----
-
-# Implications
-
-- In order to .onfire[identify] the effect of education on wages, our model implies we need to control for background, location, and year
-  - note: we do *not* need to control for anything else!
-
---
-
-- How to control for them?
-  - many ways, we've learned one: multivariate regression:
-  
---
-
-$$wages=\beta_0+\beta_1 \, educ + \beta_2 \, background + \beta_3 \, location + \beta_4 \, year$$
-
---
-
-- How did Dagitty know what we needed to do? Some simple rules (below)
+]
 
 ---
 
@@ -873,28 +922,30 @@ $$wages=\beta_0+\beta_1 \, educ + \beta_2 \, background + \beta_3 \, location + 
 
 .pull-right[
 
-- If we control for `background`, `location`, and `year`, we can **identify** the causal effect of `educ` $\rightarrow$ `wage`.
-
+- If we control for `background`, `location`, and `year`, we can .hi-purple[identify the causal effect] of `educ` $\rightarrow$ `wage`.
 
 ]
 
 ---
-
 
 # You Can Draw DAGs In R
 
 .pull-left[
 
 - New package: `ggdag`
-- Arrows are made with formula notation: `Y~X` means "`Y` is caused by `X`"
+- Arrows are made with formula notation: `Y~X+Z` means "`Y` is caused by `X` and `Z`"
 
 ```{r, echo = T, eval=F}
+# install.packages("ggdag")
 library(ggdag)
 dagify(wage~educ+conx+year+bckg+loc,
        educ~bckg+year+loc+laws,
        conx~educ,
        bckg~u1,
-       loc~u1) %>% 
+       loc~u1,
+       exposure = "educ", # optional: define X
+       outcome = "wage" # optional: define Y
+       ) %>%
   ggdag()+
   theme_dag()
 ```
@@ -908,8 +959,86 @@ dagify(wage~educ+conx+year+bckg+loc,
        conx~educ,
        bckg~u1,
        loc~u1) %>% 
+  tidy_dagitty(seed = 2) %>%
   ggdag(stylized = FALSE, seed=256)+
-  theme_dag_blank()
+  theme_dag()
+```
+
+]
+
+---
+
+# ggdag: Additional Tools
+
+.pull-left[
+
+- If you have defined `X` (`exposure`) and `Y` (`outcome`), you can use `ggdag_paths()` to have it show all possible paths between $X$ and $Y$!
+
+```{r, echo = T, eval=F}
+dagify(wage~educ+conx+year+bckg+loc,
+       educ~bckg+year+loc+laws,
+       conx~educ,
+       bckg~u1,
+       loc~u1,
+       exposure = "educ",
+       outcome = "wage"
+       ) %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_paths()+
+  theme_dag()
+```
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(wage~educ+conx+year+bckg+loc,
+       educ~bckg+year+loc+laws,
+       conx~educ,
+       bckg~u1,
+       loc~u1, 
+       exposure = "educ",
+       outcome = "wage") %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_paths()+theme_dag()
+```
+
+]
+
+---
+
+# You Can Draw DAGs In R
+
+.pull-left[
+
+- If you have defined `X` (`exposure`) and `Y` (`outcome`), you can use `ggdag_adjustment_set()` to have it show you what you need to control for in order to identify $X \rightarrow Y$!
+
+```{r, echo = T, eval=F}
+dagify(wage~educ+conx+year+bckg+loc,
+       educ~bckg+year+loc+laws,
+       conx~educ,
+       bckg~u1,
+       loc~u1,
+       exposure = "educ",
+       outcome = "wage"
+       ) %>%
+  ggdag_adjustment_set(shadow = T)+ # shadow shows adjusted arrows
+  theme_dag()
+```
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(wage~educ+conx+year+bckg+loc,
+       educ~bckg+year+loc+laws,
+       conx~educ,
+       bckg~u1,
+       loc~u1, 
+       exposure = "educ",
+       outcome = "wage") %>%
+  tidy_dagitty(seed = 2) %>%
+  ggdag_adjustment_set(shadow = T)+theme_dag()
 ```
 
 ]
@@ -922,30 +1051,60 @@ class: inverse, center, middle
 
 ---
 
+# DAG Rules
+
+.pull-left[
+.smaller[
+- How does dagitty.net and `ggdag` know how to identify effects, or what to control for, or what implications are testable?
+
+- Comes from fancy math called “do-calculus”
+
+.center[
+![](../images/do-calculus.png)
+]
+
+- Fortunately, these amount to a few simple rules that we can see on a DAG
+]
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/qp9m156rcxqp3nc/bookofwhy.jpg?raw=1)
+]
+]
+
+
+---
+
 # DAGs I
 
 .pull-left[
-
-- Typical notation: 
+.smaller[
+- Typical notation:
 
 - $X$ is independent variable of interest
-  - Epidemiology: .onfire["intervention"]
+  - Epidemiology: .hi-purple["intervention"] or .hi-purple[“exposure”]
 
-- $Y$ is dependent/.onfire["response"] variable
+- $Y$ is dependent or .hi-purple["response"] variable
 
 - Other variables use other letters
+
+- You can of course use words instead of letters!
+]
 ]
 
 .pull-right[
 
-```{r, echo = F, fig.retina = 2, fig.align="center"}
+```{r, echo = F, fig.retina=3, fig.align="center"}
 dagify(Y~X,
                 coords=list(
                 x=c(X=1,Y=2),
                 y=c(X=1,Y=1)
-              )) %>% 
-  tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+              ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 ]
 
@@ -955,22 +1114,25 @@ dagify(Y~X,
 
 .pull-left[
 
-- Arrows indicate causal effect (in proper direction)
+- Arrows indicate causal effect (& direction)
 
 - Two types of causal effect:
-    1. Direct effects $X \rightarrow Y$
+
+1. Direct effects: $X \rightarrow Y$
 ]
 
 .pull-right[
 
-```{r, echo = F, fig.retina = 2, fig.align="center"}
+```{r, echo = F, fig.retina=3, fig.align="center"}
 dagify(Y~X,
                 coords=list(
                 x=c(X=1,Y=2),
                 y=c(X=1,Y=1)
-              )) %>% 
-  tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+              ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -982,27 +1144,29 @@ dagify(Y~X,
 
 .pull-left[
 
-- Arrows indicate causal effect (in proper direction)
+- Arrows indicate causal effect (& direction)
 
 - Two types of causal effect:
 
-1. Direct effects $X \rightarrow Y$
+1. Direct effects: $X \rightarrow Y$
 
-2. Indirect effects $X \rightarrow M \rightarrow Y$ 
-  - $M$ is a "mediator" variable, the mechanism by which $X$ affects $Y$
+2. Indirect effects: $X \rightarrow M \rightarrow Y$ 
+  - $M$ is a .hi-purple[“mediator”] variable, the .hi-purple[mechanism] by which $X$ affects $Y$
 ]
 
 .pull-right[
 
-```{r, echo = F, fig.retina = 2, fig.align="center"}
+```{r, echo = F, fig.retina=3, fig.align="center"}
 dagify(Y~M,
                M~X,
                 coords=list(
                 x=c(X=1,Y=2, M=1.5),
                 y=c(X=1,Y=1, M=1)
-              )) %>% 
-  tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+              ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -1014,29 +1178,31 @@ dagify(Y~M,
 
 .pull-left[
 
-- Arrows indicate causal effect (in proper direction)
+- Arrows indicate causal effect (& direction)
 
 - Two types of causal effect:
 
-1. Direct effects $X \rightarrow Y$
+1. Direct effects: $X \rightarrow Y$
 
-2. Indirect effects $X \rightarrow M \rightarrow Y$ 
-  - $M$ is a "mediator" variable, the mechanism by which $X$ affects $Y$
+2. Indirect effects: $X \rightarrow M \rightarrow Y$ 
+  - $M$ is a .hi-purple[“mediator”] variable, the .hi-purple[mechanism] by which $X$ affects $Y$
 
 3. You of course might have both! 
 ]
 
 .pull-right[
 
-```{r, echo = F, fig.retina = 2, fig.align="center"}
+```{r, echo = F, fig.retina=3, fig.align="center"}
 dagify(Y~M+X,
                M~X,
                 coords=list(
                 x=c(X=1,Y=2, M=1.5),
-                y=c(X=1,Y=1, M=2 )
-              )) %>% 
-  tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+                y=c(X=1,Y=1, M=1.5 )
+              ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 
@@ -1047,15 +1213,15 @@ dagify(Y~M+X,
 # Confounders
 
 .pull-left[
-
-- $Z$ is a .shout[confounder] of $X \rightarrow Y$, $Z$ affects both $X$ and $Y$
+.smaller[
+- $Z$ is a .hi[“confounder”] of $X \rightarrow Y$, it causes *both* $X$ and $Y$
 
 - $cor(X,Y)$ is made up of two parts:
-    - The value of $Y$ is affected by the value of $X$ $(X \rightarrow Y$, good!)
-    - $Z$ affects both the values of $X$ and $Y$ (A spurious correlation between $X$ and $Y$, bad!)  
+  1. Causal effect of $(X \rightarrow Y)$ 👍
+  2. $Z$ causing both the values of $X$ and $Y$ 👎 
 
-- Failing to control for $Z$ will .whisper[bias] our estimate of the causal effect of $X \rightarrow Y$! 
-
+- Failing to control for $Z$ will .hi-purple[bias] our estimate of the causal effect of $X \rightarrow Y$! 
+]
 ]
 
 .pull-right[
@@ -1066,9 +1232,11 @@ dagify(Y~Z+X,
        coords=list(
          x=c(X=1,Y=2, Z=1.5),
          y=c(X=1,Y=1, Z=2)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1079,11 +1247,13 @@ dagify(Y~Z+X,
 
 .pull-left[
 
-- Confounders are the DAG-equivalent of .shout[omitted variable bias]
+- Confounders are the DAG-equivalent of .hi[omitted variable bias] (next class)
 
-- Biased regression $Y=\beta_0+\beta_1 X$ leaving out $Z$
+$$Y_i=\beta_0+\beta_1 X_i$$
 
-- $\hat{\beta}_1$ picks up both:
+- By leaving out $Z_i$, this regression is .hi-purple[biased]
+
+- $\hat{\beta}_1$ picks up *both*:
   - $X \rightarrow Y$
   - $X \leftarrow Z \rightarrow Y$
 ]
@@ -1096,27 +1266,30 @@ dagify(Y~Z+X,
        coords=list(
          x=c(X=1,Y=2, Z=1.5),
          y=c(X=1,Y=1, Z=2)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
 
 ---
 
-# Front Doors and Back Doors
+# “Front Doors” and “Back Doors”
 
 .pull-left[
+.smallest[
+- With this DAG, there are 2 paths that connect $X$ and $Y$<sup>.magenta[†]</sup>:
 
-- With this graph, there are two paths that connect $X$ and $Y$<sup>1</sup>:
-
-1. A .shout[causal "front-door" path] $X \rightarrow Y$
-    - Good, what we want to measure
+1. A .hi[causal “front-door” path]: $X \rightarrow Y$
+  - 👍 what we want to measure
     
-2. A .shout[non-causal "back-door" path] $X \leftarrow Z \rightarrow Y$
-    - At least one causal arrow runs in the opposite direction
-    - Bad, adds a confounding bias
+2. A .hi[non-causal “back-door” path]: $X \leftarrow Z \rightarrow Y$
+  - At least one causal arrow runs in the opposite direction
+  - 👎 adds a confounding bias
+]
 
 ]
 
@@ -1128,14 +1301,47 @@ dagify(Y~Z+X,
        coords=list(
          x=c(X=1,Y=2, Z=1.5),
          y=c(X=1,Y=1, Z=2)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
 
-.footnote[<sup>1</sup> Regardless of the directions of the arrows!]
+.footnote[<sup>.magenta[†]</sup> Regardless of the *directions* of the arrows!]
+
+---
+
+# Controlling I 
+
+.pull-left[
+.smaller[
+- Ideally, if we ran a .hi[randomized control trial] and randomily assigned different values of $X$ to different individuals, this would delete the arrow between $Z$ and $X$
+  - Individuals’ values of $Z$ do not affect whether or not they are treated ($X$)
+
+- This would only leave the front-door, $X \rightarrow Y$
+
+- But we can rarely run an ideal RCT
+]
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~Z+X,
+       coords=list(
+         x=c(X=1,Y=2, Z=1.5),
+         y=c(X=1,Y=1, Z=2)
+         ),
+       exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
 
 ---
 
@@ -1143,59 +1349,130 @@ dagify(Y~Z+X,
 
 .pull-left[
 
-- If we can .onfire[control for] $Z$, we can *block* the back-door path $X \leftarrow Z \rightarrow Y$
-    - Essentially, delete the arrow(s) connecting $X$, $Z$, and $Y$
+- Instead of an RCT, if we can just .hi-purple[“adjust for”] or .hi-purple[“control for”] $Z$, we can *block* the back-door path $X \leftarrow Z \rightarrow Y$
 
-- This would only leave the front-door, $X \rightarrow Y$
+- This would only leave the front-door path open, $X \rightarrow Y$
+
+- “As good as” an RCT!
 
 ]
 
 .pull-right[
 
 ```{r, echo = F}
-dagify(Y~X,
+dagify(Y~Z+X,
+       X~Z,
        coords=list(
-         x=c(X=1,Y=2),
-         y=c(X=1,Y=1)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         x=c(X=1,Y=2, Z=1.5),
+         y=c(X=1,Y=1, Z=2)),
+         exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_adjustment_set(stylized = FALSE, shadow = T)+theme_dag_blank()+theme(legend.position = "bottom")
 ```
+
 
 ]
 
 ---
 
-# Controlling II 
+# Controlling I 
 
 .pull-left[
 
-- How to "control for" $Z$? We want to remove its influence over determining the values of $X$ and $Y$
+- Using our terminology from last class, we have an outcome $(Y)$, and some treatment
 
-- Multiple methods exist, but we've done this with .shout[multivariate regression]
+- But there are .b[unobserved factors] $(u)$
 
-- At the simplest level, consider only looking at values of $X$ and $Y$ for all observations that have the *same* value of $Z$
-  - removes causal influence $Z$ has on $X$ and on $Y$
-  - leaves only the influence $X$ has on $Y$!
+$$Y_i = \beta_0 + \beta_1 Treatment + u_i$$
 
 ]
 
 .pull-right[
 
 ```{r, echo = F}
-dagify(Y~X,
+dagify(Y~treat+u,
+       treat~u,
        coords=list(
-         x=c(X=1,Y=2),
-         y=c(X=1,Y=1)
-         )) %>% 
+         x=c(treat=1, u=1.5, Y=2),
+         y=c(treat=1, u=2, Y =1)),
+         exposure = "treat",
+         outcome = "Y"
+         ) %>% 
   #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
+
 ---
 
-# Controlling III
+# Controlling I 
+
+.pull-left[
+
+- Using our terminology from last class, we have an outcome $(Y)$, and some treatment
+
+- But there are .b[unobserved factors] $(u)$
+
+$$Y_i = \beta_0 + \beta_1 Treatment + u_i$$
+
+- If we can *randomly* assign treatment, this makes treatment exogenous:
+
+$$cor(treatment,u)=0$$
+
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~treat+u,
+       coords=list(
+         x=c(treat=1, u=1.5, Y=2),
+         y=c(treat=1, u=2, Y =1)),
+         exposure = "treat",
+         outcome = "Y"
+         ) %>% 
+  #tidy_dagitty() %>%
+  ggdag_status(stylized = F)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# Controlling I 
+
+.pull-left[
+
+- Using our terminology from last class, we have an outcome $(Y)$, and some treatment
+
+- But there are other .b[unobserved factors] $(u)$
+
+$$Y_i = \beta_0 + \beta_1 Treatment + u_i$$
+
+- When we (often) can’t randomly assign treatment, we have to find another way to control for measurable things in $u$
+
+]
+
+.pull-right[
+```{r, echo = F}
+dagify(Y~treat+u,
+       treat~u,
+       coords=list(
+         x=c(treat=1, u=1.5, Y=2),
+         y=c(treat=1, u=2, Y =1)),
+         exposure = "treat",
+         outcome = "Y"
+         ) %>% 
+  #tidy_dagitty() %>%
+  ggdag_adjustment_set(shadow = T)+theme_dag()
+```
+]
+
+---
+
+# Controlling II
 
 .pull-left[
 
@@ -1215,12 +1492,40 @@ dagify(Y~X+C,
        X~A,
        B~A,
        C~B,
-       coords=list(
-         x=c(X=1,A=1.25, B=1.5, C=1.75, Y=2),
-         y=c(X=1,A=1.5,B=1.5,C=1.5,Y=1)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         exposure = "X",
+         outcome = "Y"
+         ) %>%
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+```
+]
+---
+
+# Controlling II
+
+.pull-left[
+
+- Controlling for a single variable along a long causal path is sufficient to block that path!
+
+- Causal path: $X \rightarrow Y$
+- Backdoor path: $X \leftarrow A \rightarrow B \rightarrow C \rightarrow Y$
+
+- It is sufficient to block this backdoor by controlling **either** $A$ **or** $B$ **or** $C$!
+
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~X+C,
+       X~A,
+       B~A,
+       C~B,
+         exposure = "X",
+         outcome = "Y"
+         ) %>%
+  tidy_dagitty(seed = 256) %>%
+  ggdag_adjustment_set(stylized = FALSE, shadow = T)+theme_dag_blank()+theme(legend.position = "bottom")
 ```
 ]
 ---
@@ -1229,9 +1534,11 @@ dagify(Y~X+C,
 
 .pull-left[
 
-- To achieve proper .onfire[identification] of the causal effect:
+- To .hi[identify] the causal effect of $X \rightarrow Y$:
 
-- The .shout["back-door criterion"]: control for the minimal amount of variables sufficient to ensure that no back-door exists between $X$ and $Y$
+- .hi-purple[“Back-door criterion”]: control for the minimal amount of variables sufficient to ensure that .b[no open back-door exists] between $X$ and $Y$
+
+- .hi-green[Example]: in this DAG, control for $Z$
 
 ]
 
@@ -1242,10 +1549,11 @@ dagify(Y~Z+X,
        X~Z,
        coords=list(
          x=c(X=1,Y=2, Z=1.5),
-         y=c(X=1,Y=1, Z=2)
-         )) %>% 
-  #tidy_dagitty() %>%
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         y=c(X=1,Y=1, Z=2)),
+         exposure = "X",
+       outcome = "Y") %>% 
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1256,9 +1564,10 @@ dagify(Y~Z+X,
 
 .pull-left[
 
+.quitesmall[
 - Implications of the Back-door criterion:
 
-1. You *only* need to control for the variables that keep a back-door open, *not all other variables!*
+1) You *only* need to control for the variables that keep a back-door open, *not all other variables!*
 
 .content-box-green[
 .green[**Example**]:
@@ -1266,57 +1575,96 @@ dagify(Y~Z+X,
 - $X \rightarrow Y$ (front-door)
 - $X \leftarrow A \rightarrow B \rightarrow Y$ (back-door)
 
-- Need only control for $A$ *or* $B$ to block the one back-door path
-- $Z$ has no effect on $X$, and therefore we don't need to control for it! 
-
 ] 
+]
 
 ]
 
 .pull-right[
 
 ```{r, echo = F}
-dagify(Y~X+B+Z,
+dagify(Y~X+B+C+Z,
        X~A,
-       B~A) %>% 
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+       B~A,
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
 
 ---
 
-# The Back Door Criterion: Colliders
+# The Back Door Criterion
 
 .pull-left[
 
-- A case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["collider"].
+.quitesmall[
+- Implications of the Back-door criterion:
+
+1) You *only* need to control for the variables that keep a back-door open, *not all other variables!*
 
 .content-box-green[
 .green[**Example**]:
 
 - $X \rightarrow Y$ (front-door)
-- $X \leftarrow A \rightarrow B \leftarrow C \rightarrow Y$ (back-door, but **blocked by collider!**)
+- $X \leftarrow A \rightarrow B \rightarrow Y$ (back-door)
 
-- $B$ is a collider because both $A$ and $C$ point to it
-] 
-
-- A collider automatically *blocks* a path
-- If you control for the collider, it *opens* a path (bad idea if it's a backdoor path)
+- Need only control for $A$ *or* $B$ to block the back-door path
+- $C$ and $Z$ have no effect on $X$, and therefore we don’t need to control for them! 
 
 ]
 
+]
+
+]
+
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~X+B+C+Z,
+       X~A,
+       B~A,
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  tidy_dagitty(seed = 256) %>%
+  ggdag_adjustment_set(stylized = FALSE, shadow = T)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
+
+---
+# The Back Door Criterion: Colliders
+
+.pull-left[
+.smallest[
+2) Exception: the case of a .hi[“collider”]
+  - If arrows “collide” at a node, **that node is automatically blocking the pathway**, .hi-purple[do not control for it!]
+  - Controlling for a collider would *open* the path and .b[add bias!]
+
+.content-box-green[
+.green[**Example**]:
+
+- $X \rightarrow Y$ (front-door)
+- $X \leftarrow A \rightarrow B \leftarrow C \rightarrow Y$ (back-door, but **blocked by B!**)
+] 
+
+]
+]
 .pull-right[
 
 ```{r, echo = F}
 dagify(Y~X+C,
        X~A,
        B~A+C,
-       coords=list(
-         x=c(X=1, A=1, B=1.5, C=2, Y=2),
-         y=c(X=1, A=2, B=1.5, C=2, Y=1)
-       )) %>% 
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1326,9 +1674,47 @@ dagify(Y~X+C,
 # The Back Door Criterion: Colliders
 
 .pull-left[
+.smallest[
+2) Exception: the case of a .hi[“collider”]
+  - If arrows “collide” at a node, **that node is automatically blocking the pathway**, .hi-purple[do not control for it!]
+  - Controlling for a collider would *open* the path and .b[add bias!]
 
 .content-box-green[
 .green[**Example**]:
+
+- $X \rightarrow Y$ (front-door)
+- $X \leftarrow A \rightarrow B \leftarrow C \rightarrow Y$ (back-door, but **blocked by B!**)
+- Don’t need to control for anything here!
+
+] 
+
+]
+]
+.pull-right[
+
+```{r, echo = F}
+dagify(Y~X+C,
+       X~A,
+       B~A+C,
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  tidy_dagitty(seed = 256) %>%
+  ggdag_adjustment_set(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# The Back Door Criterion: Colliders
+
+.pull-left[
+.smallest[
+.content-box-green[
+.green[**Example**]:
+
+- Are you less likely to get the flu if you are hit by a bus?
 
 - $Flu$: getting the flu
 - $Bus$: being hit by a bus
@@ -1336,10 +1722,9 @@ dagify(Y~X+C,
 
 - Both $Flu$ and $Bus$ send you to $Hos$ (arrows)
 
-- Knowing $Flu$ doesn't tell us about $Bus$ (no arrow)
-
-- Conditional on being in $Hos$, negative association between $Flu$ and $Bus$ (spurious!) 
+- Conditional on being in $Hos$, negative correlation between $Flu$ and $Bus$ (spurious!)
 ] 
+]
 
 ]
 
@@ -1358,62 +1743,43 @@ dagify(Hos~Flu+Bus,
 
 ---
 
-# Collider Example: Gender Discrimination I
+# The Back Door Criterion: Colliders
 
 .pull-left[
 
-.content-box-green[
-.green[**Example**]: How much of wage disparities are caused by gender-based discrimination?
-
-1. $discr \rightarrow wage$ (Causal path)
-2. $discr \rightarrow occup \rightarrow wage$ (Causal path)
-3. $discr \leftarrow gender \rightarrow occup \rightarrow wage$ (BLOCKED back door!)
-4. $discr \leftarrow gender \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
-5. $discr \rightarrow occup \leftarrow abil \rightarrow wage$ (BLOCKED back door!)
-
-- Should we control for `occup`?
-] 
-
+- In the NBA, apparently players’ height has no relationship to points scored?
 ]
 
 .pull-right[
-
-```{r, echo = F}
-dagify(wage~abil+occup+discr,
-       discr~gender,
-       occup~gender+discr+abil,
-       exposure = "disc",
-       outcome = "wage") %>% 
-  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
-```
-
+.center[
+![](../images/bulls-scores-1.png)
+]
 ]
 
 ---
 
-# Collider Example: Gender Discrimination II
+# The Back Door Criterion: Colliders
 
 .pull-left[
 
-- If we *control* for occupation:
-  - opens backdoor paths 3, 4, 5!
-  - creates spurious `cor(abil,discr)` where there wasn't one!
-  - also closes causal path 2! (discriminatory reasons genders choose different occupations)
-  
-- **Can't identify causal effect** controlling for `occup` alone!
-  - *Could* if you could control for `occup` *and* `abil` (but perhaps `abil` is unobserved)
+- **In the NBA**, players’ height has no relationship to points scored
+
+- Naturally, taller people score more points in a basketball game, but if you *only* look at NBA players, that relationship goes away
+
+- A person being in the NBA is a collider! Colliders are another way to see .hi-orange[selection bias]
 
 ]
 
 .pull-right[
 
 ```{r, echo = F}
-dagify(wage~abil+occup+discr,
-       discr~gender,
-       occup~gender+discr+abil,
-       exposure = "disc",
-       outcome = "wage") %>% 
-  ggdag_parents("wage", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+dagify(NBA~Height+Points,
+       Points~Height,
+       coords=list(
+         x=c(Height=1, NBA=1.5, Points=2),
+         y=c(Height=1, NBA=2, Points=1)
+       )) %>% 
+  ggdag_parents("NBA", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1423,8 +1789,8 @@ dagify(wage~abil+occup+discr,
 # The Front Door Criterion: Mediators I
 
 .pull-left[
-
-- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
+.smallest[
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .hi[“mediator”].
 
 .content-box-green[
 .green[**Example**]:
@@ -1435,7 +1801,7 @@ dagify(wage~abil+occup+discr,
 
 - Should we control for $M$? 
 - If we did, this would block the front-door! 
-
+]
 ]
 ]
 
@@ -1447,9 +1813,11 @@ dagify(Y~A+B+M,
        X~A+B,
        coords=list(
          x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
-         y=c(X=1, A=2, B=0, M=1, Y=1)
-       )) %>% 
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         y=c(X=1, A=2, B=0, M=1, Y=1)),
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
@@ -1459,19 +1827,20 @@ dagify(Y~A+B+M,
 # The Front Door Criterion: Mediators II
 
 .pull-left[
-
-- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .shout["mediator"].
+.smallest[
+- Another case where controlling for a variable actually *adds bias* is if that variable is known as a .hi[“mediator”].
 
 .content-box-green[
 .green[**Example**]:
 
-- If we control for $M$, this would block the front-door! 
+- If we control for $M$, would block the front-door! 
 
 - If we can estimate $X \rightarrow M$ and $M \rightarrow Y$ (note, no back-doors to either of these!), we can estimate $X \rightarrow Y$
 ] 
 
-- This is the .whisper[front door method]
+- This is the .hi-purple[front door method]
 
+]
 ]
 
 .pull-right[
@@ -1482,20 +1851,21 @@ dagify(Y~A+B+M,
        X~A+B,
        coords=list(
          x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
-         y=c(X=1, A=2, B=0, M=1, Y=1)
-       )) %>% 
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         y=c(X=1, A=2, B=0, M=1, Y=1)),
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  ggdag_adjustment_set(stylized = FALSE, shadow = T)+theme_dag_blank()+theme(legend.position = "bottom")
 ```
 
 ]
 
 ---
 
-
 # The Front Door Criterion: Mediators III
 
 .pull-left[
-
+.smallest[
 - Tobacco industry claimed that $cor(smoking, cancer)$ could be spurious due to a confounding `gene` that affects both!
   - Smoking `gene` is unobservable
 
@@ -1503,7 +1873,7 @@ dagify(Y~A+B+M,
 
 - We should *not* control for `tar`, it's on the **front-door path**
   - This is how scientific studies can relate smoking to cancer
-
+]
 ]
 
 .pull-right[
@@ -1514,27 +1884,30 @@ dagify(canc~tar+gene,
        smok~gene,
        coords=list(
          x=c(smok=1, tar=1.5, gene=1.5, canc=2),
-         y=c(smok=1, tar=1, gene=2, canc=1)
-       )) %>% 
-  ggdag(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         y=c(smok=1, tar=1, gene=2, canc=1)),
+         exposure = "smok",
+         outcome = "canc"
+       ) %>% 
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]
 
 ---
 
-# Recap
+# Summary: DAG Rules for Causal Identification
 
 .pull-left[
+.smallest[
+Thus, to achieve .hi-purple[causal identification], control for the minimal amount of variables such that:
 
-Thus, to achieve .onfire[causal identification], control for the minimal amount of variables such that:
+1. Ensure **no back-door path remains open**
+  - Close back-door paths by *controlling* for any one variable along that path
+  - Colliders along a path *automatically* close that path
 
-1. Ensure that **no back-door path remains open**
-    - Close back-door paths by *controlling* for any variable along that path
-    - Colliders along a path *automatically* close that path
-
-2. Ensure that **no front-door path is closed**
-
+2. Ensure **no front-door path is closed**
+  - Do not control for mediators
+]
 ]
 
 .pull-right[
@@ -1545,9 +1918,12 @@ dagify(Y~A+B+M,
        X~A+B,
        coords=list(
          x=c(X=1, A=1.5, B=1.5, M=1.5, Y=2),
-         y=c(X=1, A=2, B=0, M=1, Y=1)
-       )) %>% 
-  ggdag_parents("Y", stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
+         y=c(X=1, A=2, B=0, M=1, Y=1)),
+         exposure = "X",
+         outcome = "Y"
+         ) %>% 
+  #tidy_dagitty() %>%
+  ggdag_status(stylized = FALSE, seed=256)+theme_dag_blank()+theme(legend.position = "none")
 ```
 
 ]

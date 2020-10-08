@@ -1,0 +1,46 @@
+---
+title: "3.2 — Causal Inference & DAGS — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- BLOGDOWN-HEAD -->
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<!-- /BLOGDOWN-HEAD -->
+
+<h2>Contents</h2>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#readings">Readings</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#practice">Practice</a></li>
+<li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
+</ul>
+</div>
+
+<p><em>Thursday, October 8, 2020</em></p>
+<h2 id="overview">Overview</h2>
+<p>Today we begin extending the foundation of simple linear regression with one variable into more advanced models that can plausibly claim (when we are done) to measure <em>causal</em> relationships between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The rest of the semester is primarily extending regression from one <span class="math inline">\(X\)</span> to many, and changing the functional form to fit various idiosyncracies of different variables, or use clever techniques to isolate marginal effects of interest.</p>
+<p>We begin by covering the fundamental problem of causal inference, that we can never observe counterfactual states of the world. If we <em>could</em>, then we could easily measure the causal effect of <span class="math inline">\(X \mapsto Y\)</span> by comparing how <span class="math inline">\(Y\)</span> is different when <span class="math inline">\(X\)</span> is different. The next best thing we can do is run a <strong>random control trial (RCT)</strong> where individuals are <em>randomly</em> assigned to groups to be given (different) treatment(s), and then we can compare the average outcome across groups. Random assignment ensures the only thing that differs across group outcomes is whether or not the group was given treatment, estimating the <em>causal effect</em> of treatment on the outcome.</p>
+<p>For now, we will understand causality to mean the average treatment effect (ATE) from a RCT. RCTs are both popular and controversial. Last year’s Nobel Prize winners in economics won for their use of RCTs in development economics, but they have drawn significant criticism from other top economists as not being sufficiently generalizable.</p>
+<p>Of course, the bigger problem is it is very difficult, often impossible, to run a RCT to test a hypothesis. So economists have developed a toolkit of clever techniques to identify causal effects in “natural experiments” or “quasi-experiments” that sufficiently <em>simulate</em> a RCT. Knowledge of this repertoire of tools is truly why modern economists are in demand by government and business (not supply and demand models, etc)!</p>
+<h2 id="readings">Readings</h2>
+<p>Please see <a href="/reading/3.2-reading">today’s suggested readings</a>. There are a number of useful readings (in addition to your textbook) that can help you understand the material for today.</p>
+<h2 id="slides">Slides</h2>
+<ul>
+<li><a href="/slides/3.2-slides.html"><i class="fas fa-chalkboard-teacher"></i> View Lecture Slides</a></li>
+<li><a href="/slides/3.2-slides.pdf"><i class="fas fa-file-pdf"></i> Download as PDF</a></li>
+</ul>
+<h2 id="practice">Practice</h2>
+<p>See today’s <a href="/r/3.2-r/practice">practice problems</a>. Answers will be posted later.</p>
+<h2 id="live-class-session-on-zoom">Live Class Session on Zoom</h2>
+<p>The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see <code>LIVE ZOOM MEETINGS</code> on the left navigation menu), starting at 11:30 AM.</p>
+<p>If you are unable to join today’s live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see <code>Class Recordings</code> on the left navigation menu).</p>
