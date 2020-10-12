@@ -1,5 +1,5 @@
 ---
-title: "3.1 Omitted Variable Bias - Readings"
+title: "3.3 — Omitted Variable Bias — Readings"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl

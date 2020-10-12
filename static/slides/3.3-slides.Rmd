@@ -1,15 +1,14 @@
 ---
-title: "3.1: Omitted Variable Bias"
-subtitle: "ECON 480 · Econometrics · Fall 2019"
-author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+title: "3.3 — Omitted Variable Bias"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
 #date:
 output:
   xaringan::moon_reader:
     mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
     lib_dir: libs
     df_print: paged
-    #seal: false
-    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
     nature:
       beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
       highlightStyle: github
@@ -58,9 +57,9 @@ extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
 
 $$Y_i=\beta_0+\beta_1X_i+u_i$$
 
-- Error term, $u_i$ includes .whisper[all other variables that affect `\\(Y\\)`]
+- Error term, $u_i$ includes .hi-purple[all other variables that affect `\\(Y\\)`]
 
-- Every regression model always has .shout[omitted variables] assumed in the error
+- Every regression model always has .hi[omitted variables] assumed in the error
   - Most unobservable (hence "*u*") or hard to measure
   - .green[**Examples**:] innate ability, weather at the time, etc
 
@@ -72,7 +71,7 @@ $$Y_i=\beta_0+\beta_1X_i+u_i$$
 
 # Omitted Variable Bias I
 
-- .shout[Omitted variable bias (OVB)] for some omitted variable $\mathbf{Z}$ exists if two conditionsa are met:
+- .hi[Omitted variable bias (OVB)] for some omitted variable $\mathbf{Z}$ exists if two conditionsa are met:
 
 --
 
@@ -145,7 +144,7 @@ $$E[\hat{\beta_1}]=\beta_1+cor(X,u)\frac{\sigma_u}{\sigma_X}$$
 
 --
 
-2. The larger $cor(X,u)$ is, larger .onfire[bias]: $\left(E[\hat{\beta_1}]-\beta_1 \right)$
+2. The larger $cor(X,u)$ is, larger .hi-purple[bias]: $\left(E[\hat{\beta_1}]-\beta_1 \right)$
 
 --
 
@@ -293,11 +292,10 @@ cond_el_scatter+facet_grid(~ESL)+
 
 # Omitted Variable Bias in the Class Size Example
 
-
-<span class="center">
+.center[
 $$E[\hat{\beta_1}]=\beta_1+bias$$
 $E[\hat{\beta_1}]=$ .red[`\\(\beta_1\\)`] $+$ .blue[`\\(cor(X,u)\\)`] $\frac{\sigma_u}{\sigma_X}$
-</span>
+]
 
 - .blue[`\\(cor(STR,u)\\)`] is positive (via $\%EL$)
 
@@ -306,10 +304,10 @@ $E[\hat{\beta_1}]=$ .red[`\\(\beta_1\\)`] $+$ .blue[`\\(cor(X,u)\\)`] $\frac{\si
 - .red[`\\(\beta_1\\)`] is negative (between Test score and STR)
 
 - .blue[Bias] is positive
-  - But since <span class="red">`\\(\beta_1\\)`</span> is negative, it's made to be a *more* negative number than it truly is<sup>.red[1]</sup>
-  - Implies that <span class="red">`\\(\beta_1\\)`</span> *over*states the effect of reducing STR on improving Test Scores
+  - But since $\color{red}{\beta_1}$ is negative, it’s made to be a *more* negative number than it truly is<sup>.red[1]</sup>
+  - Implies that $\color{red}{\beta_1}$ *over*states the effect of reducing STR on improving Test Scores
   
-.footnote[<sup>.red[1]</sup> Hard to think about...but you'll see when we run the different regressions later!]
+.tiny[<sup>.red[1]</sup> Hard to think about...but you'll see when we run the different regressions later!]
 
 ---
 
@@ -330,8 +328,8 @@ If school districts with higher Test Scores happen to have both lower STR **AND*
 - Recall our best working definition of causality: result of ideal **random controlled trials (RCTs)**
 
 - **Randomly** assign experimental units (e.g. people, cities, etc) into two (or more) groups:
-  - <span class="shout">Treatment group(s)</span>: gets a (certain type or level of) treatment
-  - <span class="shout">Control group(s)</span>: gets *no* treatment(s)
+  - <span class="hi">Treatment group(s)</span>: gets a (certain type or level of) treatment
+  - <span class="hi">Control group(s)</span>: gets *no* treatment(s)
 
 - Compare results of two groups to get the causal effect of treatment (on average) 
 ]
@@ -464,12 +462,12 @@ $$Y_i = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \cdots + \beta_kX_{ki} +u_i$
 
 --
 
-- $Y$ is the .shout[dependent variable] of interest
+- $Y$ is the .hi[dependent variable] of interest
     - AKA "response variable," "regressand," "Left-hand side (LHS) variable"
 
 --
 
-- $k$ number of .shout[independent variables] $(X)$'s 
+- $k$ number of .hi[independent variables] $(X)$'s 
     - AKA "explanatory variables", "regressors," "Right-hand side (RHS) variables", "covariates"
 
 --
@@ -482,7 +480,7 @@ $$Y_i = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \cdots + \beta_kX_{ki} +u_i$
 
 --
 
-- $\beta_0, \beta_1, \cdots, \beta_k$ are .onfire[parameters] that describe the population relationships between the variables
+- $\beta_0, \beta_1, \cdots, \beta_k$ are .hi-purple[parameters] that describe the population relationships between the variables
     - We estimate $k+1$ parameters ("betas")<sup><span class="red">1</span></sup>
 
 
@@ -610,9 +608,9 @@ $$Y_i=\beta_0\mathbf{X_{0i}}+\beta_1X_{1i}+\beta_2X_{2i}+u_i$$
 
 - Here, we added $X_{0i}$ to $\beta_0$
 
-- $X_{0i}$ is a .shout[constant regressor], as we define $X_{0i}=1$ for all $i$ observations
+- $X_{0i}$ is a .hi[constant regressor], as we define $X_{0i}=1$ for all $i$ observations
 
-- Likewise, $\beta_0$ is more generally called the .shout[constant] term in the regression (instead of the "intercept")
+- Likewise, $\beta_0$ is more generally called the .hi[constant] term in the regression (instead of the "intercept")
 
 - This may seem silly and trivial, but this will be important soon!  
 
