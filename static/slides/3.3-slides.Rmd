@@ -1,0 +1,743 @@
+---
+title: "3.1: Omitted Variable Bias"
+subtitle: "ECON 480 · Econometrics · Fall 2019"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i> safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsf19"><i class="fa fa-github fa-fw"></i> ryansafner/metricsf19</a><br> <a href="https://metricsF19.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i> metricsF19.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    #seal: false
+    css: [custom.css, custom-fonts.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+```{r regression-setup, echo=F, results="hide"}
+
+library(haven)
+CASchool<-read_dta("../data/caschool.dta")
+
+# run regression of testscr on str
+school_reg <- lm(testscr ~ str, 
+                 data = CASchool)
+
+library(broom)
+school_reg_tidy <- tidy(school_reg,
+     conf.int = TRUE) # add confidence intervals
+CASchool_aug <- augment(school_reg)
+
+library(equatiomatic)
+extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+
+```
+
+# Review: u
+
+$$Y_i=\beta_0+\beta_1X_i+u_i$$
+
+- Error term, $u_i$ includes .whisper[all other variables that affect `\\(Y\\)`]
+
+- Every regression model always has .shout[omitted variables] assumed in the error
+  - Most unobservable (hence "*u*") or hard to measure
+  - .green[**Examples**:] innate ability, weather at the time, etc
+
+- Again, we *assume* $u$ is random, with $E[u|X]=0$ and $var(u)=\sigma^2_u$
+
+- *Sometimes*, omission of variables can **bias** OLS estimators $(\hat{\beta_0}$ and $\hat{\beta_1})$
+
+---
+
+# Omitted Variable Bias I
+
+- .shout[Omitted variable bias (OVB)] for some omitted variable $\mathbf{Z}$ exists if two conditionsa are met:
+
+--
+
+**1. $Z$ is a determinant of $Y$**
+  - i.e. $Z$ is in the error term, $u_i$
+
+--
+
+**2. $Z$ is correlated with the regressor $X$**
+  - i.e. $cor(X,Z) \neq 0$
+
+---
+
+# Omitted Variable Bias II
+
+- Omitted variable bias makes $X$ **endogenous**
+    - $E(\epsilon_i|X_i)\neq 0 \implies$ knowing $X$ tells you something about $\epsilon$
+	  - Thus, $X$ tells you something about $Y$ *not* by way of $X$! 
+
+--
+
+- $\hat{\beta_1}$ is **biased** $\left(E[\hat{\beta_1}] \neq \beta_1\right)$
+
+--
+
+- Systematically over- or under-estimates the true relationship $(\beta_1)$
+
+- $\hat{\beta_1}$ "picks up" *both*:
+    - effect of $X\rightarrow Y$ 
+    - effect of $Z\rightarrow X \rightarrow X$ 
+    
+---
+
+# Omited Variable Bias: Class Size Example
+
+.content-box-green[
+.green[**Example**]: Consider our recurring class size and test score example:
+$$\text{Test score}_i = \beta_0 + \beta_1 \text{STR}_i + u_i$$
+]
+
+- Which of the following possible variables would cause a bias if omitted?
+
+--
+
+1. $Z_i$: time of day of the test
+
+--
+
+2. $Z_i$: parking space per student
+
+--
+
+3. $Z_i$: percent of ESL students
+
+---
+
+# Recall: Endogeneity and Bias
+
+- The true expected value of $\hat{\beta_1}$ is actually:<sup>.red[1]</sup>
+
+$$E[\hat{\beta_1}]=\beta_1+cor(X,u)\frac{\sigma_u}{\sigma_X}$$
+
+--
+
+- Takeaways:
+
+--
+
+1. If $X$ is exogenous: $cor(X,u)=0$, we're just left with $\beta_1$
+
+--
+
+2. The larger $cor(X,u)$ is, larger .onfire[bias]: $\left(E[\hat{\beta_1}]-\beta_1 \right)$
+
+--
+
+3. We can "sign" the direction of the bias based on $cor(X,u)$
+    - **Positive** $cor(X,u)$ overestimates the true $\beta_1$ $(\hat{\beta_1}$ is too high)
+    - **Negative** $cor(X,u)$ underestimates the true $\beta_1$ $(\hat{\beta_1}$ is too low)
+
+.footnote[<sup>.red[1]</sup> See class [class 2.4 notes](/class/10-class) for proof.]
+
+---
+
+# Endogeneity and Bias: Correlations I
+
+- Here is where checking correlations between variables helps:  
+
+.pull-left[
+```{r, echo=T}
+# Select only the three variables we want (there are many)
+CAcorr<-CASchool %>%
+  select("str","testscr","el_pct")
+
+# Make a correlation table
+corr<-cor(CAcorr)
+corr
+```
+]
+
+.pull-right[
+- `el_pct` is strongly (negatively) correlated with `testscr` (Condition 1)
+
+- `el_pct` is reasonably (positively) correlated with `str` (Condition 2) 	
+]
+
+
+---
+
+# Endogeneity and Bias: Correlations II
+
+- Here is where checking correlations between variables helps:  
+
+.pull-left[
+```{r ovb-corplot, echo=T, eval= F}
+# Make a correlation plot
+library(corrplot)
+
+corrplot(corr, type="upper", 
+         method = "number", # number for showing correlation coefficient
+         order="original")
+```
+]
+
+.pull-right[
+```{r, ref.label="ovb-corplot", fig.retina=3}
+
+```
+]
+
+- `el_pct` is strongly correlated with `testscr` (Condition 1)
+- `el_pct` is reasonably correlated with `str` (Condition 2) 	
+
+---
+# Look at Conditional Distributions I
+
+```{r, echo=T}
+# make a new variable called EL
+# = high (if el_pct is above median) or = low (if below median)
+CASchool<-CASchool %>%
+  mutate(ESL = ifelse(el_pct > median(el_pct),
+                     "High ESL",
+                     "Low ESL"))
+
+# get average test score by high/low EL
+CASchool %>%
+  group_by(ESL) %>%
+  summarize(Average_test_score=mean(testscr))
+```
+
+---
+
+# Look at Conditional Distributions II
+
+.pull-left[
+```{r, cond-el-hist, eval=F, echo=T}
+ggplot(data = CASchool)+
+  aes(x = testscr,
+      fill = ESL)+
+  geom_density(alpha=0.5)+
+  labs(x = "Test Score",
+       y = "Density")+
+    theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+```
+]
+
+.pull-right[
+```{r, ref.label="cond-el-hist",fig.retina=3}
+
+```
+]
+
+---
+
+# Look at Conditional Distributions III
+
+.pull-left[
+```{r, cond-el-scatter, eval=F, echo=T}
+cond_el_scatter<-ggplot(data = CASchool)+
+  aes(x = str,
+      y = testscr,
+      color = ESL)+
+  geom_point()+
+  geom_smooth(method="lm")+
+  labs(x = "STR",
+       y = "Test Score")+
+    theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+cond_el_scatter
+```
+]
+
+.pull-right[
+```{r, ref.label="cond-el-scatter",fig.retina=3}
+
+```
+]
+
+---
+
+# Look at Conditional Distributions III
+
+.pull-left[
+```{r, cond-el-scatter2, eval=F, echo=T}
+cond_el_scatter+facet_grid(~ESL)+
+  guides(color = F)
+```
+]
+
+.pull-right[
+```{r, ref.label="cond-el-scatter2",fig.retina=3}
+
+```
+]
+
+---
+
+# Omitted Variable Bias in the Class Size Example
+
+
+<span class="center">
+$$E[\hat{\beta_1}]=\beta_1+bias$$
+$E[\hat{\beta_1}]=$ .red[`\\(\beta_1\\)`] $+$ .blue[`\\(cor(X,u)\\)`] $\frac{\sigma_u}{\sigma_X}$
+</span>
+
+- .blue[`\\(cor(STR,u)\\)`] is positive (via $\%EL$)
+
+- $cor(u, \text{Test score})$ is negative (via $\%EL$)
+
+- .red[`\\(\beta_1\\)`] is negative (between Test score and STR)
+
+- .blue[Bias] is positive
+  - But since <span class="red">`\\(\beta_1\\)`</span> is negative, it's made to be a *more* negative number than it truly is<sup>.red[1]</sup>
+  - Implies that <span class="red">`\\(\beta_1\\)`</span> *over*states the effect of reducing STR on improving Test Scores
+  
+.footnote[<sup>.red[1]</sup> Hard to think about...but you'll see when we run the different regressions later!]
+
+---
+
+# Omitted Variable Bias: Messing with Causality I
+
+If school districts with higher Test Scores happen to have both lower STR **AND** districts with smaller STR sizes tend to have less $\%EL$ ...
+
+--
+
+- How can we say $\hat{\beta_1}$ estimates the **marginal effect** of $\Delta STR \rightarrow \Delta \text{Test Score}$?
+
+---
+
+# Omitted Variable Bias: Messing with Causality II
+
+.pull-left[
+
+- Recall our best working definition of causality: result of ideal **random controlled trials (RCTs)**
+
+- **Randomly** assign experimental units (e.g. people, cities, etc) into two (or more) groups:
+  - <span class="shout">Treatment group(s)</span>: gets a (certain type or level of) treatment
+  - <span class="shout">Control group(s)</span>: gets *no* treatment(s)
+
+- Compare results of two groups to get the causal effect of treatment (on average) 
+]
+
+.pull-right[
+.center[
+![:scale 90%](https://www.dropbox.com/s/ninee93he1zgcon/groupsplit.jpeg?raw=1)
+]
+]
+
+---
+
+# RCTs Neutralize Omitted Variable Bias I
+
+.content-box-green[
+.green[**Example**]: Imagine an ideal RCT for measuring the effect of STR on Test Score
+]
+
+.pull-left[
+- School districts would be **randomly assigned** a student-teacher ratio 
+
+- With random assignment, all factors in $u$ (family size, parental income, years in the district, day of the week of the test, climate, etc) are distributed *independently* of class size
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/jh2m1sk6ed918hv/classroomdoors.jpg?raw=1)
+]
+]
+
+---
+
+# RCTs Neutralize Omitted Variable Bias II
+
+.content-box-green[
+.green[**Example**]: Imagine an ideal RCT for measuring the effect of STR on Test Score
+]
+
+.pull-left[
+
+- Thus, $cor(STR, u)=0$ and $E[u|STR]=0$, i.e. **exogeneity**
+
+- Resulting $\hat{\beta_1}$ would be an unbiased estimate of $\beta_1$, the true causal effect of $\Delta$ STR $\rightarrow \Delta$ Test Score 
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/jh2m1sk6ed918hv/classroomdoors.jpg?raw=1)
+]
+]
+
+---
+# But We Rarely, if Ever, Have RCTs
+
+.pull-left[
+
+- But our data is *not* an RCT, it is observational data!
+
+- "Treatment" of having a large or small class size is **NOT** randomly assigned!
+
+- Again, $\%EL$: plausibly fits criteria of O.V. bias!
+    1. $\%EL$ is a determinant of Test Score
+    2. $\%EL$ is correlated with STR
+
+- Thus, "control" group and "treatment" group differs systematically!
+    - Small STR also tend to have lower $\%EL$; large STR also tend to have higher $\%EL$
+    - **Selection bias**: $cor(STR, \%EL) \neq 0$, $E[u_i|STR_i]\neq 0$ 
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Treatment Group
+]
+]
+
+.pull-right[
+.center[
+![:scale 100%](https://www.dropbox.com/s/xvjphzlwechgip6/3oranges.jpg?raw=1)
+Control Group
+]
+]
+]
+
+---
+
+# There's Another Way to Reduce OVB
+
+.pull-left[
+
+- Look at effect of STR on Test Score by comparing districts with the **same** $\%EL$.  	
+    -  Eliminates differences in $\%EL$ between high and low STR classes
+    - "As if" we had a control group! Hold $\%EL$ constant 
+
+- The simple fix is just to **not omit $\%EL$**!
+    - Make it *another* independent variable on the righthand side of the regression
+
+]
+
+.pull-right[
+
+.pull-left[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Treatment Group
+]
+]
+
+.pull-right[
+.center[
+![:scale 80%](https://www.dropbox.com/s/vcqojr6k058e8hl/3apples.jpg?raw=1)
+Control Group
+]
+]
+]
+
+---
+
+class: inverse, center, middle
+# The Multivariate Regression Model
+
+---
+
+# Multivariate Econometric Models Overview
+
+$$Y_i = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i} + \cdots + \beta_kX_{ki} +u_i$$
+
+--
+
+- $Y$ is the .shout[dependent variable] of interest
+    - AKA "response variable," "regressand," "Left-hand side (LHS) variable"
+
+--
+
+- $k$ number of .shout[independent variables] $(X)$'s 
+    - AKA "explanatory variables", "regressors," "Right-hand side (RHS) variables", "covariates"
+
+--
+
+- Our data consists of a spreadsheet of observed values of $(Y_i, X_{1i}, X_{2i}, \cdots ,X_{ki})$
+
+--
+
+- To model, we "regress Y on $X_1, X_2, \cdots, X_k$"
+
+--
+
+- $\beta_0, \beta_1, \cdots, \beta_k$ are .onfire[parameters] that describe the population relationships between the variables
+    - We estimate $k+1$ parameters ("betas")<sup><span class="red">1</span></sup>
+
+
+.footnote[<sup>.red[1]</sup> Note Bailey defines $k$ to include both the number of variables plus the constant.]
+
+---
+
+# Marginal Effects I
+
+$$Y_i= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i}$$
+
+- Consider changing $X_1$ by $\Delta X_1$ while holding $X_2$ constant:
+
+$$\begin{align*}
+Y&= \beta_0+\beta_1 X_{1} + \beta_2 X_{2} && \text{Before the change}\\
+\end{align*}$$
+
+---
+
+
+# Marginal Effects I
+
+$$Y_i= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i}$$
+
+- Consider changing $X_1$ by $\Delta X_1$ while holding $X_2$ constant:
+
+$$\begin{align*}
+Y&= \beta_0+\beta_1 X_{1} + \beta_2 X_{2} && \text{Before the change}\\
+Y+\Delta Y&= \beta_0+\beta_1 (X_{1}+\Delta X_1) + \beta_2 X_{2} && \text{After the change}\\
+\end{align*}$$
+
+---
+
+# Marginal Effects I
+
+$$Y_i= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i}$$
+
+- Consider changing $X_1$ by $\Delta X_1$ while holding $X_2$ constant:
+
+$$\begin{align*}
+Y&= \beta_0+\beta_1 X_{1} + \beta_2 X_{2} && \text{Before the change}\\
+Y+\Delta Y&= \beta_0+\beta_1 (X_{1}+\Delta X_1) + \beta_2 X_{2} && \text{After the change}\\
+\Delta Y&= \beta_1 \Delta X_1 && \text{The difference}\\
+\end{align*}$$
+
+---
+
+# Marginal Effects I 
+
+$$Y_i= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i}$$
+
+- Consider changing $X_1$ by $\Delta X_1$ while holding $X_2$ constant:
+
+$$\begin{align*}
+Y&= \beta_0+\beta_1 X_{1} + \beta_2 X_{2} && \text{Before the change}\\
+Y+\Delta Y&= \beta_0+\beta_1 (X_{1}+\Delta X_1) + \beta_2 X_{2} && \text{After the change}\\
+\Delta Y&= \beta_1 \Delta X_1 && \text{The difference}\\
+\frac{\Delta Y}{\Delta X_1} &= \beta_1  && \text{Solving for } \beta_1\\
+\end{align*}$$
+
+---
+
+# Marginal Effects II
+
+$$\beta_1 =\frac{\Delta Y}{\Delta X_1}\text{ holding } X_2 \text{ constant}$$
+
+--
+
+Similarly, for $\beta_2$:
+
+$$\beta_2 =\frac{\Delta Y}{\Delta X_2}\text{ holding }X_1 \text{  constant}$$
+
+--
+
+And for the constant, $\beta_0$:
+
+$$\beta_0 =\text{predicted value of Y when } X_1=0, \; X_2=0$$
+
+---
+
+# You Can Keep Your Intuitions...But They're Wrong Now 
+
+.pull-left[
+- We have been envisioning OLS regressions as the equation of a line through a scatterplot of data on two variables, $X$ and $Y$
+    - $\beta_0$: "intercept" 
+    - $\beta_1$: "slope" 	
+
+- With 3+ variables, OLS regression is no longer a "line" for us to estimate
+
+]
+
+.pull-right[
+
+```{r}
+library(plotly)
+elreg<-lm(testscr~str+el_pct,data=CASchool)
+axis_x <- seq(min(CASchool$str), max(CASchool$str), by = 1)
+axis_y <- seq(min(CASchool$el_pct), max(CASchool$el_pct), by = 1)
+
+# https://stackoverflow.com/questions/38331198/add-regression-plane-to-3d-scatter-plot-in-plotly
+lm_surface <- expand.grid(str = axis_x,el_pct = axis_y,KEEP.OUT.ATTRS = F)
+lm_surface$testscr <- predict.lm(elreg, newdata = lm_surface)
+lm_surface <- reshape2::acast(lm_surface, el_pct ~ str, value.var = "testscr") #y ~ x
+
+#z<-matrix(CASchool_aug$.fitted, nrow=620, ncol=620)
+
+plot_ly(CASchool, x = ~str, y = ~el_pct, z = ~testscr) %>%
+  add_markers(alpha=0.75) %>%
+  layout(scene = list(xaxis = list(title = 'Class Size'),
+                     yaxis = list(title = 'Percent EL'),
+                     zaxis = list(title = 'Test Scores'))) %>%
+  add_trace(z = lm_surface,
+                       x = axis_x,
+                       y = axis_y,
+                       type = "surface")
+```
+]
+
+---
+
+# The "Constant"
+
+- Alternatively, we can write the population regression equation as:
+$$Y_i=\beta_0\mathbf{X_{0i}}+\beta_1X_{1i}+\beta_2X_{2i}+u_i$$
+
+- Here, we added $X_{0i}$ to $\beta_0$
+
+- $X_{0i}$ is a .shout[constant regressor], as we define $X_{0i}=1$ for all $i$ observations
+
+- Likewise, $\beta_0$ is more generally called the .shout[constant] term in the regression (instead of the "intercept")
+
+- This may seem silly and trivial, but this will be important soon!  
+
+---
+
+# The Population Regression Model: Example I
+
+.content-box-green[
+.green[**Example**:] 
+
+$$\text{Beer Consumption}_i=\beta_0+\beta_1Price_i+\beta_2Income_i+\beta_3\text{Nachos Price}_i+\beta_4\text{Wine Price}+u_i$$
+]
+
+- Let's see what you remember from micro(econ)!
+
+--
+
+- What measures the **price effect**? What sign should it have?
+
+--
+
+- What measures the **income effect**? What sign should it have? What should inferior or normal (necessities & luxury) goods look like?
+
+--
+
+- What measures the **cross-price effect(s)**? What sign should substitutes and complements have?
+
+---
+
+# The Population Regression Model: Example I
+
+.content-box-green[
+.green[**Example**:] 
+
+$$\widehat{\text{Beer Consumption}_i}=20-1.5Price_i+1.25Income_i-0.75\text{Nachos Price}_i+1.3\text{Wine Price}_i$$
+]
+
+- Interpret each $\hat{\beta}$
+
+---
+
+# Multivariate OLS in R
+
+.left-code[
+```{r, echo=T}
+# run regression of testscr on str and el_pct
+school_reg_2 <- lm(testscr ~ str+el_pct, 
+                 data = CASchool)
+```
+]
+
+.right-plot[
+- Format for regression is `lm(y ~ x1+x2, data = df)`
+- `y` is dependent variable (listed first!)
+- `~` means "modeled by"
+- `x1` and `x2` are the independent variable
+- `df` is the dataframe where the data is stored
+]
+
+---
+
+# Multivariate OLS in R II
+
+.left-code[
+```{r, echo=T}
+# look at reg object
+school_reg_2
+```
+]
+.right-plot[
+- Stored as an `lm` object called `school_reg_2`, a `list` object
+]
+
+---
+
+# Multivariate OLS in R III
+
+
+```{r, echo=T}
+summary(school_reg_2) # get full summary
+```
+
+---
+
+# Multivariate OLS in R IV: broom
+
+.left-column[
+.center[
+![](https://www.dropbox.com/s/qpe1604cf7s9r0g/rbroom.png?raw=1)
+]
+
+]
+.right-column[
+
+```{r, echo=T}
+# load packages
+library(broom)
+
+# tidy regression output
+tidy(school_reg_2)
+```
+
+]
+
+---
+
+# Multivariate Regression Output Table
+
+.pull-left[
+```{r multireg-table, echo=T, eval=F}
+library(huxtable)
+huxreg("Model 1" = school_reg,
+       "Model 2" = school_reg_2,
+       coefs = c("Intercept" = "(Intercept)",
+                 "Class Size" = "str",
+                 "%ESL Students" = "el_pct"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+]
+
+.pull-right[
+```{r, ref.label="multireg-table"}
+
+```
+]

@@ -1,5 +1,5 @@
 ---
-title: "3.2 — Causal Inference & DAGS — Class Notes"
+title: "3.2 — Causal Inference II: DAGS — Class Notes"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
@@ -15,26 +15,33 @@ editor_options:
 
 # Overview
 
-Today we begin extending the foundation of simple linear regression with one variable into more advanced models that can plausibly claim (when we are done) to measure *causal* relationships between $X$ and $Y$. The rest of the semester is primarily extending regression from one $X$ to many, and changing the functional form to fit various idiosyncracies of different variables, or use clever techniques to isolate marginal effects of interest.
+Today we return to a more nuanced discussion of causality, given what we have learned about the fundamental problem of causal inference (counterfactuals and potential outcomes). RCTs are great, but they are not everything — and in any case, you are never going to be able to design and run an RCT in the overwhelming majority of studies.
 
-We begin by covering the fundamental problem of causal inference, that we can never observe counterfactual states of the world. If we *could*, then we could easily measure the causal effect of $X \mapsto Y$ by comparing how $Y$ is different when $X$ is different. The next best thing we can do is run a **random control trial (RCT)** where individuals are *randomly* assigned to groups to be given (different) treatment(s), and then we can compare the average outcome across groups. Random assignment ensures the only thing that differs across group outcomes is whether or not the group was given treatment, estimating the *causal effect* of treatment on the outcome. 
+Now that we understand counterfactuals, we can apply our idea of exogeneity to argue that indeed, yes, **correlation _does_ imply causation** when $X$ is exogenous! That is, $X$ being correlated with $Y$ *implies* there is a causal connection between $X$ and $Y$, and if we are certain that $cor(X,u)=0$, then we are clearly measuring the causal effect of $X \rightarrow Y$! If $cor(X,u) \neq 0$ and $X$ is endogenous, there is *still* a causal connection between $X$ and $Y$, but it goes through other variables that jointly cause $X$ and $Y$.
 
-For now, we will understand causality to mean the average treatment effect (ATE) from a RCT. RCTs are both popular and controversial. Last year’s Nobel Prize winners in economics won for their use of RCTs in development economics, but they have drawn significant criticism from other top economists as not being sufficiently generalizable.
+We also introduce a new tool for thinking about simple causal models, the **directed acyclic graph (DAG)**. These are a hip new trend for thinking about causal inference, so new and trendy that they aren’t really in any mainstream textbooks yet!
 
-Of course, the bigger problem is it is very difficult, often impossible, to run a RCT to test a hypothesis. So economists have developed a toolkit of clever techniques to identify causal effects in “natural experiments” or “quasi-experiments” that sufficiently *simulate* a RCT. Knowledge of this repertoire of tools is truly why modern economists are in demand by government and business (not supply and demand models, etc)!
+DAGS and DAG rules (front doors, back doors, colliders, mediators, etc.) will allow you to visually map the causal relationships between variables and describe to you the variables you must **control for** in order to properly **identify the causal effect** you are trying to measure. I show you a simply tool, [daggity.net](https://dagitty.net) that will help you do this, as well as `ggdag` in `R`.
+
 
 # Readings
 
-Please see [today’s suggested readings](/reading/3.2-reading). There are a number of useful readings (in addition to your textbook) that can help you understand the material for today. 
+Please see [today’s suggested readings](/reading/3.2-reading). There are a number of useful readings (in addition to your textbook) that can help you understand the material for today.
 
 # Slides
 
 - [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.2-slides.html)
 - [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.2-slides.pdf)
 
+# New Packages Mentioned
+
+- `dagitty.net`: not a package in R, but an online tool to help you work with DAGs (see the cheat sheets in today’s readings page)
+
+- `ggdag`: for drawing DAGs in ggplot, and for identifying pathways `ggdag_paths()` and required adjustments `ggdag_adjustment_set()`
+
 # Practice
 
-See today’s [practice problems](/r/3.2-r/practice). Answers will be posted later.
+See today’s [practice problems](/r/3.2-r/practice) to help you use DAGs and daggity.net. Answers are be posted on that page.
 
 # Live Class Session on Zoom
 

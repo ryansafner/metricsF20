@@ -1,0 +1,11 @@
+---
+title: "3.2 Multivariate OLS Estimators: Bias, Precision, and Fit - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> [Ch. 5.1,5.2,5.4] in @Bailey
+

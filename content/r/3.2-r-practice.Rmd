@@ -1,5 +1,5 @@
 ---
-title: "3.2 — Causal Inference and DAGs — R Practice"
+title: "3.2 — Causal Inference II: DAGs — R Practice"
 editor_options: 
   chunk_output_type: console
 ---
@@ -14,9 +14,10 @@ To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_pr
 
 Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
 
-<!--- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/2.3-r-practice-rmd.Rmd)-->
+- [<i class="fas fa-external-link-square-alt"></i> Answer Key (html)](/r/3.2-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> Answer Key (markdown)](/r/3.2-r-practice-answers.Rmd)
 
-# Part A DAG Practice
+# DAG Practice
 
 For each of the following examples:
 

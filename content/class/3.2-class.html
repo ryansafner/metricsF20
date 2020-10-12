@@ -1,5 +1,5 @@
 ---
-title: "3.2 — Causal Inference & DAGS — Class Notes"
+title: "3.2 — Causal Inference II: DAGS — Class Notes"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
@@ -21,6 +21,7 @@ editor_options:
 <li><a href="#overview">Overview</a></li>
 <li><a href="#readings">Readings</a></li>
 <li><a href="#slides">Slides</a></li>
+<li><a href="#new-packages-mentioned">New Packages Mentioned</a></li>
 <li><a href="#practice">Practice</a></li>
 <li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
 </ul>
@@ -28,10 +29,10 @@ editor_options:
 
 <p><em>Thursday, October 8, 2020</em></p>
 <h2 id="overview">Overview</h2>
-<p>Today we begin extending the foundation of simple linear regression with one variable into more advanced models that can plausibly claim (when we are done) to measure <em>causal</em> relationships between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>. The rest of the semester is primarily extending regression from one <span class="math inline">\(X\)</span> to many, and changing the functional form to fit various idiosyncracies of different variables, or use clever techniques to isolate marginal effects of interest.</p>
-<p>We begin by covering the fundamental problem of causal inference, that we can never observe counterfactual states of the world. If we <em>could</em>, then we could easily measure the causal effect of <span class="math inline">\(X \mapsto Y\)</span> by comparing how <span class="math inline">\(Y\)</span> is different when <span class="math inline">\(X\)</span> is different. The next best thing we can do is run a <strong>random control trial (RCT)</strong> where individuals are <em>randomly</em> assigned to groups to be given (different) treatment(s), and then we can compare the average outcome across groups. Random assignment ensures the only thing that differs across group outcomes is whether or not the group was given treatment, estimating the <em>causal effect</em> of treatment on the outcome.</p>
-<p>For now, we will understand causality to mean the average treatment effect (ATE) from a RCT. RCTs are both popular and controversial. Last year’s Nobel Prize winners in economics won for their use of RCTs in development economics, but they have drawn significant criticism from other top economists as not being sufficiently generalizable.</p>
-<p>Of course, the bigger problem is it is very difficult, often impossible, to run a RCT to test a hypothesis. So economists have developed a toolkit of clever techniques to identify causal effects in “natural experiments” or “quasi-experiments” that sufficiently <em>simulate</em> a RCT. Knowledge of this repertoire of tools is truly why modern economists are in demand by government and business (not supply and demand models, etc)!</p>
+<p>Today we return to a more nuanced discussion of causality, given what we have learned about the fundamental problem of causal inference (counterfactuals and potential outcomes). RCTs are great, but they are not everything — and in any case, you are never going to be able to design and run an RCT in the overwhelming majority of studies.</p>
+<p>Now that we understand counterfactuals, we can apply our idea of exogeneity to argue that indeed, yes, <strong>correlation <em>does</em> imply causation</strong> when <span class="math inline">\(X\)</span> is exogenous! That is, <span class="math inline">\(X\)</span> being correlated with <span class="math inline">\(Y\)</span> <em>implies</em> there is a causal connection between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, and if we are certain that <span class="math inline">\(cor(X,u)=0\)</span>, then we are clearly measuring the causal effect of <span class="math inline">\(X \rightarrow Y\)</span>! If <span class="math inline">\(cor(X,u) \neq 0\)</span> and <span class="math inline">\(X\)</span> is endogenous, there is <em>still</em> a causal connection between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, but it goes through other variables that jointly cause <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
+<p>We also introduce a new tool for thinking about simple causal models, the <strong>directed acyclic graph (DAG)</strong>. These are a hip new trend for thinking about causal inference, so new and trendy that they aren’t really in any mainstream textbooks yet!</p>
+<p>DAGS and DAG rules (front doors, back doors, colliders, mediators, etc.) will allow you to visually map the causal relationships between variables and describe to you the variables you must <strong>control for</strong> in order to properly <strong>identify the causal effect</strong> you are trying to measure. I show you a simply tool, <a href="https://dagitty.net">daggity.net</a> that will help you do this, as well as <code>ggdag</code> in <code>R</code>.</p>
 <h2 id="readings">Readings</h2>
 <p>Please see <a href="/reading/3.2-reading">today’s suggested readings</a>. There are a number of useful readings (in addition to your textbook) that can help you understand the material for today.</p>
 <h2 id="slides">Slides</h2>
@@ -39,8 +40,13 @@ editor_options:
 <li><a href="/slides/3.2-slides.html"><i class="fas fa-chalkboard-teacher"></i> View Lecture Slides</a></li>
 <li><a href="/slides/3.2-slides.pdf"><i class="fas fa-file-pdf"></i> Download as PDF</a></li>
 </ul>
+<h2 id="new-packages-mentioned">New Packages Mentioned</h2>
+<ul>
+<li><p><code>dagitty.net</code>: not a package in R, but an online tool to help you work with DAGs (see the cheat sheets in today’s readings page)</p></li>
+<li><p><code>ggdag</code>: for drawing DAGs in ggplot, and for identifying pathways <code>ggdag_paths()</code> and required adjustments <code>ggdag_adjustment_set()</code></p></li>
+</ul>
 <h2 id="practice">Practice</h2>
-<p>See today’s <a href="/r/3.2-r/practice">practice problems</a>. Answers will be posted later.</p>
+<p>See today’s <a href="/r/3.2-r/practice">practice problems</a> to help you use DAGs and daggity.net. Answers are be posted on that page.</p>
 <h2 id="live-class-session-on-zoom">Live Class Session on Zoom</h2>
 <p>The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see <code>LIVE ZOOM MEETINGS</code> on the left navigation menu), starting at 11:30 AM.</p>
 <p>If you are unable to join today’s live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see <code>Class Recordings</code> on the left navigation menu).</p>
