@@ -399,7 +399,7 @@ blockquote {
 
 .remark-slide table thead th { border-bottom: 2px solid #666; }
 th, td { padding: 5px; }
-.remark-slide thead, .remark-slide tfoot { background: #eee } /*  .remark-slide tr:nth-child(even) background: #afafaf */ 
+.remark-slide thead, .remark-slide tfoot { background: #afafaf } /*  .remark-slide tr:nth-child(even) background: #afafaf */ 
 
 
 /* Class of tables with no stripe - for regression outputs*/
