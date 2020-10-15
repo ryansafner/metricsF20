@@ -50,8 +50,23 @@ CASchool_aug <- augment(school_reg)
 
 library(equatiomatic)
 extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
-
 ```
+
+class: inverse, center, middle
+
+# Outline
+
+### [The Multivariate OLS Estimators](#3)
+
+### [The Expected Value of $\hat{\beta_j}$: Bias](#10)
+
+### [Precision of $\hat{\beta_j}$](#41)
+
+### [A Summary of Multivariate OLS Estimator Properties](#80)
+
+### [Updated Measures of Fir](#83)
+
+---
 
 class: inverse, center, middle
 
