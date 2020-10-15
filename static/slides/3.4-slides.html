@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>3.4 — Multivariate OLS Estimators</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 3.4 — Multivariate OLS Estimators
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+
+
+class: inverse, center, middle
+
+# The Multivariate OLS Estimators
+
+---
+
+# The Multivariate OLS Estimators
+
+- By analogy, we still focus on the .hi[ordinary least squares (OLS) estimators] of the unknown population parameters `\(\beta_0, \beta_1, \beta_2, \cdots, \beta_k\)` which solves:
+
+`$$\min_{\hat{\beta_0}, \hat{\beta_1}, \hat{\beta_2}, \cdots, \hat{\beta_k}} \sum^n_{i=1}\left[\underbrace{Y_i-(\hat{\beta_0}+\hat{\beta_1}X_{1i}+\hat{\beta_2}X_{2i}+\cdots+ \hat{\beta_k}X_{ki})}_{u_i}\right]^2$$`
+
+- Again, OLS estimators are chosen to .hi-purple[minimize] the .hi[sum of squared errors (SSE)]
+  - i.e. sum of squared distances between actual values of `\(Y_i\)` and predicted values `\(\hat{Y_i}\)`
+
+---
+
+# The Multivariate OLS Estimators: FYI
+
+.smallest[
+.content-box-red[
+.red[**Math FYI]**: in linear algebra terms, a regression model with `\(n\)` observations of `\(k\)` independent variables:
+
+`$$\mathbf{Y} = \mathbf{X \beta}+\mathbf{u}$$`
+
+`$$\underbrace{\begin{pmatrix}
+			y_1\\
+			y_2\\
+			\vdots \\
+			y_n\\
+		\end{pmatrix}}_{\mathbf{Y}_{(n \times 1)}}
+		=
+		\underbrace{\begin{pmatrix}
+	x_{1,1} &amp; x_{1,2} &amp; \cdots &amp; x_{1,n}\\
+	x_{2,1} &amp; x_{2,2} &amp; \cdots &amp; x_{2,n}\\
+	\vdots &amp; \vdots &amp; \ddots &amp; \vdots\\
+	x_{k,1} &amp; x_{k,2} &amp; \cdots &amp; x_{k,n}\\ 
+\end{pmatrix}}_{\mathbf{X}_{(n \times k)}}
+		\underbrace{\begin{pmatrix}
+\beta_1\\
+\beta_2\\
+\vdots \\
+\beta_k \\	
+\end{pmatrix}}_{\mathbf{\beta}_{(k \times 1)}}
++
+		\underbrace{\begin{pmatrix}
+			u_1\\
+			u_2\\
+			\vdots \\
+			u_n \\
+		\end{pmatrix}}_{\mathbf{u}_{(n \times 1)}}$$`
+
+]
+]
+--
+
+.smallest[
+- The OLS estimator for `\(\beta\)` is `\(\hat{\beta}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Y}\)` 😱
+]
+--
+
+.smallest[
+- Appreciate that I am saving you from such sorrow 🤖
+]
+
+---
+
+# The Sampling Distribution of `\(\hat{\beta_j}\)`
+
+.pull-left[
+.smallest[
+- For *any* individual `\(\beta_j\)`, it has a sampling distribution: 
+
+`$$\hat{\beta_j} \sim N \left(E[\hat{\beta_j}], \;se(\hat{\beta_j})\right)$$`
+
+- We want to know its sampling distribution’s:
+  - .hi-purple[Center]: `\(\color{#6A5ACD}{E[\hat{\beta_j}]}\)`; what is the *expected value* of our estimator?
+  - .hi-purple[Spread]: `\(\color{#6A5ACD}{se(\hat{\beta_j})}\)`; how *precise* or *uncertain* is our estimator?
+]
+
+]
+
+.pull-right[
+
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-1-1.png" width="504" /&gt;
+]
+
+---
+
+# The Sampling Distribution of `\(\hat{\beta_j}\)`
+
+.pull-left[
+.smallest[
+- For *any* individual `\(\beta_j\)`, it has a sampling distribution: 
+
+`$$\hat{\beta_j} \sim N \left(E[\hat{\beta_j}], \;se(\hat{\beta_j})\right)$$`
+
+- We want to know its sampling distribution’s:
+  - .hi-purple[Center]: `\(\color{#6A5ACD}{E[\hat{\beta_j}]}\)`; what is the *expected value* of our estimator?
+  - .hi-purple[Spread]: `\(\color{#6A5ACD}{se(\hat{\beta_j})}\)`; how *precise* or *uncertain* is our estimator?
+]
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/3adddurpkp2k22o/biasvariability.png?raw=1)
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# The Expected Value of `\(\hat{\beta_j}\)`: Bias
+
+---
+
+# Exogeneity and Unbiasedness
+
+- As before, `\(E[\hat{\beta_j}]=\beta_j\)` when `\(X_j\)` is .hi-purple[exogenous] (i.e. `\(cor(X_j, u)=0\)`)
+
+--
+
+- We know the true `\(E[\hat{\beta_j}]=\beta_j+\underbrace{cor(X_j,u)\frac{\sigma_u}{\sigma_{X_j}}}_{\text{O.V. Bias}}\)`
+
+--
+
+- If `\(X_j\)` is .hi[endogenous] (i.e. `\(cor(X_j, u)\neq 0\)`), contains **omitted variable bias**
+
+--
+
+- We can now try to *quantify* the omitted variable bias
+
+---
+
+# Measuring Omitted Variable Bias I
+
+- Suppose the .hi-green[_true_ population model] of a relationship is:
+
+`$$Y_i=\beta_0+\beta_1 X_{1i}+\beta_2 X_{2i}+u_i$$`
+
+- What happens when we run a regression and **omit** `\(X_{2i}\)`?
+
+--
+
+- Suppose we estimate the following .hi-blue[omitted regression] of just `\(Y_i\)` on `\(X_{1i}\)` (omitting `\(X_{2i})\)`:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+`$$\color{#0047AB}{Y_i=\alpha_0+\alpha_1 X_{1i}+\nu_i}$$`
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note: I am using `\\(\alpha\\)`'s and `\\(\nu_i\\)` only to denote these are different estimates than the .hi-green[true] model `\\(\beta\\)`'s and `\\(u_i\\)`]
+
+---
+
+# Measuring Omitted Variable Bias II
+
+- .hi-turquoise[**Key Question**:] are `\(X_{1i}\)` and `\(X_{2i}\)` correlated?
+
+--
+
+- Run an .hi-purple[auxiliary regression] of `\(X_{2i}\)` on `\(X_{1i}\)` to see:&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+`$$\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$$`
+
+--
+
+- If `\(\color{#6A5ACD}{\delta_1}=0\)`, then `\(X_{1i}\)` and `\(X_{2i}\)` are *not* linearly related
+
+- If `\(|\color{#6A5ACD}{\delta_1}|\)` is very big, then `\(X_{1i}\)` and `\(X_{2i}\)` are strongly linearly related
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note: I am using `\\(\delta\\)`'s and `\\(\tau\\)` to differentiate estimates for this model.]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between `\(X_{2i}\)` and `\(X_{1i}\)` into the .hi-green[*true* model]:
+  - We know `\(\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}\)`
+
+`$$\begin{align*}
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+\end{align*}$$`
+]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between `\(X_{2i}\)` and `\(X_{1i}\)` into the .hi-green[*true* model]:
+  - We know `\(\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}\)`
+
+`$$\begin{align*}
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+\end{align*}$$`
+]
+
+---
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between `\(X_{2i}\)` and `\(X_{1i}\)` into the .hi-green[*true* model]:
+  - We know `\(\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}\)`
+
+`$$\begin{align*}
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+Y_i&amp;=(\beta_0+\beta_2 \color{#6A5ACD}{\delta_0})+(\beta_1+\beta_2 \color{#6A5ACD}{\delta_1})\color{#6A5ACD}{X_{1i}}+(\beta_2 \color{#6A5ACD}{\tau_i}+u_i)\\
+\end{align*}$$`
+]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between `\(X_{2i}\)` and `\(X_{1i}\)` into the .hi-green[*true* model]:
+  - We know `\(\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}\)`
+
+`$$\begin{align*}
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&amp;=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+Y_i&amp;=(\underbrace{\beta_0+\beta_2 \color{#6A5ACD}{\delta_0}}_{\color{#0047AB}{\alpha_0}})+(\underbrace{\beta_1+\beta_2 \color{#6A5ACD}{\delta_1}}_{\color{#0047AB}{\alpha_1}})\color{#6A5ACD}{X_{1i}}+(\underbrace{\beta_2 \color{#6A5ACD}{\tau_i}+u_i}_{\color{#0047AB}{\nu_i}})\\
+\end{align*}$$`
+
+- Now relabel each of the three terms as the OLS estimates `\((\alpha\)`'s) and error `\((\nu_i)\)` from the .hi-blue[omitted regression], so we again have:
+
+`$$\color{#0047AB}{Y_i=\alpha_0+\alpha_1X_{1i}+\nu_i}$$`
+]
+
+--
+
+.smallest[
+- Crucially, this means that our OLS estimate for `\(X_{1i}\)` in the .hi-purple[omitted regression] is:
+`$$\color{#0047AB}{\alpha_1}=\beta_1+\beta_2 \color{#6A5ACD}{\delta_1}$$`
+]
+
+---
+
+# Measuring Omitted Variable Bias IV
+
+.smallest[
+.center[
+`\(\color{#0047AB}{\alpha_1}= \,\)`.green[`\\(\beta_1\\)`] `\(+\)` .red[`\\(\beta_2\\)`].purple[`\\(\delta_1\\)`]
+]
+
+- The .hi-blue[Omitted Regression] OLS estimate for `\\(X_{1i}\\)`, `\\((\color{#0047AB}{\alpha_1})\\)` picks up *both*:
+]
+
+--
+
+.smallest[
+1. .green[The true effect of `\\(X_{1}\\)` on `\\(Y_i\\)`: `\\((\beta_1)\\)`]
+]
+
+--
+
+.smallest[
+2. .red[The true effect of `\\(X_{2}\\)` on `\\(Y_i\\)`: `\\((\beta_2)\\)`]
+  - As pulled through .purple[the relationship between `\\(X_1\\)` and `\\(X_2\\)`: `\\((\delta_1)\\)`]
+]
+--
+
+.smallest[
+- Recall our conditions for omitted variable bias from some variable `\(Z_i\)`:
+]
+--
+
+.smallest[
+1) `\(\mathbf{Z_i}\)` **must be a determinant of `\(Y_i\)`** `\(\implies\)` .red[`\\(\beta_2 \neq 0\\)`]
+]
+--
+
+.smallest[
+2) `\(\mathbf{Z_i}\)` **must be correlated with `\(X_i\)`** `\(\implies\)` .purple[`\\(\delta_1 \neq 0\\)`]
+]
+--
+
+.smallest[
+- Otherwise, if `\(Z_i\)` does not fit these conditions, `\(\alpha_1=\beta_1\)` and the .hi-purple[omitted regression] is *unbiased*!
+]
+
+---
+
+# Measuring OVB in Our Class Size Example I
+
+- The .hi-green[“True” Regression] `\((Y_i\)` on `\(X_{1i}\)` and `\(X_{2i})\)`
+
+`$$\color{#7CAE96}{\widehat{\text{Test Score}_i}=686.03-1.10\text{ STR}_i-0.65\text{ %EL}_i}$$`
+
+.center[
+.quitesmall[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"686.0322487","3":"7.41131248","4":"92.565554","5":"3.871501e-280"},{"1":"str","2":"-1.1012959","3":"0.38027832","4":"-2.896026","5":"3.978056e-03"},{"1":"el_pct","2":"-0.6497768","3":"0.03934255","4":"-16.515879","5":"1.657506e-47"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example II
+
+- The .hi-blue[“Omitted” Regression] `\((Y_{i}\)` on just `\(X_{1i})\)`
+
+`$$\color{#0047AB}{\widehat{\text{Test Score}_i}=698.93-2.28\text{ STR}_i}$$`
+
+.center[
+.quitesmall[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"698.932952","3":"9.4674914","4":"73.824514","5":"6.569925e-242"},{"1":"str","2":"-2.279808","3":"0.4798256","4":"-4.751327","5":"2.783307e-06"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+
+
+
+---
+
+# Measuring OVB in Our Class Size Example III
+
+- The .hi-purple[“Auxiliary” Regression] `\((X_{2i}\)` on `\(X_{1i})\)`
+
+`$$\color{#6A5ACD}{\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i}$$`
+
+.center[
+.quitesmall[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"-19.854055","3":"9.1626044","4":"-2.166857","5":"0.0308099863"},{"1":"str","2":"1.813719","3":"0.4643735","4":"3.905733","5":"0.0001095165"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+
+
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03-1.10\text{ STR}_i-0.65\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28}\text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`$$\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i$$`
+]
+
+]
+]
+
+.pull-right[
+
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i-0.65\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`\(\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i\)`
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+
+.center[
+`$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$`
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`\(\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i\)`
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+
+.center[
+`$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$`
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`\(\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i\)`
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+
+.center[
+`$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$`
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`\(\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i\)`
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+
+.center[
+`$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$`
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+- So, for the .hi-blue[omitted regression]:
+
+.center[
+`$$\color{#0047AB}{-2.28}=\color{#7CAE96}{-1.10}+\color{#D7250E}{(-0.65)} \color{#6A5ACD}{(1.81)}$$`
+]
+
+]
+]
+
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+`$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$`
+
+.hi-blue[“Omitted” Regression]
+
+`\(\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i\)`
+
+.hi-purple[“Auxiliary” Regression]
+
+`\(\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i\)`
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression `\(\alpha_1\)` on STR is .blue[-2.28]
+
+.center[
+`$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$`
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+- So, for the .hi-blue[omitted regression]:
+
+.center[
+`$$\color{#0047AB}{-2.28}=\color{#7CAE96}{-1.10}+\underbrace{\color{#D7250E}{(-0.65)} \color{#6A5ACD}{(1.81)}}_{O.V.Bias=\mathbf{-1.18}}$$`
+]
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Precision of `\(\hat{\beta_j}\)`
+
+---
+
+# Precision of `\(\hat{\beta_j}\)` I
+
+.pull-left[
+
+- `\(\sigma_{\hat{\beta_j}}\)`; how **precise** are our estimates?
+
+- &lt;span class="hi"&gt;Variance `\(\sigma^2_{\hat{\beta_j}}\)`&lt;/span&gt; or &lt;span class="hi"&gt;standard error `\(\sigma_{\hat{\beta_j}}\)`&lt;/span&gt;
+]
+
+.pull-right[
+
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+]
+
+---
+
+# Precision of `\(\hat{\beta_j}\)` II
+
+.pull-left[
+
+`$$var(\hat{\beta_j})=\underbrace{\color{#6A5ACD}{\frac{1}{1-R^2_j}}}_{\color{#6A5ACD}{VIF}} \times \frac{(SER)^2}{n \times var(X)}$$`
+
+`$$se(\hat{\beta_j})=\sqrt{var(\hat{\beta_1})}$$`
+
+]
+
+.pull-right[
+.smallest[
+- Variation in `\(\hat{\beta_j}\)` is affected by **four** things now&lt;sup&gt;.magenta[†]&lt;/sup&gt;:
+
+1. .hi-purple[Goodness of fit of the model (SER)]
+  - Larger `\(SER\)` `\(\rightarrow\)` larger `\(var(\hat{\beta_j})\)`
+2. .hi-purple[Sample size, *n*]
+  - Larger `\(n\)` `\(\rightarrow\)` smaller `\(var(\hat{\beta_j})\)`
+3. .hi-purple[Variance of X]
+  - Larger `\(var(X)\)` `\(\rightarrow\)` smaller `\(var(\hat{\beta_j})\)`
+4. .hi-purple[Variance Inflation Factor] `\(\color{#6A5ACD}{\frac{1}{(1-R^2_j)}}\)`
+  - Larger `\(VIF\)`, larger `\(var(\hat{\beta_j})\)`
+  - **This is the only new effect**
+]
+]
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; See [Class 2.5](/class/2.5-class) for a reminder of variation with just one X variable.]
+
+---
+
+# VIF and Multicollinearity I
+
+- Two *independent* variables are .hi[multicollinear]:
+
+`$$cor(X_j, X_l) \neq 0 \quad \forall j \neq l$$`
+
+--
+
+- .hi-purple[Multicollinearity between X variables does *not bias* OLS estimates]
+  - Remember, we pulled another variable out of `\(u\)` into the regression
+  - If it were omitted, then it *would* cause omitted variable bias! 
+
+--
+
+- .hi-purple[Multicollinearity does *increase the variance* of each estimate] by
+
+`$$VIF=\frac{1}{(1-R^2_j)}$$`
+
+---
+
+# VIF and Multicollinearity II
+
+.smallest[
+`$$VIF=\frac{1}{(1-R^2_j)}$$`
+
+- `\(R^2_j\)` is the `\(R^2\)` from an .hi-blue[auxiliary regression] of `\(X_j\)` on all other regressors `\((X\)`’s)
+]
+
+--
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Suppose we have a regression with three regressors `\((k=3)\)`:
+
+`$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+\beta_3X_{3i}$$`
+]
+]
+
+--
+
+.smallest[
+- There will be three different `\(R^2_j\)`'s, one for each regressor:
+
+`$$\begin{align*}
+R^2_1 \text{ for }  X_{1i}&amp;=\gamma+\gamma X_{2i} + \gamma X_{3i}	\\
+R^2_2 \text{ for }  X_{2i}&amp;=\zeta_0+\zeta_1 X_{1i} + \zeta_2 X_{3i}	\\
+R^2_3 \text{ for }  X_{3i}&amp;=\eta_0+\eta_1 X_{1i} + \eta_2 X_{2i}	\\
+\end{align*}$$`
+]
+
+---
+
+# VIF and Multicollinearity III
+
+.smallest[
+`$$VIF=\frac{1}{(1-R^2_j)}$$`
+
+- `\(R^2_j\)` is the `\(R^2\)` from an **auxiliary regression** of `\(X_j\)` on all other regressors `\((X\)`'s)
+
+- The `\(R_j^2\)` tells us .hi-purple[how much *other* regressors explain regressor `\\(X_j\\)`]
+
+- .hi-turquoise[Key Takeaway]: If other `\(X\)` variables explain `\(X_j\)` well (high `\(R^2_J\)`), it will be harder to tell how *cleanly* `\(X_j \rightarrow Y_i\)`, and so `\(var(\hat{\beta_j})\)` will be higher
+]
+
+---
+
+# VIF and Multicollinearity IV
+
+- Common to calculate the .hi[Variance Inflation Factor (VIF)] for each regressor:
+
+`$$VIF=\frac{1}{(1-R^2_j)}$$`
+
+- VIF quantifies the factor (scalar) by which `\(var(\hat{\beta_j})\)` increases because of multicollinearity
+  - e.g. VIF of 2, 3, etc. `\(\implies\)` variance increases by 2x, 3x, etc.
+--
+
+- Baseline: `\(R^2_j=0\)` `\(\implies\)` *no* multicollinearity `\(\implies VIF = 1\)` (no inflation)
+
+--
+
+- Larger `\(R^2_j\)` `\(\implies\)` larger VIF
+  - Rule of thumb: `\(VIF&gt;10\)` is problematic 
+
+---
+
+# VIF and Multicollinearity V
+
+.pull-left[
+.smallest[
+.code50[
+
+```r
+# scatterplot of X2 on X1
+
+ggplot(data=CASchool, aes(x=str,y=el_pct))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_y_continuous(labels=function(x){paste0(x,"%")})+
+  labs(x = expression(paste("Student to Teacher Ratio, ", X[1])),
+       y = expression(paste("Percentage of ESL Students, ", X[2])),
+       title = "Multicollinearity Between Our Independent Variables")+
+    ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=16)
+```
+
+
+```r
+# Make a correlation table
+CASchool %&gt;%
+  select(testscr, str, el_pct) %&gt;%
+  cor()
+```
+
+```
+##            testscr        str     el_pct
+## testscr  1.0000000 -0.2263628 -0.6441237
+## str     -0.2263628  1.0000000  0.1876424
+## el_pct  -0.6441237  0.1876424  1.0000000
+```
+
+- Cor(STR, %EL) = -0.644
+]
+]
+]
+
+.pull-right[
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-7-1.png" width="504" /&gt;
+
+]
+
+---
+
+# VIF and Multicollinearity in R I
+
+
+```r
+# our multivariate regression
+elreg &lt;- lm(testscr ~ str + el_pct,
+            data = CASchool)
+
+# use the "car" package for VIF function 
+library("car") 
+
+# syntax: vif(lm.object)
+vif(elreg)
+```
+
+```
+##      str   el_pct 
+## 1.036495 1.036495
+```
+
+--
+
+.smaller[
+- `\(var(\hat{\beta_1})\)` on `str` increases by 1.036 times due to multicollinearity with `el_pct`
+- `\(var(\hat{\beta_2})\)` on `el_pct` increases by 1.036 times due to multicollinearity with `str`
+]
+
+---
+
+# VIF and Multicollinearity in R II
+
+- Let's calculate VIF manually to see where it comes from:
+
+--
+
+.smallest[
+.code60[
+
+```r
+# run auxiliary regression of x2 on x1
+
+auxreg &lt;- lm(el_pct ~ str,
+             data = CASchool)
+
+# use broom package's tidy() command (cleaner)
+
+library(broom) # load broom
+
+tidy(auxreg) # look at reg output
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"-19.854055","3":"9.1626044","4":"-2.166857","5":"0.0308099863"},{"1":"str","2":"1.813719","3":"0.4643735","4":"3.905733","5":"0.0001095165"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+---
+
+# VIF and Multicollinearity in R III
+
+.smallest[
+.code60[
+
+```r
+glance(auxreg) # look at aux reg stats for R^2
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["r.squared"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["adj.r.squared"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sigma"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["logLik"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["df.residual"],"name":[11],"type":["int"],"align":["right"]},{"label":["nobs"],"name":[12],"type":["int"],"align":["right"]}],"data":[{"1":"0.03520966","2":"0.03290155","3":"17.98259","4":"15.25475","5":"0.0001095165","6":"1","7":"-1808.502","8":"3623.003","9":"3635.124","10":"135170.2","11":"418","12":"420","_row":"value"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+```r
+# extract our R-squared from aux regression (R_j^2)
+
+aux_r_sq&lt;-glance(auxreg) %&gt;%
+  select(r.squared)
+
+aux_r_sq # look at it
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["r.squared"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.03520966"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+---
+
+# VIF and Multicollinearity in R IV
+
+
+```r
+# calculate VIF manually
+
+our_vif&lt;-1/(1-aux_r_sq) # VIF formula 
+
+our_vif
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["r.squared"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.036495"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+- Again, multicollinearity between the two `\(X\)` variables inflates the variance on each by 1.036 times
+
+---
+
+# VIF and Multicollinearity: Another Example I
+
+.content-box-green[
+.green[**Example**:] What about district expenditures per student?
+]
+
+
+```r
+CASchool %&gt;%
+  select(testscr, str, expn_stu) %&gt;%
+  cor()
+```
+
+```
+##             testscr        str   expn_stu
+## testscr   1.0000000 -0.2263628  0.1912728
+## str      -0.2263628  1.0000000 -0.6199821
+## expn_stu  0.1912728 -0.6199821  1.0000000
+```
+
+
+---
+
+# VIF and Multicollinearity: Another Example II
+
+.pull-left[
+.code60[
+
+```r
+ggplot(data=CASchool, aes(x=str,y=expn_stu))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Student to Teacher Ratio",
+       y = "Expenditures per Student")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=14)
+```
+]
+]
+
+.pull-right[
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. `\(cor(\text{Test score, expn})\neq0\)`
+
+2. `\(cor(\text{STR, expn})\neq 0\)`
+
+]
+
+.pull-right[
+
+![](3.4-slides_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. `\(cor(\text{Test score, expn})\neq0\)`
+
+2. `\(cor(\text{STR, expn})\neq 0\)`
+
+- Omitting `\(expn\)` will **bias** `\(\hat{\beta_1}\)` on STR
+
+]
+
+.pull-right[
+
+![](3.4-slides_files/figure-html/unnamed-chunk-15-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. `\(cor(\text{Test score, expn})\neq0\)`
+
+2. `\(cor(\text{STR, expn})\neq 0\)`
+
+- Omitting `\(expn\)` will **bias** `\(\hat{\beta_1}\)` on STR
+
+- *Including* `\(expn\)` will *not* bias `\(\hat{\beta_1}\)` on STR, but *will* make it less precise (higher variance)
+
+]
+
+.pull-right[
+
+![](3.4-slides_files/figure-html/unnamed-chunk-16-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+- Data tells us little about the effect of a change in `\(STR\)` holding `\(expn\)` constant
+  - Hard to know what happens to test scores when high `\(STR\)` AND high `\(expn\)` and vice versa (*they rarely happen simultaneously*)!
+
+]
+
+.pull-right[
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-17-1.png" width="504" /&gt;
+
+]
+
+
+---
+
+# VIF and Multicollinearity: Another Example IV
+
+.pull-left[
+
+.quitesmall[
+.code60[
+
+```r
+expreg &lt;- lm(testscr ~ str + expn_stu,
+             data = CASchool)
+expreg %&gt;% tidy()
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"675.577173851","3":"19.562221636","4":"34.534788","5":"2.244554e-124"},{"1":"str","2":"-1.763215599","3":"0.610913641","4":"-2.886195","5":"4.101913e-03"},{"1":"expn_stu","2":"0.002486571","3":"0.001823105","4":"1.363921","5":"1.733281e-01"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+]
+
+--
+
+.pull-right[
+.code60[
+
+```r
+expreg %&gt;%
+  vif()
+```
+
+```
+##      str expn_stu 
+## 1.624373 1.624373
+```
+]
+
+- Including `expn_stu` increases variance of `\(\hat{\beta_1}\)` and `\(\hat{\beta_2}\)` by 1.62x (62%)
+
+]
+
+---
+
+# Multicollinearity Increases Variance
+
+.pull-left[
+.code50[
+
+```r
+library(huxtable)
+huxreg("Model 1" = school_reg,
+       "Model 2" = expreg,
+       coefs = c("Intercept" = "(Intercept)",
+                 "Class Size" = "str",
+                 "Expenditures per Student" = "expn_stu"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+
+- We can see `\(SE(\hat{\beta_1})\)` on `str` increases from 0.48 to 0.61 when we add `expn_stu` 
+
+]
+
+.pull-right[
+.quitesmall[
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-20">
+<col><col><col><tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Model 1</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Model 2</th></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Intercept</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">698.93 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">675.58 ***</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(9.47)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(19.56)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Class Size</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.28 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.76 **&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.48)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.61)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Expenditures per Student</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.00)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">420&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R-Squared</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.05&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.06&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">SER</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">18.58&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">18.56&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th colspan="3" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+</table>
+
+]
+
+]
+
+---
+
+# Perfect Multicollinearity
+
+- .hi[*Perfect* multicollinearity] is when a regressor is an exact linear function of (an)other regressor(s)
+
+--
+
+`$$\widehat{Sales} = \hat{\beta_0}+\hat{\beta_1}\text{Temperature (C)} + \hat{\beta_2}\text{Temperature (F)}$$`
+
+--
+
+`$$\text{Temperature (F)}=32+1.8*\text{Temperature (C)}$$`
+
+--
+
+- `\(cor(\text{temperature (F), temperature (C)})=1\)`
+
+--
+
+- `\(R^2_j=1\)` is implying `\(VIF=\frac{1}{1-1}\)` and `\(var(\hat{\beta_j})=0\)`!
+
+--
+
+- .hi-purple[This is fatal for a regression]
+  - A logical impossiblity, **always caused by human error**
+
+---
+
+# Perfect Multicollinearity: Example
+
+.content-box-green[
+.green[**Example**:]
+
+`$$\widehat{TestScore_i} = \hat{\beta_0}+\hat{\beta_1}STR_i	+\hat{\beta_2}\%EL+\hat{\beta_3}\%EF$$`
+
+]
+
+- %EL: the percentage of students learning English
+
+- %EF: the percentage of students fluent in English
+
+- `\(EF=100-EL\)`
+
+- `\(|cor(EF, EL)|=1\)`
+
+---
+
+# Perfect Multicollinearity Example II
+
+
+```r
+# generate %EF variable from %EL
+CASchool_ex &lt;- CASchool %&gt;%
+  mutate(ef_pct = 100 - el_pct)
+
+# get correlation between %EL and %EF
+CASchool_ex %&gt;%
+  summarize(cor = cor(ef_pct, el_pct))
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-21">
+<col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">cor</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1</td></tr>
+</table>
+
+
+---
+
+# Perfect Multicollinearity Example III
+
+.pull-left[
+.code60[
+
+```r
+ggplot(data=CASchool_ex, aes(x=el_pct,y=ef_pct))+
+  geom_point(color="blue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Percent of ESL Students",
+       y = "Percent of Non-ESL Students")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=16)
+```
+
+]
+]
+
+.pull-right[
+&lt;img src="3.4-slides_files/figure-html/unnamed-chunk-22-1.png" width="504" /&gt;
+
+]
+
+---
+
+# Perfect Multicollinearity Example IV
+
+.pull-left[
+.quitesmall[
+.code60[
+
+```r
+mcreg &lt;- lm(testscr ~ str + el_pct + ef_pct,
+            data = CASchool_ex)
+summary(mcreg)
+```
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ str + el_pct + ef_pct, data = CASchool_ex)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -48.845 -10.240  -0.308   9.815  43.461 
+## 
+## Coefficients: (1 not defined because of singularities)
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 686.03225    7.41131  92.566  &lt; 2e-16 ***
+## str          -1.10130    0.38028  -2.896  0.00398 ** 
+## el_pct       -0.64978    0.03934 -16.516  &lt; 2e-16 ***
+## ef_pct             NA         NA      NA       NA    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 14.46 on 417 degrees of freedom
+## Multiple R-squared:  0.4264,	Adjusted R-squared:  0.4237 
+## F-statistic:   155 on 2 and 417 DF,  p-value: &lt; 2.2e-16
+```
+]
+]
+]
+
+.pull-right[
+
+.quitesmall[
+.code60[
+
+```r
+mcreg %&gt;% tidy()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-24">
+<col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">(Intercept)</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">686&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">7.41&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">92.6</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.87e-280</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">str</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.1&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.38&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-2.9</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.00398&nbsp;&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">el_pct</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-0.65</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.0393</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-16.5</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">1.66e-47&nbsp;</td></tr>
+<tr>
+<td style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">ef_pct</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+</table>
+
+]
+]
+]
+
+- Note `R` *drops* one of the multicollinear regressors (`ef_pct`) if you include both 🤡
+
+---
+
+class: inverse, center, middle
+
+# A Summary of Multivariate OLS Estimator Properties
+
+---
+
+# A Summary of Multivariate OLS Estimator Properties
+
+.smallest[
+- `\(\hat{\beta_j}\)` on `\(X_j\)` is biased only if there is an omitted variable `\((Z)\)` such that: 
+    1. `\(cor(Y,Z)\neq 0\)`
+    2. `\(cor(X_j,Z)\neq 0\)`
+    - If `\(Z\)` is *included* and `\(X_j\)` is collinear with `\(Z\)`, this does *not* cause a bias
+
+- `\(var[\hat{\beta_j}]\)` and `\(se[\hat{\beta_j}]\)` measure precision (or uncertainty) of estimate:
+]
+
+--
+
+.smallest[
+`$$var[\hat{\beta_j}]=\frac{1}{(1-R^2_j)}*\frac{SER^2}{n \times var[X_j]}$$`
+
+- VIF from multicollinearity: `\(\frac{1}{(1-R^2_j)}\)`
+  - `\(R_j^2\)` for auxiliary regression of `\(X_j\)` on all other `\(X\)`'s
+  - mutlicollinearity does not bias `\(\hat{\beta_j}\)` but raises its variance 
+  - *perfect* multicollinearity if `\(X\)`'s are linear function of others 
+]
+
+---
+
+class: inverse, center, middle
+
+# Updated Measures of Fit
+
+---
+
+# (Updated) Measures of Fit
+
+- Again, how well does a linear model fit the data?
+
+- How much variation in `\(Y_i\)` is “explained” by variation in the model `\((\hat{Y_i})\)`?
+
+--
+
+`$$\begin{align*}
+Y_i&amp;=\hat{Y_i}+\hat{u_i}\\
+\hat{u_i}&amp;= Y_i-\hat{Y_i}\\
+\end{align*}$$`
+
+---
+
+# (Updated) Measures of Fit: SER
+
+- Again, the .hi[Standard errror of the regression (SER)] estimates the standard error of `\(u\)` 
+
+`$$SER=\frac{SSE}{n-\mathbf{k}-1}$$`
+
+- A measure of the spread of the observations around the regression line (in units of `\(Y\)`), the average "size" of the residual
+
+- .hi-purple[Only new change:] divided by `\(n-\color{#6A5ACD}{k}-1\)` due to use of `\(k+1\)` degrees of freedom to first estimate `\(\beta_0\)` and then all of the other `\(\beta\)`'s for the `\(k\)` number of regressors&lt;sup&gt;.magenta[†]&lt;/sup&gt;
+
+.footnote[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Again, because your textbook defines *k* as including the constant, the denominator would be *n-k* instead of *n-k-1*.]
+
+---
+
+# (Updated) Measures of Fit: `\(R^2\)`
+
+`$$\begin{align*}
+R^2&amp;=\frac{ESS}{TSS}\\
+&amp;=1-\frac{SSE}{TSS}\\
+&amp;=(r_{X,Y})^2 \\ \end{align*}$$`
+
+- Again, `\(R^2\)` is fraction of variation of the model `\((\hat{Y_i}\)` (“explained sum of squares”) to the variation of observations of `\(Y_i\)` (“total sum of squares”) 
+
+---
+
+# (Updated) Measures of Fit: Adjusted `\(\bar{R}^2\)`
+
+- Problem: `\(R^2\)` of a regression increases *every* time a new variable is added (it reduces SSE!)
+
+- This does *not* mean adding a variable improves the fit of the model per se, `\(R^2\)` gets **inflated**
+
+--
+
+-  We correct for this effect with the .hi[adjusted `\\(R^2\\)`]: 
+
+`$$\bar{R}^2 = 1 - \frac{n-1}{n-k-1} \times \frac{SSE}{TSS}$$`
+
+- There are different methods to compute `\(\bar{R}^2\)`, and in the end, recall `\(R^2\)` **was never very useful**, so don't worry about knowing the formula
+  - Large sample sizes `\((n)\)` make `\(R^2\)` and `\(\bar{R}^2\)` very close
+
+---
+
+# In R (base)
+
+.pull-left[
+.quitesmall[
+
+```
+## 
+## Call:
+## lm(formula = testscr ~ str + el_pct, data = CASchool)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -48.845 -10.240  -0.308   9.815  43.461 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 686.03225    7.41131  92.566  &lt; 2e-16 ***
+## str          -1.10130    0.38028  -2.896  0.00398 ** 
+## el_pct       -0.64978    0.03934 -16.516  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 14.46 on 417 degrees of freedom
+## Multiple R-squared:  0.4264,	Adjusted R-squared:  0.4237 
+## F-statistic:   155 on 2 and 417 DF,  p-value: &lt; 2.2e-16
+```
+]
+]
+
+
+.pull-right[
+.smallest[
+- Base `\(R^2\)` (`R` calls it “`Multiple R-squared`”) went up 
+- `Adjusted R-squared` went down 
+]
+]
+
+---
+
+# In R (broom)
+
+.pull-left[
+.quitesmall[
+
+```r
+elreg %&gt;%
+  glance()
+```
+
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-26">
+<col><col><col><col><col><col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">adj.r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">sigma</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
+<tr>
+<td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.426</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">0.424</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">14.5</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">155</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">4.62e-51</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">2</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">-1.72e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.44e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">3.46e+03</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">8.72e+04</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">417</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; background-color: rgb(242, 242, 242); font-weight: normal;">420</td></tr>
+</table>
+
+]
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

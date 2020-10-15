@@ -1,5 +1,5 @@
 ---
-title: "3.3 — Omitted Variable Bias — Class Notes"
+title: "3.4 — Multivariate OLS Estimators: Bias, Precision, and Fit — Class Notes"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-syllabus-no-bib.csl
@@ -11,17 +11,11 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Tuesday, October 13, 2020* 
+*Thursday, October 15, 2020* 
 
 # Overview
 
-Today we return to our regression models, now knowing something about identifying causal effects. We know from DAGs that we often need to “adjust for” or “control for variables” in order to identify the causal effect we are interested in. Now we give a particular name and set of conditions for when we need to control a variable: .b[“omitted variable bias”], where some variable both causes $Y$ (is in $u)$, and is correlated with $X$. To avoid introducing the bias, we now *include* it as an additional independent variable in our regression. 
-
-Thus, we now begin exploring multivariate regression with multiple regressors:
-
-$$Y_i=\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i} + u_i$$
-
-Next class we will learn more about how the introduction of additional variables affects our model.
+Today we continue looking at multivariate regression, and see how the introduction of additional variables affects our model: the interpretation of the marginal effects (and we will measure an example of omitted variable bias), the standard errors of the estimators, and the goodness of fit of the regression.
 
 We continue the extended example about class sizes and test scores, which comes from a (Stata) dataset from an old textbook that I used to use, [Stock and Watson, 2007](https://www.pearson.com/us/higher-education/product/Stock-Introduction-to-Econometrics-Update-3rd-Edition/9780133486872.html?tab=resources). Download and follow along with the data from today's example:^[Note this is a `.dta` Stata file. You will need to (install and) load the package `haven` to `read_dta()` Stata files into a dataframe.]
 
@@ -33,12 +27,12 @@ I have also made a RStudio Cloud project documenting all of the things we have b
 
 # Readings
 
-Please see [today’s suggested readings](/reading/3.3-reading).
+Please see [today’s suggested readings](/reading/3.4-reading).
 
 # Slides
 
-- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.3-slides.html)
-- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.3-slides.pdf)
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.4-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.4-slides.pdf)
 
 # Assignments
 

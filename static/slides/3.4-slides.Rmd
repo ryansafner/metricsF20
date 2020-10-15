@@ -1,0 +1,1340 @@
+---
+title: "3.4 — Multivariate OLS Estimators"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+```{r regression-setup, echo=F, results="hide"}
+
+library(haven)
+CASchool<-read_dta("../data/caschool.dta")
+
+# run regression of testscr on str
+school_reg <- lm(testscr ~ str, 
+                 data = CASchool)
+
+library(broom)
+school_reg_tidy <- tidy(school_reg,
+     conf.int = TRUE) # add confidence intervals
+CASchool_aug <- augment(school_reg)
+
+library(equatiomatic)
+extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
+
+```
+
+class: inverse, center, middle
+
+# The Multivariate OLS Estimators
+
+---
+
+# The Multivariate OLS Estimators
+
+- By analogy, we still focus on the .hi[ordinary least squares (OLS) estimators] of the unknown population parameters $\beta_0, \beta_1, \beta_2, \cdots, \beta_k$ which solves:
+
+$$\min_{\hat{\beta_0}, \hat{\beta_1}, \hat{\beta_2}, \cdots, \hat{\beta_k}} \sum^n_{i=1}\left[\underbrace{Y_i-(\hat{\beta_0}+\hat{\beta_1}X_{1i}+\hat{\beta_2}X_{2i}+\cdots+ \hat{\beta_k}X_{ki})}_{u_i}\right]^2$$
+
+- Again, OLS estimators are chosen to .hi-purple[minimize] the .hi[sum of squared errors (SSE)]
+  - i.e. sum of squared distances between actual values of $Y_i$ and predicted values $\hat{Y_i}$
+
+---
+
+# The Multivariate OLS Estimators: FYI
+
+.smallest[
+.content-box-red[
+.red[**Math FYI]**: in linear algebra terms, a regression model with $n$ observations of $k$ independent variables:
+
+$$\mathbf{Y} = \mathbf{X \beta}+\mathbf{u}$$
+
+$$\underbrace{\begin{pmatrix}
+			y_1\\
+			y_2\\
+			\vdots \\
+			y_n\\
+		\end{pmatrix}}_{\mathbf{Y}_{(n \times 1)}}
+		=
+		\underbrace{\begin{pmatrix}
+	x_{1,1} & x_{1,2} & \cdots & x_{1,n}\\
+	x_{2,1} & x_{2,2} & \cdots & x_{2,n}\\
+	\vdots & \vdots & \ddots & \vdots\\
+	x_{k,1} & x_{k,2} & \cdots & x_{k,n}\\ 
+\end{pmatrix}}_{\mathbf{X}_{(n \times k)}}
+		\underbrace{\begin{pmatrix}
+\beta_1\\
+\beta_2\\
+\vdots \\
+\beta_k \\	
+\end{pmatrix}}_{\mathbf{\beta}_{(k \times 1)}}
++
+		\underbrace{\begin{pmatrix}
+			u_1\\
+			u_2\\
+			\vdots \\
+			u_n \\
+		\end{pmatrix}}_{\mathbf{u}_{(n \times 1)}}$$
+
+]
+]
+--
+
+.smallest[
+- The OLS estimator for $\beta$ is $\hat{\beta}=(\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{Y}$ 😱
+]
+--
+
+.smallest[
+- Appreciate that I am saving you from such sorrow 🤖
+]
+
+---
+
+# The Sampling Distribution of $\hat{\beta_j}$
+
+.pull-left[
+.smallest[
+- For *any* individual $\beta_j$, it has a sampling distribution: 
+
+$$\hat{\beta_j} \sim N \left(E[\hat{\beta_j}], \;se(\hat{\beta_j})\right)$$
+
+- We want to know its sampling distribution’s:
+  - .hi-purple[Center]: $\color{#6A5ACD}{E[\hat{\beta_j}]}$; what is the *expected value* of our estimator?
+  - .hi-purple[Spread]: $\color{#6A5ACD}{se(\hat{\beta_j})}$; how *precise* or *uncertain* is our estimator?
+]
+
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+beta_dist<-ggplot(data = tibble(x=-4:4))+
+  aes(x = x)+
+  stat_function(fun = dnorm, size=2, color="blue")+
+  geom_segment(aes(x=0,xend=0, y=0, yend=0.4), linetype="dashed")+
+  scale_x_continuous(breaks = 0,
+                     labels = expression(E(hat(beta[j]))))+
+  labs(x = expression(hat(beta[j])),
+       y = "Probability")+
+  theme_classic(base_family = "Fira Sans Condensed",
+           base_size=20)
+beta_dist
+```
+]
+
+---
+
+# The Sampling Distribution of $\hat{\beta_j}$
+
+.pull-left[
+.smallest[
+- For *any* individual $\beta_j$, it has a sampling distribution: 
+
+$$\hat{\beta_j} \sim N \left(E[\hat{\beta_j}], \;se(\hat{\beta_j})\right)$$
+
+- We want to know its sampling distribution’s:
+  - .hi-purple[Center]: $\color{#6A5ACD}{E[\hat{\beta_j}]}$; what is the *expected value* of our estimator?
+  - .hi-purple[Spread]: $\color{#6A5ACD}{se(\hat{\beta_j})}$; how *precise* or *uncertain* is our estimator?
+]
+
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/3adddurpkp2k22o/biasvariability.png?raw=1)
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# The Expected Value of $\hat{\beta_j}$: Bias
+
+---
+
+# Exogeneity and Unbiasedness
+
+- As before, $E[\hat{\beta_j}]=\beta_j$ when $X_j$ is .hi-purple[exogenous] (i.e. $cor(X_j, u)=0$)
+
+--
+
+- We know the true $E[\hat{\beta_j}]=\beta_j+\underbrace{cor(X_j,u)\frac{\sigma_u}{\sigma_{X_j}}}_{\text{O.V. Bias}}$
+
+--
+
+- If $X_j$ is .hi[endogenous] (i.e. $cor(X_j, u)\neq 0$), contains **omitted variable bias**
+
+--
+
+- We can now try to *quantify* the omitted variable bias
+
+---
+
+# Measuring Omitted Variable Bias I
+
+- Suppose the .hi-green[_true_ population model] of a relationship is:
+
+$$Y_i=\beta_0+\beta_1 X_{1i}+\beta_2 X_{2i}+u_i$$
+
+- What happens when we run a regression and **omit** $X_{2i}$?
+
+--
+
+- Suppose we estimate the following .hi-blue[omitted regression] of just $Y_i$ on $X_{1i}$ (omitting $X_{2i})$:<sup>.magenta[†]</sup>
+
+$$\color{#0047AB}{Y_i=\alpha_0+\alpha_1 X_{1i}+\nu_i}$$
+
+.footnote[<sup>.magenta[†]</sup> Note: I am using `\\(\alpha\\)`'s and `\\(\nu_i\\)` only to denote these are different estimates than the .hi-green[true] model `\\(\beta\\)`'s and `\\(u_i\\)`]
+
+---
+
+# Measuring Omitted Variable Bias II
+
+- .hi-turquoise[**Key Question**:] are $X_{1i}$ and $X_{2i}$ correlated?
+
+--
+
+- Run an .hi-purple[auxiliary regression] of $X_{2i}$ on $X_{1i}$ to see:<sup>.magenta[†]</sup>
+
+$$\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$$
+
+--
+
+- If $\color{#6A5ACD}{\delta_1}=0$, then $X_{1i}$ and $X_{2i}$ are *not* linearly related
+
+- If $|\color{#6A5ACD}{\delta_1}|$ is very big, then $X_{1i}$ and $X_{2i}$ are strongly linearly related
+
+.footnote[<sup>.magenta[†]</sup> Note: I am using `\\(\delta\\)`'s and `\\(\tau\\)` to differentiate estimates for this model.]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between $X_{2i}$ and $X_{1i}$ into the .hi-green[*true* model]:
+  - We know $\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$
+
+$$\begin{align*}
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+\end{align*}$$
+]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between $X_{2i}$ and $X_{1i}$ into the .hi-green[*true* model]:
+  - We know $\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$
+
+$$\begin{align*}
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+\end{align*}$$
+]
+
+---
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between $X_{2i}$ and $X_{1i}$ into the .hi-green[*true* model]:
+  - We know $\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$
+
+$$\begin{align*}
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+Y_i&=(\beta_0+\beta_2 \color{#6A5ACD}{\delta_0})+(\beta_1+\beta_2 \color{#6A5ACD}{\delta_1})\color{#6A5ACD}{X_{1i}}+(\beta_2 \color{#6A5ACD}{\tau_i}+u_i)\\
+\end{align*}$$
+]
+
+---
+
+# Measuring Omitted Variable Bias III
+
+.smallest[
+- Now substitute our .hi-purple[auxiliary regression] between $X_{2i}$ and $X_{1i}$ into the .hi-green[*true* model]:
+  - We know $\color{#6A5ACD}{X_{2i}=\delta_0+\delta_1 X_{1i}+\tau_i}$
+
+$$\begin{align*}
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{X_{2i}}+u_i	\\
+	Y_i&=\beta_0+\beta_1 X_{1i}+\beta_2 \color{#6A5ACD}{\big(\delta_0+\delta_1 X_{1i}+\tau_i \big)}+u_i	\\
+Y_i&=(\underbrace{\beta_0+\beta_2 \color{#6A5ACD}{\delta_0}}_{\color{#0047AB}{\alpha_0}})+(\underbrace{\beta_1+\beta_2 \color{#6A5ACD}{\delta_1}}_{\color{#0047AB}{\alpha_1}})\color{#6A5ACD}{X_{1i}}+(\underbrace{\beta_2 \color{#6A5ACD}{\tau_i}+u_i}_{\color{#0047AB}{\nu_i}})\\
+\end{align*}$$
+
+- Now relabel each of the three terms as the OLS estimates $(\alpha$'s) and error $(\nu_i)$ from the .hi-blue[omitted regression], so we again have:
+
+$$\color{#0047AB}{Y_i=\alpha_0+\alpha_1X_{1i}+\nu_i}$$
+]
+
+--
+
+.smallest[
+- Crucially, this means that our OLS estimate for $X_{1i}$ in the .hi-purple[omitted regression] is:
+$$\color{#0047AB}{\alpha_1}=\beta_1+\beta_2 \color{#6A5ACD}{\delta_1}$$
+]
+
+---
+
+# Measuring Omitted Variable Bias IV
+
+.smallest[
+.center[
+$\color{#0047AB}{\alpha_1}= \,$.green[`\\(\beta_1\\)`] $+$ .red[`\\(\beta_2\\)`].purple[`\\(\delta_1\\)`]
+]
+
+- The .hi-blue[Omitted Regression] OLS estimate for `\\(X_{1i}\\)`, `\\((\color{#0047AB}{\alpha_1})\\)` picks up *both*:
+]
+
+--
+
+.smallest[
+1. .green[The true effect of `\\(X_{1}\\)` on `\\(Y_i\\)`: `\\((\beta_1)\\)`]
+]
+
+--
+
+.smallest[
+2. .red[The true effect of `\\(X_{2}\\)` on `\\(Y_i\\)`: `\\((\beta_2)\\)`]
+  - As pulled through .purple[the relationship between `\\(X_1\\)` and `\\(X_2\\)`: `\\((\delta_1)\\)`]
+]
+--
+
+.smallest[
+- Recall our conditions for omitted variable bias from some variable $Z_i$:
+]
+--
+
+.smallest[
+1) $\mathbf{Z_i}$ **must be a determinant of $Y_i$** $\implies$ .red[`\\(\beta_2 \neq 0\\)`]
+]
+--
+
+.smallest[
+2) $\mathbf{Z_i}$ **must be correlated with $X_i$** $\implies$ .purple[`\\(\delta_1 \neq 0\\)`]
+]
+--
+
+.smallest[
+- Otherwise, if $Z_i$ does not fit these conditions, $\alpha_1=\beta_1$ and the .hi-purple[omitted regression] is *unbiased*!
+]
+
+---
+
+# Measuring OVB in Our Class Size Example I
+
+- The .hi-green[“True” Regression] $(Y_i$ on $X_{1i}$ and $X_{2i})$
+
+$$\color{#7CAE96}{\widehat{\text{Test Score}_i}=686.03-1.10\text{ STR}_i-0.65\text{ %EL}_i}$$
+
+.center[
+.quitesmall[
+```{r}
+true<-lm(testscr~str+el_pct, data=CASchool)
+true %>% tidy()
+```
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example II
+
+- The .hi-blue[“Omitted” Regression] $(Y_{i}$ on just $X_{1i})$
+
+$$\color{#0047AB}{\widehat{\text{Test Score}_i}=698.93-2.28\text{ STR}_i}$$
+
+.center[
+.quitesmall[
+```{r}
+omitted<-lm(testscr~str, data=CASchool)
+omitted %>% tidy()
+```
+]
+]
+
+
+
+
+---
+
+# Measuring OVB in Our Class Size Example III
+
+- The .hi-purple[“Auxiliary” Regression] $(X_{2i}$ on $X_{1i})$
+
+$$\color{#6A5ACD}{\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i}$$
+
+.center[
+.quitesmall[
+```{r}
+aux<-lm(el_pct~str, data=CASchool)
+aux %>% tidy()
+```
+]
+]
+
+
+
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03-1.10\text{ STR}_i-0.65\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28}\text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$$\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i$$
+]
+
+]
+]
+
+.pull-right[
+
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i-0.65\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i$
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+
+.center[
+$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$\widehat{\text{%EL}_i}=-19.85+1.81\text{ STR}_i$
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+
+.center[
+$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i$
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+
+.center[
+$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+]
+]
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i$
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+
+.center[
+$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+- So, for the .hi-blue[omitted regression]:
+
+.center[
+$$\color{#0047AB}{-2.28}=\color{#7CAE96}{-1.10}+\color{#D7250E}{(-0.65)} \color{#6A5ACD}{(1.81)}$$
+]
+
+]
+]
+
+
+---
+
+# Measuring OVB in Our Class Size Example IV
+
+.pull-left[
+.center[
+.smallest[
+.hi-green[“True” Regression]
+
+$$\widehat{\text{Test Score}_i}=686.03 \color{#7CAE96}{-1.10}\text{ STR}_i\color{#D7250E}{-0.65}\text{ %EL}$$
+
+.hi-blue[“Omitted” Regression]
+
+$\widehat{\text{Test Score}_i}=698.93\color{#0047AB}{-2.28} \text{ STR}_i$
+
+.hi-purple[“Auxiliary” Regression]
+
+$\widehat{\text{%EL}_i}=-19.85+\color{#6A5ACD}{1.81}\text{ STR}_i$
+
+]
+]
+]
+
+.pull-right[
+.smallest[
+- Omitted Regression $\alpha_1$ on STR is .blue[-2.28]
+
+.center[
+$$\color{#0047AB}{\alpha_1}=\color{#7CAE96}{\beta_1}+\color{#D7250E}{\beta_2} \color{#6A5ACD}{\delta_1}$$
+]
+
+- .green[The true effect of STR on Test Score: -1.10]
+
+- .red[The true effect of %EL on Test Score: -0.65]
+
+- .purple[The relationship between STR and %EL: 1.81]
+
+- So, for the .hi-blue[omitted regression]:
+
+.center[
+$$\color{#0047AB}{-2.28}=\color{#7CAE96}{-1.10}+\underbrace{\color{#D7250E}{(-0.65)} \color{#6A5ACD}{(1.81)}}_{O.V.Bias=\mathbf{-1.18}}$$
+]
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Precision of $\hat{\beta_j}$
+
+---
+
+# Precision of $\hat{\beta_j}$ I
+
+.pull-left[
+
+- $\sigma_{\hat{\beta_j}}$; how **precise** are our estimates?
+
+- <span class="hi">Variance $\sigma^2_{\hat{\beta_j}}$</span> or <span class="hi">standard error $\sigma_{\hat{\beta_j}}$</span>
+]
+
+.pull-right[
+
+```{r, fig.retina=3}
+beta_dist+
+  geom_label(x=1, y=dnorm(1), label=expression(sigma[hat(beta[j])]==1), color="blue")+
+  stat_function(fun = dnorm, args=list(mean = 0, sd = 2), size=2, color="red")+
+  geom_label(x=2, y=dnorm(2,0,2), label=expression(sigma[hat(beta[j])]==2), color="red")
+```
+]
+
+---
+
+# Precision of $\hat{\beta_j}$ II
+
+.pull-left[
+
+$$var(\hat{\beta_j})=\underbrace{\color{#6A5ACD}{\frac{1}{1-R^2_j}}}_{\color{#6A5ACD}{VIF}} \times \frac{(SER)^2}{n \times var(X)}$$
+
+$$se(\hat{\beta_j})=\sqrt{var(\hat{\beta_1})}$$
+
+]
+
+.pull-right[
+.smallest[
+- Variation in $\hat{\beta_j}$ is affected by **four** things now<sup>.magenta[†]</sup>:
+
+1. .hi-purple[Goodness of fit of the model (SER)]
+  - Larger $SER$ $\rightarrow$ larger $var(\hat{\beta_j})$
+2. .hi-purple[Sample size, *n*]
+  - Larger $n$ $\rightarrow$ smaller $var(\hat{\beta_j})$
+3. .hi-purple[Variance of X]
+  - Larger $var(X)$ $\rightarrow$ smaller $var(\hat{\beta_j})$
+4. .hi-purple[Variance Inflation Factor] $\color{#6A5ACD}{\frac{1}{(1-R^2_j)}}$
+  - Larger $VIF$, larger $var(\hat{\beta_j})$
+  - **This is the only new effect**
+]
+]
+
+.footnote[<sup>.magenta[†]</sup> See [Class 2.5](/class/2.5-class) for a reminder of variation with just one X variable.]
+
+---
+
+# VIF and Multicollinearity I
+
+- Two *independent* variables are .hi[multicollinear]:
+
+$$cor(X_j, X_l) \neq 0 \quad \forall j \neq l$$
+
+--
+
+- .hi-purple[Multicollinearity between X variables does *not bias* OLS estimates]
+  - Remember, we pulled another variable out of $u$ into the regression
+  - If it were omitted, then it *would* cause omitted variable bias! 
+
+--
+
+- .hi-purple[Multicollinearity does *increase the variance* of each estimate] by
+
+$$VIF=\frac{1}{(1-R^2_j)}$$
+
+---
+
+# VIF and Multicollinearity II
+
+.smallest[
+$$VIF=\frac{1}{(1-R^2_j)}$$
+
+- $R^2_j$ is the $R^2$ from an .hi-blue[auxiliary regression] of $X_j$ on all other regressors $(X$’s)
+]
+
+--
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Suppose we have a regression with three regressors $(k=3)$:
+
+$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+\beta_3X_{3i}$$
+]
+]
+
+--
+
+.smallest[
+- There will be three different $R^2_j$'s, one for each regressor:
+
+$$\begin{align*}
+R^2_1 \text{ for }  X_{1i}&=\gamma+\gamma X_{2i} + \gamma X_{3i}	\\
+R^2_2 \text{ for }  X_{2i}&=\zeta_0+\zeta_1 X_{1i} + \zeta_2 X_{3i}	\\
+R^2_3 \text{ for }  X_{3i}&=\eta_0+\eta_1 X_{1i} + \eta_2 X_{2i}	\\
+\end{align*}$$
+]
+
+---
+
+# VIF and Multicollinearity III
+
+.smallest[
+$$VIF=\frac{1}{(1-R^2_j)}$$
+
+- $R^2_j$ is the $R^2$ from an **auxiliary regression** of $X_j$ on all other regressors $(X$'s)
+
+- The $R_j^2$ tells us .hi-purple[how much *other* regressors explain regressor `\\(X_j\\)`]
+
+- .hi-turquoise[Key Takeaway]: If other $X$ variables explain $X_j$ well (high $R^2_J$), it will be harder to tell how *cleanly* $X_j \rightarrow Y_i$, and so $var(\hat{\beta_j})$ will be higher
+]
+
+---
+
+# VIF and Multicollinearity IV
+
+- Common to calculate the .hi[Variance Inflation Factor (VIF)] for each regressor:
+
+$$VIF=\frac{1}{(1-R^2_j)}$$
+
+- VIF quantifies the factor (scalar) by which $var(\hat{\beta_j})$ increases because of multicollinearity
+  - e.g. VIF of 2, 3, etc. $\implies$ variance increases by 2x, 3x, etc.
+--
+
+- Baseline: $R^2_j=0$ $\implies$ *no* multicollinearity $\implies VIF = 1$ (no inflation)
+
+--
+
+- Larger $R^2_j$ $\implies$ larger VIF
+  - Rule of thumb: $VIF>10$ is problematic 
+
+---
+
+# VIF and Multicollinearity V
+
+.pull-left[
+.smallest[
+.code50[
+```{r el-str-scatter, echo=T, eval=F}
+# scatterplot of X2 on X1
+
+ggplot(data=CASchool, aes(x=str,y=el_pct))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_y_continuous(labels=function(x){paste0(x,"%")})+
+  labs(x = expression(paste("Student to Teacher Ratio, ", X[1])),
+       y = expression(paste("Percentage of ESL Students, ", X[2])),
+       title = "Multicollinearity Between Our Independent Variables")+
+    ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=16)
+```
+
+```{r, echo=T}
+# Make a correlation table
+CASchool %>%
+  select(testscr, str, el_pct) %>%
+  cor()
+```
+
+- Cor(STR, %EL) = -0.644
+]
+]
+]
+
+.pull-right[
+```{r ref.label="el-str-scatter", fig.retina=3}
+
+```
+
+]
+
+---
+
+# VIF and Multicollinearity in R I
+
+```{r, echo=T}
+# our multivariate regression
+elreg <- lm(testscr ~ str + el_pct,
+            data = CASchool)
+
+# use the "car" package for VIF function 
+library("car") 
+
+# syntax: vif(lm.object)
+vif(elreg)
+```
+
+--
+
+.smaller[
+- $var(\hat{\beta_1})$ on `str` increases by 1.036 times due to multicollinearity with `el_pct`
+- $var(\hat{\beta_2})$ on `el_pct` increases by 1.036 times due to multicollinearity with `str`
+]
+
+---
+
+# VIF and Multicollinearity in R II
+
+- Let's calculate VIF manually to see where it comes from:
+
+--
+
+.smallest[
+.code60[
+```{r,echo=T}
+# run auxiliary regression of x2 on x1
+
+auxreg <- lm(el_pct ~ str,
+             data = CASchool)
+
+# use broom package's tidy() command (cleaner)
+
+library(broom) # load broom
+
+tidy(auxreg) # look at reg output
+```
+]
+]
+
+---
+
+# VIF and Multicollinearity in R III
+
+.smallest[
+.code60[
+```{r,echo=T}
+glance(auxreg) # look at aux reg stats for R^2
+
+# extract our R-squared from aux regression (R_j^2)
+
+aux_r_sq<-glance(auxreg) %>%
+  select(r.squared)
+
+aux_r_sq # look at it
+```
+]
+]
+
+---
+
+# VIF and Multicollinearity in R IV
+
+```{r,echo=T}
+# calculate VIF manually
+
+our_vif<-1/(1-aux_r_sq) # VIF formula 
+
+our_vif
+```
+
+- Again, multicollinearity between the two $X$ variables inflates the variance on each by 1.036 times
+
+---
+
+# VIF and Multicollinearity: Another Example I
+
+.content-box-green[
+.green[**Example**:] What about district expenditures per student?
+]
+
+```{r, echo=T}
+CASchool %>%
+  select(testscr, str, expn_stu) %>%
+  cor()
+```
+
+
+---
+
+# VIF and Multicollinearity: Another Example II
+
+.pull-left[
+.code60[
+```{r exp-str-scatter, echo=T, eval=F}
+ggplot(data=CASchool, aes(x=str,y=expn_stu))+
+  geom_point(color="blue")+
+  geom_smooth(method="lm", color="red")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Student to Teacher Ratio",
+       y = "Expenditures per Student")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=14)
+```
+]
+]
+
+.pull-right[
+```{r ref.label="exp-str-scatter", fig.retina=3}
+
+```
+
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. $cor(\text{Test score, expn})\neq0$
+
+2. $cor(\text{STR, expn})\neq 0$
+
+]
+
+.pull-right[
+
+```{r}
+library(ggdag)
+dag<-dagify(test~str+expn,
+       str~expn,
+       exposure = "str",
+       outcome = "test") %>% 
+  tidy_dagitty(seed = 2) %>%
+  ggdag_status(stylized = FALSE)+theme_dag_blank()+theme(legend.position = "none")
+dag
+```
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. $cor(\text{Test score, expn})\neq0$
+
+2. $cor(\text{STR, expn})\neq 0$
+
+- Omitting $expn$ will **bias** $\hat{\beta_1}$ on STR
+
+]
+
+.pull-right[
+
+```{r}
+dag
+```
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+
+1. $cor(\text{Test score, expn})\neq0$
+
+2. $cor(\text{STR, expn})\neq 0$
+
+- Omitting $expn$ will **bias** $\hat{\beta_1}$ on STR
+
+- *Including* $expn$ will *not* bias $\hat{\beta_1}$ on STR, but *will* make it less precise (higher variance)
+
+]
+
+.pull-right[
+
+```{r}
+dag
+```
+]
+
+---
+
+# VIF and Multicollinearity: Another Example III
+
+.pull-left[
+- Data tells us little about the effect of a change in $STR$ holding $expn$ constant
+  - Hard to know what happens to test scores when high $STR$ AND high $expn$ and vice versa (*they rarely happen simultaneously*)!
+
+]
+
+.pull-right[
+```{r ref.label="exp-str-scatter", fig.retina=3}
+
+```
+
+]
+
+
+---
+
+# VIF and Multicollinearity: Another Example IV
+
+.pull-left[
+
+.quitesmall[
+.code60[
+```{r, echo=T}
+expreg <- lm(testscr ~ str + expn_stu,
+             data = CASchool)
+expreg %>% tidy()
+```
+]
+]
+
+]
+
+--
+
+.pull-right[
+.code60[
+```{r, echo=T}
+expreg %>%
+  vif()
+```
+]
+
+- Including `expn_stu` increases variance of $\hat{\beta_1}$ and $\hat{\beta_2}$ by 1.62x (62%)
+
+]
+
+---
+
+# Multicollinearity Increases Variance
+
+.pull-left[
+.code50[
+```{r multioutput, echo=T, eval=F}
+library(huxtable)
+huxreg("Model 1" = school_reg,
+       "Model 2" = expreg,
+       coefs = c("Intercept" = "(Intercept)",
+                 "Class Size" = "str",
+                 "Expenditures per Student" = "expn_stu"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+
+- We can see $SE(\hat{\beta_1})$ on `str` increases from 0.48 to 0.61 when we add `expn_stu` 
+
+]
+
+.pull-right[
+.quitesmall[
+```{r, ref.label="multioutput"}
+```
+]
+
+]
+
+---
+
+# Perfect Multicollinearity
+
+- .hi[*Perfect* multicollinearity] is when a regressor is an exact linear function of (an)other regressor(s)
+
+--
+
+$$\widehat{Sales} = \hat{\beta_0}+\hat{\beta_1}\text{Temperature (C)} + \hat{\beta_2}\text{Temperature (F)}$$
+
+--
+
+$$\text{Temperature (F)}=32+1.8*\text{Temperature (C)}$$
+
+--
+
+- $cor(\text{temperature (F), temperature (C)})=1$
+
+--
+
+- $R^2_j=1$ is implying $VIF=\frac{1}{1-1}$ and $var(\hat{\beta_j})=0$!
+
+--
+
+- .hi-purple[This is fatal for a regression]
+  - A logical impossiblity, **always caused by human error**
+
+---
+
+# Perfect Multicollinearity: Example
+
+.content-box-green[
+.green[**Example**:]
+
+$$\widehat{TestScore_i} = \hat{\beta_0}+\hat{\beta_1}STR_i	+\hat{\beta_2}\%EL+\hat{\beta_3}\%EF$$
+
+]
+
+- %EL: the percentage of students learning English
+
+- %EF: the percentage of students fluent in English
+
+- $EF=100-EL$
+
+- $|cor(EF, EL)|=1$
+
+---
+
+# Perfect Multicollinearity Example II
+
+```{r, echo=T}
+# generate %EF variable from %EL
+CASchool_ex <- CASchool %>%
+  mutate(ef_pct = 100 - el_pct)
+
+# get correlation between %EL and %EF
+CASchool_ex %>%
+  summarize(cor = cor(ef_pct, el_pct))
+```
+
+---
+
+# Perfect Multicollinearity Example III
+
+.pull-left[
+.code60[
+```{r multicol, echo=T, eval=F}
+ggplot(data=CASchool_ex, aes(x=el_pct,y=ef_pct))+
+  geom_point(color="blue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Percent of ESL Students",
+       y = "Percent of Non-ESL Students")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=16)
+```
+
+]
+]
+
+.pull-right[
+```{r ref.label="multicol", fig.retina=3}
+
+```
+
+]
+
+---
+
+# Perfect Multicollinearity Example IV
+
+.pull-left[
+.quitesmall[
+.code60[
+```{r, echo=T}
+mcreg <- lm(testscr ~ str + el_pct + ef_pct,
+            data = CASchool_ex)
+summary(mcreg)
+```
+]
+]
+]
+
+.pull-right[
+
+.quitesmall[
+.code60[
+```{r, echo = T}
+mcreg %>% tidy()
+```
+]
+]
+]
+
+- Note `R` *drops* one of the multicollinear regressors (`ef_pct`) if you include both 🤡
+
+---
+
+class: inverse, center, middle
+
+# A Summary of Multivariate OLS Estimator Properties
+
+---
+
+# A Summary of Multivariate OLS Estimator Properties
+
+.smallest[
+- $\hat{\beta_j}$ on $X_j$ is biased only if there is an omitted variable $(Z)$ such that: 
+    1. $cor(Y,Z)\neq 0$
+    2. $cor(X_j,Z)\neq 0$
+    - If $Z$ is *included* and $X_j$ is collinear with $Z$, this does *not* cause a bias
+
+- $var[\hat{\beta_j}]$ and $se[\hat{\beta_j}]$ measure precision (or uncertainty) of estimate:
+]
+
+--
+
+.smallest[
+$$var[\hat{\beta_j}]=\frac{1}{(1-R^2_j)}*\frac{SER^2}{n \times var[X_j]}$$
+
+- VIF from multicollinearity: $\frac{1}{(1-R^2_j)}$
+  - $R_j^2$ for auxiliary regression of $X_j$ on all other $X$'s
+  - mutlicollinearity does not bias $\hat{\beta_j}$ but raises its variance 
+  - *perfect* multicollinearity if $X$'s are linear function of others 
+]
+
+---
+
+class: inverse, center, middle
+
+# Updated Measures of Fit
+
+---
+
+# (Updated) Measures of Fit
+
+- Again, how well does a linear model fit the data?
+
+- How much variation in $Y_i$ is “explained” by variation in the model $(\hat{Y_i})$?
+
+--
+
+$$\begin{align*}
+Y_i&=\hat{Y_i}+\hat{u_i}\\
+\hat{u_i}&= Y_i-\hat{Y_i}\\
+\end{align*}$$
+
+---
+
+# (Updated) Measures of Fit: SER
+
+- Again, the .hi[Standard errror of the regression (SER)] estimates the standard error of $u$ 
+
+$$SER=\frac{SSE}{n-\mathbf{k}-1}$$
+
+- A measure of the spread of the observations around the regression line (in units of $Y$), the average "size" of the residual
+
+- .hi-purple[Only new change:] divided by $n-\color{#6A5ACD}{k}-1$ due to use of $k+1$ degrees of freedom to first estimate $\beta_0$ and then all of the other $\beta$'s for the $k$ number of regressors<sup>.magenta[†]</sup>
+
+.footnote[<sup>.magenta[†]</sup> Again, because your textbook defines *k* as including the constant, the denominator would be *n-k* instead of *n-k-1*.]
+
+---
+
+# (Updated) Measures of Fit: $R^2$
+
+$$\begin{align*}
+R^2&=\frac{ESS}{TSS}\\
+&=1-\frac{SSE}{TSS}\\
+&=(r_{X,Y})^2 \\ \end{align*}$$
+
+- Again, $R^2$ is fraction of variation of the model $(\hat{Y_i}$ (“explained sum of squares”) to the variation of observations of $Y_i$ (“total sum of squares”) 
+
+---
+
+# (Updated) Measures of Fit: Adjusted $\bar{R}^2$
+
+- Problem: $R^2$ of a regression increases *every* time a new variable is added (it reduces SSE!)
+
+- This does *not* mean adding a variable improves the fit of the model per se, $R^2$ gets **inflated**
+
+--
+
+-  We correct for this effect with the .hi[adjusted `\\(R^2\\)`]: 
+
+$$\bar{R}^2 = 1 - \frac{n-1}{n-k-1} \times \frac{SSE}{TSS}$$
+
+- There are different methods to compute $\bar{R}^2$, and in the end, recall $R^2$ **was never very useful**, so don't worry about knowing the formula
+  - Large sample sizes $(n)$ make $R^2$ and $\bar{R}^2$ very close
+
+---
+
+# In R (base)
+
+.pull-left[
+.quitesmall[
+```{r, echo=F}
+summary(elreg)
+```
+]
+]
+
+
+.pull-right[
+.smallest[
+- Base $R^2$ (`R` calls it “`Multiple R-squared`”) went up 
+- `Adjusted R-squared` went down 
+]
+]
+
+---
+
+# In R (broom)
+
+.pull-left[
+.quitesmall[
+```{r, echo=T}
+elreg %>%
+  glance()
+```
+]
+]
