@@ -1,0 +1,122 @@
+---
+title: "3.4 — Multivariate OLS Estimators: Bias, Precision, and Fit — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
+<ul>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1794144"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a><span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">If you use this, all necessary packages are already installed for you.<br />
+<br />
+</span></span></li>
+<li><a href="/r/15-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> Download Markdown</a></li>
+</ul>
+<!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/15-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/11-r-practice-answers.Rmd)-->
+<h3 id="question-1">Question 1</h3>
+<p>Download and read in (<code>read_csv</code>) the data below.</p>
+<ul>
+<li><a href="https://metricsf20.classes.ryansafner.com/data/speeding_tickets.csv"><i class="fas fa-table"></i> <code>speeding_tickets.csv</code></a></li>
+</ul>
+<p>This data comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one’s we’ll look at are:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Amount</code></td>
+<td>Amount of fine (in dollars) assessed for speeding</td>
+</tr>
+<tr class="even">
+<td><code>Age</code></td>
+<td>Age of speeding driver (in years)</td>
+</tr>
+<tr class="odd">
+<td><code>MPHover</code></td>
+<td>Miles per hour over the speed limit</td>
+</tr>
+</tbody>
+</table>
+<p>We want to explore who gets fines, and how much. We’ll come back to the other variables (which are categorical) in this dataset in later lessons.</p>
+<h3 id="question-2">Question 2</h3>
+<p><em>How does the age of a driver affect the amount of the fine</em>? Make a scatterplot of the <code>Amount</code> of the fine and the driver’s <code>Age</code>. Add a regression line with an additional layer of <code>geom_smooth(method="lm")</code>.</p>
+<h3 id="question-3">Question 3</h3>
+<p>Find the correlation between <code>Amount</code> and <code>Age</code>.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Note there are a lot of <code>NA</code>s (missing data) for <code>Amount</code>. You can verify by <code>summary()</code> or <code>count()</code> if you wish. In order to get a correlation, you will need to put <code>use="pairwise.complete.obs</code> inside the <code>cor()</code> command.<br />
+<br />
+</span></span></p>
+<h3 id="question-4">Question 4</h3>
+<p>We weant to predict the following model:</p>
+<p><span class="math display">\[\widehat{\text{Amount}_i}= \hat{\beta_0}+\hat{\beta_1}\text{Age}_i\]</span></p>
+<p>Run a regression, and save it as an object. Now get a <code>summary()</code> of it.</p>
+<h4 id="part-a">Part A</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-b">Part B</h4>
+<p>What is <span class="math inline">\(\hat{\beta_0}\)</span>? What does it mean in the context of our question?</p>
+<h4 id="part-c">Part C</h4>
+<p>What is <span class="math inline">\(\hat{\beta_1}\)</span>? What does it mean in the context of our question?</p>
+<h4 id="part-d">Part D</h4>
+<p>What is the marginal effect of age on amount?</p>
+<h3 id="question-5">Question 5</h3>
+<p>Redo question 4 with the <code>broom</code> package. Try out <code>tidy()</code> and <code>glance()</code>. This is just to keep you versatile.</p>
+<h3 id="question-6">Question 6</h3>
+<p>How big would the difference in expected fine be for two drivers, one 18 years old and one 40 years old?</p>
+<h3 id="question-7">Question 7</h3>
+<p>Now run the regression again, controlling for speed (<code>MPHover</code>).</p>
+<h4 id="part-a-1">Part A</h4>
+<p>Write the new regression equation.</p>
+<h4 id="part-b-1">Part B</h4>
+<p>What is the marginal effect of <code>Age</code> on <code>Amount</code>? What happened to it?</p>
+<h4 id="part-c-1">Part C</h4>
+<p>What is the marginal effect of <code>MPHover</code> on <code>Amount</code>?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>What is <span class="math inline">\(\hat{\beta_0}\)</span>, and what does it mean?</p>
+<h4 id="part-e">Part E</h4>
+<p>What is the adjusted <span class="math inline">\(\bar{R}^2\)</span>? What does it mean?</p>
+<h3 id="question-8">Question 8</h3>
+<p>Now suppose both the 18 year old and the 40 year old each went 10 MPH over the speed limit. How big would the difference in expected fine be for the two drivers?</p>
+<h3 id="question-9">Question 9</h3>
+<p>How about the difference in expected fine between two 18 year olds, one who went 10 MPH over, and one who went 30 MPH over?</p>
+<h3 id="question-10">Question 10</h3>
+<p>Use the <code>huxtable</code> package’s <code>huxreg()</code> command to make a regression table of your two regressions: the one from question 4, and the one from question 7.</p>
+<h3 id="question-11">Question 11</h3>
+<p>Are our two independent variables multicollinear? Do younger people tend to drive faster?</p>
+<h4 id="part-a-2">Part A</h4>
+<p>Get the correlation between <code>Age</code> and <code>MPHover</code>.</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Make a scatterplot of <code>MPHover</code> on <code>Age</code>.</p>
+<h4 id="part-c-2">Part C</h4>
+<p>Run an auxiliary regression of <code>MPHover</code> on <code>Age</code>.</p>
+<h4 id="part-d-2">Part D</h4>
+<p>Interpret the coefficient on <code>Age</code>.</p>
+<h4 id="part-e-1">Part E</h4>
+<p>Look at your regression table in question 10. What happened to the standard error on <code>Age</code>? Why (consider the formula for variation in <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-f">Part F</h4>
+<p>Calculate the Variance Inflation Factor (VIF) using the <code>car</code> package’s <code>vif()</code> command.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Run it on your multivariate regression object from Question 7.<br />
+<br />
+</span></span></p>
+<h4 id="part-g">Part G</h4>
+<p>Calculate the VIF manually, using what you learned in this question.</p>
+<h3 id="question-12">Question 12</h3>
+<p>Let’s now think about the omitted variable bias. Suppose the “true” model is the one we ran from Question 7.</p>
+<h4 id="part-a-3">Part A</h4>
+<p>Do you suppose that <code>MPHover</code> fits the two criteria for omitted variable bias?</p>
+<h4 id="part-b-3">Part B</h4>
+<p>Look at the regression we ran in Question 4. Consider this the “omitted” regression, where we left out <code>MPHover</code>. Does our estimate of the marginal effect of <code>Age</code> on <code>Amount</code> overstate or understate the <em>true</em> marginal effect?</p>
+<h4 id="part-c-3">Part C</h4>
+<p>Use the “true” model (Question 7), the “omitted” regression (Question 4), and our “auxiliary” regression (Question 11) to identify each of the following parameters that describe our biased estimate of the marginal effect of <code>Age</code> on <code>Amount</code>:<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">See the notation I used in <a href="/class/3.4-class">class 3.4</a>.<br />
+<br />
+</span></span>
+<span class="math display">\[\alpha_1=\beta_1+\beta_2\delta_1\]</span></p>
+<h4 id="part-d-3">Part D</h4>
+<p>From your answer in part C, how large is the omitted variable bias from leaving out <code>MPHover</code>?</p>
+<h3 id="question-13">Question 13</h3>
+<p>Make a coefficient plot of your coefficients from the regression in Question 7. The package <code>modelsummary</code> (which you will need to install and load) has a great command <code>modelplot()</code> to do this on your regression object.</p>

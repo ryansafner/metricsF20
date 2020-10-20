@@ -47,9 +47,6 @@ library(broom)
 school_reg_tidy <- tidy(school_reg,
      conf.int = TRUE) # add confidence intervals
 CASchool_aug <- augment(school_reg)
-
-library(equatiomatic)
-extract_eq(school_reg, use_coefs = TRUE,coef_digits = 2,fix_signs = TRUE)
 ```
 
 class: inverse

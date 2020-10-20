@@ -109,8 +109,10 @@ lessons:
     reading: "3.4-reading"
     class: "3.4-class"
     slides: "3.4-slides"
+    practice: "3.4-practice"
     
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 4** due Sun Oct 25'
+    assignment: "04-problem-set"
   
   - title: "3.5 Writing an Empirical Paper"
 

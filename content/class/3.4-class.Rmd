@@ -11,7 +11,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-*Thursday, October 15, 2020* 
+*Thursday, October 15, 2020* and *Tuesday, October 20, 2020*
 
 # Overview
 
@@ -25,6 +25,8 @@ I have also made a RStudio Cloud project documenting all of the things we have b
 
 - [<i class="fas fa-cloud"></i> Class Size Regression Analysis](https://rstudio.cloud/spaces/83147/project/1611251)
 
+On Tuesday, we will dedicate the class to working on [practice problems](/r/3.4-r-practice), in preparation for [Problem Set 4](/assignment/04-problem-set).
+
 # Readings
 
 Please see [today’s suggested readings](/reading/3.4-reading).
@@ -34,9 +36,15 @@ Please see [today’s suggested readings](/reading/3.4-reading).
 - [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.4-slides.html)
 - [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.4-slides.pdf)
 
-# Assignments
+# Practice Problems
+
+On Tuesday, we will be working on [practice problems](/r/3.4-r-practice). Answers will be posted on that page later.
+
+# Assignments: Midterm Corrections and Problem Set 4
 
 **Midterm exam corrections** are due to me by an emailed PDF by 11:59 PM Sunday October 18. You may redo any question you did not get full points on (*do not* do questions you did not lose points on), including bonuses. Write the correct answer and *explain* why it's the right answer (i.e. show your work, don't just write $\hat{\beta_1}$ when you wrote $\hat{\beta_1}$ on the exam.) I want you to demonstrate you are *internalizing* the answers and *learning*, not just comparing with your friends to get the correct answer. You can talk to each othjer now, and are welcome to come to my (and the TAs’) office hours to go over the exam together.
+
+[Problem Set 4](/assignment/04-problem-set) is due by 11:59PM on Sunday, October 25 by PDF upload to Blackboard.
 
 # Live Class Session on Zoom
 

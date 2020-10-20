@@ -742,3 +742,10 @@ ggplot(data = .)+
   ggthemes::theme_pander(base_family = "Fira Sans Condensed",
            base_size=16)
 ```
+
+```{r}
+library(modelsummary)
+
+#modelsummary(metricsreg)
+modelplot(metricsreg, coef_omit = 'Interc')
+```
