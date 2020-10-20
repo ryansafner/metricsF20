@@ -59,7 +59,7 @@ We want to explore who gets fines, and how much. We'll come back to the other va
 ---
 
 ## Question 3
-Find the correlation between `Amount` and `Age`.^[Note there are a lot of `NA`s (missing data) for `Amount`. You can verify by `summary()` or `count()` if you wish. In order to get a correlation, you will need to put `use="pairwise.complete.obs` inside the `cor()` command.]
+Find the correlation between `Amount` and `Age`.^[Note there are a lot of `NA`s (missing data) for `Amount`. You can verify by `summary()` or `count()` if you wish. In order to get a correlation, you will need to put `use="pairwise.complete.obs"` inside the `cor()` command.]
 
 ---
 
