@@ -180,7 +180,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <tr class="odd">
 <td>Experience</td>
 <td>0.1129</td>
-<td><span class="math inline">\(-0.2995\)</span></td>
+<td>-0.2995</td>
 <td>1.0000</td>
 </tr>
 </tbody>
@@ -252,8 +252,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <span id="cb2-3"><a href="#cb2-3"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
 <span id="cb2-4"><a href="#cb2-4"></a>       inc<span class="op">~</span>educ,</span>
 <span id="cb2-5"><a href="#cb2-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">tidy_dagitty</span>(<span class="dt">seed =</span> <span class="dv">256</span>) <span class="op">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="st">  </span><span class="kw">ggdag_status</span>()<span class="op">+</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="st">  </span><span class="kw">theme_dag_blank</span>()<span class="op">+</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/assignment/04-problem-set_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Note what we are hypothesizing:</p>
 <ul>

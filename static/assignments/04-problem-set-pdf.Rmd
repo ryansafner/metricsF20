@@ -48,12 +48,14 @@ For people in the control group, dosage level$_i=0$ and for people in the treatm
 
 $$\widehat{Price}=119.2+0.485 \, BDR+23.4 \, Bath+0.156 \, Hsize+0.002 \, Lsize+0.090 \, Age$$
 
-- $Price$: selling price (in \$1,000s)
-- $BDR$: number of bedrooms
-- $Bath$: number of bathrooms
-- $Hsize$: size of the house (in $ft^2$)
-- $Lsize$: lot size (in $ft^2$)
-- $Age$: age of the house (in years)
+| Variable | Description |
+|----------|-------------|
+| $Price$ | selling price (in $1,000s) |
+| $BDR$ | number of bedrooms |
+| $Bath$ | number of bathrooms |
+| $Hsize$ | size of the house (in ft$^2)$ |
+| $Lsize$ | lot size (in ft$^2)$ |
+| $Age$ |age of the house (in years) |
 
 
 a. Suppose that a homeowner converts part of an existing living space in her house to a new bathroom. What is the expected increase in the value of the house?
@@ -82,7 +84,7 @@ $$\widehat{BDR}=\delta_0+\delta_1Bath+\delta_2Hsize+\delta_3Lsize+\delta_4Age$$
 |----|------|-----------|------------|
 | Wage | 1.0000 |    |    |
 | Education | 0.4059 |    |    |
-| Experience | 0.1129 | $-0.2995$ | 1.0000 |
+| Experience | 0.1129 | -0.2995 | 1.0000 |
 
 She runs a simple regression first, and gets the results:
 
@@ -140,8 +142,12 @@ dagify(bwght~cigs+inc,
        cigs~price+educ+inc,
        inc~educ,
        exposure = "cigs",
-       outcome = "bwght") %>% 
-  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+       outcome = "bwght") %>%
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status()+
+  theme_dag_blank()+
+  theme(legend.position = "none")
+```
 ```
 
 Note what we are hypothesizing:

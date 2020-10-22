@@ -98,7 +98,7 @@ A researcher wants to investigate the effect of education on average hourly wage
 |----|------|-----------|------------|
 | Wage | 1.0000 |    |    |
 | Education | 0.4059 |    |    |
-| Experience | 0.1129 | $-0.2995$ | 1.0000 |
+| Experience | 0.1129 | -0.2995 | 1.0000 |
 
 She runs a simple regression first, and gets the results:
 
@@ -158,8 +158,11 @@ dagify(bwght~cigs+inc,
        cigs~price+educ+inc,
        inc~educ,
        exposure = "cigs",
-       outcome = "bwght") %>% 
-  ggdag(stylized = FALSE, seed=1)+theme_dag_blank()+theme(legend.position = "none")
+       outcome = "bwght") %>%
+  tidy_dagitty(seed = 256) %>%
+  ggdag_status()+
+  theme_dag_blank()+
+  theme(legend.position = "none")
 ```
 
 Note what we are hypothesizing:
