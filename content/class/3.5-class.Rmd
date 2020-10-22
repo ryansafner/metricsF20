@@ -1,0 +1,52 @@
+---
+title: "3.5 — Reading and Writing Empirical Papers — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, October 15, 2020* and *Tuesday, October 20, 2020*
+
+# Overview
+
+Today we discuss the elements of a good empirical paper, with an eye towards your [paper projects](/assignment/paper-project).
+
+I highly recommend you look at my example repositories:
+
+- [<i class="fab fa-github"></i> Workflow](https://github.com/ryansafner/workflow)
+- [<i class="fab fa-github"></i> Example Empirical Paper](https://github.com/ryansafner/example_empirical_paper)
+
+The first is one that I showed you back in [class 1.5](/class/1.5-class) when we talked about R Markdown and having a reproducible, plain-text, workflow. It has an example workflow setup that I recommend you follow: create an R project for your project, and organize all of your data, code, images, & text in this set of folders inside of your project.^[I also recommend you at least save this folder on Dropbox to keep it safe!] You can look at `Example_paper.Rmd` to see my text and code in R markdown to write the paper, and look at `Example_paper.pdf` to see the final product.
+
+The second is a quick and dirty example of what I am looking for in your paper project in this class, using the ongoing example of the effect of class size on test scores. You can also look at `paper.Rmd` to see my text and code in R markdown, and `paper.pdf` to see the final product. Note that this is an example I put quickly together with minimal effort as an example for you all, it does *not* necessarily mean it is an “A” quality paper!
+
+If you are using R markdown to write your final paper, you should consult [class 1.5](/class/1.5-class) again, along with the [1.5 “practice”](/class/1.5-r-practice) that deals with the workflow repository.
+
+# Readings
+
+There are no readings for today, but you should look at the materials mentioned above.
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.5-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.5-slides.pdf)
+
+# Practice Problems
+
+Answers to last class’ [practice problems](/r/3.4-r-practice) are posted on that page.
+
+# Assignments: Midterm Corrections and Problem Set 4
+
+[Problem Set 4](/assignment/04-problem-set) is due by 11:59PM on Sunday, October 25 by PDF upload to Blackboard.
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).

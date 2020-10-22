@@ -115,7 +115,9 @@ lessons:
     assignment: "04-problem-set"
   
   - title: "3.5 Writing an Empirical Paper"
-
+    class: "3.5-class"
+    slides: "3.5-slides"
+    
   - title: "3.6 Regression with Categorical Data"
 
   - title: "3.7 Regression with Interaction Effects"

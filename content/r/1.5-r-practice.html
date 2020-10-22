@@ -1,5 +1,5 @@
 ---
-title: "1.5 — Optimize Workflow: MArkdown, Projects, and Git — R Practice"
+title: "1.5 — Optimize Workflow: Markdown, Projects, and Git — R Practice"
 editor_options: 
   chunk_output_type: console
 ---
@@ -75,39 +75,34 @@ code span.wa { color: #bf0303; } /* Warning */
 </style>
 
 
-<ol style="list-style-type: decimal">
-<li>We are going to <code>clone</code> my repository on Github into R Studio on your computer. Go to my <a href="https://github.com/ryansafner/workflow">workflow repository</a> on github. Click the green <code>code</code> button. See there are several options. Feel free to try each of them out:</li>
-</ol>
-<ul>
-<li><strong>On Your Computer (Download)</strong>: <code>Download ZIP</code> will download a zipped file to your computer containing the entire repository. You will need to unzip this (sometimes it’s automatic, as on a Mac), and then it will create a folder on your computer. Open up the <code>workflow.Rproj</code> file, which will open the project in <code>R Studio</code>.</li>
-<li><strong>On R Studio Cloud</strong>: Highlight the url code (or click the copy button on the right). On Rstudio Cloud, click on the arrow on the right of the <code>New Project</code> button and select <code>New Project from GitHub Repository</code>. Paste the url you copied from Github here. This will open the repository as a new project in your cloud workspace</li>
-<li><strong>On Your Computer (via Git) ADVANCED</strong>: If you have <code>git</code> installed (see <a href="https://happygitwithr.com">the ultimate guide</a> for help doing this), copy the url code on GitHub. Next, go to R Studio on your computer, click <code>File -&gt; New Project -&gt; Version Control -&gt; Git</code> and type paste the url in the first field. The final field is where on your computer you want to save this folder. It will then open up the project in R Studio.</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li>Now that you have the <code>workflow</code> project on your computer (or cloud), let’s explore it. Notice in the file viewer pane in the bottom right, there are several folders and files there. Look at the top of the pane is the file path (this is where you can find this folder on your computer). Mine looks like this, for example:</li>
-</ol>
+<h3 id="first">First</h3>
+<p>We are going to <code>clone</code> my repository on Github into R Studio on your computer. Go to my <a href="https://github.com/ryansafner/workflow">workflow repository</a> on github. Click the green <code>code</code> button. See there are several options. Feel free to try each of them out:
+- <strong>On Your Computer (Download)</strong>: <code>Download ZIP</code> will download a zipped file to your computer containing the entire repository. You will need to unzip this (sometimes it’s automatic, as on a Mac), and then it will create a folder on your computer. Open up the <code>workflow.Rproj</code> file, which will open the project in <code>R Studio</code>.
+- <strong>On R Studio Cloud</strong>: Highlight the url code (or click the copy button on the right). On Rstudio Cloud, click on the arrow on the right of the <code>New Project</code> button and select <code>New Project from GitHub Repository</code>. Paste the url you copied from Github here. This will open the repository as a new project in your cloud workspace
+- <strong>On Your Computer (via Git) ADVANCED</strong>: If you have <code>git</code> installed (see <a href="https://happygitwithr.com">the ultimate guide</a> for help doing this), copy the url code on GitHub. Next, go to R Studio on your computer, click <code>File -&gt; New Project -&gt; Version Control -&gt; Git</code> and type paste the url in the first field. The final field is where on your computer you want to save this folder. It will then open up the project in R Studio.</p>
+<h3 id="second">Second</h3>
+<p>Now that you have the <code>workflow</code> project on your computer (or cloud), let’s explore it. Notice in the file viewer pane in the bottom right, there are several folders and files there. Look at the top of the pane is the file path (this is where you can find this folder on your computer). Mine looks like this, for example:</p>
 <p><img src="https://metricsf20.classes.ryansafner.com/images/workflowfiles.png" /></p>
 <p>The nice thing with projects is that any files you open or save are in this folder on your computer!</p>
-<ol start="3" style="list-style-type: decimal">
-<li>Open up <code>Example_paper.Rmd</code>. This is an example of a file I would use to write a paper. Note the parts of the <code>.Rmd</code> file:</li>
-</ol>
-<ul>
-<li>The <code>yaml</code> at the top</li>
-<li>The text written in markdown</li>
-<li><code>R</code> chunks scattered throughout</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
-<li>I have this set to <code>knit</code> to produce a <code>PDF</code>. For you to do this, you will need to install a distribution of <code>LaTeX</code>. Unless you intend to use <code>LaTeX</code> in the future (for math classes, going to graduate school, or you are a masochist…), we can get around this with a lightweight version we can install <em>inside</em> of <code>R</code>. Run the following code in the console:</li>
-</ol>
+<h3 id="third">Third</h3>
+<p>Open up <code>Example_paper.Rmd</code>. This is an example of a file I would use to write a paper. Note the parts of the <code>.Rmd</code> file:
+- The <code>yaml</code> at the top
+- The text written in markdown
+- <code>R</code> chunks scattered throughout</p>
+<h3 id="fourth">Fourth</h3>
+<p>I have this set to <code>knit</code> to produce a <code>PDF</code>. For you to do this, you will need to install a distribution of <code>LaTeX</code>. Unless you intend to use <code>LaTeX</code> in the future (for math classes, going to graduate school, or you are a masochist…), we can get around this with a lightweight version we can install <em>inside</em> of <code>R</code>. Run the following code in the console:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;tinytex&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2"></a>tinytex<span class="op">::</span><span class="kw">install_tinytex</span>()</span></code></pre></div>
 <p>This will probably take a few minutes to install. Like any package, you only ever have to do this once! Once this is complete, now try to <code>knit</code> <code>Example_paper.Rmd</code> to <code>PDF</code> by clicking the <code>Knit</code> button at the top. View your <code>PDF</code> that pops up!<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">On R Studio cloud, it may request you to change your popup settings, since it will pop up the PDF in a new window.<br />
 <br />
 </span></span></p>
-<ol start="4" style="list-style-type: decimal">
-<li><p>Now let’s learn more about writing with markdown syntax. Complete this brief <a href="https://www.markdowntutorial.com/">tutorial</a> to practice!</p></li>
-<li><p>Just practice working in the <code>Example_paper.Rmd</code> file. Create a new <code>R</code> chunk (anywhere) and write some <code>R</code> code to open <code>data/clean_data.csv</code> (which you can find by clicking through the folders too) and save it as an <code>R</code> object. (You may need to load <code>tidyverse</code>!) Run <em>only this chunk</em> by clicking the green play button at the upper right corner of the chunk. Make sure it works. Using projects to organize your files is much simpler than worrying about your working directory!</p></li>
-<li><p>Find my slides on the <a href="https://github.com/ryansafner/metricsF20">class github page</a>. Note there is a lot going on here, because this is a pretty full website. They are in the <code>static/slides</code> folder. Now if you are ever curious how I did something in my slides, you can see the source <code>.Rmd</code> files. Note my slides are written in <a href="http://github.com/yihui/xaringan"><code>Xaringan</code></a> (a special, <code>html</code>-based slides package). Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!</p></li>
-<li><p>Now we are just exposing you to more <code>.Rmd</code> files. Look at the answer key for <a href="/r/1.4-r-practice">1.4 R practice</a> and download and open the <i class="fab fa-markdown"></i> <code>markdown</code> file. Take a look through it and see how it works, then when you are ready, click the <code>knit</code> button. It will make the <code>html</code> webpage (which you can open in any browser) that is identical to the answer key web page I made!</p></li>
-<li><p>Look at the <i class="fab fa-markdown"></i> <code>markdown</code> file in this week’s <a href="/assignment/01-problem-set">homework assignment</a>. If you want, you can complete this using that file.</p></li>
-</ol>
+<h3 id="fifth">Fifth</h3>
+<p>Now let’s learn more about writing with markdown syntax. Complete this brief <a href="https://www.markdowntutorial.com/">tutorial</a> to practice!</p>
+<h3 id="sixth">Sixth</h3>
+<p>Just practice working in the <code>Example_paper.Rmd</code> file. Create a new <code>R</code> chunk (anywhere) and write some <code>R</code> code to open <code>data/clean_data.csv</code> (which you can find by clicking through the folders too) and save it as an <code>R</code> object. (You may need to load <code>tidyverse</code>!) Run <em>only this chunk</em> by clicking the green play button at the upper right corner of the chunk. Make sure it works. Using projects to organize your files is much simpler than worrying about your working directory!</p>
+<h3 id="seventh">Seventh</h3>
+<p>Find my slides on the <a href="https://github.com/ryansafner/metricsF20">class github page</a>. Note there is a lot going on here, because this is a pretty full website. They are in the <code>static/slides</code> folder. Now if you are ever curious how I did something in my slides, you can see the source <code>.Rmd</code> files. Note my slides are written in <a href="http://github.com/yihui/xaringan"><code>Xaringan</code></a> (a special, <code>html</code>-based slides package). Note the slides are quite advanced - I use a lot of html and css formatting to make them pretty!</p>
+<h3 id="eighth">Eighth</h3>
+<p>Now we are just exposing you to more <code>.Rmd</code> files. Look at the answer key for <a href="/r/1.4-r-practice">1.4 R practice</a> and download and open the <i class="fab fa-markdown"></i> <code>markdown</code> file. Take a look through it and see how it works, then when you are ready, click the <code>knit</code> button. It will make the <code>html</code> webpage (which you can open in any browser) that is identical to the answer key web page I made!</p>
+<h3 id="ninth">Ninth</h3>
+<p>Look at the <i class="fab fa-markdown"></i> <code>markdown</code> file in this week’s <a href="/assignment/01-problem-set">homework assignment</a>. If you want, you can complete this using that file.</p>

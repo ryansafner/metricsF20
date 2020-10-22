@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Writing and Reading Empirical Papers</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Writing and Reading Empirical Papers
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Your Research Question
+
+.smallest[
+- A good paper has a _specific_ .hi[research question] that you will ask and provide evidence towards a *clear*, *quantifiable* answer. Good research questions are:
+]
+
+--
+
+1. **A claim** about something
+	- .green[Capital punishment is the most efficient deterrent for violent crimes.]
+	- .green[Women are paid, on average, 33% less than men performing the same work.]
+
+--
+
+2. **As specific as possible**, given the length constraints
+  - .green[Do candidates that spend more money than their opponents tend to win Congressional races?]
+
+--
+
+3. **Testable**, with data that can provide *some* evidence one way or another
+  - One study will never be “the” *definitive proof* of something, only *suggestive* evidence
+
+---
+
+# Structure of an Empirical Paper
+
+1. Introduction
+
+2. Literature Review
+
+3. Theory/Model
+
+4. Data Description
+
+5. Empirical Model
+
+6. Results/Implications
+
+7. Bibliography
+
+---
+
+# Introduction
+
+- Get to your research question ASAP!  Make it the first sentence even.
+
+- Hook your reader
+    - Who cares?  Why is this important?  Why is this relevant? How does this affect people?
+		- Statistics and background information can often help
+
+--
+
+.content-box-green[
+.green[**Example**]: As a student writing an empirical research paper, does writing a longer paper earn a higher grade on the assignment?]
+
+---
+
+# Introduction II
+
+- State your research question clearly and quickly
+
+--
+
+- .red[Do NOT write a “blog post”] about how you became interested in the question, or all the work (and dead-ends) that led you on the journey to reaching your final answer
+  - .hi-purple[Nobody cares about the labor pains, they just want to see the baby!]
+
+--
+
+- Provide an outline of the rest of the paper:
+  - Why your question matters
+  - How you answer the question in this paper
+  - What your identification strategy is and what models you use
+  - What data you use
+  - What your most important results are
+
+---
+
+# Introduction III
+
+.content-box-green[
+.green[**Example**]: I estimate the relationship between paper length and grades by using a simple OLS regression using sample data collected from previous classes. I find that there is a weak positive effect, that students who write longer papers earn higher grades. On average, for every additional page written, grades improve by less than a point. These results are robust to a number of different model specifications and controls.
+]
+
+---
+
+# Introduction IV
+
+- Most people do not write enough in their introductions
+
+- Consider the incentives of a (skimming) reader pressed for time
+    - If someone only skims your intro, what do you want them to know??
+  
+- My rough suggestion: make your introduction about 15-20% of your paper:
+
+| Paper Length | Intro Length |
+|--------------|--------------|
+| 5 pages | 1-1.5 pages |
+| 10 pages | 2-2.5 pages |
+| 30 pages | 5 pages |
+
+---
+
+# Literature Review
+
+- **Literature Review** can be summarized into the introduction or given its' own section (debatable)
+
+- .hi-turquoise[No work is totally original. It's okay!]
+  - What have other relevant researchers written and discovered about your topic?
+  - What data and models did they use? What did they find?
+  - How does your paper connect and stand apart from what's been done?
+    - Does your paper use different data? A different model? Different controls?
+    
+---
+
+# Theory
+
+- This is an *economics* course, so you must describe some .hi[economic theory] behind the question you are asking and answering
+
+- Most scholarly papers have a formal economic model, which then generates predictions that they test for with data
+
+- **You do not need a theoretical model**, but you *do* need to discuss economic principles or concepts that are relevant
+  - Often there may be multiple theories that might conflict, or our expectations might not be clear (these are the best papers!)
+  - There may be a significant tradeoff between competing goals, values, or expectations
+
+---
+
+# Theory II
+
+.content-box-green[
+.green[**Example**:] Students that write longer papers likely place higher value on their work and dedicate more resources towards improving its quality, resulting in higher grades. 
+
+However, some students may hope or believe that longer papers automatically lead to higher grades, and thus will merely put extra low quality filler in their paper to inflate the length. These papers turn out to be much worse quality, and these students likely earn *lower* grades as a result.
+
+]
+
+---
+
+# Data I
+
+- Describe your data sources
+  - Who collected or compiled the data and how? 
+      - e.g. government agencies, businesses, nonprofits, social surveys, etc.
+  - If *you* collected your own data (unlikely), what was your procedure?
+
+---
+
+# Data II
+
+- Describe the data itself
+  - What are your variables? What—*specifically*, and *in English*—does each measure?
+  - How many observations do you have?
+  - If you transformed your variables—how and why?
+    - e.g. recoded into categories or dummies
+    - e.g. took logs or rescaled units
+
+---
+
+# Data III
+
+- .hi[Show your data!] Show us basic summary statistics and any patterns
+    - Use your judgment: .hi-purple[we don't want or need to see *everything*]
+    - What do you think is *interesting* or *important*?
+    - Plots `\(&gt;\)` Tables `\(&gt;\)` Words `\(&gt;\)` Nothing
+
+--
+
+- Good ideas to *always* have:
+  1. A table(s) of all variables used and their description
+  2. A table(s) of summary statistics of variables
+  3. A table of correlations of key variables (optional)
+  3. Plots of (only) *the most important* variables &amp; relationships (histograms, boxplots, scatterplots, etc)
+
+---
+
+# Data: Variables
+
+.pull-left[
+
+| Variable | Description |
+|----------|-------------|
+| Grade    | Grade on paper assignment (0-100) |
+| Pages    | Number of pages written |
+| Final | Final course grade for student |
+| Gender | Gender of student |
+| Class | Class in which paper was assigned |
+| School | School of class taught |
+| Year | Year of class |
+| Time | Time of day class met |
+
+]
+
+.pull-right[
+
+.hi-green[I collected data at the individual student level from all paper assignments that I have given over the 2013—2020 period at the 3 colleges I have taught at.]
+
+]
+
+---
+
+# Data: Correlations
+
+.pull-left[
+
+.smallest[
+| Variable | Description |
+|----------|-------------|
+| Grade    | Grade on paper assignment (0-100) |
+| Pages    | Number of pages written |
+| Final | Final course grade for student |
+| Gender | Gender of student |
+| Class | Course in which paper was assigned |
+| School | College of course taught |
+| Year | Year of class |
+| Time | Time of day course met (Morning/Afternoon) |
+]
+]
+
+.pull-right[
+
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+
+# Data: Summary Statistics of Quantitative Variables
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Variable &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Obs &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Min &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Median &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Q3 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Max &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Mean &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Std. Dev. &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Econometrics &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.46 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.38 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.49 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Final &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8.5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 82.66 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 93.19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 109.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 86.27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.51 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Grade &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 83.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 92.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 85.48 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13.06 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Hood &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.72 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.45 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Morning &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.66 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.47 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pages &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11.25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 24.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3.95 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Year &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2014.0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2014.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2017 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2018.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2016.49 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.93 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Data: Counts of Categorical Variables I
+
+.pull-left[
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 38 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2017 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 13 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Sex &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 111 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+]
+
+.pull-right[
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Time &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Afternoon &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 61 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Morning &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 119 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; Class &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Econometrics &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 54 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Game Theory &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 21 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; IEP &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; IO &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Public Economics &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Trade &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+]
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; School &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; n &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; GMU &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Hood &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 129 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+
+
+# Data: Histogram I
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Histogram II
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot I
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot II
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot III
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-14-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot IV
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot V
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-16-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Data: Scatterplot VI
+
+&lt;img src="3.5-slides_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Empirical Model I
+
+- Describe your empirical model and your **identification strategy** 
+    - for most of you, just OLS and trying to include as many controls to remove omitted variable bias
+    
+- Why did you pick certain variables?
+
+- How do you battle endogeneity?
+
+- Hypothesize your expected size and magnitude of key variables
+    - Give some **economic intution** behind what we would expect!
+
+---
+
+# Empirical Model II
+
+.pull-left[
+
+- .blue[Grade] plausibly caused by length (.red[pages]), effort, school (uni), gender, course, topic, and time (of day)
+
+- Time of day probably unrelated to length...can safely ignore (don’t need to control for)
+
+- Don’t have good data on topic
+
+- Can’t *directly* measure for the amount of effort you put in, but I can .hi-purple[proxy] for it with the grade you got in the course (strongly correlated with effort)
+
+]
+
+.pull-right[
+![](3.5-slides_files/figure-html/unnamed-chunk-18-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Empirical Model II
+
+.pull-left[
+
+- So I need to control for school, effort (proxied by final grade), gender, and (if I had data on it...) topic
+
+]
+
+.pull-right[
+![](3.5-slides_files/figure-html/unnamed-chunk-19-1.png)&lt;!-- --&gt;
+]
+
+---
+
+# Empirical Model III
+
+.content-box-green[
+.green[**Example**]:
+
+`$$\begin{align*}
+\text{Paper Grade}_i=&amp; \, \beta_0+\beta_1\text{Paper Length}_i+\beta_2\text{Course Grade}_i\\
+&amp;+\beta_3\text{Gender}_i+\beta_4\text{School}_i\\
+&amp;+\beta_6\text{Course}_i+u_i\\ \end{align*}$$`
+]
+
+- `\(Length\)` is the most important variable we care about
+
+- `\(Length\)` probably endogenous, correlated with those other Grade-determining factors:
+  - Why I included these controls!
+    
+- Likely expect `\(Length\)` to be positive and small
+
+---
+
+# Empirical Model III
+
+.content-box-green[
+.green[**Example**]:
+
+`$$\begin{align*}
+\text{Paper Grade}_i=&amp; \, \beta_0+\beta_1\text{Paper Length}_i+\beta_2\text{Course Grade}_i\\
+&amp;+\beta_3\text{Gender}_i+\beta_4\text{School}_i\\
+&amp;+\beta_6\text{Course}_i+u_i\\ \end{align*}$$`
+]
+
+- You are probably interested specifically in the relationship only for econometrics papers, so we can focus Course specifically to a binary variable `\(Metrics\)` to see how the results differ between non-econometrics courses
+
+- Alternatively, we can restrict our sample to *only* past econometrics classes
+
+---
+
+# Empirical Model IV
+
+- Describe the **limitations of your model**
+    - Every paper, even Nobel prize-winning ones, have limitations and problems!
+    - Limited and/or poor quality data
+    - Endogeneity, simultaneous causation, omitted variable bias
+
+.content-box-green[
+.green[**Example**]:
+The model likely suffers from endogeneity, as how many pages a student writes is likely to be positively correlated with personal attributes like dilligence, conscientiousness, and intelligence, which themselves are likely positively correlated with the grade of the paper. Thus, we have likely *over*stated the effect of page length on paper grades. Furthermore, we are unable to measure other variables that make page length endogenous, such as the topic that was chosen. Some topics lend themselves to shorter or longer papers and may have better or worse data that make it easier or difficult to run a clean empirical test.
+]
+
+---
+
+# Empirical Model IV
+
+- Are your results **robust** across different model specifications?
+  - Do the size(s) of the marginal effect(s) you care about change or reverse direction? Become/lose significance?
+    
+- At minimum, you must run several models, including a multivariate regression
+  - Run *several variations* of your model with and without controls (e.g. just `\(Y\)` and `\(X\)`, `\(Y\)` and `\(X_1\)` and `\(X_2\)`, etc.)
+  - Check for nonlinearities: polynomials, logs, etc.
+
+---
+
+# Results I
+
+- Print a table(s) of your regression(s) results
+  - R packages can help: `huxtable`, `stargazer`, `modelsummary`
+
+- Interpret your data
+  - What does a marginal (1 unit) change in `\(X\)` mean for `\(Y\)`, a 1% change, etc? 
+  - Is each coefficient statistically significant (at 10%, 5%, or 1% levels)?
+
+---
+
+
+
+.tiny[
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-21">
+<col><col><col><col><col><col><col><tr>
+<th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Baseline</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">No Os</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Econometrics Only</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">With Controls</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Hood Only</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Econometrics Only</th></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Constant</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">69.99 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">79.04 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">78.18 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">51.82 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">45.80 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">41.81 ***</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2.23)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.27)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(2.29)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(3.21)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(3.62)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(4.73)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Length</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.62 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.81 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.93 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.66 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.34 **&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.43 **&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.22)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.12)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.18)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.11)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.11)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.14)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Course Grade</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.27 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.45 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.49 ***</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.04)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.05)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.06)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Hood College</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.27 ***</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.99)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Female</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.51&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-0.43&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">-1.12&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.79)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.78)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(1.17)&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Econometrics Course</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">1.55&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.22&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.95)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">(0.80)&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">N</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">180&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">177&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">129&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">54&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">R-Squared</th><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.24&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.20&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.34&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.56&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.58&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; padding: 6pt 6pt 6pt 6pt; font-weight: normal;">0.72&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">SER</th><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">11.41&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">6.13&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">5.49&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">4.62&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.74&nbsp;&nbsp;&nbsp;&nbsp;</td><td style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0pt 0pt 0.8pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">3.67&nbsp;&nbsp;&nbsp;&nbsp;</td></tr>
+<tr>
+<th colspan="7" style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"> *** p &lt; 0.001;  ** p &lt; 0.01;  * p &lt; 0.05.</th></tr>
+</table>
+
+
+]
+
+---
+
+# Results I
+
+.pull-left[
+
+![](3.5-slides_files/figure-html/unnamed-chunk-22-1.png)&lt;!-- --&gt;
+
+]
+--
+
+.pull-right[
+![](3.5-slides_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+]
+
+---
+
+# Results: Interpretation!
+
+- Are your estimates **economically significant**?
+
+- How big is "big"?
+
+&gt; “No economist has achieved scientific success as a result of a statistically significant coefficient. Massed observations, clever common sense, elegant theorems, new policies, sagacious economic reasoning, historical perspective, relevant accounting, these have all led to scientific success. Statistical significance has not.” — McCloskey &amp; Ziliak (1996: 112)
+
+---
+
+# Results: Interpretation!
+
+.center[
+![:scale 45%](https://www.dropbox.com/s/qtd2uwvr52jvkcu/drwhocontext.jpg?raw=1)
+]
+
+---
+
+# Results: Interpretation!
+
+.content-box-green[
+.green[**Example**:] I find that for every additional page written, we can expect a paper's grade to increase by about a point or less, after controlling for other factors such as Final grade (proxying as a measure of overall diligence and intelligence), sex, and course. In the most relevant sample, econometrics students, the marginal effect is even smaller, only less than half of a point increase for every additional page written. This small effect is statistically significant at the 10% level only.
+
+However, we should not make much of these results due to the likely endogeneity of Pages due to unobserved factors such as topic and quality of writing, which clearly would matter much both for length and for grade. *It would be poor advice to recommend students simply to write long papers to earn a higher grade.*
+]
+
+---
+
+# Results: Implications
+
+- Describe several *implications* of your paper
+  - Policy implications
+  - Proposals for new research
+  - Effects on current understanding
+  - What else should we try to found out to answer the question better?
+
+---
+
+# Don't Get Discouraged
+
+.pull-left[
+.center[
+![:scale 90%](https://www.dropbox.com/s/akegbq42i02gl8y/sciencerage.png?raw=1)
+]
+]
+
+--
+
+.pull-right[
+.center[
+![:scale 50%](https://www.dropbox.com/s/y3fvprtxyuvki24/sciencerage1.png?raw=1)
+]
+]
+
+---
+
+# Don't Get Discouraged
+
+.left-column[
+.center[
+![:scale 80%](https://www.dropbox.com/s/udfdftpvalagsyj/einstein.png?raw=1)
+
+Albert Enstein 
+
+(1870-1924)
+
+]
+]
+
+.right-column[
+
+&gt; "If we knew what it was we were looking for, we wouldn't call it research, would we?"
+
+]
+
+---
+
+# Deadlines and Reminders (From the Assignment Page)
+
+.smallest[
+| Assignment | Points | Due Date | Description |
+|------------|--------|----------|-------------|
+| Abstract | 5 | Sun Oct 11 | Short summary of your ideas |
+| Literature Review | 10 | Sun Nov 1 | 1-3 paragraphs on 2-3 scholarly sources |
+| Data Description | 10 | Sun Nov 15 | Description of data sources, and some summary statistics |
+| Presentation | 5 | Thurs Nov 19 | Short presentation of your project so far |
+| Final Paper Due | 70 | Tues Nov 22 | Email to me paper, data, and code |
+
+- note for each stage (except the Final Paper), it's **more than okay that your final topics, data, etc will change!**
+- for the final paper, I will take 1 point off for every 24 hours it is late
+]
+
+---
+
+# Grading of Final Paper (From the Assignment Page)
+
+| Category | Points |
+|----------|--------|
+| Persuasiveness | 10 |
+| Clarity | 10 |
+| Econometric Validity | 20 |
+| Economic Soundness | 20 |
+| Organization | 5 |
+| References | 5 |
+| TOTAL | 70 |
+
+---
+
+# Submitting your Final Paper
+
+.smallest[
+When you send your final email (by Tuesday November 22), it should contain the following files:
+
+1. **Your final paper as a `.pdf`.** It should include an abstract and bibliography and all tables and figures.
+
+2. **The (commented!) code used for your data analysis** (i.e. loading data, making tables, making plots, running regressions)
+  - **either `.R` files** OR a **`.Rmd` file.** I want to know *how* you reached the results you got! **Reproducibility is the goal!**
+
+3. **Your data used**, in whatever original format you found it (e.g. `.csv`, `.xlsx`, `.dta`)
+]
+
+---
+
+class: inverse, center, middle
+
+# Some Examples
+
+---
+
+# Example 1
+
+&gt; “Exploring the Effects of Children and Marriage on Men’s and Women’s Incomes”
+
+.smallest[
+`$$\begin{align*}
+\text{Income}_i = &amp; \, \beta_0+\beta_1 \text{Number of Children}_i\\
+&amp;+ \beta_2 \text{Math SAT Score}_i + \beta_3 \text{Sex}_i + \beta_4 \text{Hours Worked per Week}_i\\
+&amp;+ \beta_5 \text{Married}_i+u_i\\ \end{align*}$$`
+]
+
+- Cross-sectional data for individual `\(i\)`
+
+---
+
+# Example 2
+
+&gt; “Does Spending More on the Offensive Line &amp; the Defensive Line Affect NFL Team Wins?”
+
+.smallest[
+`$$\begin{align*}
+\text{Wins}_{ty} = &amp; \, \beta_0+\beta_1 \text{OL &amp; DL Spending}_{ty}\\
+&amp;+ \beta_2 \text{Quarterback Spending}_{ty}\\
+&amp;+\beta_3 \text{Defensive Coach Spending}_{ty}+u_{ty}\\ \end{align*}$$`
+]
+
+- Panel data for team `\(t\)` in year `\(y\)`
+
+---
+
+# Example 3
+
+&gt; “Buy You a Vote”
+
+.smallest[
+`$$\begin{align*}
+\text{Vote Share}_{it} = &amp; \, \beta_0+\beta_1 \text{Incumbent}_{it} + \beta_2 \text{Incumbent Spending}_{it}\\
+&amp;+ \beta_3 \text{Non-Incumbent Spending}_{it}+\beta_4 \text{Number of Candidates}_{it}\\
+&amp;+\beta_5 \text{Political Party}_{it}+\alpha_i+\tau_t+\epsilon_{it}\\ \end{align*}$$`
+]
+
+- Panel data for individual `\(i\)` at time `\(t\)`, with individual fixed effects `\((\alpha_i)\)` and year fixed effects `\((\tau_t)\)`
+
+---
+
+# Example 4
+
+&gt; “A Cross-Sectional Study on the Effect of State Minimum Wage on Youth Unemployment at the State Level”
+
+.smallest[
+`$$\begin{align*}
+\text{ln(Unemployment Rate)}_{i} = &amp; \, \beta_0+\beta_1 \text{ln(Minimum Wage)}_{i} + \beta_2 \text{Spending per Student}_{i}\\
+&amp;+ \beta_3 \text{Poverty Rate}_{i}+u_i \\ \end{align*}$$`
+]
+
+- Cross-sectional data for U.S. State `\(i\)`
+
+---
+
+# Example 5
+
+&gt; “Is Twitter Strong Enough to Measure NBA Player Performance?”
+
+.smallest[
+`$$\begin{align*}
+\text{Player Impact Estimate}_{i} = &amp; \, \beta_0+\beta_1 \text{ln(Number of Twitter Followers)}_{i} + \beta_2 \text{Age}_{i}\\
+&amp;+ \beta_3 \text{Games Played}_{i}+\beta_4 \text{Minutes played per game}_{i}\\
+&amp; +\beta_5 \text{Points scored per game}_{i}+ \beta_6 \text{Salary}_{i}u_i\\ \end{align*}$$`
+]
+
+- Cross-sectional data for player `\(i\)`
+
+---
+
+class: inverse, center, middle
+
+# Getting Your Markdown Ready for Prime Time
+
+---
+
+#
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
