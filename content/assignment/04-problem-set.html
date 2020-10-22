@@ -109,14 +109,40 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="question-7">Question 7</h3>
 <p>Data were collected from a random sample of 220 home sales from a community in 2017.</p>
 <p><span class="math display">\[\widehat{Price}=119.2+0.485 \, BDR+23.4 \, Bath+0.156 \, Hsize+0.002 \, Lsize+0.090 \, Age\]</span></p>
-<ul>
-<li><span class="math inline">\(Price\)</span>: selling price (in $1,000s)</li>
-<li><span class="math inline">\(BDR\)</span>: number of bedrooms</li>
-<li><span class="math inline">\(Bath\)</span>: number of bathrooms</li>
-<li><span class="math inline">\(Hsize\)</span>: size of the house (in <span class="math inline">\(ft^2\)</span>)</li>
-<li><span class="math inline">\(Lsize\)</span>: lot size (in <span class="math inline">\(ft^2\)</span>)</li>
-<li><span class="math inline">\(Age\)</span>: age of the house (in years)</li>
-</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Price\)</span></td>
+<td>selling price (in $1,000s)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(BDR\)</span></td>
+<td>number of bedrooms</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Bath\)</span></td>
+<td>number of bathrooms</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Hsize\)</span></td>
+<td>size of the house (in ft<span class="math inline">\(^2)\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Lsize\)</span></td>
+<td>lot size (in ft<span class="math inline">\(^2)\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Age\)</span></td>
+<td>age of the house (in years)</td>
+</tr>
+</tbody>
+</table>
 <h4 id="part-a">Part A</h4>
 <p>Suppose that a homeowner converts part of an existing living space in her house to a new bathroom. What is the expected increase in the value of the house?</p>
 <h4 id="part-b">Part B</h4>
@@ -221,18 +247,13 @@ code span.wa { color: #bf0303; } /* Warning */
 </span></span></p>
 <h4 id="part-b-2">Part B</h4>
 <p>Consider the following causal model:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggdag)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;ggdag&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:stats&#39;:
-## 
-##     filter</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">dagify</span>(bwght<span class="op">~</span>cigs<span class="op">+</span>inc,</span>
-<span id="cb5-2"><a href="#cb5-2"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>       inc<span class="op">~</span>educ,</span>
-<span id="cb5-4"><a href="#cb5-4"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggdag)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">dagify</span>(bwght<span class="op">~</span>cigs<span class="op">+</span>inc,</span>
+<span id="cb2-3"><a href="#cb2-3"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>       inc<span class="op">~</span>educ,</span>
+<span id="cb2-5"><a href="#cb2-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">ggdag</span>(<span class="dt">stylized =</span> <span class="ot">FALSE</span>, <span class="dt">seed=</span><span class="dv">1</span>)<span class="op">+</span><span class="kw">theme_dag_blank</span>()<span class="op">+</span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/assignment/04-problem-set_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Note what we are hypothesizing:</p>
 <ul>
@@ -279,11 +300,28 @@ code span.wa { color: #bf0303; } /* Warning */
 <li><a href="http://metricsf19.classes.ryansafner.com/data/heightwages.csv"><i class="fas fa-table"></i> <code>heightwages.csv</code></a></li>
 </ul>
 <p>Download the <code>heightwages.csv</code> dataset. This data is a part of a larger dataset from the National Longitudinal Survey of Youth (NLSY) 1979 cohort: a nationally representative sample of 12,686 men and women aged 14-22 years old when they were first surveyed in 1979. They were subsequently interviewed every year through 1994 and then every other year afterwards. There are many included variables, but for now we will just focus on:</p>
-<ul>
-<li><code>wage96</code>: Adult hourly wages ($/hr) reported in 1996</li>
-<li><code>height85</code>: Adult height (inches) reported in 1985</li>
-<li><code>height81</code>: Adolescent height (inches) reported in 1981</li>
-</ul>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>wage96</code></td>
+<td>Adult hourly wages ($/hr) reported in 1996</td>
+</tr>
+<tr class="even">
+<td><code>height85</code></td>
+<td>Adult height (inches) reported in 1985</td>
+</tr>
+<tr class="odd">
+<td><code>height81</code></td>
+<td>Adolescent height (inches) reported in 1981</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
 <p>We want to figure out what is the effect of height on wages (e.g. do taller people earn more on average than shorter people?)</p>
 </blockquote>

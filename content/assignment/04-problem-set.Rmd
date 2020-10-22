@@ -65,12 +65,14 @@ Data were collected from a random sample of 220 home sales from a community in 2
 
 $$\widehat{Price}=119.2+0.485 \, BDR+23.4 \, Bath+0.156 \, Hsize+0.002 \, Lsize+0.090 \, Age$$
 
-- $Price$: selling price (in \$1,000s)
-- $BDR$: number of bedrooms
-- $Bath$: number of bathrooms
-- $Hsize$: size of the house (in $ft^2$)
-- $Lsize$: lot size (in $ft^2$)
-- $Age$: age of the house (in years)
+| Variable | Description |
+|----------|-------------|
+| $Price$ | selling price (in $1,000s) |
+| $BDR$ | number of bedrooms |
+| $Bath$ | number of bathrooms |
+| $Hsize$ | size of the house (in ft$^2)$ |
+| $Lsize$ | lot size (in ft$^2)$ |
+| $Age$ |age of the house (in years) |
 
 ### Part A
 Suppose that a homeowner converts part of an existing living space in her house to a new bathroom. What is the expected increase in the value of the house?
@@ -150,7 +152,7 @@ Make a correlation table for our variables listed above.^[Hints: `select()` thes
 ### Part B
 Consider the following causal model:
 
-```{r, echo=T}
+```{r, echo=T, message = F, warning = F}
 library(ggdag)
 dagify(bwght~cigs+inc,
        cigs~price+educ+inc,
@@ -227,9 +229,11 @@ Try out drawing this model using the `ggdag` package in R. See my DAG in questio
 
 Download the `heightwages.csv` dataset. This data is a part of a larger dataset from the National Longitudinal Survey of Youth (NLSY) 1979 cohort: a nationally representative sample of 12,686 men and women aged 14-22 years old when they were first surveyed in 1979. They were subsequently interviewed every year through 1994 and then every other year afterwards. There are many included variables, but for now we will just focus on: 
 
-- `wage96`: Adult hourly wages (\$/hr) reported in 1996
-- `height85`: Adult height (inches) reported in 1985
-- `height81`: Adolescent height (inches) reported in 1981
+| Variable | Description |
+|----------|-------------|
+| `wage96` |Adult hourly wages ($/hr) reported in 1996 |
+| `height85` | Adult height (inches) reported in 1985 |
+| `height81` | Adolescent height (inches) reported in 1981 |
 
 > We want to figure out what is the effect of height on wages (e.g. do taller people earn more on average than shorter people?)
 
