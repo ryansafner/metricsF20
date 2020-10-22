@@ -138,9 +138,9 @@ $$\widehat{BDR}=\delta_0+\delta_1Bath+\delta_2Hsize+\delta_3Lsize+\delta_4Age$$
 A researcher wants to investigate the effect of education on average hourly wages. Wage, education, and experience in the dataset have the following correlations:
 
 |    | Wage | Education | Experience |
-|----|------|-----------|------------|
+|----|-----:|----------:|-----------:|
 | Wage | 1.0000 |    |    |
-| Education | 0.4059 |    |    |
+| Education | 0.4059 |  1.0000  |    |
 | Experience | 0.1129 | -0.2995 | 1.0000 |
 
 She runs a simple regression first, and gets the results:
@@ -354,7 +354,7 @@ Does this causal model hold up well?
 
 ### Part I
 
-**Test these implications appropriately, like you did in Question 5. Does this model hold up well?**
+**Test these implications appropriately, like you did in Part C. Does this model hold up well?**
 
 ---
 
@@ -424,7 +424,7 @@ Does this causal model hold up well?
 
 ## Question 10
 
-- [<i class="fas fa-table"></i> `heightwages.csv`](http://metricsf19.classes.ryansafner.com/data/heightwages.csv)
+- [<i class="fas fa-table"></i> `heightwages.csv`](http://metricsf20.classes.ryansafner.com/data/heightwages.csv)
 
 Download the `heightwages.csv` dataset. This data is a part of a larger dataset from the National Longitudinal Survey of Youth (NLSY) 1979 cohort: a nationally representative sample of 12,686 men and women aged 14-22 years old when they were first surveyed in 1979. They were subsequently interviewed every year through 1994 and then every other year afterwards. There are many included variables, but for now we will just focus on: 
 

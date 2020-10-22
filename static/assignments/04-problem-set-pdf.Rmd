@@ -81,9 +81,9 @@ $$\widehat{BDR}=\delta_0+\delta_1Bath+\delta_2Hsize+\delta_3Lsize+\delta_4Age$$
 8. A researcher wants to investigate the effect of education on average hourly wages. Wage, education, and experience in the dataset have the following correlations:
 
 |    | Wage | Education | Experience |
-|----|------|-----------|------------|
+|----|-----:|----------:|-----------:|
 | Wage | 1.0000 |    |    |
-| Education | 0.4059 |    |    |
+| Education | 0.4059 |  1.0000  |    |
 | Experience | 0.1129 | -0.2995 | 1.0000 |
 
 She runs a simple regression first, and gets the results:
@@ -170,7 +170,7 @@ e. What is the minimal sufficient set of variables we need to control in order t
 f. Estimate the causal effect by running the appropriate regression.^[Note, on `dagitty`, you can change a variable on the diagram to be "*adjusted*" (controlled for) by double-clicking it and then hitting the `A` key.]
 g. We saw some effect between `faminc` and `cigprice`. Perhaps there are unobserved factors (such as the economy's performance) that affect both. Add an unobserved factor `u1` to your `dagitty` model.^[Note, on `dagitty`, you can make a variable be "*unobserved*" by double-clicking it and then hitting the `U` key.]
 h. Perhaps our model is poorly specified. Maybe `motheduc` actually has a causal effect on `bwght`? Tweak your model from Question 9 on `dagitty` to add this potential relationship. What testable implications does this new model imply?
-i. Test these implications appropriately, like you did in Question 5. Does this model hold up well?
+i. Test these implications appropriately, like you did in Part C. Does this model hold up well?
 j. Under this new causal model, list *all* of the possible pathways from `cigs` to `bwght`. Which are "front-doors" and which are "back-doors?" Are any blocked by colliders?
 k. Under this new causal model, what is the minimal sufficient set of variables we need to control in order to causally identify the effect of `cigs` on `bwght`?
 l. Estimate the causal effect in this new model by running the appropriate regression. Compare your answers to those in Part F.
