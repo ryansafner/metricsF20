@@ -11,8 +11,8 @@ library(pander)
 
 *Due by 11:59 PM Sunday October 25, 2020*
 
-- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/homeworks/04-problem-set-pdf.pdf)
-- [<i class="fab fa-markdown"></i> `Download Markdown`](/homeworks/04-problem-set.Rmd)
+- [<i class="fas fa-file-pdf"></i> `Download as PDF`](/assignments/04-problem-set-pdf.pdf)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/assignments/04-problem-set.Rmd)
 
 <!--**ANSWERS:**
 
