@@ -1,0 +1,243 @@
+---
+title: "3.6 — Regression with Categorical Data — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- BLOGDOWN-HEAD -->
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+<!-- /BLOGDOWN-HEAD -->
+
+<h2>Contents</h2>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#readings">Readings</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#assignments">Assignments</a></li>
+<li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
+<li><a href="#appendix-t-test-for-difference-in-group-means">Appendix: T-Test for Difference in Group Means</a></li>
+</ul>
+</div>
+
+<p><em>Tuesday, October 27, 2020</em></p>
+<h2 id="overview">Overview</h2>
+<p>Today we look at how to use data that is categorical (i.e. variables that indicate an observation’s membership in a particular group or category). We introduce them into regression models as <strong>dummy variables</strong> that can equal 0 or 1: where 1 indicates membership in a category, and 0 indicates non-membership.</p>
+<p>We also look at what happens when categorical variables have more than two values: for regression, we introduce a dummy variable for each possible category - but be sure to leave out one reference category to avoid the dummy variable trap.</p>
+<h2 id="readings">Readings</h2>
+<p>Please see <a href="/reading/3.6-reading">today’s suggested readings</a>.</p>
+<h2 id="slides">Slides</h2>
+<ul>
+<li><a href="/slides/3.6-slides.html"><i class="fas fa-chalkboard-teacher"></i> View Lecture Slides</a></li>
+<li><a href="/slides/3.6-slides.pdf"><i class="fas fa-file-pdf"></i> Download as PDF</a></li>
+</ul>
+<h2 id="assignments">Assignments</h2>
+<p><a href="/assignment/04-problem-set">Problem Set 4</a> answers are posted on that page.</p>
+<h2 id="live-class-session-on-zoom">Live Class Session on Zoom</h2>
+<p>The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see <code>LIVE ZOOM MEETINGS</code> on the left navigation menu), starting at 11:30 AM.</p>
+<p>If you are unable to join today’s live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see <code>Class Recordings</code> on the left navigation menu).</p>
+<h2 id="appendix-t-test-for-difference-in-group-means">Appendix: T-Test for Difference in Group Means</h2>
+<p>Often we want to compare the means between two groups, and see if the difference is statistically significant. As an example, <strong>is there a statistically significant difference in average hourly earnings between men and women</strong>? Let:</p>
+<ul>
+<li><span class="math inline">\(\mu_W\)</span>: mean hourly earnings for female college graduates</li>
+<li><span class="math inline">\(\mu_M\)</span>: mean hourly earnings for male college graduates</li>
+</ul>
+<p>We want to run a hypothesis test for the difference <span class="math inline">\((d)\)</span> in these two population means:
+<span class="math display">\[\mu_M-\mu_W=d_0\]</span></p>
+<p>Our null hypothesis is that there is <em>no</em> statistically significant difference. Let’s also have a two-sided alternative hypothesis, simply that there <em>is</em> a difference (positive or negative).</p>
+<ul>
+<li><span class="math inline">\(H_0: d=0\)</span></li>
+<li><span class="math inline">\(H_1: d \neq 0\)</span></li>
+</ul>
+<p>Note a logical one-sided alternative would be <span class="math inline">\(H_2: d &gt; 0\)</span>, i.e. men earn more than women</p>
+<h4 id="the-sampling-distribution-of-d">The Sampling Distribution of <span class="math inline">\(d\)</span></h4>
+<p>The <em>true</em> population means <span class="math inline">\(\mu_M, \mu_W\)</span> are unknown, we must estimate them from <em>samples</em> of men and women. Let:
+- <span class="math inline">\(\bar{Y}_M\)</span> the average earnings of a sample of <span class="math inline">\(n_M\)</span> men<br />
+- <span class="math inline">\(\bar{Y}_W\)</span> the average earnings of a sample of <span class="math inline">\(n_W\)</span> women</p>
+<p>We then estimate <span class="math inline">\((\mu_M-\mu_W)\)</span> with the sample <span class="math inline">\((\bar{Y}_M-\bar{Y}_W)\)</span>.</p>
+<p>We would then run a <strong>t-test</strong> and calculate the <strong>test-statistic</strong> for the difference in means. The formula for the test statistic is:</p>
+<p><span class="math display">\[t = \frac{(\bar{Y_M}-\bar{Y_W})-d_0}{\sqrt{\frac{s_M^2}{n_M}+\frac{s_W^2}{n_W}}}\]</span></p>
+<p>We then compare <span class="math inline">\(t\)</span> against the critical value <span class="math inline">\(t^*\)</span>, or calculate the <span class="math inline">\(p\)</span>-value <span class="math inline">\(P(T&gt;t)\)</span> as usual to determine if we have sufficient evidence to reject <span class="math inline">\(H_0\)</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<pre><code>## ── Attaching packages ───── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
+## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ──────── tidyverse_conflicts() ──
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(wooldridge)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># Our data comes from wage1 in the wooldridge package</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a>wages&lt;-wooldridge<span class="op">::</span>wage1</span>
+<span id="cb5-5"><a href="#cb5-5"></a></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co"># look at average wage for men</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a></span>
+<span id="cb5-8"><a href="#cb5-8"></a>wages <span class="op">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="st">  </span><span class="kw">filter</span>(female<span class="op">==</span><span class="dv">0</span>) <span class="op">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">average =</span> <span class="kw">mean</span>(wage),</span>
+<span id="cb5-11"><a href="#cb5-11"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(wage))</span></code></pre></div>
+<pre><code>##    average       sd
+## 1 7.099489 4.160858</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># look at average wage for women</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>wages <span class="op">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">filter</span>(female<span class="op">==</span><span class="dv">1</span>) <span class="op">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">summarize</span>(<span class="dt">average =</span> <span class="kw">mean</span>(wage),</span>
+<span id="cb7-6"><a href="#cb7-6"></a>            <span class="dt">sd =</span> <span class="kw">sd</span>(wage))</span></code></pre></div>
+<pre><code>##    average       sd
+## 1 4.587659 2.529363</code></pre>
+<p>So our data is telling us that male and female average hourly earnings are distributed as such:</p>
+<p><span class="math display">\[\begin{align*}
+\bar{Y}_M &amp;\sim N(7.10,4.16)\\
+\bar{Y}_W &amp;\sim N(4.59,2.53)\\
+\end{align*}\]</span></p>
+<p>We can plot this to see visually. There is a lot of overlap in the two distributions, but the male average is higher than the female average, and there is also a lot more variation in males than females, noticeably the male distribution skews further to the right.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>wages<span class="op">$</span>female&lt;-<span class="kw">as.factor</span>(wages<span class="op">$</span>female)</span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">library</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>wages,<span class="kw">aes</span>(<span class="dt">x=</span>wage,<span class="dt">fill=</span>female))<span class="op">+</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">25</span>,<span class="dv">5</span>),<span class="dt">name=</span><span class="st">&quot;Wage&quot;</span>,<span class="dt">labels=</span>scales<span class="op">::</span>dollar)<span class="op">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">theme_light</span>()</span></code></pre></div>
+<p><img src="/class/3.6-class_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<p>Knowing the distributions of male and female average hourly earnings, we can estimate the <strong>sampling distribution of the difference in group eans</strong> between men and women as:</p>
+<p>The mean:
+<span class="math display">\[\begin{align*}
+\bar{d}&amp;=\bar{Y}_M-\bar{Y}_W\\
+\bar{d}&amp;=7.10-4.59\\
+\bar{d}&amp;=2.51\\
+\end{align*}\]</span></p>
+<p>The standard error of the mean:
+<span class="math display">\[\begin{align*}
+SE(\bar{d})&amp;=\sqrt{\frac{s_M^2}{n_M}+\frac{s_W^2}{n_W}}\\
+&amp;=\sqrt{\frac{4.16^2}{274}+\frac{2.33^2}{252}}\\
+&amp; \approx 0.29\\
+\end{align*}\]</span></p>
+<p>So the sampling distribution of the difference in group means is distributed:
+<span class="math display">\[\bar{d} \sim N(2.51,0.29)\]</span></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggplot</span>(<span class="kw">data.frame</span>(<span class="dt">x=</span><span class="dv">0</span><span class="op">:</span><span class="dv">6</span>),<span class="kw">aes</span>(<span class="dt">x=</span>x))<span class="op">+</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun=</span>dnorm, <span class="dt">args=</span><span class="kw">list</span>(<span class="dt">mean=</span><span class="fl">2.51</span>, <span class="dt">sd=</span><span class="fl">0.29</span>), <span class="dt">color=</span><span class="st">&quot;purple&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Density&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">1</span>),<span class="dt">name=</span><span class="st">&quot;Wage Difference&quot;</span>,<span class="dt">labels=</span>scales<span class="op">::</span>dollar)<span class="op">+</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">theme_light</span>()</span></code></pre></div>
+<p><img src="/class/3.6-class_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>Now we the <strong><span class="math inline">\(t\)</span>-test</strong> like any other:</p>
+<p><span class="math display">\[\begin{align*}
+t&amp;=\frac{\text{estimate}-\text{null hypothesis}}{\text{standard error of the estimate}}\\
+&amp;=\frac{d-0}{SE(d)}\\
+&amp;=\frac{2.51-0}{0.29}\\
+&amp;=8.66\\
+\end{align*}\]</span></p>
+<p>This is statistically significant. The <span class="math inline">\(p\)</span>-value, <span class="math inline">\(P(t&gt;8.66)=\)</span> is 0.000000000000000000410, or basically, 0.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">pt</span>(<span class="fl">8.66</span>,<span class="fl">456.33</span>, <span class="dt">lower.tail=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 4.102729e-17</code></pre>
+<h4 id="the-t-test-in-r">The <span class="math inline">\(t\)</span>-test in <code>R</code></h4>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">t.test</span>(wage<span class="op">~</span>female, <span class="dt">data=</span>wages, <span class="dt">var.equal=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  wage by female
+## t = 8.44, df = 456.33, p-value = 4.243e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  1.926971 3.096690
+## sample estimates:
+## mean in group 0 mean in group 1 
+##        7.099489        4.587659</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>reg&lt;-<span class="kw">lm</span>(wage<span class="op">~</span>female, <span class="dt">data=</span>wages)</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="kw">summary</span>(reg)</span></code></pre></div>
+<pre><code>## 
+## Call:
+## lm(formula = wage ~ female, data = wages)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.5995 -1.8495 -0.9877  1.4260 17.8805 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   7.0995     0.2100  33.806  &lt; 2e-16 ***
+## female1      -2.5118     0.3034  -8.279 1.04e-15 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 3.476 on 524 degrees of freedom
+## Multiple R-squared:  0.1157, Adjusted R-squared:  0.114 
+## F-statistic: 68.54 on 1 and 524 DF,  p-value: 1.042e-15</code></pre>

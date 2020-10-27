@@ -119,6 +119,9 @@ lessons:
     slides: "3.5-slides"
     
   - title: "3.6 Regression with Categorical Data"
+    class: "3.6-class"
+    slides: "3.6-slides"
+    reading: "3.6-reading"
 
   - title: "3.7 Regression with Interaction Effects"
 
