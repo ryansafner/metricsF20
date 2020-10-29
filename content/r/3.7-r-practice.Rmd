@@ -14,7 +14,7 @@ To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_pr
 
 Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
 
-- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1835561
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1835561)
 - [<i class="fab fa-markdown"></i> `Download Markdown`](/r/3.7-r-practice-rmd.Rmd)
 
 <!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/19-r-practice-answers.html)
@@ -26,7 +26,7 @@ We are returning to the speeding tickets data that we began to explore in [R Pra
 
 - [<i class="fas fa-table"></i> `speeding_tickets.csv`](/data/speeding_tickets.csv)
 
-This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
+This data again comes from a paper by Makowsky and Strattman (2009). Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
 
 | Variable | Description |
 |----------|-------------|
@@ -53,8 +53,6 @@ Inspect the data with `str()` or `head()` or `glimpse()` to see what it looks li
 ### Part B
 
 What `class` of variable are `Black`, `Hispanic`, `Female`, `OutTown`, and `OutState`?^[Hint use the `class(df$variable)` command to ask what class something is, where `df` is your dataframe, and `variable` is the name of a variable.]
-
-### Part C
 
 ### Part C
 
@@ -88,7 +86,7 @@ Create a scatterplot between `Amount` (as Y) and Female (as X).^[Hint: Use `geom
 Now let's start looking at the distribution conditionally to find the different group means. 
 
 ### Part A
-Find the mean and standard deviation^[Hint: use the `summarrize()` command, once you have properly `filter()`ed the data.] of `Amount` for *male* drivers and again for *female* drivers.
+Find the mean and standard deviation^[Hint: use the `summarize()` command, once you have properly `filter()`ed the data.] of `Amount` for *male* drivers and again for *female* drivers.
 
 ### Part B
 

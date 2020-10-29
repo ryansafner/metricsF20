@@ -79,7 +79,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
 <p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
 <ul>
-<li>[<i class="fas fa-cloud"></i> View Project on R Studio Cloud](<a href="https://rstudio.cloud/spaces/83147/project/1835561" class="uri">https://rstudio.cloud/spaces/83147/project/1835561</a></li>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1835561"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
 <li><a href="/r/3.7-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
 </ul>
 <!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/19-r-practice-answers.html)
@@ -89,7 +89,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <ul>
 <li><a href="/data/speeding_tickets.csv"><i class="fas fa-table"></i> <code>speeding_tickets.csv</code></a></li>
 </ul>
-<p>This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one’s we’ll look at are:</p>
+<p>This data again comes from a paper by Makowsky and Strattman (2009). Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one’s we’ll look at are:</p>
 <table>
 <colgroup>
 <col width="43%" />
@@ -152,7 +152,6 @@ code span.wa { color: #bf0303; } /* Warning */
 <br />
 </span></span></p>
 <h4 id="part-c">Part C</h4>
-<h4 id="part-c-1">Part C</h4>
 <p>Notice that when importing the data from the <code>.csv</code> file, <code>R</code> interpretted these variables as <code>integer</code>, but we want them to be <code>factor</code> variables, to ensure <code>R</code> recognizes that there are two groups (categories), 0 and 1. Convert each of these variables into factors by reassigning it according to the format:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>df&lt;-df <span class="op">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">my_var=</span><span class="kw">as.factor</span>(my_var),</span>
@@ -175,12 +174,12 @@ code span.wa { color: #bf0303; } /* Warning */
 <h3 id="question-4">Question 4</h3>
 <p>Now let’s start looking at the distribution conditionally to find the different group means.</p>
 <h4 id="part-a-1">Part A</h4>
-<p>Find the mean and standard deviation<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Hint: use the <code>summarrize()</code> command, once you have properly <code>filter()</code>ed the data.<br />
+<p>Find the mean and standard deviation<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Hint: use the <code>summarize()</code> command, once you have properly <code>filter()</code>ed the data.<br />
 <br />
 </span></span> of <code>Amount</code> for <em>male</em> drivers and again for <em>female</em> drivers.</p>
 <h4 id="part-b-1">Part B</h4>
 <p>What is the difference between the average Amount for Males and Females?</p>
-<h4 id="part-c-2">Part C</h4>
+<h4 id="part-c-1">Part C</h4>
 <p>We did not go over how to do this in class, but you can run a <strong>t-test for the difference in group means</strong> to see if the difference is statistically significant. The syntax is similar for a regression:</p>
 <p><code>t.test(y~d, data=df)</code></p>
 <p>where:</p>
@@ -217,7 +216,7 @@ code span.wa { color: #bf0303; } /* Warning */
 </span></span></p>
 <h4 id="part-b-3">Part B</h4>
 <p>Run the same regression as in question 5, but use <code>Male</code> instead of <code>Female</code>.</p>
-<h4 id="part-c-3">Part C</h4>
+<h4 id="part-c-2">Part C</h4>
 <p>Write out the estimated regression equation.</p>
 <h4 id="part-d-1">Part D</h4>
 <p>Use the regression coefficients to find</p>
@@ -240,7 +239,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>Run a regression of <code>Amount</code> on <code>Age</code> and <code>Female.</code> How does the coefficient on <code>Female</code> change?</p>
 <h4 id="part-b-4">Part B</h4>
 <p>Now let’s see if the difference in fine between men and women are different depending on the driver’s age. Run the regression again, but add an <strong>interaction term</strong> between <code>Female</code> and <code>Age</code> interaction term.</p>
-<h4 id="part-c-4">Part C</h4>
+<h4 id="part-c-3">Part C</h4>
 <p>Write out your estimated regression equation.</p>
 <h4 id="part-d-2">Part D</h4>
 <p>Interpret the interaction effect. Is it statistically significant?</p>
@@ -261,7 +260,7 @@ code span.wa { color: #bf0303; } /* Warning */
 <h4 id="part-b-5">Part B</h4>
 <p>Now run a regression of the following model:</p>
 <p><span class="math display">\[\text{Amount}_i=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}OutState_i+\hat{\beta_3}Female_i*OutState_i\]</span></p>
-<h4 id="part-c-5">Part C</h4>
+<h4 id="part-c-4">Part C</h4>
 <p>Write out the estimated regression equation.</p>
 <h4 id="part-d-3">Part D</h4>
 <p>What does each coefficient mean?</p>

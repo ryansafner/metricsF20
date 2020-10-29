@@ -23,7 +23,7 @@ We are returning to the speeding tickets data that we began to explore in [R Pra
 
 - [<i class="fas fa-table"></i> `speeding_tickets.csv`](https://metricsf20.classes.ryansafner.com/data/speeding_tickets.csv)
 
-This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
+This data again comes from a paper by Makowsky and Strattman (2009). Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
 
 | Variable | Description |
 |----------|-------------|
@@ -150,7 +150,7 @@ Create a scatterplot between `Amount` (as Y) and Female (as X).^[Hint: Use `geom
 Now let's start looking at the distribution conditionally to find the different group means. 
 
 ### Part A
-Find the mean and standard deviation^[Hint: use the `summarrize()` command, once you have properly `filter()`ed the data.] of `Amount` for *male* drivers and again for *female* drivers.
+Find the mean and standard deviation^[Hint: use the `summarize()` command, once you have properly `filter()`ed the data.] of `Amount` for *male* drivers and again for *female* drivers.
 
 ---
 
