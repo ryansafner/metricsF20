@@ -46,24 +46,71 @@ theme_slides<-ggthemes::theme_pander(base_family = "Fira Sans Condensed",
            base_size=16)
 ```
 
-# Interaction Effects
+class: inverse
 
-- Sometimes one $X$ variable might *interact* with another in determining $Y$
+# Outline
+
+### [Interactions Between a Dummy and Continuous Variable](#)
+### [Interactions Between Two Dummy Variables](#)
+### [Interactions Between Two Continuous Variables](#)
+
+---
+
+# Sliders and Switches
+
+.center[
+![](../images/lightswitches.png)
+]
+
+---
+
+# Sliders and Switches
+
+.center[
+![](../images/lightswitchesannotated.png)
+]
 
 --
 
+- Marginal effect of dummy variable: effect on $Y$ of going from 0 to 1
+
+--
+
+- Marginal effect of continuous variable: effect on $Y$ of a 1 unit change in $X$
+
+---
+
+# Interaction Effects
+
+.smallest[
+- Sometimes one $X$ variable might *interact* with another in determining $Y$
+]
+--
+
+.smallest[
 .content-box-green[
 .green[**Example**]: Consider the gender pay gap again.
-
-- *Gender* affects wages
-- *Experience* affects wages
-
-- .hi-purple[Does experience affect wages *differently* by gender?]
-  - i.e. is there an .hi[interaction effect] between gender and experience?
-
-- .hi-turquoise[Note this is *NOT the same* as asking “do men earn more than women *with the same amount of experience*?”] (i.e. gender just controlling for experience)
+]
 ]
 
+--
+
+.smallest[
+- *Gender* affects wages
+- *Experience* affects wages
+]
+--
+
+.smallest[
+- .hi-purple[Does experience affect wages *differently* by gender?]
+  - i.e. is there an .hi[interaction effect] between gender and experience?
+]
+--
+.smallest[
+- .hi-turquoise[Note this is *NOT the same* as just asking: “do men earn more than women *with the same amount of experience*?”]
+
+$$\widehat{\text{wages}_i}=\beta_0+\beta_1 \, Gender_i + \beta_2 \, Experience_i$$
+]
 ---
 
 # Three Types of Interactions
@@ -90,6 +137,18 @@ $$Y_i=\beta_0+\beta_1X_{1i}+\beta_2 X_{2i}+\beta_3 \color{#e64173}{(X_{1i} \time
 class: inverse, center, middle
 
 # Interactions Between a Dummy and Continuous Variable
+
+---
+
+# Interactions: A Dummy & Continuous Variable
+
+.center[
+![](../images/lightswitchesannotated.png)
+]
+
+--
+
+- Does the marginal effect of the continuous variable on $Y$ change depending on whether the dummy is “on” or “off”?
 
 ---
 
@@ -631,6 +690,18 @@ class: inverse, center, middle
 
 # Interactions Between Two Dummy Variables
 
+.center[
+![](../images/dummyswitches.png)
+]
+
+--
+
+- Does the marginal effect on $Y$ of one dummy going from “off” to “on” change depending on whether the *other* dummy is “off” or “on”?
+
+---
+
+# Interactions Between Two Dummy Variables
+
 $$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \color{#e64173}{(D_{1i} \times D_{2i})}$$
 
 - $D_{1i}$ and $D_{2i}$ are dummy variables
@@ -955,6 +1026,18 @@ $$\widehat{wage_i}=5.17-0.56 \, female_i + 2.82 \, married_i - 2.86 \, (female_i
 class: inverse, center, middle
 
 # Interactions Between Two Continuous Variables
+
+---
+
+# Interactions Between Two Continuous Variables
+
+.center[
+![](../images/continousswitches.png)
+]
+
+--
+
+- Does the marginal effect of $X_1$ on $Y$ depend on what $X_2$ is set to?
 
 ---
 
