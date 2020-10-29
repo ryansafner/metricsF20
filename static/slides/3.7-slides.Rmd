@@ -1,0 +1,1191 @@
+---
+title: "3.7 — Interaction Effects"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F,
+                      fig.retina=3,
+                      fig.align="center")
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+
+library(broom)
+library(wooldridge)
+wages<-wooldridge::wage1
+wages<-wages %>%
+  mutate(Gender = factor(ifelse(female==0,
+                         "Male",
+                         "Female")))
+theme_slides<-ggthemes::theme_pander(base_family = "Fira Sans Condensed",
+           base_size=16)
+```
+
+# Interaction Effects
+
+- Sometimes one $X$ variable might *interact* with another in determining $Y$
+
+--
+
+.content-box-green[
+.green[**Example**]: Consider the gender pay gap again.
+
+- *Gender* affects wages
+- *Experience* affects wages
+
+- .hi-purple[Does experience affect wages *differently* by gender?]
+  - i.e. is there an .hi[interaction effect] between gender and experience?
+
+- .hi-turquoise[Note this is *NOT the same* as asking “do men earn more than women *with the same amount of experience*?”] (i.e. gender just controlling for experience)
+]
+
+---
+
+# Three Types of Interactions
+
+- Depending on the types of variables, there are 3 possible types of interaction effects
+
+- We will look at each in turn
+
+--
+
+1. Interaction between a **dummy** and a **continuous** variable:
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \color{#e64173}{(X_i \times D_i)}$$
+--
+
+2. Interaction between a **two dummy** variables:
+$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \color{#e64173}{(D_{1i} \times D_{2i})}$$
+--
+
+3. Interaction between a **two continuous** variables:
+$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2 X_{2i}+\beta_3 \color{#e64173}{(X_{1i} \times X_{2i})}$$
+
+---
+
+class: inverse, center, middle
+
+# Interactions Between a Dummy and Continuous Variable
+
+---
+
+# Interactions: A Dummy & Continuous Variable I
+
+- We can model an interaction by introducing a variable that is an .hi[interaction term] capturing the interaction between two variables:
+
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\color{#e64173}{\beta_3(X_i \times D_i)} \quad \text{ where } D_i=\{0,1\}$$
+
+--
+
+- $\color{#e64173}{\beta_3}$ estimates the .hi[interaction effect] between $X_i$ and $D_i$ on $Y_i$
+
+--
+
+- What do the different coefficients $(\beta)$’s tell us? 
+  - Again, think logically by examining each group $(D_i=0$ or $D_i=1)$
+
+---
+
+# Interaction Effects as Two Regressions I
+
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 X_i \times D_i$$
+
+--
+
+- .red[When `\\(D_i=0\\)` (Control group):]
+
+$$\begin{align*}
+\hat{Y_i}&=\hat{\beta_0}+\hat{\beta_1}X_i+\hat{\beta_2}(\color{red}{0})+\hat{\beta_3}X_i \times (\color{red}{0})\\
+\hat{Y_i}& =\hat{\beta_0}+\hat{\beta_1}X_i\\
+\end{align*}$$
+
+--
+
+- .blue[When `\\(D_i=1\\)` (Treatment group):]
+
+$$\begin{align*}
+\hat{Y_i}&=\hat{\beta_0}+\hat{\beta_1}X_i+\hat{\beta_2}(\color{blue}{1})+\hat{\beta_3}X_i \times (\color{blue}{1})\\
+\hat{Y_i}&= (\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i\\
+\end{align*}$$
+
+--
+
+- So what we really have is *two* regression lines!
+
+---
+
+# Interaction Effects as Two Regressions II
+
+.pull-left[
+
+```{r, fig.retina=3}
+control=function(x){2+0.5*x}
+treat=function(x){4+x}
+
+ggplot(data.frame(x=c(0,10)), aes(x=x))+
+  stat_function(fun=control, geom="line", size=2, color = "red")+
+    geom_label(aes(x=5,y=control(5)), color = "red", label=expression(paste("slope=",hat(beta[1]))), size = 5)+
+  stat_function(fun=treat, geom="line", size=2, color = "blue")+
+    geom_label(aes(x=5,y=treat(5)), color = "blue", label=expression(paste("slope=",hat(beta[1])+hat(beta[3]))), size = 5)+
+    scale_x_continuous(breaks=NULL,
+                     limits=c(0,10),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  scale_y_continuous(breaks=c(2,4),
+                     labels=c(expression(hat(beta[0])),expression(hat(beta[0])+hat(beta[2]))),
+                     limits=c(0,10),
+                     expand=expand_scale(mult=c(0,0.1)))+
+  labs(x = "",
+       y = "")+
+  theme_classic(base_family = "Fira Sans Condensed", base_size=20)
+
+```
+]
+
+.pull-right[
+
+- .red[`\\(D_i=0\\)` group:]
+
+$$\color{#D7250E}{Y_i=\hat{\beta_0}+\hat{\beta_1}X_i}$$
+
+- .blue[`\\(D_i=1\\)` group:]
+
+$$\color{#0047AB}{Y_i=(\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i}$$
+
+]
+
+---
+
+# Interpretting Coefficients I
+
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \color{#e64173}{(X_i \times D_i)}$$
+
+- To interpret the coefficients, compare cases after changing $X$ by $\color{#e64173}{\Delta X}$:
+
+--
+
+$$Y_i+\color{#e64173}{\Delta Y_i}=\beta_0+\beta_1(X_i\color{#e64173}{+\Delta X_i})\beta_2D_i+\beta_3\big((X_i\color{#e64173}{+\Delta X_i})D_i\big)$$
+
+--
+
+- Subtracting these two equations, the difference is:
+
+--
+
+$$\begin{align*}
+	\Delta Y_i &= \beta_1 \Delta X_i + \beta_3 D_i \Delta X_i\\
+	\color{#6A5ACD}{\frac{\Delta Y_i}{\Delta X_i}} &\color{#6A5ACD}{= \beta_1+\beta_3 D_i}\\
+\end{align*}$$
+
+--
+
+- .hi-purple[The effect of `\\(X \rightarrow Y\\)` depends on the value of `\\(D_i\\)`!]
+
+- .hi[`\\(\beta_3\\)`: *increment* to the effect of `\\(X \rightarrow Y\\)` when `\\(D_i=1\\)` (vs. `\\(D_i=0\\)`)]
+
+---
+
+# Interpretting Coefficients II
+
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \color{#e64173}{(X_i \times D_i)}$$
+
+- $\hat{\beta_0}$: $E[Y_i]$ for $X_i=0$ and $D_i=0$
+
+--
+
+- $\beta_1$: Marginal effect of $X_i \rightarrow Y_i$ for $D_i=0$
+
+--
+
+- $\beta_2$: Marginal effect on $Y_i$ of difference between $D_i=0$ and $D_i=1$
+
+--
+
+- $\beta_3$: The **difference** of the marginal effect of $X_i \rightarrow Y_i$ between $D_i=0$ and $D_i=1$
+
+--
+
+- This is a bit awkward, easier to think about the two regression lines: 
+
+---
+
+# Interpretting Coefficients III
+
+.smaller[
+$$Y_i=\beta_0+\beta_1X_i+\beta_2 D_i+\beta_3 \color{#e64173}{(X_i \times D_i)}$$
+]
+
+--
+
+.pull-left[
+.smallest[
+.red[For `\\(D_i=0\\)` Group:  `\\(\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i\\)`]
+  - Intercept: $\hat{\beta_0}$
+  - Slope: $\hat{\beta_1}$
+]
+]
+--
+
+.pull-right[
+.smallest[
+.blue[For `\\(D_i=1\\)` Group:  `\\(\hat{Y_i}=(\hat{\beta_0}+\hat{\beta_2})+(\hat{\beta_1}+\hat{\beta_3})X_i\\)`]
+  - Intercept: $\hat{\beta_0}+\hat{\beta_2}$
+  - Slope: $\hat{\beta_1}+\hat{\beta_3}$
+]
+]
+--
+
+.smallest[
+- $\hat{\beta_2}$: difference in intercept between groups
+
+- $\hat{\beta_3}$: difference in slope between groups
+
+]
+
+--
+
+.smallest[
+- How can we determine if the two lines have the same slope and/or intercept?
+  - Same intercept? $t$-test $H_0$: $\beta_2=0$
+  - Same slope? $t$-test $H_0$: $\beta_3=0$
+]
+
+---
+
+# Example I
+
+.content-box-green[
+.green[**Example**]: $$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}exper_i+\hat{\beta_2}female_i+\hat{\beta_3}(exper_i \times female_i)$$
+
+]
+
+--
+
+- .blue[For males `\\((female=0)\\)`]:
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}exper$$
+
+--
+
+- .pink[For females `\\((female=1)\\)`]:
+$$\widehat{wage_i}=\underbrace{(\hat{\beta_0}+\hat{\beta_2})}_{\text{intercept}}+\underbrace{(\hat{\beta_1}+\hat{\beta_3})}_{\text{slope}}exper$$
+
+---
+
+# Example II
+
+.pull-left[
+
+.code50[
+```{r interaction-plot-1, echo=T, eval=F}
+interaction_plot <- ggplot(data = wages)+
+  aes(x = exper,
+      y = wage,
+      color = as.factor(Gender))+ # make factor
+  geom_point(alpha = 0.5)+
+  scale_y_continuous(labels=scales::dollar)+
+  labs(x = "Experience (Years)",
+       y = "Wage")+
+  scale_color_manual(values = c("Female" = "#e64173",
+                                "Male" = "#0047AB")
+                     )+ # setting custom colors
+  guides(color=F)+ # hide legend
+  theme_slides
+interaction_plot
+```
+]
+
+.smallest[
+- Need to make sure `color` aesthetic uses a `factor` variable
+  - Can just use `as.factor()` in ggplot code
+]
+
+]
+
+.pull-right[
+
+```{r, ref.label="interaction-plot-1"}
+```
+]
+
+---
+
+# Example II
+
+.pull-left[
+
+```{r interaction-plot-2, echo=T, eval=F}
+interaction_plot+
+  geom_smooth(method="lm") #<<
+```
+]
+
+.pull-right[
+
+```{r, ref.label="interaction-plot-2"}
+```
+]
+
+---
+
+# Example II
+
+.pull-left[
+
+```{r interaction-plot-3, echo=T, eval=F}
+interaction_plot+
+  geom_smooth(method="lm")+
+  facet_wrap(~Gender) #<<
+```
+]
+
+.pull-right[
+
+```{r, ref.label="interaction-plot-3"}
+```
+]
+
+---
+
+# Example Regression in R I
+
+.smallest[
+- Syntax for adding an interaction term is easy in `R`: `var1 * var2`
+  - Or could just do `var1 * var2` (multiply)
+
+```{r, echo = T}
+# both are identical in R
+interaction_reg <- lm(wage ~ exper * female, data = wages)
+interaction_reg <- lm(wage ~ exper + female + exper * female, data = wages)
+
+```
+
+```{r}
+interaction_reg %>% tidy()
+```
+]
+
+---
+
+# Example Regression in R III
+
+.pull-left[
+
+.code50[
+```{r huxreg1, echo=T, eval=F}
+library(huxtable)
+huxreg(interaction_reg,
+       coefs = c("Constant" = "(Intercept)",
+                 "Experience" = "exper",
+                 "Female" = "female",
+                 "Experience * Female" = "exper:female"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+
+]
+]
+
+.pull-right[
+
+.quitesmall[
+```{r, ref.label="huxreg1"}
+```
+]
+]
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+--
+
+- $\hat{\beta_0}$: 
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+- $\hat{\beta_0}$: Men with 0 years of experience earn 6.16
+
+--
+
+- $\hat{\beta_1}$:
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+- $\hat{\beta_0}$: Men with 0 years of experience earn 6.16
+
+- $\hat{\beta_1}$: For every additional year of experience, *men* earn $0.05
+
+--
+
+- $\hat{\beta_2}$:
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+- $\hat{\beta_0}$: Men with 0 years of experience earn 6.16
+
+- $\hat{\beta_1}$: For every additional year of experience, *men* earn $0.05
+
+- $\hat{\beta_2}$: *Women* with 0 years of experience earn $1.55 less than men
+
+--
+
+- $\hat{\beta_3}$: 
+
+---
+
+# Example Regression in R: Interpretting Coefficients
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+- $\hat{\beta_0}$: Men with 0 years of experience earn 6.16
+
+- $\hat{\beta_1}$: For every additional year of experience, *men* earn $0.05
+
+- $\hat{\beta_2}$: *Women* with 0 years of experience earn $1.55 less than men
+
+- $\hat{\beta_3}$: *Women* earn $0.06 less than men for every additional year of experience
+
+---
+
+# Interpretting Coefficients as 2 Regressions I
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+--
+
+.blue[Regression for men `\\((female=0)\\)`]
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i$$
+
+--
+
+- Men with 0 years of experience earn $6.16 on average
+
+--
+
+- For every additional year of experience, men earn $0.05 more on average
+
+---
+
+# Interpretting Coefficients as 2 Regressions II
+
+$$\widehat{wage_i}=6.16+0.05 \, Experience_i - 1.55 \, Female_i - 0.06 \, (Experience_i \times Female_i)$$
+
+.pink[Regression for women `\\((female=1)\\)`]
+$$\begin{align*}
+\widehat{wage_i}&=6.16+0.05 \, Experience_i - 1.55\color{#e64173}{(1)}-0.06 \, Experience_i \times \color{#e64173}{(1)}\\
+&= (6.16-1.55)+(0.05-0.06) \, Experience_i\\
+&= 4.61-0.01 \, Experience_i \\
+\end{align*}$$
+
+--
+
+- Women with 0 years of experience earn $4.61 on average
+
+--
+
+- For every additional year of experience, women earn $0.01 *less* on average
+
+---
+
+# Example Regression in R: Hypothesis Testing
+
+.pull-left[
+.smallest[
+- Are slopes & intercepts of the 2 regressions statistically significantly different?
+
+]
+]
+
+.pull-right[
+
+.quitesmall[
+
+$$\begin{align*}
+\widehat{wage_i}&=6.16+0.05 \, Experience_i - 1.55 \, Female_i\\
+&- 0.06 \, (Experience_i \times Female_i) \\ \end{align*}$$
+
+]
+
+.smallest[
+```{r, echo=F}
+tidy(interaction_reg)
+```
+]
+]
+
+---
+
+# Example Regression in R: Hypothesis Testing
+
+.pull-left[
+.smallest[
+- Are slopes & intercepts of the 2 regressions statistically significantly different?
+
+- .purple[Are intercepts different?] $\color{#6A5ACD}{H_0: \beta_2=0}$
+  - Difference between men vs. women for no experience?
+  - Is $\hat{\beta_2}$ significant?
+  - .purple[Yes (reject)] $\color{#6A5ACD}{H_0}$: $t = -3.210$, $p$-value = 0.00
+
+]
+]
+
+.pull-right[
+
+.quitesmall[
+
+$$\begin{align*}
+\widehat{wage_i}&=6.16+0.05 \, Experience_i - 1.55 \, Female_i\\
+&- 0.06 \, (Experience_i \times Female_i) \\ \end{align*}$$
+
+]
+
+.smallest[
+```{r, echo=F}
+tidy(interaction_reg)
+```
+]
+]
+
+---
+
+# Example Regression in R: Hypothesis Testing
+
+.pull-left[
+.smallest[
+- Are slopes & intercepts of the 2 regressions statistically significantly different?
+
+- .purple[Are intercepts different?] $\color{#6A5ACD}{H_0: \beta_2=0}$
+  - Difference between men vs. women for no experience?
+  - Is $\hat{\beta_2}$ significant?
+  - .purple[Yes (reject)] $\color{#6A5ACD}{H_0}$: $t = -3.210$, $p$-value = 0.00
+
+- .purple[Are slopes different?] $\color{#6A5ACD}{H_0: \beta_3=0}$
+  - Difference between men vs. women for marginal effect of experience?
+  - Is $\hat{\beta_3}$ significant?
+  - .purple[Yes (reject)] $\color{#6A5ACD}{H_0}$: $t = -2.48$, $p$-value = 0.01
+]
+]
+
+.pull-right[
+
+.quitesmall[
+
+$$\begin{align*}
+\widehat{wage_i}&=6.16+0.05 \, Experience_i - 1.55 \, Female_i\\
+&- 0.06 \, (Experience_i \times Female_i) \\ \end{align*}$$
+
+]
+
+.smallest[
+```{r, echo=F}
+tidy(interaction_reg)
+```
+]
+]
+
+---
+class: inverse, center, middle
+
+# Interactions Between Two Dummy Variables
+
+---
+
+# Interactions Between Two Dummy Variables
+
+$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \color{#e64173}{(D_{1i} \times D_{2i})}$$
+
+- $D_{1i}$ and $D_{2i}$ are dummy variables
+
+--
+
+- $\hat{\beta_1}$: effect on $Y$ of going from $D_{1i}=0$ to $D_{1i}=1$ when $D_{2i}=0$
+
+--
+
+- $\hat{\beta_2}$: effect on $Y$ of going from $D_{2i}=0$ to $D_{2i}=1$ when $D_{1i}=0$
+
+--
+
+- $\hat{\beta_3}$: effect on $Y$ of going from $D_{1i}=0$ to $D_{1i}=1$ when $D_{2i}=1$
+  - *increment* to the effect of $D_{1i}$ going from 0 to 1 when $D_{2i}=1$ (vs. 0)
+
+--
+
+- As always, best to think logically about possibilities (when each dummy $=0$ or $=1)$
+
+---
+
+# 2 Dummy Interaction: Interpretting Coefficients
+
+.smaller[
+$$Y_i=\beta_0+\beta_1D_{1i}+\beta_2 D_{2i}+\beta_3 \color{#e64173}{(D_{1i} \times D_{2i})}$$
+]
+
+--
+
+.smallest[
+- To interpret coefficients, compare cases:
+  - Hold $D_{2i}$ constant (set to some value $D_{2i}=d_2$)
+  - Plug in 0s or 1s for $D_{1i}$
+
+$$\begin{align*}
+E(Y_i|D_{1i}&=\color{#FFA500}{0}, D_{2i}=d_2) = \beta_0+\beta_2 d_2\\
+E(Y_i|D_{1i}&=\color{#44C1C4}{1}, D_{2i}=d_2) = \beta_0+\beta_1(\color{#44C1C4}{1})+\beta_2 d_2+\beta_3(\color{#44C1C4}{1})d_2\\
+\end{align*}$$
+]
+
+--
+
+.smallest[
+- Subtracting the two, the difference is:
+
+$$\color{#6A5ACD}{\beta_1+\beta_3 d_2}$$
+
+- .hi-purple[The marginal effect of] $\color{#6A5ACD}{D_{1i} \rightarrow Y_i\\}$ .hi-purple[depends on the value of] $\color{#6A5ACD}{D_{2i}\\}$
+  - $\color{#e64173}{\hat{\beta_3}}$ is the *increment* to the effect of $D_1$ on $Y$ when $D_2$ goes from $0$ to $1$
+]
+
+---
+
+# Interactions Between 2 Dummy Variables: Example
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Does the gender pay gap change if a person is married vs. single?
+
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$
+]
+]
+
+--
+
+.quitesmall[
+- Logically, there are 4 possible combinations of $female_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$ and $married_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$
+]
+
+--
+
+.pull-left[
+.quitesmall[
+1) .hi-blue[Unmarried] .hi-blue[men] $(female_i=\color{#0047AB}{0}, \, married_i=\color{#0047AB}{0})$
+$$\widehat{wage_i}=\hat{\beta_0}$$
+]
+]
+
+---
+
+# Interactions Between 2 Dummy Variables: Example
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Does the gender pay gap change if a person is married vs. single?
+
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$
+]
+]
+
+.quitesmall[
+- Logically, there are 4 possible combinations of $female_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$ and $married_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$
+]
+
+.pull-left[
+.quitesmall[
+1) .hi-blue[Unmarried] .hi-blue[men] $(female_i=\color{#0047AB}{0}, \, married_i=\color{#0047AB}{0})$
+$$\widehat{wage_i}=\hat{\beta_0}$$
+
+
+2) .hi-pink[Married] .hi-blue[men] $(female_i=\color{#0047AB}{0}, \, married_i=\color{#e64173}{1})$
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_2}$$
+]
+]
+
+--
+
+.pull-right[
+.quitesmall[
+3) .hi-blue[Unmarried] .hi-pink[women] $(female_i=\color{#e64173}{1}, \, married_i=\color{#0047AB}{0})$
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}$$
+]
+]
+
+---
+
+# Interactions Between 2 Dummy Variables: Example
+
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Does the gender pay gap change if a person is married vs. single?
+
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$
+]
+]
+
+.quitesmall[
+- Logically, there are 4 possible combinations of $female_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$ and $married_i = \{\color{#0047AB}{0},\color{#e64173}{1}\}$
+]
+
+.pull-left[
+.quitesmall[
+1) .hi-blue[Unmarried] .hi-blue[men] $(female_i=\color{#0047AB}{0}, \, married_i=\color{#0047AB}{0})$
+$$\widehat{wage_i}=\hat{\beta_0}$$
+
+
+2) .hi-pink[Married] .hi-blue[men] $(female_i=\color{#0047AB}{0}, \, married_i=\color{#e64173}{1})$
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_2}$$
+]
+]
+.pull-right[
+.quitesmall[
+
+3) .hi-blue[Unmarried] .hi-pink[women] $(female_i=\color{#e64173}{1}, \, married_i=\color{#0047AB}{0})$
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}$$
+
+4) .hi-pink[Married women] $(female_i=\color{#e64173}{1}, \, married_i=\color{#e64173}{1})$
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}$$
+
+]
+]
+
+---
+
+# Looking at the Data
+
+
+.pull-left[
+.quitesmall[
+.code60[
+```{r, echo = T}
+# get average wage for unmarried men
+wages %>%
+  filter(female == 0,
+         married == 0) %>%
+  summarize(mean = mean(wage))
+
+# get average wage for married men
+wages %>%
+  filter(female == 0,
+         married == 1) %>%
+  summarize(mean = mean(wage))
+
+```
+]
+]
+]
+.pull-right[
+.quitesmall[
+.code60[
+```{r, echo = T}
+# get average wage for unmarried women
+wages %>%
+  filter(female == 1,
+         married == 0) %>%
+  summarize(mean = mean(wage))
+
+# get average wage for married women
+wages %>%
+  filter(female == 1,
+         married == 1) %>%
+  summarize(mean = mean(wage))
+
+```
+]
+]
+]
+
+---
+
+# Two Dummies Interaction: Group Means
+
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1}female_i+\hat{\beta_2}married_i+\hat{\beta_3}(female_i \times married_i)$$
+
+|  | Men | Women |
+|--------|-----------|---------|
+| **Unmarried**   | $5.17     | $4.61   |
+| **Married** | $7.98     | $4.57   |
+
+---
+
+# Interactions Between Two Dummy Variables: In R I
+
+.smallest[
+```{r, echo=T}
+reg_dummies <- lm(wage ~ female + married + female:married, data = wages)
+reg_dummies %>% tidy()
+```
+]
+
+---
+
+# Interactions Between Two Dummy Variables: In R II
+
+.pull-left[
+
+.code60[
+```{r huxreg2, echo=T, eval=F}
+library(huxtable)
+huxreg(reg_dummies,
+       coefs = c("Constant" = "(Intercept)",
+                 "Female" = "female",
+                 "Married" = "married",
+                 "Female * Married" = "female:married"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+```
+]
+]
+
+.pull-right[
+
+.tiny[
+```{r, ref.label="huxreg2"}
+```
+]
+]
+---
+
+# 2 Dummies Interaction: Interpretting Coefficients
+
+.smallest[
+$$\widehat{wage_i}=5.17-0.56 \, female_i + 2.82 \, married_i - 2.86 \, (female_i \times married_i)$$
+
+|  | Men | Women |
+|--------|-----------|---------|
+| **Unmarried**   | $5.17     | $4.61   |
+| **Married** | $7.98     | $4.57   |
+
+]
+
+--
+
+.smallest[
+- Wage for .hi-blue[unmarried men]: $\hat{\beta_0}=5.17$
+]
+
+--
+
+.smallest[
+- Wage for .hi[married] .hi-blue[men]: $\hat{\beta_0}+\hat{\beta_2}=5.17+2.82=7.98$
+]
+
+--
+
+.smallest[
+- Wage for .hi-blue[unmarried] .hi[women]: $\hat{\beta_0}+\hat{\beta_1}=5.17-0.56=4.61$
+
+]
+
+--
+
+.smallest[
+- Wage for .hi[married women]: $\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}=5.17-0.56+2.82-2.86=4.57$
+]
+
+---
+
+# 2 Dummies Interaction: Interpretting Coefficients
+
+.smallest[
+$$\widehat{wage_i}=5.17-0.56 \, female_i + 2.82 \, married_i - 2.86 \, (female_i \times married_i)$$
+
+|  | Men | Women |
+|--------|-----------|---------|
+| **Unmarried**   | $5.17     | $4.61   |
+| **Married** | $7.98     | $4.57   |
+
+]
+
+--
+
+- $\hat{\beta_1}$: Wage for .hi-blue[unmarried men]
+
+--
+
+- $\hat{\beta_2}$: *Difference* in wages between .hi-blue[men] and .hi[women] who are .hi-blue[unmarried] 
+
+--
+
+- $\hat{\beta_3}$: *Difference* in:
+  - effect of **Marriage** on wages between .hi-blue[men] and .hi[women]
+  - effect of **Gender** on wages between .hi-blue[unmarried] and .hi[married] individuals
+
+---
+
+class: inverse, center, middle
+
+# Interactions Between Two Continuous Variables
+
+---
+
+# Interactions Between Two Continuous Variables
+
+$$Y_i=\beta_0+\beta_1X_{1i}+\beta_2 X_{2i}+\beta_3 \color{#e64173}{(X_{1i} \times X_{2i})}$$
+
+--
+
+- To interpret coefficients, compare changes after changing $\color{#e64173}{\Delta X_{1i}}$ (holding $X_2$ constant):
+
+$$Y_i+\color{#e64173}{\Delta Y_i}=\beta_0+\beta_1(X_1+\color{#e64173}{\Delta X_{1i}})\beta_2X_{2i}+\beta_3((X_{1i}+\color{#e64173}{\Delta X_{1i}}) \times X_{2i})$$
+
+--
+
+- Take the difference to get:
+
+--
+
+$$\begin{align*}
+\Delta Y_i &= \beta_1 \Delta X_{1i}+ \beta_3 X_{2i} \Delta X_{1i}\\
+\color{#6A5ACD}{\frac{\Delta Y_i}{\Delta X_{1i}}} &= \color{#6A5ACD}{\beta_1+\beta_3 X_{2i}}\\ 	
+\end{align*}$$
+
+--
+
+- .hi-purple[The effect of `\\(X_1 \rightarrow Y_i\\)` depends on `\\(X_2\\)`]
+  - $\color{#e64173}{\beta_3}$: *increment* to the effect of $X_1 \rightarrow Y_i$ for every 1 unit change in $X_2$
+
+---
+
+# Continuous Variables Interaction: Example
+
+.smallest[
+.content-box-green[
+.green[**Example**]: Do education and experience interact in their determination of wages?
+
+$$	\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1} \, educ_i+\hat{\beta_2} \, exper_i+\hat{\beta_3}(educ_i \times exper_i)$$
+
+]
+
+- Estimated effect of education on wages depends on the amount of experience (and vice versa)!
+
+$$\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\beta_3 \, exper_i$$
+
+$$\frac{\Delta wage}{\Delta exper}=\hat{\beta_2}+\beta_3 \, educ_i$$
+
+- This is a type of nonlinearity (we will examine nonlinearities next lesson)
+
+]
+
+---
+
+# Continuous Variables Interaction: In R I
+
+.smallest[
+```{r, echo=T}
+reg_cont <- lm(wage ~ educ + exper + educ:exper, data = wages)
+reg_cont %>% tidy()
+```
+]
+
+---
+
+# Continuous Variables Interaction: In R II
+
+.pull-left[
+
+.code50[
+```{r huxreg3, echo=T, eval=F}
+library(huxtable)
+huxreg(reg_cont,
+       coefs = c("Constant" = "(Intercept)",
+                 "Education" = "educ",
+                 "Experience" = "exper",
+                 "Education * Experience" = "educ:exper"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 3)
+```
+
+]
+]
+
+.pull-right[
+
+.tiny[
+```{r, ref.label="huxreg3"}
+```
+]
+]
+
+---
+
+# Continuous Variables Interaction: Marginal Effects
+
+.smallest[
+$$\widehat{wages_i}=-2.860+0.602 \, educ_i + 0.047 \, exper_i + 0.002 \, (educ_i \times exper_i)$$
+]
+
+--
+
+.smallest[
+Marginal Effect of Education on Wages by Years of Experience: 
+
+| Experience | $\displaystyle\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\hat{\beta_3} \, exper$ |
+|------------|------------------------------------------------|
+| 5 years | $0.602+0.002(5)=0.612$ |
+| 10 years | $0.602+0.002(10)=0.622$ |
+| 15 years | $0.602+0.002(15)=0.632$ |
+]
+
+--
+
+- Marginal effect of education $\rightarrow$ wages **increases** with more experience (but very insignificantly)
+
+---
+
+# Continuous Variables Interaction: Marginal Effects
+
+.smallest[
+$$\widehat{wages_i}=-2.860+0.602 \, educ_i + 0.047 \, exper_i + 0.002 \, (educ_i \times exper_i)$$
+]
+
+--
+
+.smallest[
+Marginal Effect of Experience on Wages by Years of Education: 
+
+| Education | $\displaystyle\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\hat{\beta_3} \, exper$ |
+|------------|------------------------------------------------|
+| 5 years | $0.047+0.002(5)=0.057$ |
+| 10 years | $0.047+0.002(10)=0.067$ |
+| 15 years | $0.047+0.002(15)=0.077$ |
+]
+
+--
+
+- Marginal effect of experience $\rightarrow$ wages **increases** with more education (but very insignificantly)
+
+---
+
+# Marginal Effects
+
+.quitesmall[
+Can get the marginal effects more precisely by saving the coefficients and making a function of each:
+.code40[
+```{r, echo = T}
+b_1 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ") %>%
+  pull(estimate)
+
+b_2 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "exper") %>%
+  pull(estimate)
+
+b_3 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ:exper") %>%
+  pull(estimate)
+
+# let's check these
+c(b_1, b_2, b_3)
+```
+]
+]
+
+--
+
+.pull-left[
+.code40[
+```{r, echo = T}
+# make marginal effect of education on wages by years of experience function
+# input is years of experience
+me_educ<-function(exper){b_1*b_3*exper}
+
+# now its a function, let's input 5 years, 10 years, 15 years of experience
+me_educ(c(5,10,15))
+```
+]
+]
+
+--
+.pull-right[
+.code40[
+```{r, echo = T}
+# make marginal effect of experience on wages by years of education function
+# input is years of education
+me_exper<-function(educ){b_2*b_3*educ}
+
+# now its a function, let's input 5 years, 10 years, 15 years of education
+me_exper(c(5,10,15))
+```
+]
+]
+
+---
+
+# Marginal Effects
+
+.pull-left[
+```{r}
+ggplot(data = wages)+
+  aes(x = exper)+
+  stat_function(fun = me_educ, geom = "line", color = "blue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Years of Experience",
+       y = "Marginal Effect of Education on Wages",
+       title = "Effect of Education on Wages, by Years of Experience")+
+  theme_slides
+```
+
+]
+
+--
+
+.pull-right[
+```{r}
+me_exper<-function(educ){b_2*b_3*educ}
+
+ggplot(data = wages)+
+  aes(x = educ)+
+  stat_function(fun = me_exper, geom = "line", color = "blue")+
+  scale_y_continuous(labels = function(x){paste0("$",x)})+
+  labs(x = "Years of Experience",
+       y = "Marginal Effect of Experience on Wages",
+       title = "Effect of Experience on Wages, by Years of Education")+
+  theme_slides
+```
+
+]

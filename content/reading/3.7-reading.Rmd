@@ -1,0 +1,12 @@
+---
+title: "3.6 Regression with Categorical Data - Readings"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+---
+
+# Strongly Recommended
+
+- <i class="fas fa-book"></i> [Ch. 6.3-6.4] in @Bailey
+
+

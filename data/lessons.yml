@@ -124,7 +124,11 @@ lessons:
     reading: "3.6-reading"
 
   - title: "3.7 Regression with Interaction Effects"
-
+    class: "3.7-class"
+    slides: "3.7-slides"
+    reading: "3.7-reading"
+    r: "3.7-r-practice"
+    
   - title: "3.8 Polynomial Regression"
 
   - title: "3.9 Logarithmic Regression"

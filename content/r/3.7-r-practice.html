@@ -1,0 +1,286 @@
+---
+title: "3.7 — Regression with Interaction Effects — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
+
+
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
+<ul>
+<li>[<i class="fas fa-cloud"></i> View Project on R Studio Cloud](<a href="https://rstudio.cloud/spaces/83147/project/1835561" class="uri">https://rstudio.cloud/spaces/83147/project/1835561</a></li>
+<li><a href="/r/3.7-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/19-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/19-r-practice-answers.Rmd)-->
+<h3 id="question-1">Question 1</h3>
+<p>We are returning to the speeding tickets data that we began to explore in <a href="http://metricsf20.classes.ryansafner.com/r/3.4-r-practice">R Practice 3.4 on Multivariate Regression</a>. Download and read in (<code>read_csv</code>) the data below.</p>
+<ul>
+<li><a href="/data/speeding_tickets.csv"><i class="fas fa-table"></i> <code>speeding_tickets.csv</code></a></li>
+</ul>
+<p>This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one’s we’ll look at are:</p>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Amount</code></td>
+<td>Amount of fine (in dollars) assessed for speeding</td>
+</tr>
+<tr class="even">
+<td><code>Age</code></td>
+<td>Age of speeding driver (in years)</td>
+</tr>
+<tr class="odd">
+<td><code>MPHover</code></td>
+<td>Miles per hour over the speed limit</td>
+</tr>
+<tr class="even">
+<td><code>Black</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was black, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>Hispanic</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was Hispanic, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="even">
+<td><code>Female</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was female, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>OutTown</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was not from local town, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="even">
+<td><code>OutState</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was not from local state, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>StatePol</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was stopped by State Police, <span class="math inline">\(=0\)</span> if stopped by other (local)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>We again want to explore who gets fines, and how much.</p>
+</blockquote>
+<h3 id="question-2">Question 2</h3>
+<p>We will have to do a little bit of cleaning to get the data in a more usable form.</p>
+<h4 id="part-a">Part A</h4>
+<p>Inspect the data with <code>str()</code> or <code>head()</code> or <code>glimpse()</code> to see what it looks like.</p>
+<h4 id="part-b">Part B</h4>
+<p>What <code>class</code> of variable are <code>Black</code>, <code>Hispanic</code>, <code>Female</code>, <code>OutTown</code>, and <code>OutState</code>?<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint use the <code>class(df$variable)</code> command to ask what class something is, where <code>df</code> is your dataframe, and <code>variable</code> is the name of a variable.<br />
+<br />
+</span></span></p>
+<h4 id="part-c">Part C</h4>
+<h4 id="part-c-1">Part C</h4>
+<p>Notice that when importing the data from the <code>.csv</code> file, <code>R</code> interpretted these variables as <code>integer</code>, but we want them to be <code>factor</code> variables, to ensure <code>R</code> recognizes that there are two groups (categories), 0 and 1. Convert each of these variables into factors by reassigning it according to the format:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>df&lt;-df <span class="op">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">my_var=</span><span class="kw">as.factor</span>(my_var),</span>
+<span id="cb1-3"><a href="#cb1-3"></a>         <span class="dt">my_var2=</span><span class="kw">as.factor</span>(my_var2))</span></code></pre></div>
+<p>where</p>
+<ul>
+<li><code>df</code> is the name of your dataframe</li>
+<li><code>my_var</code> and <code>my_var2</code> are example variables<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">As a bonus, you can try doing this with just one conditional command: <code>mutate_at(c("Black", "Hispanic", "Female", "OutTown", "OutState"),factor)</code>. See our <a href="https://metricsf19.classes.ryansafner.com/slides/05-slides#95">Data Wrangling slides</a> for refreshers of all the fancy <code>mutate()</code> possibilities!<br />
+<br />
+</span></span></li>
+</ul>
+<h4 id="part-d">Part D</h4>
+<p>Confirm they are each now factors by checking their class again.</p>
+<h4 id="part-e">Part E</h4>
+<p>Get a <code>summary()</code> of <code>Amount</code>. Note that there are a lot of <code>NA</code>’s (these are people that were stopped but did not recieve a fine)! <code>filter()</code> only those observations for which <code>Amount</code> is a positive number, and save this in your dataframe (assign and overwrite it, or make a new dataframe). Then double check that this worked by getting a <code>summary()</code> of <code>Amount</code> again.</p>
+<h3 id="question-3">Question 3</h3>
+<p>Create a scatterplot between <code>Amount</code> (as Y) and Female (as X).<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Hint: Use <code>geom_jitter()</code> instead of <code>geom_point()</code> to plot the points, and play around with <code>width</code> settings inside <code>geom_jitter()</code><br />
+<br />
+</span></span></p>
+<h3 id="question-4">Question 4</h3>
+<p>Now let’s start looking at the distribution conditionally to find the different group means.</p>
+<h4 id="part-a-1">Part A</h4>
+<p>Find the mean and standard deviation<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Hint: use the <code>summarrize()</code> command, once you have properly <code>filter()</code>ed the data.<br />
+<br />
+</span></span> of <code>Amount</code> for <em>male</em> drivers and again for <em>female</em> drivers.</p>
+<h4 id="part-b-1">Part B</h4>
+<p>What is the difference between the average Amount for Males and Females?</p>
+<h4 id="part-c-2">Part C</h4>
+<p>We did not go over how to do this in class, but you can run a <strong>t-test for the difference in group means</strong> to see if the difference is statistically significant. The syntax is similar for a regression:</p>
+<p><code>t.test(y~d, data=df)</code></p>
+<p>where:</p>
+<ul>
+<li><code>y</code> is the variable we are testing</li>
+<li><code>d</code> is the dummy variable</li>
+</ul>
+<p>Is there a statistically significant difference between Amount for male and female drivers?<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hint: this is like any hypothesis test. A <span class="math inline">\(t\)</span>-value needs to be large enough to be greater than a critical value of <span class="math inline">\(t\)</span>. Check the <span class="math inline">\(p\)</span>-value and see if it is less than our standard of <span class="math inline">\(\alpha=0.05.\)</span><br />
+<br />
+</span></span></p>
+<h3 id="question-5">Question 5</h3>
+<p>Now run the following regression to ensure we get the same result</p>
+<p><span class="math display">\[\text{Amount}_i=\hat{\beta_0}+\hat{\beta_1}Female_i\]</span></p>
+<h4 id="part-a-2">Part A</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-b-2">Part B</h4>
+<p>Use the regression coefficients to find</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li>the average <code>Amount</code> for men</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li>the average <code>Amount</code> for women</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li>the difference in average <code>Amount</code> between men and women</li>
+</ol></li>
+</ul>
+<h3 id="question-6">Question 6</h3>
+<p>Let’s recode the sex variable.</p>
+<h4 id="part-a-3">Part A</h4>
+<p>Make a new variable called <code>Male</code> and save it in your dataframe.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: <code>mutate()</code> and define <code>Male</code> equal to <code>factor(ifelse())</code>. This makes the variable a <code>factor</code> (so we don’t have to later), and the <code>ifelse()</code> function has three arguments: 1. <code>test =</code> the condition to test, 2. <code>yes =</code> what to define “Male” as when the condition is <code>TRUE</code>, and 3. <code>no =</code> what to define “Male” as when the condition is <code>FALSE</code>.<br />
+<br />
+</span></span></p>
+<h4 id="part-b-3">Part B</h4>
+<p>Run the same regression as in question 5, but use <code>Male</code> instead of <code>Female</code>.</p>
+<h4 id="part-c-3">Part C</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Use the regression coefficients to find</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li>the average <code>Amount</code> for men</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li>the average <code>Amount</code> for women</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li>the difference in average <code>Amount</code> between men and women</li>
+</ol></li>
+</ul>
+<h3 id="question-7">Question 7</h3>
+<p>Run a regression of <code>Amount</code> on <code>Male</code> and <code>Female</code>. What happens, and why?</p>
+<h3 id="question-8">Question 8</h3>
+<p><code>Age</code> probably has a lot to do with differences in fines, perhaps also age affects fines differences between males and females.</p>
+<h4 id="part-a-4">Part A</h4>
+<p>Run a regression of <code>Amount</code> on <code>Age</code> and <code>Female.</code> How does the coefficient on <code>Female</code> change?</p>
+<h4 id="part-b-4">Part B</h4>
+<p>Now let’s see if the difference in fine between men and women are different depending on the driver’s age. Run the regression again, but add an <strong>interaction term</strong> between <code>Female</code> and <code>Age</code> interaction term.</p>
+<h4 id="part-c-4">Part C</h4>
+<p>Write out your estimated regression equation.</p>
+<h4 id="part-d-2">Part D</h4>
+<p>Interpret the interaction effect. Is it statistically significant?</p>
+<h4 id="part-e-1">Part E</h4>
+<p>Plugging in 0 or 1 as necessary, rewrite (on your paper) this regression as <em>two separate</em> equations, one for Males and one for Females.</p>
+<h4 id="part-f">Part F</h4>
+<p>Let’s try to visualize this. Make a scatterplot of <code>Age</code> (X) and <code>Amount</code> (Y) and include a regression line.</p>
+<h4 id="part-g">Part G</h4>
+<p>Try adding to your base layer <code>aes()</code>, set <code>color=Female</code>. This will produce two lines and color the points by <code>Female</code>.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Sometimes we may also need to remind <code>R</code> that <code>Female</code> is a factor with <code>as.factor(Female)</code>. We don’t need to in <em>this</em> case because we already reset <code>Female</code> as a faction in question 1.<br />
+<br />
+</span></span></p>
+<h4 id="part-h">Part H</h4>
+<p>Add a facet layer to make two different scatterplots with an additional layer <code>+facet_wrap(~Female)</code></p>
+<h3 id="question-9">Question 9</h3>
+<p>Now let’s look at the possible interaction between Sex (<code>Male</code> or <code>Female</code>) and whether a driver is from In-State or Out-of-State (<code>OutState</code>).</p>
+<h4 id="part-a-5">Part A</h4>
+<p>Use <code>R</code> to examine the data and find the mean for (i) Males In-State, (ii) Males Out-of-State, (iii) Females In-State, and (iv) Females Out-of-State.</p>
+<h4 id="part-b-5">Part B</h4>
+<p>Now run a regression of the following model:</p>
+<p><span class="math display">\[\text{Amount}_i=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}OutState_i+\hat{\beta_3}Female_i*OutState_i\]</span></p>
+<h4 id="part-c-5">Part C</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-d-3">Part D</h4>
+<p>What does each coefficient mean?</p>
+<h4 id="part-e-2">Part E</h4>
+<p>Using the regression equation, what are the means for</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li>Males In-State</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li>Males Out-of-State</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li>Females In-State</li>
+</ol></li>
+<li><ol start="4" style="list-style-type: lower-roman">
+<li>Females Out-of-State?</li>
+</ol></li>
+</ul>
+<p>Compare to your answers in part A.</p>
+<h3 id="question-10">Question 10</h3>
+<p>Collect your regressions from questions 5, 6b, 8a, 8b, and 9b and output them in a regression table with <code>huxtable()</code>.</p>

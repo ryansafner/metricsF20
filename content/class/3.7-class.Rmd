@@ -1,0 +1,42 @@
+---
+title: "3.7 — Regression with Interaction Effects — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, October 29, 2020*
+
+# Overview
+
+Today we continue examining how to use categorical data in regression, particularly focusing on *interactions* between variables. We look at three types of interaction effects:
+1. Interaction between a continuous variable & a dummy variable
+2. Interaction between two dummy variables
+3. Interaction between two continuous variables
+
+We will also be working on practice problems today in R.
+
+# Readings
+
+See today’s [suggested readings](/reading/3.7-reading).
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.7-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.7-slides.pdf)
+
+# Practice Problems
+
+Today we will be working on [practice problems](/r/3.7-r-practice). Answers will be posted on that page later.
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
