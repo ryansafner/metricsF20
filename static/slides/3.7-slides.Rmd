@@ -50,9 +50,9 @@ class: inverse
 
 # Outline
 
-### [Interactions Between a Dummy and Continuous Variable](#)
-### [Interactions Between Two Dummy Variables](#)
-### [Interactions Between Two Continuous Variables](#)
+### [Interactions Between a Dummy and Continuous Variable](#16)
+### [Interactions Between Two Dummy Variables](#69)
+### [Interactions Between Two Continuous Variables](#99)
 
 ---
 
@@ -1009,18 +1009,32 @@ $$\widehat{wage_i}=5.17-0.56 \, female_i + 2.82 \, married_i - 2.86 \, (female_i
 
 --
 
-- $\hat{\beta_1}$: Wage for .hi-blue[unmarried men]
+.smallest[
+- $\hat{\beta_0}$: Wage for .hi-blue[unmarried men]
+
+]
 
 --
 
+.smallest[
+- $\hat{\beta_2}$: Effect of .hi-pink[marriage] on wages for .hi-blue[men]
+
+]
+
+--
+
+.smallest[
 - $\hat{\beta_2}$: *Difference* in wages between .hi-blue[men] and .hi[women] who are .hi-blue[unmarried] 
 
+]
 --
 
+.smallest[
 - $\hat{\beta_3}$: *Difference* in:
   - effect of **Marriage** on wages between .hi-blue[men] and .hi[women]
   - effect of **Gender** on wages between .hi-blue[unmarried] and .hi[married] individuals
 
+]
 ---
 
 class: inverse, center, middle
