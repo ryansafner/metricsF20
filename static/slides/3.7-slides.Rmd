@@ -1156,7 +1156,7 @@ $$\widehat{wages_i}=-2.860+0.602 \, educ_i + 0.047 \, exper_i + 0.002 \, (educ_i
 --
 
 .smallest[
-Marginal Effect of Education on Wages by Years of Experience: 
+Marginal Effect of *Education* on Wages by Years of *Experience*: 
 
 | Experience | $\displaystyle\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\hat{\beta_3} \, exper$ |
 |------------|------------------------------------------------|
@@ -1167,7 +1167,7 @@ Marginal Effect of Education on Wages by Years of Experience:
 
 --
 
-- Marginal effect of education $\rightarrow$ wages **increases** with more experience (but very insignificantly)
+- Marginal effect of education $\rightarrow$ wages **increases** with more experience
 
 ---
 
@@ -1180,9 +1180,9 @@ $$\widehat{wages_i}=-2.860+0.602 \, educ_i + 0.047 \, exper_i + 0.002 \, (educ_i
 --
 
 .smallest[
-Marginal Effect of Experience on Wages by Years of Education: 
+Marginal Effect of *Experience* on Wages by Years of *Education*: 
 
-| Education | $\displaystyle\frac{\Delta wage}{\Delta educ}=\hat{\beta_1}+\hat{\beta_3} \, exper$ |
+| Education | $\displaystyle\frac{\Delta wage}{\Delta exper}=\hat{\beta_2}+\hat{\beta_3} \, educ$ |
 |------------|------------------------------------------------|
 | 5 years | $0.047+0.002(5)=0.057$ |
 | 10 years | $0.047+0.002(10)=0.067$ |
@@ -1191,7 +1191,7 @@ Marginal Effect of Experience on Wages by Years of Education:
 
 --
 
-- Marginal effect of experience $\rightarrow$ wages **increases** with more education (but very insignificantly)
+- Marginal effect of experience $\rightarrow$ wages **increases** with more education
 
 ---
 
