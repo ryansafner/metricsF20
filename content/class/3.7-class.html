@@ -13,6 +13,74 @@ editor_options:
 
 <!-- BLOGDOWN-HEAD -->
 <script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span. { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+</style>
 <!-- /BLOGDOWN-HEAD -->
 
 <h2>Contents</h2>
@@ -23,6 +91,9 @@ editor_options:
 <li><a href="#slides">Slides</a></li>
 <li><a href="#practice-problems">Practice Problems</a></li>
 <li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
+<li><a href="#appendix-marginal-effects-for-two-continuous-variable-interactions">Appendix: Marginal Effects for Two-Continuous Variable Interactions</a><ul>
+<li><a href="#standard-error-of-marginal-effects">Standard Error of Marginal Effects</a></li>
+</ul></li>
 </ul>
 </div>
 
@@ -45,3 +116,228 @@ editor_options:
 <h2 id="live-class-session-on-zoom">Live Class Session on Zoom</h2>
 <p>The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see <code>LIVE ZOOM MEETINGS</code> on the left navigation menu), starting at 11:30 AM.</p>
 <p>If you are unable to join today’s live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see <code>Class Recordings</code> on the left navigation menu).</p>
+<h2 id="appendix-marginal-effects-for-two-continuous-variable-interactions">Appendix: Marginal Effects for Two-Continuous Variable Interactions</h2>
+<p>In class, we looked at the effects of education on wages, experience on wages, and the <em>interaction</em> between education and experience on wages:</p>
+<p><span class="math display">\[\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1} \, education_i+\hat{\beta_2} \, experience_i+\hat{\beta_3}(education_i \times experience_i)\]</span></p>
+<p>Using the <code>wage1</code> data in the <code>wooldridge</code> package, we found the following:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(broom)</span>
+<span id="cb1-3"><a href="#cb1-3"></a>wages&lt;-wooldridge<span class="op">::</span>wage1</span>
+<span id="cb1-4"><a href="#cb1-4"></a>reg_cont &lt;-<span class="st"> </span><span class="kw">lm</span>(wage <span class="op">~</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>exper <span class="op">+</span><span class="st"> </span>educ<span class="op">:</span>exper, <span class="dt">data =</span> wages)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>reg_cont <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">tidy</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 4 x 5
+##   term        estimate std.error statistic  p.value
+##   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+## 1 (Intercept) -2.86      1.18       -2.42  1.58e- 2
+## 2 educ         0.602     0.0899      6.69  5.64e-11
+## 3 exper        0.0458    0.0426      1.07  2.83e- 1
+## 4 educ:exper   0.00206   0.00349     0.591 5.55e- 1</code></pre>
+<p>Let’s extract and save each of these <span class="math inline">\(\hat{\beta}\)</span>’s for later use.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>b_<span class="dv">1</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;educ&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">pull</span>(estimate)</span>
+<span id="cb3-5"><a href="#cb3-5"></a></span>
+<span id="cb3-6"><a href="#cb3-6"></a>b_<span class="dv">2</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;exper&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="st">  </span><span class="kw">pull</span>(estimate)</span>
+<span id="cb3-10"><a href="#cb3-10"></a></span>
+<span id="cb3-11"><a href="#cb3-11"></a>b_<span class="dv">3</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;educ:exper&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="st">  </span><span class="kw">pull</span>(estimate)</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co"># let&#39;s check each of these</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a>b_<span class="dv">1</span></span></code></pre></div>
+<pre><code>## [1] 0.6017355</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>b_<span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.04576891</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>b_<span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 0.002062345</code></pre>
+<p>We know that the marginal effect of each of the two <span class="math inline">\(X\)</span> variables on <span class="math inline">\(Y\)</span> depends on the value of the other <span class="math inline">\(X\)</span> variable:</p>
+<table>
+<colgroup>
+<col width="12%" />
+<col width="43%" />
+<col width="44%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Marginal Effect on Wages (Formula)</th>
+<th>Marginal Effect on Wages (Estimate)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Education</td>
+<td><span class="math inline">\(\hat{\beta_1}+\hat{\beta_3} \, Experience_i\)</span></td>
+<td>0.6037978 <span class="math inline">\(\, Experience_i\)</span></td>
+</tr>
+<tr class="even">
+<td>Experience</td>
+<td><span class="math inline">\(\hat{\beta_2}+\hat{\beta_3} \, Education_i\)</span></td>
+<td>0.6037978 <span class="math inline">\(\, Education_i\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>We can get the marginal effects more precisely by making a <strong>function</strong> of each marginal effect, using the coefficients saved above. To make a your own function in <code>R</code> (a very handy thing to do!), simply define an object as <code>my_function&lt;- function(){}</code>. Inside the <code>()</code> goes any arguments the function will need (here, it’s the value of the other variable), and then the formula to apply to that argument. Then you can run the function on any object.</p>
+<p>As a simple example, to make a function that squares x:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># make function called &quot;square&quot; that squares x</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>square&lt;-<span class="cf">function</span>(x){x<span class="op">^</span><span class="dv">2</span>}</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co"># test it on the value 4</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">square</span>(<span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1] 16</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># test it on all of these values</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">square</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>## [1]  1  4  9 16</code></pre>
+<p>Now let’s make a function for the marginal effect of education (by experience):</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># make marginal effect of education on wages by years of experience function</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># input is years of experience</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a>me_educ&lt;-<span class="cf">function</span>(exper){b_<span class="dv">1</span><span class="op">*</span>b_<span class="dv">3</span><span class="op">*</span>exper}</span>
+<span id="cb13-4"><a href="#cb13-4"></a></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="co"># now its a function, let&#39;s input 5 years, 10 years, 15 years of experience</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="kw">me_educ</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>))</span></code></pre></div>
+<pre><code>## [1] 0.006204929 0.012409858 0.018614788</code></pre>
+<p>Now let’s make a function for the marginal effect of experience (by education):</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># make marginal effect of experience on wages by years of education function</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co"># input is years of education</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a>me_exper&lt;-<span class="cf">function</span>(educ){b_<span class="dv">2</span><span class="op">*</span>b_<span class="dv">3</span><span class="op">*</span>educ}</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co"># now its a function, let&#39;s input 5 years, 10 years, 15 years of education</span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="kw">me_exper</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">15</span>))</span></code></pre></div>
+<pre><code>## [1] 0.0004719563 0.0009439126 0.0014158689</code></pre>
+<p>We can now graph these</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>margin_educ&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> wages)<span class="op">+</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> exper)<span class="op">+</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> me_educ, <span class="dt">geom =</span> <span class="st">&quot;line&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> scales<span class="op">::</span>dollar)<span class="op">+</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Years of Experience&quot;</span>,</span>
+<span id="cb17-6"><a href="#cb17-6"></a>       <span class="dt">y =</span> <span class="st">&quot;Marginal Effect of Education on Wages&quot;</span>,</span>
+<span id="cb17-7"><a href="#cb17-7"></a>       <span class="dt">title =</span> <span class="st">&quot;Effect of Education on Wages, by Years of Experience&quot;</span>)<span class="op">+</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="st">  </span>ggthemes<span class="op">::</span><span class="kw">theme_pander</span>(<span class="dt">base_family =</span> <span class="st">&quot;Fira Sans Condensed&quot;</span>, <span class="dt">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb17-9"><a href="#cb17-9"></a>margin_educ</span></code></pre></div>
+<p><img src="/class/3.7-class_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>margin_exper&lt;-<span class="kw">ggplot</span>(<span class="dt">data =</span> wages)<span class="op">+</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">aes</span>(<span class="dt">x =</span> educ)<span class="op">+</span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> me_exper, <span class="dt">geom =</span> <span class="st">&quot;line&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">labels =</span> <span class="cf">function</span>(x){<span class="kw">paste0</span>(<span class="st">&quot;$&quot;</span>,x)})<span class="op">+</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Years of Education&quot;</span>,</span>
+<span id="cb18-6"><a href="#cb18-6"></a>       <span class="dt">y =</span> <span class="st">&quot;Marginal Effect of Experience on Wages&quot;</span>,</span>
+<span id="cb18-7"><a href="#cb18-7"></a>       <span class="dt">title =</span> <span class="st">&quot;Effect of Experience on Wages, by Years of Education&quot;</span>)<span class="op">+</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="st">  </span>ggthemes<span class="op">::</span><span class="kw">theme_pander</span>(<span class="dt">base_family =</span> <span class="st">&quot;Fira Sans Condensed&quot;</span>, <span class="dt">base_size =</span> <span class="dv">14</span>)</span>
+<span id="cb18-9"><a href="#cb18-9"></a>margin_exper</span></code></pre></div>
+<p><img src="/class/3.7-class_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<h3 id="standard-error-of-marginal-effects">Standard Error of Marginal Effects</h3>
+<p>If we want to add the standard error to these graphs, we need to extract the <span class="math inline">\(se(\hat{\beta})\)</span>’s from the original regression output:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>se_b_<span class="dv">1</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;educ&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">  </span><span class="kw">pull</span>(std.error)</span>
+<span id="cb19-5"><a href="#cb19-5"></a></span>
+<span id="cb19-6"><a href="#cb19-6"></a>se_b_<span class="dv">2</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;exper&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9"></a><span class="st">  </span><span class="kw">pull</span>(std.error)</span>
+<span id="cb19-10"><a href="#cb19-10"></a></span>
+<span id="cb19-11"><a href="#cb19-11"></a>se_b_<span class="dv">3</span> &lt;-<span class="st"> </span>reg_cont <span class="op">%&gt;%</span></span>
+<span id="cb19-12"><a href="#cb19-12"></a><span class="st">  </span><span class="kw">tidy</span>() <span class="op">%&gt;%</span></span>
+<span id="cb19-13"><a href="#cb19-13"></a><span class="st">  </span><span class="kw">filter</span>(term <span class="op">==</span><span class="st"> &quot;educ:exper&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb19-14"><a href="#cb19-14"></a><span class="st">  </span><span class="kw">pull</span>(std.error)</span>
+<span id="cb19-15"><a href="#cb19-15"></a></span>
+<span id="cb19-16"><a href="#cb19-16"></a><span class="co"># let&#39;s check each of these</span></span>
+<span id="cb19-17"><a href="#cb19-17"></a>se_b_<span class="dv">1</span></span></code></pre></div>
+<pre><code>## [1] 0.08989998</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>se_b_<span class="dv">2</span></span></code></pre></div>
+<pre><code>## [1] 0.04261376</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>se_b_<span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1] 0.003490614</code></pre>
+<p>Now the standard error of the marginal effect is a bit tricky. The marginal effect, for example, of Education on Wages, we saw was <span class="math inline">\(\frac{\Delta Wage_i}{\Delta Education_i} = \hat{\beta_1}+\hat{\beta_3} \, Experience_i\)</span>. One property of variances (or, when square rooted, standard errors) of random variables is that:</p>
+<p><span class="math display">\[var(X+aY)=var(X)+var(Y)c^2+2 \, a \, cov(X,Y)\]</span></p>
+<p>Here, the <span class="math inline">\(\hat{\beta}\)</span>’s are random variables, and <span class="math inline">\(Experience_i\)</span> is a constant (some number, like <span class="math inline">\(a)\)</span>. So the variance is:</p>
+<p><span class="math display">\[var(\hat{\beta_1}+\hat{\beta_3}Experience_i)=var(\hat{\beta_1})+var(\hat{\beta_3})Experience_i^2+2 \, Experience_i \, cov(\hat{\beta_1},\hat{\beta_3})\]</span></p>
+<p>The standard error then is the square root of this. To get the covariance of <span class="math inline">\(\hat{\beta_1}\)</span> and <span class="math inline">\(\hat{\beta_3}\)</span>, we need to extract it from something called the <strong>variance-covariance matrix</strong>. A regression creates and stores a matrix that contains the covariances of all <span class="math inline">\(\hat{\beta}\)</span>’s with each other (and the covariance of any <span class="math inline">\(\hat{\beta}\)</span> with itself is the variance of that <span class="math inline">\(\hat{\beta})\)</span>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># look at variance-covariance matrix</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="kw">vcov</span>(reg_cont)</span></code></pre></div>
+<pre><code>##              (Intercept)          educ         exper    educ:exper
+## (Intercept)  1.394949133 -0.1040894353 -0.0412570602  3.134939e-03
+## educ        -0.104089435  0.0080820059  0.0031414567 -2.513073e-04
+## exper       -0.041257060  0.0031414567  0.0018159324 -1.437215e-04
+## educ:exper   0.003134939 -0.0002513073 -0.0001437215  1.218438e-05</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># make it a tibble to work with using tidyverse methods</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>v&lt;-<span class="kw">as_tibble</span>(<span class="kw">vcov</span>(reg_cont))</span>
+<span id="cb27-3"><a href="#cb27-3"></a></span>
+<span id="cb27-4"><a href="#cb27-4"></a><span class="co"># we want the covariance between beta 1 and beta 3, save as &quot;cov_b1_b3&quot;</span></span>
+<span id="cb27-5"><a href="#cb27-5"></a>cov_b1_b3&lt;-v <span class="op">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6"></a><span class="st">  </span><span class="kw">slice</span>(<span class="dv">2</span>) <span class="op">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7"></a><span class="st">  </span><span class="kw">pull</span>(<span class="st">`</span><span class="dt">educ:exper</span><span class="st">`</span>) </span>
+<span id="cb27-8"><a href="#cb27-8"></a>cov_b1_b3 <span class="co"># look at it</span></span></code></pre></div>
+<pre><code>## [1] -0.0002513073</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co"># lets also get the covariance between beta 2 and beta 3 (for later)</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a></span>
+<span id="cb29-3"><a href="#cb29-3"></a>cov_b2_b3&lt;-v <span class="op">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="st">  </span><span class="kw">slice</span>(<span class="dv">3</span>) <span class="op">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5"></a><span class="st">  </span><span class="kw">pull</span>(<span class="st">`</span><span class="dt">educ:exper</span><span class="st">`</span>)</span>
+<span id="cb29-6"><a href="#cb29-6"></a>cov_b2_b3</span></code></pre></div>
+<pre><code>## [1] -0.0001437215</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># make a function of the variance of the marginal effect of education on wages</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>var_me_educ=<span class="cf">function</span>(experience){(se_b_<span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span><span class="op">+</span>(se_b_<span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>experience<span class="op">+</span><span class="dv">2</span><span class="op">*</span>experience<span class="op">*</span>cov_b1_b3}</span>
+<span id="cb31-3"><a href="#cb31-3"></a></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="co"># now square root it to get standard error</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>se_me_educ=<span class="cf">function</span>(experience){<span class="kw">sqrt</span>(<span class="kw">var_me_educ</span>(experience))}</span>
+<span id="cb31-6"><a href="#cb31-6"></a></span>
+<span id="cb31-7"><a href="#cb31-7"></a><span class="co"># to plot a 95% confidence interval of the marginal effect, lets make upper and lower CI values as a function of experience</span></span>
+<span id="cb31-8"><a href="#cb31-8"></a>CI_me_educ_upper=<span class="cf">function</span>(experience){<span class="kw">me_educ</span>(experience)<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">se_me_educ</span>(experience)}</span>
+<span id="cb31-9"><a href="#cb31-9"></a>CI_me_educ_lower=<span class="cf">function</span>(experience){<span class="kw">me_educ</span>(experience)<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">se_me_educ</span>(experience)}</span>
+<span id="cb31-10"><a href="#cb31-10"></a></span>
+<span id="cb31-11"><a href="#cb31-11"></a><span class="co"># lets now add these into the data</span></span>
+<span id="cb31-12"><a href="#cb31-12"></a>wages2&lt;-wages <span class="op">%&gt;%</span></span>
+<span id="cb31-13"><a href="#cb31-13"></a><span class="st">  </span><span class="kw">select</span>(exper) <span class="op">%&gt;%</span></span>
+<span id="cb31-14"><a href="#cb31-14"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">me_educ =</span> <span class="kw">me_educ</span>(exper),</span>
+<span id="cb31-15"><a href="#cb31-15"></a>         <span class="dt">CI_educ_lower =</span> <span class="kw">CI_me_educ_lower</span>(exper),</span>
+<span id="cb31-16"><a href="#cb31-16"></a>         <span class="dt">CI_educ_upper =</span> <span class="kw">CI_me_educ_upper</span>(exper)</span>
+<span id="cb31-17"><a href="#cb31-17"></a>         )</span></code></pre></div>
+<pre><code>## Warning: Problem with `mutate()` input `CI_educ_lower`.
+## ℹ NaNs produced
+## ℹ Input `CI_educ_lower` is `CI_me_educ_lower(exper)`.</code></pre>
+<pre><code>## Warning in sqrt(var_me_educ(experience)): NaNs produced</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `CI_educ_upper`.
+## ℹ NaNs produced
+## ℹ Input `CI_educ_upper` is `CI_me_educ_upper(exper)`.</code></pre>
+<pre><code>## Warning in sqrt(var_me_educ(experience)): NaNs produced</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># and graph it!</span></span>
+<span id="cb36-2"><a href="#cb36-2"></a>margin_educ<span class="op">+</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="dt">data =</span> wages2, <span class="kw">aes</span>(<span class="dt">ymin=</span>CI_educ_lower, <span class="dt">ymax=</span>CI_educ_upper), <span class="dt">fill =</span> <span class="st">&quot;grey70&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<p><img src="/class/3.7-class_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a><span class="co"># do the same for the marginal effect of experience on wages</span></span>
+<span id="cb37-2"><a href="#cb37-2"></a>var_me_exper=<span class="cf">function</span>(education){(se_b_<span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span><span class="op">+</span>(se_b_<span class="dv">3</span>)<span class="op">^</span><span class="dv">2</span><span class="op">*</span>education<span class="op">+</span><span class="dv">2</span><span class="op">*</span>education<span class="op">*</span>cov_b2_b3}</span>
+<span id="cb37-3"><a href="#cb37-3"></a></span>
+<span id="cb37-4"><a href="#cb37-4"></a><span class="co"># now square root it to get standard error</span></span>
+<span id="cb37-5"><a href="#cb37-5"></a>se_me_exper=<span class="cf">function</span>(education){<span class="kw">sqrt</span>(<span class="kw">var_me_educ</span>(education))}</span>
+<span id="cb37-6"><a href="#cb37-6"></a></span>
+<span id="cb37-7"><a href="#cb37-7"></a><span class="co"># to plot a 95% confidence interval of the marginal effect, lets make upper and lower CI values as a function of experience</span></span>
+<span id="cb37-8"><a href="#cb37-8"></a>CI_me_exper_upper=<span class="cf">function</span>(education){<span class="kw">me_exper</span>(education)<span class="op">+</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">se_me_exper</span>(education)}</span>
+<span id="cb37-9"><a href="#cb37-9"></a>CI_me_exper_lower=<span class="cf">function</span>(education){<span class="kw">me_exper</span>(education)<span class="op">-</span><span class="fl">1.96</span><span class="op">*</span><span class="kw">se_me_exper</span>(education)}</span>
+<span id="cb37-10"><a href="#cb37-10"></a></span>
+<span id="cb37-11"><a href="#cb37-11"></a><span class="co"># lets now add these into the data</span></span>
+<span id="cb37-12"><a href="#cb37-12"></a>wages3&lt;-wages <span class="op">%&gt;%</span></span>
+<span id="cb37-13"><a href="#cb37-13"></a><span class="st">  </span><span class="kw">select</span>(educ) <span class="op">%&gt;%</span></span>
+<span id="cb37-14"><a href="#cb37-14"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">me_exper =</span> <span class="kw">me_exper</span>(educ),</span>
+<span id="cb37-15"><a href="#cb37-15"></a>         <span class="dt">CI_exper_lower =</span> <span class="kw">CI_me_exper_lower</span>(educ),</span>
+<span id="cb37-16"><a href="#cb37-16"></a>         <span class="dt">CI_exper_upper =</span> <span class="kw">CI_me_exper_upper</span>(educ)</span>
+<span id="cb37-17"><a href="#cb37-17"></a>         )</span></code></pre></div>
+<pre><code>## Warning: Problem with `mutate()` input `CI_exper_lower`.
+## ℹ NaNs produced
+## ℹ Input `CI_exper_lower` is `CI_me_exper_lower(educ)`.</code></pre>
+<pre><code>## Warning in sqrt(var_me_educ(education)): NaNs produced</code></pre>
+<pre><code>## Warning: Problem with `mutate()` input `CI_exper_upper`.
+## ℹ NaNs produced
+## ℹ Input `CI_exper_upper` is `CI_me_exper_upper(educ)`.</code></pre>
+<pre><code>## Warning in sqrt(var_me_educ(education)): NaNs produced</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a><span class="co"># and graph it!</span></span>
+<span id="cb42-2"><a href="#cb42-2"></a>margin_exper<span class="op">+</span></span>
+<span id="cb42-3"><a href="#cb42-3"></a><span class="st">  </span><span class="kw">geom_ribbon</span>(<span class="dt">data =</span> wages3, <span class="kw">aes</span>(<span class="dt">ymin=</span>CI_exper_lower, <span class="dt">ymax=</span>CI_exper_upper), <span class="dt">fill =</span> <span class="st">&quot;grey70&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb42-4"><a href="#cb42-4"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">limits=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">20</span>))</span></code></pre></div>
+<p><img src="/class/3.7-class_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>

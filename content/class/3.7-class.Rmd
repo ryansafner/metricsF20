@@ -40,3 +40,222 @@ Today we will be working on [practice problems](/r/3.7-r-practice). Answers will
 The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
 
 If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).
+
+# Appendix: Marginal Effects for Two-Continuous Variable Interactions
+
+In class, we looked at the effects of education on wages, experience on wages, and the *interaction* between education and experience on wages:
+
+$$\widehat{wage_i}=\hat{\beta_0}+\hat{\beta_1} \, education_i+\hat{\beta_2} \, experience_i+\hat{\beta_3}(education_i \times experience_i)$$
+
+Using the `wage1` data in the `wooldridge` package, we found the following:
+
+```{r, echo = T, message = F, warning = F}
+library(tidyverse)
+library(broom)
+wages<-wooldridge::wage1
+reg_cont <- lm(wage ~ educ + exper + educ:exper, data = wages)
+reg_cont %>% tidy()
+```
+
+Let’s extract and save each of these $\hat{\beta}$’s for later use.
+
+```{r, echo = T}
+b_1 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ") %>%
+  pull(estimate)
+
+b_2 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "exper") %>%
+  pull(estimate)
+
+b_3 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ:exper") %>%
+  pull(estimate)
+
+# let's check each of these
+b_1
+b_2
+b_3
+```
+
+
+We know that the marginal effect of each of the two $X$ variables on $Y$ depends on the value of the other $X$ variable:
+
+| Variable | Marginal Effect on Wages (Formula) | Marginal Effect on Wages (Estimate) |
+|----------|------------------------------------|-------------------------------------|
+| Education | $\hat{\beta_1}+\hat{\beta_3} \, Experience_i$ | `r b_1+b_3` $\, Experience_i$ |
+| Experience | $\hat{\beta_2}+\hat{\beta_3} \, Education_i$ | `r b_1+b_3` $\, Education_i$ |
+
+We can get the marginal effects more precisely by making a **function** of each marginal effect, using the coefficients saved above. To make a your own function in `R` (a very handy thing to do!), simply define an object as `my_function<- function(){}`. Inside the `()` goes any arguments the function will need (here, it’s the value of the other variable), and then the formula to apply to that argument. Then you can run the function on any object.
+
+As a simple example, to make a function that squares x:
+
+```{r}
+# make function called "square" that squares x
+square<-function(x){x^2}
+
+# test it on the value 4
+square(4)
+
+# test it on all of these values
+square(1:4)
+```
+
+Now let’s make a function for the marginal effect of education (by experience):
+
+```{r, echo = T}
+# make marginal effect of education on wages by years of experience function
+# input is years of experience
+me_educ<-function(exper){b_1*b_3*exper}
+
+# now its a function, let's input 5 years, 10 years, 15 years of experience
+me_educ(c(5,10,15))
+```
+
+Now let’s make a function for the marginal effect of experience (by education):
+
+```{r, echo = T}
+# make marginal effect of experience on wages by years of education function
+# input is years of education
+me_exper<-function(educ){b_2*b_3*educ}
+
+# now its a function, let's input 5 years, 10 years, 15 years of education
+me_exper(c(5,10,15))
+```
+
+We can now graph these
+
+```{r, echo = T, fig.retina=3, fig.align="center"}
+margin_educ<-ggplot(data = wages)+
+  aes(x = exper)+
+  stat_function(fun = me_educ, geom = "line", color = "blue")+
+  scale_y_continuous(labels = scales::dollar)+
+  labs(x = "Years of Experience",
+       y = "Marginal Effect of Education on Wages",
+       title = "Effect of Education on Wages, by Years of Experience")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed", base_size = 14)
+margin_educ
+```
+
+```{r, echo = T, fig.retina=3, fig.align="center"}
+margin_exper<-ggplot(data = wages)+
+  aes(x = educ)+
+  stat_function(fun = me_exper, geom = "line", color = "blue")+
+  scale_y_continuous(labels = function(x){paste0("$",x)})+
+  labs(x = "Years of Education",
+       y = "Marginal Effect of Experience on Wages",
+       title = "Effect of Experience on Wages, by Years of Education")+
+  ggthemes::theme_pander(base_family = "Fira Sans Condensed", base_size = 14)
+margin_exper
+```
+
+## Standard Error of Marginal Effects
+
+If we want to add the standard error to these graphs, we need to extract the $se(\hat{\beta})$’s from the original regression output:
+
+```{r, echo = T}
+se_b_1 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ") %>%
+  pull(std.error)
+
+se_b_2 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "exper") %>%
+  pull(std.error)
+
+se_b_3 <- reg_cont %>%
+  tidy() %>%
+  filter(term == "educ:exper") %>%
+  pull(std.error)
+
+# let's check each of these
+se_b_1
+se_b_2
+se_b_3
+```
+
+Now the standard error of the marginal effect is a bit tricky. The marginal effect, for example, of Education on Wages, we saw was $\frac{\Delta Wage_i}{\Delta Education_i} = \hat{\beta_1}+\hat{\beta_3} \, Experience_i$. One property of variances (or, when square rooted, standard errors) of random variables is that:
+
+$$var(X+aY)=var(X)+var(Y)c^2+2 \, a \, cov(X,Y)$$
+
+Here, the $\hat{\beta}$’s are random variables, and $Experience_i$ is a constant (some number, like $a)$. So the variance is:
+
+$$var(\hat{\beta_1}+\hat{\beta_3}Experience_i)=var(\hat{\beta_1})+var(\hat{\beta_3})Experience_i^2+2 \, Experience_i \, cov(\hat{\beta_1},\hat{\beta_3})$$
+
+The standard error then is the square root of this. To get the covariance of $\hat{\beta_1}$ and $\hat{\beta_3}$, we need to extract it from something called the **variance-covariance matrix**. A regression creates and stores a matrix that contains the covariances of all $\hat{\beta}$’s with each other (and the covariance of any $\hat{\beta}$ with itself is the variance of that $\hat{\beta})$:
+
+```{r}
+# look at variance-covariance matrix
+vcov(reg_cont)
+
+# make it a tibble to work with using tidyverse methods
+v<-as_tibble(vcov(reg_cont))
+
+# we want the covariance between beta 1 and beta 3, save as "cov_b1_b3"
+cov_b1_b3<-v %>%
+  slice(2) %>%
+  pull(`educ:exper`) 
+cov_b1_b3 # look at it
+
+# lets also get the covariance between beta 2 and beta 3 (for later)
+
+cov_b2_b3<-v %>%
+  slice(3) %>%
+  pull(`educ:exper`)
+cov_b2_b3
+```
+
+```{r}
+# make a function of the variance of the marginal effect of education on wages
+var_me_educ=function(experience){(se_b_1)^2+(se_b_3)^2*experience+2*experience*cov_b1_b3}
+
+# now square root it to get standard error
+se_me_educ=function(experience){sqrt(var_me_educ(experience))}
+
+# to plot a 95% confidence interval of the marginal effect, lets make upper and lower CI values as a function of experience
+CI_me_educ_upper=function(experience){me_educ(experience)+1.96*se_me_educ(experience)}
+CI_me_educ_lower=function(experience){me_educ(experience)-1.96*se_me_educ(experience)}
+
+# lets now add these into the data
+wages2<-wages %>%
+  select(exper) %>%
+  mutate(me_educ = me_educ(exper),
+         CI_educ_lower = CI_me_educ_lower(exper),
+         CI_educ_upper = CI_me_educ_upper(exper)
+         )
+
+# and graph it!
+margin_educ+
+  geom_ribbon(data = wages2, aes(ymin=CI_educ_lower, ymax=CI_educ_upper), fill = "grey70", alpha = 0.5)
+```
+
+```{r}
+# do the same for the marginal effect of experience on wages
+var_me_exper=function(education){(se_b_2)^2+(se_b_3)^2*education+2*education*cov_b2_b3}
+
+# now square root it to get standard error
+se_me_exper=function(education){sqrt(var_me_educ(education))}
+
+# to plot a 95% confidence interval of the marginal effect, lets make upper and lower CI values as a function of experience
+CI_me_exper_upper=function(education){me_exper(education)+1.96*se_me_exper(education)}
+CI_me_exper_lower=function(education){me_exper(education)-1.96*se_me_exper(education)}
+
+# lets now add these into the data
+wages3<-wages %>%
+  select(educ) %>%
+  mutate(me_exper = me_exper(educ),
+         CI_exper_lower = CI_me_exper_lower(educ),
+         CI_exper_upper = CI_me_exper_upper(educ)
+         )
+
+# and graph it!
+margin_exper+
+  geom_ribbon(data = wages3, aes(ymin=CI_exper_lower, ymax=CI_exper_upper), fill = "grey70", alpha = 0.5)+
+  scale_x_continuous(limits=c(0,20))
+
+```
+
