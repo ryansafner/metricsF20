@@ -240,13 +240,6 @@ $$Y_i=\beta_0+\sqrt{\beta_1} X_i \quad  ❌ $$
 --
 
 .smallest[
-`$$Y_i=\beta_0-e^{\beta_1X_i} \quad  ✅$$`
-
-]
-
---
-
-.smallest[
 - In the end, each `\(X\)` is always just a number in the data, OLS can always estimate parameters for it
 
 - *Plotting* the modelled points `\((X_i, \hat{Y_i})\)` can result in a curve!
@@ -371,11 +364,18 @@ $$Y_i=\beta_0+\sqrt{\beta_1} X_i \quad  ❌ $$
 
 .pull-left[
 .smallest[
-- .blue[Linear], `\(\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X\)`
+- .blue[Linear]
 
-- .green[Quadratic], `\(\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X+\hat{\beta_2}X^2\)`
+`$$\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X$$`
 
-- .orange[Cubic], `\(\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X+\hat{\beta_2}X^2+\hat{\beta_3}X^3\)`
+- .green[Quadratic]
+
+`$$\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X+\hat{\beta_2}X^2$$`
+
+- .orange[Cubic]
+
+`$$\hat{Y}=\hat{\beta_0}+\hat{\beta_1}X+\hat{\beta_2}X^2+\hat{\beta_3}X^3$$`
+
 ]
 ]
 
