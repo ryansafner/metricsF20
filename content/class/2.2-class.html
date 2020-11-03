@@ -181,11 +181,11 @@ sd(aX)&amp;=|a|sd(X)\\
 <h3 id="graphing-mathematical-functions">Graphing Mathematical Functions</h3>
 <p>In <code>ggplot</code> there is a dedicated <code>stat_function()</code> (equivalent to a <code>geom_</code> layer) to graph mathematical and statistical functions. All that is needed is a <code>data.frame</code> of a range of <code>x</code> values to act as the source for <code>data</code>, and set <code>x</code> equal to those values for <code>aes</code>thetics.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ───────────</code></pre>
+<pre><code>## ── Attaching packages ───── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ tibble  3.0.3     ✓ purrr   0.3.4
 ## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────
+<pre><code>## ── Conflicts ──────── tidyverse_conflicts() ──
 ## x mosaic::count()            masks dplyr::count()
 ## x purrr::cross()             masks mosaic::cross()
 ## x mosaic::do()               masks dplyr::do()
@@ -295,8 +295,8 @@ sd(aX)&amp;=|a|sd(X)\\
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="dv">10</span>, <span class="co"># take 10 draws from a normal distribution with:</span></span>
 <span id="cb19-2"><a href="#cb19-2"></a>      <span class="dt">mean =</span> <span class="dv">2</span>, <span class="co"># mean of 2</span></span>
 <span id="cb19-3"><a href="#cb19-3"></a>      <span class="dt">sd =</span> <span class="dv">1</span>) <span class="co"># sd of 1</span></span></code></pre></div>
-<pre><code>##  [1] 2.5629679 3.0847200 1.0182646 2.3363411 3.3686975 1.4017361 1.7048601
-##  [8] 1.8238002 0.8829297 1.2798865</code></pre>
+<pre><code>##  [1] 0.386161 2.789119 1.574204 3.122736 3.997914 1.892075 3.967528 2.462779
+##  [9] 2.345533 2.024467</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Get probability of a random variable being less than or equal to a value (cdf) from a normal distribution:</li>
 </ol>

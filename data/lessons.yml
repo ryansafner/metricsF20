@@ -137,7 +137,8 @@ lessons:
   - title: "3.9 Logarithmic Regression"
     reading: "3.9-reading"
     
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5** due Sun Nov 8'
+    assignment: "05-problem-set"
 
   - title: '<span class="fake-header-table">IV. Panel Data & Advanced Models</span>'
     header: True
