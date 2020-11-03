@@ -1,0 +1,314 @@
+---
+title: "Problem Set 5"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<p><em>Due by Sunday, November 8, 2020</em></p>
+<ul>
+<li><a href="/assignments/05-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> <code>Download as PDF</code></a></li>
+<li><a href="/assignments/05-problem-set.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--**ANSWERS:**
+
+- [<i class="fas fa-file-pdf"></i> `html`](/assignments/05-problem-set-answers.html)
+- [<i class="fab fa-markdown"></i> `Markdown`](/assignments/05-problem-set-answers.Rmd)
+- [<i class="fas fa-registered"></i> `R Script`](/homeworks/05-problem-set-answers.R)-->
+<h2 id="instructions">Instructions</h2>
+<p>For this problem set, you may submit handwritten answers on a plain sheet of paper, or download and type/handwrite on the PDF.</p>
+<p>Alternatively, you may download the <code>.Rmd</code> file, do the homework in markdown, and email to me a single <code>knit</code>ted <code>html</code> or <code>pdf</code> file (and be sure that it shows all of your code).</p>
+<p>You may work together (and I highly encourage that) but you must turn in your own answers. I grade homeworks 70% for completion, and for the remaining 30%, pick one question to grade for accuracy - so it is best that you try every problem, even if you are unsure how to complete it accurately.</p>
+<h2 id="theory-and-concepts">Theory and Concepts</h2>
+<h3 id="question-1">Question 1</h3>
+<p>In your own words, describe what the “dummy variable trap” means. What precisely is the problem, and what is the standard way to prevent it?</p>
+<h3 id="question-2">Question 2</h3>
+<p>In your own words, describe what an interaction term is used for, and give an example. You can use any type of interaction to explain your answer.</p>
+<h3 id="question-3">Question 3</h3>
+<p>In your own words, describe when and why using logged variables can be useful.</p>
+<h3 id="question-4">Question 4</h3>
+<p>In your own words, describe when we would use an <span class="math inline">\(F\)</span>-test, and give some example (null) hypotheses. Describe intuitively and specifically (no need for the formula) what exactly <span class="math inline">\(F\)</span> is trying to test for.</p>
+<h2 id="theory-problems">Theory Problems</h2>
+<p>For the following questions, please <em>show all work</em> and explain answers as necessary. You may lose points if you only write the correct answer. You may use <code>R</code> to <em>verify</em> your answers, but you are expected to reach the answers in this section “manually.”</p>
+<h3 id="question-5">Question 5</h3>
+<p>Suppose data on many countries’ legal systems (Common Law or Civil Law) and their GDP per capita gives us the following summary statistics:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Legal System</th>
+<th>Avg. GDP Growth Rate</th>
+<th>Std. dev.</th>
+<th><span class="math inline">\(n\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Common Law</td>
+<td><span class="math inline">\(1.84\)</span></td>
+<td><span class="math inline">\(3.55\)</span></td>
+<td><span class="math inline">\(19\)</span></td>
+</tr>
+<tr class="even">
+<td>Civil Law</td>
+<td><span class="math inline">\(4.97\)</span></td>
+<td><span class="math inline">\(4.27\)</span></td>
+<td><span class="math inline">\(141\)</span></td>
+</tr>
+<tr class="odd">
+<td>Difference</td>
+<td><span class="math inline">\(-3.13\)</span></td>
+<td><span class="math inline">\(1.02\)</span></td>
+<td><span class="math inline">\(-\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="part-a">Part A</h4>
+<p>Using the group means, write a regression equation for a regression of GDP Growth rate on Common Law. Define</p>
+<p><span class="math display">\[\text{Common Law}_i = \begin{cases}
+    1 &amp; \text{if country } i \text{ has common law} \\
+    0 &amp; \text{if country } i \text{ has civil law}\\
+    \end{cases}\]</span></p>
+<h4 id="part-b">Part B</h4>
+<p>How do we use the regression to find the average GDP Growth rate for common law countries? For civil law countries? For the difference?</p>
+<h4 id="part-c">Part C</h4>
+<p>Looking at the coefficients, does there appear to be a statistically significant difference in average GDP Growth Rates between Civil and Common law countries?</p>
+<h4 id="part-d">Part D</h4>
+<p>Is the estimate on the difference likely to be unbiased? Why or why not?</p>
+<h4 id="part-e">Part E</h4>
+<p>Now using the same table above, reconstruct the regression equation if instead of Common Law, we had used:</p>
+<p><span class="math display">\[\text{Civil Law}_i = \begin{cases}
+    1 &amp; \text{if country } i \text{ has civil law} \\
+    0 &amp; \text{if country } i \text{ has common law}\\
+    \end{cases}\]</span></p>
+<h3 id="question-6">Question 6</h3>
+<p>Suppose a real estate agent collects data on houses that have sold in a particular neighborhood over the past year, with the following variables:</p>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(Price_h\)</span></td>
+<td>price of house <span class="math inline">\(h\)</span> (in thousands of $)</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Bedrooms_h\)</span></td>
+<td>number of bedrooms in house <span class="math inline">\(h\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Baths_h\)</span></td>
+<td>number of bathrooms in house <span class="math inline">\(h\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Pool_h\)</span></td>
+<td><span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a pool} \\ =0 &amp; \text{if house } h \text{ does not have a pool} \end{cases}\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(View_h\)</span></td>
+<td><span class="math inline">\(\begin{cases} =1 &amp; \text{if house } h \text{ has a nice view} \\ =0 &amp; \text{if house } h \text{ does not have a nice view} \end{cases}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h4 id="part-a-1">Part A</h4>
+<p>Suppose she runs the following regression:
+<span class="math display">\[\widehat{\text{Price}_h}=119.20+29.76 \, \text{Bedrooms}_h+24.09 \, \text{View}_h+14.06 \, (\text{Bedrooms}_h \times \text{View}_h)\]</span></p>
+<p>What does each coefficient mean?</p>
+<h4 id="part-b-1">Part B</h4>
+<p>Write out <strong>two</strong> separate regression equations, one for houses <em>with</em> a nice view, and one for homes <em>without</em> a nice view. Explain each coefficient in each regression.</p>
+<h4 id="part-c-1">Part C</h4>
+<p>Suppose she runs the following regression:</p>
+<p><span class="math display">\[\widehat{\text{Price}_h}=189.20+42.40 \, \text{Pool}_h+12.10 \, \text{View}_h+12.09 \, (\text{Pool}_h \times \text{View}_h)\]</span></p>
+<p>What does each coefficient mean?</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Find the expected price for:</p>
+<ul>
+<li>a house with no pool and no view</li>
+<li>a house with no pool and a view</li>
+<li>a house with a pool and without a view</li>
+<li>a house with a pool and with a view</li>
+</ul>
+<h4 id="part-e-1">Part E</h4>
+<p>Suppose she obtains the following OLS estimates:
+<span class="math display">\[\widehat{\text{Price}_h}=87.90+53.94 \, \text{Bedrooms}_h+15.29 \, \text{Baths}_h+16.19 \, (\text{Bedrooms}_h \times \text{Baths}_h)\]</span></p>
+<p>What is the marginal effect of adding an additional <em>bedroom</em> if the house has 1 bathroom? 2 bathrooms? 3 bathrooms?</p>
+<h4 id="part-f">Part F</h4>
+<p>What is the marginal effect of adding an additional <em>bathroom</em> if the house has 1 bedroom? 2 bedrooms? 3 bedrooms?</p>
+<h3 id="question-7">Question 7</h3>
+<p>Suppose we want to examine the change in average global temperature over time. We have data on the deviation in temperature from pre-industrial times (in degrees Celcius) for each year <span class="math inline">\(t\)</span>.</p>
+<h4 id="part-a-2">Part A</h4>
+<p>Suppose we estimate the following simple model relating deviation in temperature to year:</p>
+<p><span class="math display">\[\widehat{\text{Temperature}_t}=-10.46+0.006 \text{Year}_t\]</span></p>
+<p>Interpret the coefficient on Year (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-b-2">Part B</h4>
+<p>Predict the (deviation in) temperature for the year 1900 and for the year 2000.</p>
+<h4 id="part-c-2">Part C</h4>
+<p>Suppose we believe temperature deviations are increasing at an increasing rate, and introduce a quadratic term and estimate the following regression model:</p>
+<p><span class="math display">\[\widehat{\text{Temperature}_t}=155.68-0.116 \text{Year}_t+0.000044\text{Year}_t^2\]</span></p>
+<p>What is the marginal effect on (deviation in) global temperature of one additional year elapsing?</p>
+<h4 id="part-d-2">Part D</h4>
+<p>Predict the marginal effect on temperature of one more year elapsing starting in 1900, and in 2000.</p>
+<h4 id="part-e-2">Part E</h4>
+<p>Our quadratic function is a <span class="math inline">\(U\)</span>-shape. According to the model, at what year was temperature (deviation) at its minimum?</p>
+<h3 id="question-8">Question 8</h3>
+<p>Suppose we want to examine the effect of cell phone use while driving on traffic fatalities. While we cannot measure the amount of cell phone activity while driving, we do have a good proxy variable, the number of cell phone subscriptions (in 1000s) in a state, along with traffic fatalities in that state.</p>
+<h4 id="part-a-3">Part A</h4>
+<p>Suppose we estimate the following simple regression:</p>
+<p><span class="math display">\[\widehat{\text{fatalities}_i}=123.98+0.091\text{cell plans}_i\]</span></p>
+<p>Interpret the coefficient on cell plans (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-b-3">Part B</h4>
+<p>Now suppose we estimate the regression using a linear-log model:</p>
+<p><span class="math display">\[\widehat{\text{fatalities}_i}=-3557.08+515.81\text{ln(cell plans}_i)\]</span></p>
+<p>Interpret the coefficient on ln(cell plans) (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-c-3">Part C</h4>
+<p>Now suppose we estimate the regression using a log-linear model:</p>
+<p><span class="math display">\[\widehat{\text{ln(fatalities}_i)}=5.43+0.0001\text{cell plans}_i\]</span></p>
+<p>Interpret the coefficient on cell plans (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-d-3">Part D</h4>
+<p>Now suppose we estimate the regression using a log-log model:</p>
+<p><span class="math display">\[\widehat{\text{ln(fatalities}_i)}=-0.89+0.85\text{ln(cell plans}_i)\]</span></p>
+<p>Interpret the coefficient on cell plans (i.e. <span class="math inline">\(\hat{\beta_1})\)</span></p>
+<h4 id="part-e-3">Part E</h4>
+<p>Suppose we include several other variables into our regression and want to determine which variable(s) have the largest effects, a State’s cell plans, population, or amount of miles driven. Suppose we decide to <em>standardize</em> the data to compare units, and we get:</p>
+<p><span class="math display">\[\widehat{\text{fatalities}_i}=4.35+0.002\text{cell plans}^{std}-0.00007\text{population}^{std}+0.019\text{miles driven}^{std}\]</span></p>
+<p>Interpret the coefficients on cell plans, population, and miles driven. Which has the largest effect on fatalities?</p>
+<h4 id="part-f-1">Part F</h4>
+<p>Suppose we wanted to make the claim that it is <em>only</em> miles driven, and neither population nor cell phones determine traffic fatalities. Write (i) the null hypothesis for this claim and (ii) the estimated restricted regression equation.</p>
+<h4 id="part-g">Part G</h4>
+<p>Suppose the <span class="math inline">\(R^2\)</span> on the original regression from (e) was 0.9221, and the <span class="math inline">\(R^2\)</span> from the restricted regression is 0.9062. With 50 observations, calculate the <span class="math inline">\(F\)</span>-statistic.</p>
+<h2 id="r-questions">R Questions</h2>
+<p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
+<h3 id="question-9">Question 9</h3>
+<ul>
+<li><a href="http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv"><i class="fas fa-table"></i> <code>LeadMortality.csv</code></a></li>
+</ul>
+<p>Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20<sup>th</sup> century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. This dataset contains data on:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>infrate</code></td>
+<td>infant mortality rate (deaths per 100 in population)</td>
+</tr>
+<tr class="even">
+<td><code>lead</code></td>
+<td><span class="math inline">\(=1\)</span> if city has lead water pipes, <span class="math inline">\(=0\)</span> if did not have lead pipes</td>
+</tr>
+<tr class="odd">
+<td><code>pH</code></td>
+<td>water pH</td>
+</tr>
+</tbody>
+</table>
+<p>and several demographic variables for 172 U.S. cities in 1900.</p>
+<h4 id="part-a-4">Part A</h4>
+<p>Using <code>R</code> to examine the data, find the average infant mortality rate for cities with lead pipes and for cities without lead pipes. Calculate the difference, and run a <span class="math inline">\(t\)</span>-test to determine if this difference is statistically significant.</p>
+<h4 id="part-b-4">Part B</h4>
+<p>Run a regression of <code>infrate</code> on <code>lead</code>, and write down the estimated regression equation. Use the regression coefficients to find:</p>
+<ul>
+<li>the average infant mortality rate for cities with lead pipes</li>
+<li>the average infant mortality rate for cities without lead pipes</li>
+<li>the difference between the averages for cities with or without lead pipes</li>
+</ul>
+<h4 id="part-c-4">Part C</h4>
+<p>Does the pH of the water matter? Include <code>ph</code> in your regression from part B. Write down the estimated regression equation, and interpret each coefficient (note there is no interaction effect here). What happens to the estimate on <code>lead</code>?</p>
+<h4 id="part-d-4">Part D</h4>
+<p>The amount of lead leached from lead pipes normally depends on the chemistry of the water running through the pipes: the more acidic the water (lower pH), the more lead is leached. Create an interaction term between lead and pH, and run a regression of <code>infrate</code> on <code>lead</code>, <code>pH</code>, and your interaction term. Write down the estimated regression equation. Is this interaction significant?</p>
+<h4 id="part-e-4">Part E</h4>
+<p>What we actually have are two different regression lines. Visualize this with a scatterplot between <code>infrate</code> <span class="math inline">\((Y)\)</span> and <code>ph</code> <span class="math inline">\((X)\)</span> by <code>lead</code>.</p>
+<h4 id="part-f-2">Part F</h4>
+<p>Do the two regression lines have the same intercept? The same slope? Use the original regression in part D to test these possibilities.</p>
+<h4 id="part-g-1">Part G</h4>
+<p>Take your regression equation from part D and rewrite it as two separate regression equations (one for no lead and one for lead). Interpret the coefficients for each.</p>
+<h4 id="part-h">Part H</h4>
+<p>Double check your calculations in G are correct by running the regression in D twice, once for cities without lead pipes and once for cities with lead pipes.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote"><code>filter()</code> the data first, then use the filtered data for the <code>data=</code> in each regression.<br />
+<br />
+</span></span></p>
+<h4 id="part-i">Part I</h4>
+<p>Use <code>huxtable</code> to make a nice output table of all of your regressions from parts B, C, and D.</p>
+<h3 id="question-10">Question 10</h3>
+<ul>
+<li><a href="http://metricsf19.classes.ryansafner.com/data/freedom.csv"><i class="fas fa-table"></i> <code>freedom.csv</code></a></li>
+</ul>
+<p>Let’s look at economic freedom and GDP per capita using some data I sourced from <a href="https://gapminder.org/tools">Gapminder</a><span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">GDP per capita (2018)<br />
+<br />
+</span></span>, <a href="https://freedomhouse.org/content/freedom-world-data-and-resources">Freedom House</a><span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Political freedom score (2018)<br />
+<br />
+</span></span> and <a href="https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&amp;year=2016&amp;page=dataset">Fraser Institute Data</a><span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Economic Freedom score (2016)<br />
+<br />
+</span></span> and cleaned up for you, with the following variables:</p>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>Name of country</td>
+</tr>
+<tr class="even">
+<td><code>ISO</code></td>
+<td>Code of country (good for plotting)</td>
+</tr>
+<tr class="odd">
+<td><code>econ_freedom</code></td>
+<td>Economic Freedom Index score (2016) from 1 (least) to 10 (most free)</td>
+</tr>
+<tr class="even">
+<td><code>pol_freedom</code></td>
+<td>Political freedom index score (2018) from 1 (least) top 10 (most free)</td>
+</tr>
+<tr class="odd">
+<td><code>gdp_pc</code></td>
+<td>GDP per capita (2018 USD)</td>
+</tr>
+<tr class="even">
+<td><code>continent</code></td>
+<td>Continent of country</td>
+</tr>
+</tbody>
+</table>
+<h4 id="part-a-5">Part A</h4>
+<p>Does economic freedom affect GDP per capita? Create a scatterplot of <code>gdp_pc</code> (<code>Y</code>) against <code>econ_freedom</code> (<code>x</code>). Does the effect appear to be linear or nonlinear?</p>
+<h4 id="part-b-5">Part B</h4>
+<p>Run a simple regression of <code>gdp_pc</code> on <code>econ_freedom</code>. Write out the estimated regression equation. What is the marginal effect of <code>econ_freedom</code> on <code>gdp_pc</code>?</p>
+<h4 id="part-c-5">Part C</h4>
+<p>Let’s try a quadratic model. Run a quadratic regression of <code>gdp_pc</code> on <code>econ_freedom</code>. Write out the estimated regression equation.</p>
+<h4 id="part-d-5">Part D</h4>
+<p>Add the quadratic regression to your scatterplot.</p>
+<h4 id="part-e-5">Part E</h4>
+<p>What is the marginal effect of <code>econ_freedom</code> on <code>gdp_pc</code>?</p>
+<h4 id="part-f-3">Part F</h4>
+<p>As a quadratic model, this relationship should predict an<code>econ_freedom</code> score where <code>gdp_pc</code> is at a <em>minimum</em>. What is that minimum Economic Freedom score, and what is the associated GDP per capita?</p>
+<h4 id="part-g-2">Part G</h4>
+<p>Run a cubic model to see if we should keep going up in polynomials. Write out the estimated regression equation. Should we add a cubic term?</p>
+<h4 id="part-h-1">Part H</h4>
+<p>Another way we can <em>test</em> for non-linearity is to run an <span class="math inline">\(F\)</span>-test on all non-linear variables - i.e. the quadratic term and the cubic term <span class="math inline">\((\hat{\beta_2}\)</span> and <span class="math inline">\(\hat{\beta_3}\)</span>) and test against the null hypothesis that:
+<span class="math display">\[H_0: \hat{\beta_2} = \hat{\beta_3} = 0\]</span></p>
+<p>Run this joint hypothesis test, and what can you conclude?</p>
+<h4 id="part-i-1">Part I</h4>
+<p>Instead of a polynomial model, try out a logarithmic model. It is hard to interpret percent changes on an index, but it is easy to understand percent changes in GDP per capita, so run a <strong>log-linear</strong> regression. Write out the estimated regression equation. What is the marginal effect of <code>econ_freedom</code>?</p>
+<h4 id="part-j">Part J</h4>
+<p>Make a scatterplot of your log-linear model with a regression line.</p>
+<h4 id="part-k">Part K</h4>
+<p>Put all of your results together in a regression output table with <code>huxtable</code> from your answers in questions B, C, G, and H.</p>

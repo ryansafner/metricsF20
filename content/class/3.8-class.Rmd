@@ -1,0 +1,56 @@
+---
+title: "3.8 — Polynomial Regression — Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Tuesday, November 3, 2020*
+
+# Overview
+
+This week we will cover non-linear models, which we anticipated last week with an interaction effect between two continuous variables: $X_1 \times X_2$, where the marginal effect of $X_1 \rightarrow Y$ is dependent on the value of $X_2$.
+
+We cover two types of nonlinear models. *Today*, we cover **polynomial models**, where we include higher-order $X$ variables to explain a non-linear effect. *Next* class we will cover **logarithmic models**, which are more frequently used — as well as a few final tests and transformations for multivariate regression before we turn to panel data (Unit IV) next week.
+
+Today, we will spend the first half of class finishing [last class’ practice problems](/r/3.7-r-practice) (on dummy variables and interaction effects), then I will cover polynomial models. After we finish next class’ lecture, we will do another set of R practice problems, and you will be given your final graded **HW 5** to work on this material. 
+
+*Thursday, October 29, 2020*
+
+# Overview
+
+Today we continue examining how to use categorical data in regression, particularly focusing on *interactions* between variables. We look at three types of interaction effects:
+1. Interaction between a continuous variable & a dummy variable
+2. Interaction between two dummy variables
+3. Interaction between two continuous variables
+
+We will also be working on practice problems today in R.
+
+# Readings
+
+See today’s [suggested readings](/reading/3.8-reading).
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.8-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.8-slides.pdf)
+
+# Practice Problems
+
+Today I will give you some time to work on last class’ [practice problems](/r/3.7-r-practice) (on dummies and interaction effects). Answers will be posted on that page later.
+
+# Assignments: Problem Set 5 (Due Sun Nov 8)
+
+[Homework 5](/assignment/05-problem-set) (on 3.1-3.5) is due by 11:59 PM Sunday November 8. **This is likely your final graded homework**^[In the past, I have always released a HW 6 on Imperfect Competition just for practice for the Final Exam.]
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).

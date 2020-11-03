@@ -130,9 +130,13 @@ lessons:
     r: "3.7-r-practice"
     
   - title: "3.8 Polynomial Regression"
-
+    class: "3.8-class"
+    slides: "3.8-slides"
+    reading: "3.8-reading"
+    
   - title: "3.9 Logarithmic Regression"
-
+    reading: "3.9-reading"
+    
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5**'
 
   - title: '<span class="fake-header-table">IV. Panel Data & Advanced Models</span>'
