@@ -21,17 +21,6 @@ We cover two types of nonlinear models. *Today*, we cover **polynomial models**,
 
 Today, we will spend the first half of class finishing [last class’ practice problems](/r/3.7-r-practice) (on dummy variables and interaction effects), then I will cover polynomial models. After we finish next class’ lecture, we will do another set of R practice problems, and you will be given your final graded **HW 5** to work on this material. 
 
-*Thursday, October 29, 2020*
-
-# Overview
-
-Today we continue examining how to use categorical data in regression, particularly focusing on *interactions* between variables. We look at three types of interaction effects:
-1. Interaction between a continuous variable & a dummy variable
-2. Interaction between two dummy variables
-3. Interaction between two continuous variables
-
-We will also be working on practice problems today in R.
-
 # Readings
 
 See today’s [suggested readings](/reading/3.8-reading).
