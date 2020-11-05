@@ -34,12 +34,29 @@ set.seed(256)
 update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 ```
 
+class: inverse
+
+# Outline
+
+### [Natural Logarithms](#7)
+
+### [Linear-Log Model](#37)
+
+### [Log-Linear Model](#47)
+
+### [Log-Log Model](#58)
+
+### [Comparing Across Units](#72)
+
+### [Joint Hypothesis Testing](#78)
+
+---
 
 # Nonlinearities
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 ]
 
 .pull-right[
@@ -73,7 +90,7 @@ p2
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 $$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$
@@ -95,7 +112,7 @@ p2+geom_smooth(method="lm", color="red")
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 $$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$
@@ -121,7 +138,7 @@ p2+geom_smooth(method="lm", color="red")+
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 $$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$
@@ -129,7 +146,7 @@ $$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\tex
 
 $$\color{green}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i+\hat{\beta_2}\text{GDP per capita}_i^2}$$
 
-$$\color{orange}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\ln(\text{GDP per capita}_i)}$$
+$$\color{orange}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\ln \text{GDP per capita}_i}$$
 
 ]
 
@@ -149,7 +166,7 @@ p2+geom_smooth(method="lm", color="red")+
 
 class: inverse, center, middle
 
-# Logarithmic Models
+# Natural Logarithms
 
 ---
 
@@ -159,14 +176,14 @@ class: inverse, center, middle
 .pull-left[
 .smallest[
 - Another useful model for nonlinear data is the .hi[logarithmic model]<sup>.magenta[†]</sup>
-  - We transform either $X$, $Y$, or *both* by taking the (natural) logarithm
+  - We transform either $X$, $Y$, or *both* by taking the .hi-purple[(natural) logarithm]
 
 - Logarithmic model has two additional advantages
   1. We can easily interpret coefficients as **percentage changes** or **elasticities**
   2. Useful economic shape: diminishing returns (production functions, utility functions, etc)
 ]
 
-.tiny[<sup>.magenta[†]</sup> Note, this should not be confused with a **logistic (logit) mode**, which is a model for *dependent* dummy variables.]
+.tiny[<sup>.magenta[†]</sup> Don’t confuse this with a .hi[logistic (logit) model] for *dependent* dummy variables.]
 
 ]
 
@@ -174,7 +191,7 @@ class: inverse, center, middle
 ```{r, fig.retina=3}
 ggplot(data.frame(x=0:10),aes(x=x))+
     stat_function(fun=log, color="blue",size =2)+
-  geom_label(x=9,y=log(9), label="y=log(x)", color="blue", size=5)+
+  geom_label(x=9,y=log(9), label="y=log x", color="blue", size=5)+
   scale_x_continuous(breaks=seq(0,10,1),
                      limits=c(0,10),
                      expand=c(0,0))+
@@ -225,8 +242,8 @@ ggplot(data.frame(x=0:10),aes(x=x))+
 
 .smallest[
 - **Exponents** are defined as
-$$\color{#6A5ACD}{b}^n=\underbrace{\color{#6A5ACD}{b} \times \color{#6A5ACD}{b} \times \cdots \times \color{#6A5ACD}{b}}_{\color{#e64173}{n} \text{ times}}$$
-  - where base $b$ is multiplied by itself $n$ times
+$$\color{#6A5ACD}{b}^{\color{#e64173}{n}}=\underbrace{\color{#6A5ACD}{b} \times \color{#6A5ACD}{b} \times \cdots \times \color{#6A5ACD}{b}}_{\color{#e64173}{n} \text{ times}}$$
+  - where base $\color{#6A5ACD}{b}$ is multiplied by itself $\color{#e64173}{n}$ times
 ]
 --
 
@@ -253,7 +270,7 @@ $$\text{If } \color{#6A5ACD}{b}^{\color{#e64173}{n}}=\color{#314f4f}{y}\text{, t
 # The Natural Logarithm: Review II
 
 - Logarithms can have any base, but common to use the **natural logarithm $(ln)$** with base $\mathbf{e=2.71828...}$
-$$\text{If } e^n=y\text{, then }ln(y)=n$$
+$$\text{If } e^n=y\text{, then } \ln(y)=n$$
 
 ---
 
@@ -275,12 +292,16 @@ $$\text{If } e^n=y\text{, then }ln(y)=n$$
 
 # The Natural Logarithm: Example
 
+.smallest[
 - Most useful property: for small change in $x$, $\Delta x$:
 
 $$\underbrace{ln(x+\Delta x) - ln(x)}_{\text{Difference in logs}} \approx \underbrace{\frac{\Delta x}{x}}_{\text{Relative change}}$$
 
+]
+
 --
 
+.smallest[
 .content-box-green[
 .green[**Example**]: Let $x=100$ and $\Delta x =1$, relative change is:
 
@@ -289,26 +310,37 @@ $$\frac{\Delta x}{x} = \frac{(101-100)}{100} = 0.01 \text{ or }1\%$$
 - The logged difference:
 $$ln(101)-ln(100) = 0.00995 \approx 1\%$$
 ]
-
+]
 --
 
-- This allows us to very easily interpret coefficients as *percent changes* or **elasticities**
+.smallest[
+- This allows us to very easily interpret coefficients as **percent changes** or .hi-purple[elasticities]
+]
 
 ---
 
 # Elasticity
 
-- An .hi[elasticity] between two variables, $E_{Y,X}$ describes the .hi-purple[responsiveness] of one variable to a change in another
+.smallest[
+- An .hi[elasticity] between any two variables, $\epsilon_{Y,X}$ describes the .hi-purple[responsiveness] (in %) of one variable $(Y)$ to a change in another $(X)$
 
-- Measured in percentages: a 1% change in $X$ will cause a $E\%$ change in $Y$
-
---
-
-$$E_{Y,X}=\frac{\% \Delta Y}{\% \Delta X} =\cfrac{\left(\frac{\Delta Y}{Y}\right)}{\left( \frac{\Delta X}{X}\right)}$$
+]
 
 --
 
+$$\epsilon_{Y,X}=\frac{\% \Delta Y}{\% \Delta X} =\cfrac{\left(\frac{\Delta Y}{Y}\right)}{\left( \frac{\Delta X}{X}\right)}$$
+
+--
+
+.smallest[
 - Numerator is relative change in $Y$, Denominator is relative change in $X$
+]
+
+--
+
+.smallest[
+- .hi-purple[Interpretation]: a 1% change in $X$ will cause a $\epsilon_{Y,X}$% chang in $Y$
+]
 
 ---
 
@@ -356,42 +388,14 @@ $$\ln Y=\ln 2+0.75 \ln L + 0.25 \ln K$$
 
 ---
 
-# Math FYI: Cobb Douglas Functions and Logs
-
-.content-box-green[
-.hi-green[Example]: A Cobb-Douglas utility function of:
-$$U(X,Y)=X^{0.5}Y^{0.5}$$
-
-yields a demand function (for x) of:
-
-$$Q = 0.5 \frac{M}{P}$$
-
-where $Q$ is quantity demanded (of good $X$), $M$ is income, and $P$ is the price (of good $X)$
-]
-
-
---
-
-- Taking logs:
-
-$$\ln Q= \ln 0.5+\ln M - \ln P$$
-
---
-
-- A 1% change in $M$ will yield a 1% change in consumption $Q$ (income elasticity!)
-
-- A 1% change in $P$ will yield a 1% change in consumption $Q$ (price elasticity!)
-
----
-
 # Logarithms in R I
 
 - The `log()` function can easily take the logarithm
 
 .smallest[
 ```{r, echo=T}
-gapminder<-gapminder %>%
-  mutate(loggdp=log(gdpPercap)) # log GDP per capita
+gapminder <- gapminder %>%
+  mutate(loggdp = log(gdpPercap)) # log GDP per capita
 
 gapminder %>% head() # look at it
 ```
@@ -400,7 +404,6 @@ gapminder %>% head() # look at it
 ---
 
 # Logarithms in R II
-
 
 - Note, `log()` by default is the **natural logarithm $ln()$**, i.e. base `e`
   - Can change base with e.g. `log(x, base = 5)`
@@ -411,6 +414,37 @@ log10(100)
 log2(16)
 log(19683, base=3)
 ```
+
+---
+
+```{r}
+library(broom)
+```
+
+# Logarithms in R III
+
+- Note when running a regression, you can pre-transform the data into logs (as I did above), or just add `log()` around a variable in the regression
+
+.pull-left[
+.tiny[
+```{r, echo=T}
+lm(lifeExp ~ loggdp,
+   data = gapminder) %>%
+  tidy()
+
+```
+]
+]
+
+.pull-right[
+.tiny[
+```{r, echo=T}
+lm(lifeExp ~ log(gdpPercap),
+   data = gapminder) %>%
+  tidy()
+```
+]
+]
 
 ---
 
@@ -429,6 +463,12 @@ log(19683, base=3)
 --
 
 3. .hi-purple[Log-log model:] $\color{#e64173}{\ln Y_i}=\beta_0+\beta_1 \color{#e64173}{\ln X_i}$
+
+---
+
+class: inverse, center, middle
+
+# Linear-Log Model
 
 ---
 
@@ -606,6 +646,12 @@ ggplot(data = gapminder)+
 
 ---
 
+class: inverse, center, middle
+
+# Log-Linear Model
+
+---
+
 # Log-Linear Model
 
 - .hi-purple[Log-linear model] has the dependent variable $(Y)$ logged
@@ -762,6 +808,12 @@ ggplot(data = gapminder)+
 
 ```
 ]
+
+---
+
+class: inverse, center, middle
+
+# Log-Log Model
 
 ---
 

@@ -23,12 +23,29 @@ class: center, middle, inverse, title-slide
 
 
 
+class: inverse
+
+# Outline
+
+### [Natural Logarithms](#7)
+
+### [Linear-Log Model](#37)
+
+### [Log-Linear Model](#47)
+
+### [Log-Log Model](#58)
+
+### [Comparing Across Units](#72)
+
+### [Joint Hypothesis Testing](#78)
+
+---
 
 # Nonlinearities
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 ]
 
 .pull-right[
@@ -43,7 +60,7 @@ class: center, middle, inverse, title-slide
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 `$$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$`
@@ -63,7 +80,7 @@ class: center, middle, inverse, title-slide
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 `$$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$`
@@ -86,7 +103,7 @@ class: center, middle, inverse, title-slide
 
 .pull-left[
 
-- Consider the `gapminder` example again
+- Consider the `gapminder` example
 
 .quitesmall[
 `$$\color{red}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i}$$`
@@ -94,7 +111,7 @@ class: center, middle, inverse, title-slide
 
 `$$\color{green}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\text{GDP per capita}_i+\hat{\beta_2}\text{GDP per capita}_i^2}$$`
 
-`$$\color{orange}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\ln(\text{GDP per capita}_i)}$$`
+`$$\color{orange}{\widehat{\text{Life Expectancy}_i}=\hat{\beta_0}+\hat{\beta_1}\ln \text{GDP per capita}_i}$$`
 
 ]
 
@@ -110,7 +127,7 @@ class: center, middle, inverse, title-slide
 
 class: inverse, center, middle
 
-# Logarithmic Models
+# Natural Logarithms
 
 ---
 
@@ -120,14 +137,14 @@ class: inverse, center, middle
 .pull-left[
 .smallest[
 - Another useful model for nonlinear data is the .hi[logarithmic model]&lt;sup&gt;.magenta[†]&lt;/sup&gt;
-  - We transform either `\(X\)`, `\(Y\)`, or *both* by taking the (natural) logarithm
+  - We transform either `\(X\)`, `\(Y\)`, or *both* by taking the .hi-purple[(natural) logarithm]
 
 - Logarithmic model has two additional advantages
   1. We can easily interpret coefficients as **percentage changes** or **elasticities**
   2. Useful economic shape: diminishing returns (production functions, utility functions, etc)
 ]
 
-.tiny[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Note, this should not be confused with a **logistic (logit) mode**, which is a model for *dependent* dummy variables.]
+.tiny[&lt;sup&gt;.magenta[†]&lt;/sup&gt; Don’t confuse this with a .hi[logistic (logit) model] for *dependent* dummy variables.]
 
 ]
 
@@ -157,8 +174,8 @@ class: inverse, center, middle
 
 .smallest[
 - **Exponents** are defined as
-`$$\color{#6A5ACD}{b}^n=\underbrace{\color{#6A5ACD}{b} \times \color{#6A5ACD}{b} \times \cdots \times \color{#6A5ACD}{b}}_{\color{#e64173}{n} \text{ times}}$$`
-  - where base `\(b\)` is multiplied by itself `\(n\)` times
+`$$\color{#6A5ACD}{b}^{\color{#e64173}{n}}=\underbrace{\color{#6A5ACD}{b} \times \color{#6A5ACD}{b} \times \cdots \times \color{#6A5ACD}{b}}_{\color{#e64173}{n} \text{ times}}$$`
+  - where base `\(\color{#6A5ACD}{b}\)` is multiplied by itself `\(\color{#e64173}{n}\)` times
 ]
 --
 
@@ -185,7 +202,7 @@ class: inverse, center, middle
 # The Natural Logarithm: Review II
 
 - Logarithms can have any base, but common to use the **natural logarithm `\((ln)\)`** with base `\(\mathbf{e=2.71828...}\)`
-`$$\text{If } e^n=y\text{, then }ln(y)=n$$`
+`$$\text{If } e^n=y\text{, then } \ln(y)=n$$`
 
 ---
 
@@ -207,12 +224,16 @@ class: inverse, center, middle
 
 # The Natural Logarithm: Example
 
+.smallest[
 - Most useful property: for small change in `\(x\)`, `\(\Delta x\)`:
 
 `$$\underbrace{ln(x+\Delta x) - ln(x)}_{\text{Difference in logs}} \approx \underbrace{\frac{\Delta x}{x}}_{\text{Relative change}}$$`
 
+]
+
 --
 
+.smallest[
 .content-box-green[
 .green[**Example**]: Let `\(x=100\)` and `\(\Delta x =1\)`, relative change is:
 
@@ -221,26 +242,37 @@ class: inverse, center, middle
 - The logged difference:
 `$$ln(101)-ln(100) = 0.00995 \approx 1\%$$`
 ]
-
+]
 --
 
-- This allows us to very easily interpret coefficients as *percent changes* or **elasticities**
+.smallest[
+- This allows us to very easily interpret coefficients as **percent changes** or .hi-purple[elasticities]
+]
 
 ---
 
 # Elasticity
 
-- An .hi[elasticity] between two variables, `\(E_{Y,X}\)` describes the .hi-purple[responsiveness] of one variable to a change in another
+.smallest[
+- An .hi[elasticity] between any two variables, `\(\epsilon_{Y,X}\)` describes the .hi-purple[responsiveness] (in %) of one variable `\((Y)\)` to a change in another `\((X)\)`
 
-- Measured in percentages: a 1% change in `\(X\)` will cause a `\(E\%\)` change in `\(Y\)`
-
---
-
-`$$E_{Y,X}=\frac{\% \Delta Y}{\% \Delta X} =\cfrac{\left(\frac{\Delta Y}{Y}\right)}{\left( \frac{\Delta X}{X}\right)}$$`
+]
 
 --
 
+`$$\epsilon_{Y,X}=\frac{\% \Delta Y}{\% \Delta X} =\cfrac{\left(\frac{\Delta Y}{Y}\right)}{\left( \frac{\Delta X}{X}\right)}$$`
+
+--
+
+.smallest[
 - Numerator is relative change in `\(Y\)`, Denominator is relative change in `\(X\)`
+]
+
+--
+
+.smallest[
+- .hi-purple[Interpretation]: a 1% change in `\(X\)` will cause a `\(\epsilon_{Y,X}\)`% chang in `\(Y\)`
+]
 
 ---
 
@@ -288,34 +320,6 @@ class: inverse, center, middle
 
 ---
 
-# Math FYI: Cobb Douglas Functions and Logs
-
-.content-box-green[
-.hi-green[Example]: A Cobb-Douglas utility function of:
-`$$U(X,Y)=X^{0.5}Y^{0.5}$$`
-
-yields a demand function (for x) of:
-
-`$$Q = 0.5 \frac{M}{P}$$`
-
-where `\(Q\)` is quantity demanded (of good `\(X\)`), `\(M\)` is income, and `\(P\)` is the price (of good `\(X)\)`
-]
-
-
---
-
-- Taking logs:
-
-`$$\ln Q= \ln 0.5+\ln M - \ln P$$`
-
---
-
-- A 1% change in `\(M\)` will yield a 1% change in consumption `\(Q\)` (income elasticity!)
-
-- A 1% change in `\(P\)` will yield a 1% change in consumption `\(Q\)` (price elasticity!)
-
----
-
 # Logarithms in R I
 
 - The `log()` function can easily take the logarithm
@@ -323,8 +327,8 @@ where `\(Q\)` is quantity demanded (of good `\(X\)`), `\(M\)` is income, and `\(
 .smallest[
 
 ```r
-gapminder&lt;-gapminder %&gt;%
-  mutate(loggdp=log(gdpPercap)) # log GDP per capita
+gapminder &lt;- gapminder %&gt;%
+  mutate(loggdp = log(gdpPercap)) # log GDP per capita
 
 gapminder %&gt;% head() # look at it
 ```
@@ -339,7 +343,6 @@ gapminder %&gt;% head() # look at it
 ---
 
 # Logarithms in R II
-
 
 - Note, `log()` by default is the **natural logarithm `\(ln()\)`**, i.e. base `e`
   - Can change base with e.g. `log(x, base = 5)`
@@ -372,6 +375,48 @@ log(19683, base=3)
 
 ---
 
+
+
+# Logarithms in R III
+
+- Note when running a regression, you can pre-transform the data into logs (as I did above), or just add `log()` around a variable in the regression
+
+.pull-left[
+.tiny[
+
+```r
+lm(lifeExp ~ loggdp,
+   data = gapminder) %&gt;%
+  tidy()
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"-9.100889","3":"1.227674","4":"-7.413117","5":"1.934812e-13"},{"1":"loggdp","2":"8.405085","3":"0.148762","4":"56.500206","5":"0.000000e+00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+.pull-right[
+.tiny[
+
+```r
+lm(lifeExp ~ log(gdpPercap),
+   data = gapminder) %&gt;%
+  tidy()
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"-9.100889","3":"1.227674","4":"-7.413117","5":"1.934812e-13"},{"1":"log(gdpPercap)","2":"8.405085","3":"0.148762","4":"56.500206","5":"0.000000e+00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+]
+
+---
+
 # Types of Logarithmic Models
 
 - Three types of log regression models, depending on which variables we log
@@ -387,6 +432,12 @@ log(19683, base=3)
 --
 
 3. .hi-purple[Log-log model:] `\(\color{#e64173}{\ln Y_i}=\beta_0+\beta_1 \color{#e64173}{\ln X_i}\)`
+
+---
+
+class: inverse, center, middle
+
+# Linear-Log Model
 
 ---
 
@@ -558,7 +609,7 @@ ggplot(data = gapminder)+
 ]
 
 .pull-right[
-&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-13-1.png" width="504" /&gt;
+&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-16-1.png" width="504" /&gt;
 ]
 
 ---
@@ -585,8 +636,14 @@ ggplot(data = gapminder)+
 ]
 
 .pull-right[
-&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-14-1.png" width="504" /&gt;
+&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-17-1.png" width="504" /&gt;
 ]
+
+---
+
+class: inverse, center, middle
+
+# Log-Linear Model
 
 ---
 
@@ -778,8 +835,14 @@ ggplot(data = gapminder)+
 ]
 
 .pull-right[
-&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-20-1.png" width="504" /&gt;
+&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-23-1.png" width="504" /&gt;
 ]
+
+---
+
+class: inverse, center, middle
+
+# Log-Log Model
 
 ---
 
@@ -945,7 +1008,7 @@ ggplot(data = gapminder)+
 ]
 
 .pull-right[
-&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-25-1.png" width="504" /&gt;
+&lt;img src="3.9-slides_files/figure-html/unnamed-chunk-28-1.png" width="504" /&gt;
 ]
 
 ---
@@ -991,7 +1054,7 @@ huxreg("Life Exp." = lin_log_reg,
 
 .pull-left[
 .tiny[
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-26">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-29">
 <col><col><col><col><tr>
 <th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;"></th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Life Exp.</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Log Life Exp.</th><th style="vertical-align: top; text-align: center; white-space: normal; border-style: solid solid solid solid; border-width: 0.8pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: normal;">Log Life Exp.</th></tr>
 <tr>
@@ -1024,7 +1087,7 @@ huxreg("Life Exp." = lin_log_reg,
 # Comparing Models III
 
 .smallest[
-| Linear-Log | Log-Linear | Log-Log |
+| Linear-.hi[Log] | .hi[Log]-Linear | .hi[Log]-.hi[Log] |
 |:----------:|:----------:|:-------:|
 | ![](3.9-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](3.9-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](3.9-slides_files/figure-html/unnamed-chunk-25-1.png) |
 | `\(\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\color{#e64173}{\ln X_i}\)` | `\(\color{#e64173}{\ln Y_i}=\hat{\beta_0}+\hat{\beta_1}X_i\)` | `\(\color{#e64173}{\ln Y_i}=\hat{\beta_0}+\hat{\beta_1}\color{#e64173}{\ln X_i}\)` |
@@ -1113,11 +1176,12 @@ class: inverse, center, middle
 
 .quitesmall[
 - .hi-purple[Marginal effects] on `\(Y\)` (in *standard deviations* of `\(Y\)`) from 1 *standard deviation* change in `\(X\)`:
-  - `\(\hat{\beta_1}\)`: a 1 standard deviation increase in Batting Average increases Salary by 0.14 standard deviations
+
+- `\(\hat{\beta_1}\)`: a 1 standard deviation increase in Batting Average increases Salary by 0.14 standard deviations
 
 $$0.14 \times \$2,764,512=\$387,032$$
 
-  - `\(\hat{\beta_2}\)`: a 1 standard deviation increase in Home Runs increases Salary by 0.48 standard deviations
+- `\(\hat{\beta_2}\)`: a 1 standard deviation increase in Home Runs increases Salary by 0.48 standard deviations
   
 $$0.48 \times \$2,764,512=\$1,326,966$$
 ]
@@ -1137,7 +1201,7 @@ std_reg&lt;-lm(std_life~std_gdp, data = gapminder)
 tidy(std_reg)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-27">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-30">
 <col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: left; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">term</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">estimate</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">std.error</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th></tr>
 <tr>
@@ -1160,7 +1224,7 @@ class: inverse, center, middle
 .content-box-green[
 .green[**Example**]: Return again to:
 
-`$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Male+\hat{\beta_2}Northeast_i+\hat{\beta_3}Midwest_i+\hat{\beta_4}South_i$$`
+`$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Male_i+\hat{\beta_2}Northeast_i+\hat{\beta_3}Midwest_i+\hat{\beta_4}South_i$$`
 
 ]
 
@@ -1200,7 +1264,7 @@ or simply, that `\(H_0\)` is not true
 --
 
 .smallest[
-1. `\(H_0\)`: `\(\beta_1=\beta_2=0\)`
+1) `\(H_0\)`: `\(\beta_1=\beta_2=0\)`
   - Testing against the claim that multiple variables don't matter
   - Useful under high multicollinearity between variables
   - `\(H_a\)`: at least one parameter `\(\neq\)` 0
@@ -1209,7 +1273,7 @@ or simply, that `\(H_0\)` is not true
 --
 
 .smallest[
-2. `\(H_0\)`: `\(\beta_1=\beta_2\)`
+2) `\(H_0\)`: `\(\beta_1=\beta_2\)`
   - Testing whether two variables matter the same
   - Variables must be the same units
   - `\(H_a: \beta_1 (\neq, &lt;, \text{ or }&gt;) \beta_2\)`
@@ -1217,7 +1281,7 @@ or simply, that `\(H_0\)` is not true
 --
 
 .smallest[
-3. `\(H_0:\)` ALL `\(\beta\)`'s `\(=0\)`
+3) `\(H_0:\)` ALL `\(\beta\)`'s `\(=0\)`
   - The "**Overall F-test"**
   - Testing against claim that regression model explains *NO* variation in `\(Y\)`
 ]
@@ -1225,17 +1289,17 @@ or simply, that `\(H_0\)` is not true
 
 # Joint Hypothesis Tests: F-statistic
 
-- The .hi[F-statistic] is the test-statistic used to test joint hypotheses about regression coefficients with an .hi[F-test]
+- The .hi-turquoise[F-statistic] is the test-statistic used to test joint hypotheses about regression coefficients with an .hi-turquoise[F-test]
 
 --
 
 - This involves comparing two models:
-  1. **Unrestricted model**: regression with all coefficients
-  2. **Restricted model**: regression under null hypothesis (coefficients equal hypothesized values)
+  1. .hi-purple[Unrestricted model]: regression with all coefficients
+  2. .hi[Restricted model]: regression under null hypothesis (coefficients equal hypothesized values)
 
 --
 
-- `\(F\)` is an .hi-purple[analysis of variance (ANOVA)]
+- `\(F\)` is an .hi-turquoise[analysis of variance (ANOVA)]
   - essentially tests whether `\(R^2\)` increases statistically significantly as we go from the restricted model$\rightarrow$unrestricted model
 
 --
@@ -1383,11 +1447,11 @@ or simply, that `\(H_0\)` is not true
 
 - `\(k\)`: number of `\(X\)` variables in .hi[unrestricted model] (all variables)
 
+.smallest[
 - `\(F\)` has two sets of degrees of freedom:
-  - `\(q\)` for the numerator
-  - `\((n-k-1)\)` for the denominator
+  - `\(q\)` for the numerator, `\((n-k-1)\)` for the denominator
 ]
-
+]
 ---
 
 # Calculating the F-statistic II
@@ -1426,11 +1490,11 @@ restricted_reg&lt;-lm(wage~female, data=wages)
 
 # F-test Example II
 
-- **Unrestricted model**:
+- .hi[Unrestricted model]:
 
 `$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}Northeast_i+\hat{\beta_3}Northcen+\hat{\beta_4}South_i$$`
 
-- **Restricted model**:
+- .hi-purple[Restricted model]:
 
 `$$\widehat{Wage_i}=\hat{\beta_0}+\hat{\beta_1}Female_i$$`
 
@@ -1457,7 +1521,7 @@ library("car")
 linearHypothesis(unrestricted_reg, c("northcen", "west", "south")) 
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-29">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-32">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Res.Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
 <tr>
@@ -1492,7 +1556,7 @@ linearHypothesis(unrestricted_reg, c("northcen", "west", "south"))
 --
 
 .smallest[
-- What is the restricted regression?
+- What is the .hi-purple[restricted] regression?
 
 `$$\widehat{wage_i}=\beta_0+\beta_1(\text{Adolescent height}_i + \text{Adult height}_i )+ \beta_3 \text{Male}_i$$`
 
@@ -1528,7 +1592,7 @@ height_restricted_reg&lt;-lm(wage96~heights+male, data=heightwages)
 linearHypothesis(height_reg, "height81=height85") # F-test 
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-31">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-34">
 <col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Res.Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">RSS</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Sum of Sq</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">F</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">Pr(&gt;F)</th></tr>
 <tr>
@@ -1582,7 +1646,7 @@ summary(unrestricted_reg)
 
 .pull-right[
 .smallest[
-- Last line of regression output from `summary()` of an `lm()` object is an **All F-test**
+- Last line of regression output from `summary()` is an **All F-test**
   - `\(H_0:\)` all `\(\beta's=0\)` 
     - the regression explains no variation in `\(Y\)`
   - Calculates an `F-statistic` that, if high enough, is significant (`p-value` `\(&lt;0.05)\)` enough to reject `\(H_0\)`
@@ -1593,7 +1657,7 @@ summary(unrestricted_reg)
 
 # All F-test II
 
-- Alternatively, if you use `broom` instead of `summary()` of `lm` object:
+- Alternatively, if you use `broom` instead of `summary()`:
   - `glance()` command makes table of regression summary statistics
   - `tidy()` only shows coefficients
 
@@ -1604,7 +1668,7 @@ library(broom)
 glance(unrestricted_reg)
 ```
 
-<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-33">
+<table class="huxtable" style="border-collapse: collapse; border: 0px; margin-bottom: 2em; margin-top: 2em; ; margin-left: auto; margin-right: auto;  " id="tab:unnamed-chunk-36">
 <col><col><col><col><col><col><col><col><col><col><col><col><tr>
 <th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0.4pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">adj.r.squared</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">sigma</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">statistic</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">p.value</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">logLik</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">AIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">BIC</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">deviance</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">df.residual</th><th style="vertical-align: top; text-align: right; white-space: normal; border-style: solid solid solid solid; border-width: 0.4pt 0.4pt 0.4pt 0pt;    padding: 6pt 6pt 6pt 6pt; font-weight: bold;">nobs</th></tr>
 <tr>
