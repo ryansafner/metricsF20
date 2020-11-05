@@ -1,7 +1,7 @@
 ---
-title: "3.7: Regression with Interaction Effects - R Practice (Answers)"
-author: "Ryan Safner"
-date: "`r Sys.Date()`"
+title: "3.7 — Regression with Interaction Effects — R Practice"
+author: "Solutions"
+date: "ECON 480 — Econometrics — Fall 2020"
 output:
   html_document:
     df_print: paged
@@ -17,19 +17,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Set Up
-To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
-
-Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
-
-- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/716555)
-- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/19-r-practice-rmd.Rmd)
-
 ## Question 1
 
-We are returning to the speeding tickets data that we began to explore in [R Practice 15 on Multivariate Regression](http://metricsf19.classes.ryansafner.com/practice/15-practice). Download and read in (`read_csv`) the data below. 
+We are returning to the speeding tickets data that we began to explore in [R Practice 15 on Multivariate Regression](http://metricsf20.classes.ryansafner.com/practice/15-practice). Download and read in (`read_csv`) the data below. 
 
-- [<i class="fas fa-table"></i> `speeding_tickets.csv`](/data/speeding_tickets.csv)
+- [<i class="fas fa-table"></i> `speeding_tickets.csv`](http://metricsf20.classes.ryansafner.com/data/speeding_tickets.csv)
 
 This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
 
@@ -53,7 +45,7 @@ This data again comes from a paper by Makowsky and Strattman (2009) that we will
 
 ```{r}
 library(tidyverse)
-speed<-read_csv("../Data/speeding_tickets.csv")
+speed<-read_csv("http://metricsf20.classes.ryansafner.com/Data/speeding_tickets.csv")
 ```
 
 ---
