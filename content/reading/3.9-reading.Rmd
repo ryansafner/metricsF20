@@ -1,5 +1,5 @@
 ---
-title: "3.7 — Logarithmic Regression — Readings"
+title: "3.9 — Logarithmic Regression — Readings"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl

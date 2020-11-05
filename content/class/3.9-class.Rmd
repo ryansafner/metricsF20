@@ -1,0 +1,53 @@
+---
+title: "3.9 — Logarithmic Regression - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+*Thursday, November 5, 2020*
+
+# Overview
+
+Today, we finish up our view of *nonlinear* models with **logarithmic models**, which are more frequently used. We also discuss a few other tests and transformations to wrap up multivariate regression before we turn to panel data: **standardizing variables** to compare effect sizes, and **joint hypothesis tests**.
+
+Interpretting logged variables can often be difficult to remember, so here I reproduce the tables that describe the interpretations of the marginal effect of $X \rightarrow Y$, as well as some visual examples from the slides:
+
+| Model | Equation | Interpretation |
+|-------|----------|----------------|
+| Linear-**Log** | $Y=\beta_0+\beta_1 \mathbf{ln(X)}$ | 1% change in $X \rightarrow \frac{\hat{\beta_1}}{100}$ **unit** change in $Y$ |
+| **Log**-Linear | $\mathbf{ln(Y)}=\beta_0+\beta_1X$ | 1 **unit** change in $X \rightarrow \hat{\beta_1}\times 100$**%** change in $Y$ |
+| **Log**-**Log** | $\mathbf{ln(Y)}=\beta_0+\beta_1\mathbf{ln(X)}$ | 1**%** change in $X \rightarrow \hat{\beta_1}$**%** change in $Y$ |
+
+- Hint: the variable that gets logged changes in **percent** terms, the variable not logged changes in *unit* terms
+
+| Linear-Log | Log-Linear | Log-Log |
+|:----------:|:----------:|:-------:|
+| ![](https://metricsf20.classes.ryansafner.com/slides/3.9-slides_files/figure-html/unnamed-chunk-14-1.png) | ![](https://metricsf20.classes.ryansafner.com/slides/3.9-slides_files/figure-html/unnamed-chunk-20-1.png) | ![](https://metricsf20.classes.ryansafner.com/slides/3.9-slides_files/figure-html/unnamed-chunk-25-1.png) |
+| $\hat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}X_i$ | $\mathbf{ln(\hat{Y_i})}=\hat{\beta_0}+\hat{\beta_1}\mathbf{ln(X_i)}$ |
+| $R^2=0.65$ | $R^2=0.30$ | $R^2=0.61$ |
+
+# Slides
+
+- [<i class="fas fa-chalkboard-teacher"></i> View Lecture Slides](/slides/3.9-slides.html)
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/slides/3.9-slides.pdf)
+
+# Practice Problems
+
+Today you will be working on new[practice problems](/r/3.9-r-practice) (on nonlinear models). Answers will be posted on that page later.
+
+# Assignments: Problem Set 5 (Due Sun Nov 8)
+
+[Homework 5](/assignment/05-problem-set) (on 3.1-3.5) is due by 11:59 PM Sunday November 8. **This is likely your final graded homework**^[In the past, I have always released a HW 6 on Imperfect Competition just for practice for the Final Exam.]
+
+# Live Class Session on Zoom
+
+The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see `LIVE ZOOM MEETINGS` on the left navigation menu), starting at 11:30 AM.
+
+If you are unable to join today's live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see `Class Recordings` on the left navigation menu).

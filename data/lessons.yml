@@ -135,7 +135,10 @@ lessons:
     reading: "3.8-reading"
     
   - title: "3.9 Logarithmic Regression"
+    class: "3.9-class"
+    slides: "3.9-slides"
     reading: "3.9-reading"
+    r: "3.9-r-practice"
     
   - title: '<i class="fas fa-laptop-code"></i> **Problem Set 5** due Sun Nov 8'
     assignment: "05-problem-set"

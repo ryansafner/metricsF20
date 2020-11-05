@@ -1,0 +1,137 @@
+---
+title: "3.9 — Logarithmic Regression — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<h2 id="set-up">Set Up</h2>
+<p>To minimize confusion, I suggest creating a new <code>R Project</code> (e.g. <code>regression_practice</code>) and storing any data in that folder on your computer.</p>
+<p>Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).</p>
+<ul>
+<li><a href="https://rstudio.cloud/spaces/83147/project/1868171"><i class="fas fa-cloud"></i> View Project on R Studio Cloud</a></li>
+<li><a href="/r/3.9-r-practice-rmd.Rmd"><i class="fab fa-markdown"></i> <code>Download Markdown</code></a></li>
+</ul>
+<!--Answers:
+
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/3.9-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/3.9-r-practice-answers.Rmd)-->
+<h3 id="question-1">Question 1</h3>
+<p>We are returning to the speeding tickets data that we began to explore in <a href="http://metricsf20.classes.ryansafner.com/practice/3.4-practice">R Practice 3.4 on Multivariate Regression</a> and <a href="http://metricsf20.classes.ryansafner.com/practice/3.7-r-practice">R Practice 3.7 on Dummy Variables &amp; Interaction Effects</a>. Download and read in (<code>read_csv</code>) the data below.</p>
+<ul>
+<li><a href="/data/speeding_tickets.csv"><i class="fas fa-table"></i> <code>speeding_tickets.csv</code></a></li>
+</ul>
+<p>This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one’s we’ll look at are:</p>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>Amount</code></td>
+<td>Amount of fine (in dollars) assessed for speeding</td>
+</tr>
+<tr class="even">
+<td><code>Age</code></td>
+<td>Age of speeding driver (in years)</td>
+</tr>
+<tr class="odd">
+<td><code>MPHover</code></td>
+<td>Miles per hour over the speed limit</td>
+</tr>
+<tr class="even">
+<td><code>Black</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was black, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>Hispanic</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was Hispanic, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="even">
+<td><code>Female</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was female, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>OutTown</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was not from local town, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="even">
+<td><code>OutState</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was not from local state, <span class="math inline">\(=0\)</span> if not</td>
+</tr>
+<tr class="odd">
+<td><code>StatePol</code></td>
+<td>Dummy <span class="math inline">\(=1\)</span> if driver was stopped by State Police, <span class="math inline">\(=0\)</span> if stopped by other (local)</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>We again want to explore who gets fines, and how much.</p>
+</blockquote>
+<h3 id="question-2">Question 2</h3>
+<p>Run a regression of <code>Amount</code> on <code>Age</code>. Write out the estimated regression equation, and interpret the coefficient on Age.</p>
+<h3 id="question-3">Question 3</h3>
+<p>Is the effect of <code>Age</code> on <code>Amount</code> nonlinear? Let’s run a quadratic regression.</p>
+<h4 id="part-a">Part A</h4>
+<p>Create a new variable for <span class="math inline">\(Age^2\)</span>. Then run a quadratic regression.</p>
+<h4 id="part-b">Part B</h4>
+<p>Try running the same regression using the alternate notation: <code>lm(Y~X+I(X^2))</code>. This method allows you to not have to create a new variable first. Do you get the same results?</p>
+<h4 id="part-c">Part C</h4>
+<p>Write out the estimated regression equation.</p>
+<h4 id="part-d">Part D</h4>
+<p>Is this model an improvement from the linear model?<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Check <span class="math inline">\(R^2\)</span>.<br />
+<br />
+</span></span></p>
+<h4 id="part-e">Part E</h4>
+<p>Write an equation for the marginal effect of <code>Age</code> on <code>Amount</code>.</p>
+<h4 id="part-f">Part F</h4>
+<p>Predict the marginal effect on <code>Amount</code> of being one year older when you are 18. How about when you are 40?</p>
+<h4 id="part-g">Part G</h4>
+<p>Our quadratic function is a <span class="math inline">\(U\)</span>-shape. According to the model, at what age is the amount of the fine minimized?</p>
+<h4 id="part-h">Part H</h4>
+<p>Create a scatterplot between <code>Amount</code> and <code>Age</code> and add a a layer of a linear regression (as always), and an additional layer of your predicted quadratic regression curve. The regression curve, just like any regression <em>line</em>, is a <code>geom_smooth()</code> layer on top of the <code>geom_point()</code> layer. We will need to customize <code>geom_smooth()</code> to <code>geom_smooth(method="lm", formula="y~x+I(x^2)</code> (copy/paste this verbatim)! This is the same as a regression line (<code>method="lm"</code>), but we are modifying the formula to a polynomial of degree 2 (quadratic): <span class="math inline">\(y=a+bx+cx^2\)</span>.</p>
+<h4 id="part-i">Part I</h4>
+<p>It’s quite hard to see the quadratic curve with all those data points. Redo another plot and this time, only keep the quadratic <code>stat_smooth()</code> layer and leave out the <code>geom_point()</code> layer. This will only plot the regression curve.</p>
+<h2 id="question-4">Question 4</h2>
+<p>Should we use a higher-order polynomial equation? Run a cubic regression, and determine whether it is necessary.</p>
+<h2 id="question-5">Question 5</h2>
+<p>Run an <span class="math inline">\(F\)</span>-test to check if a nonlinear model is appropriate. Your null hypothesis is <span class="math inline">\(H_0: \beta_2=\beta_3=0\)</span> from the regression in pert (h). The command is <code>linearHypothesis(reg_name, c("var1", "var2"))</code> where <code>reg_name</code> is the name of the <code>lm</code> object you saved your regression in, and <code>var1</code> and <code>var2</code> (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the “<code>car</code>” package (additional regression tools).</p>
+<h2 id="question-6">Question 6</h2>
+<p>Now let’s take a look at speed (<code>MPHover</code> the speed limit).</p>
+<h3 id="part-a-1">Part A</h3>
+<p>Creating new variables as necessary, run a <strong>linear-log</strong> model of <code>Amount</code> on <code>MPHover</code>. Write down the estimated regression equation, and interpret the coefficient on <code>MPHover</code> <span class="math inline">\((\hat{\beta_1})\)</span>. Make a scatterplot with the regression line.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hint: The simple <code>geom_smooth(method="lm")</code> is sufficient, so long as you use the right variables on the plot!<br />
+<br />
+</span></span></p>
+<h3 id="part-b-1">Part B</h3>
+<p>Creating new variables as necessary, run a <strong>log-linear</strong> model of <code>Amount</code> on <code>MPHover</code>. Write down the estimated regression equation, and interpret the coefficient on <code>MPHover</code> <span class="math inline">\((\hat{\beta_1})\)</span>. Make a scatterplot with the regression line.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Hint: The simple <code>geom_smooth(method="lm")</code> is sufficient, so long as you use the right variables on the plot!<br />
+<br />
+</span></span></p>
+<h3 id="part-c-1">Part C</h3>
+<p>Creating new variables as necessary, run a <strong>log-log</strong> model of <code>Amount</code> on <code>MPHover</code>. Write down the estimated regression equation, and interpret the coefficient on <code>MPHover</code> <span class="math inline">\((\hat{\beta_1})\)</span>. Make a scatterplot with the regression line.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Hint: The simple <code>geom_smooth(method="lm")</code> is sufficient, so long as you use the right variables on the plot!<br />
+<br />
+</span></span></p>
+<h3 id="part-d-1">Part D</h3>
+<p>Which of the three log models has the best fit?<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hint: Check <span class="math inline">\(R^2\)</span><br />
+<br />
+</span></span></p>
+<h2 id="question-7">Question 7</h2>
+<p>Return to the quadratic model. Run a quadratic regression of <code>Amount</code> on <code>Age</code>, <code>Age</code><span class="math inline">\(^2\)</span>, <code>MPHover</code>, and all of the race dummy variables. Test the null hypothesis: <em>“the race of the driver has no effect on Amount”</em></p>
+<h2 id="question-8">Question 8</h2>
+<p>Now let’s try standardizing variables. Let’s try running a regression of <code>Amount</code> on <code>Age</code> and <code>MPHover</code>, but standardizing each variable.</p>
+<h4 id="part-a-2">Part A</h4>
+<p>Create new standardized variables for <code>Amount</code>, <code>Age</code>, and <code>MPHover</code>.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: use the <code>scale()</code> function inside of <code>mutate()</code><br />
+<br />
+</span></span></p>
+<h4 id="part-b-2">Part B</h4>
+<p>Run a regression of standardized <code>Amount</code> on standardized <code>Age</code> and <code>MPHover</code>. Interpret <span class="math inline">\(\hat{\beta_1}\)</span> and <span class="math inline">\(\hat{\beta_2}\)</span> Which variable has a bigger effect on <code>Amount</code>?</p>
+<h2 id="question-9">Question 9</h2>
+<p>Make a regression output table with <code>huxtable</code> of your regressions in Questions 2, 3, 4, 6a, 6b, 6c, 7 and 8.</p>

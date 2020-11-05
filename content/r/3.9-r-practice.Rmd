@@ -1,0 +1,123 @@
+---
+title: "3.9 — Logarithmic Regression — R Practice"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/spaces/83147/project/1868171)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/3.9-r-practice-rmd.Rmd)
+
+<!--Answers:
+
+- [<i class="fas fa-external-link-square-alt"></i> `Answer Key (html)`](/r/3.9-r-practice-answers.html)
+- [<i class="fab fa-markdown"></i> `Answer Key (markdown)`](/r/3.9-r-practice-answers.Rmd)-->
+
+## Question 1
+
+We are returning to the speeding tickets data that we began to explore in [R Practice 3.4 on Multivariate Regression](http://metricsf20.classes.ryansafner.com/practice/3.4-practice) and [R Practice 3.7 on Dummy Variables & Interaction Effects](http://metricsf20.classes.ryansafner.com/practice/3.7-r-practice). Download and read in (`read_csv`) the data below.
+
+- [<i class="fas fa-table"></i> `speeding_tickets.csv`](/data/speeding_tickets.csv)
+
+This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
+
+| Variable | Description |
+|----------|-------------|
+| `Amount` | Amount of fine (in dollars) assessed for speeding |
+| `Age` | Age of speeding driver (in years) |
+| `MPHover` | Miles per hour over the speed limit |
+| `Black` | Dummy $=1$ if driver was black, $=0$ if not |
+| `Hispanic` | Dummy $=1$ if driver was Hispanic, $=0$ if not |
+| `Female` | Dummy $=1$ if driver was female, $=0$ if not |
+| `OutTown` | Dummy $=1$ if driver was not from local town, $=0$ if not |
+| `OutState` | Dummy $=1$ if driver was not from local state, $=0$ if not |
+| `StatePol` | Dummy $=1$ if driver was stopped by State Police, $=0$ if stopped by other (local) |
+
+> We again want to explore who gets fines, and how much.
+
+## Question 2
+
+Run a regression of `Amount` on `Age`. Write out the estimated regression equation, and interpret the coefficient on Age.
+
+## Question 3
+
+Is the effect of `Age` on `Amount` nonlinear? Let's run a quadratic regression. 
+
+### Part A
+Create a new variable for $Age^2$. Then run a quadratic regression.
+
+### Part B
+Try running the same regression using the alternate notation: `lm(Y~X+I(X^2))`. This method allows you to not have to create a new variable first. Do you get the same results?
+
+### Part C
+Write out the estimated regression equation.
+
+### Part D
+Is this model an improvement from the linear model?^[Check $R^2$.]
+
+### Part E
+Write an equation for the marginal effect of `Age` on `Amount`.
+
+### Part F
+Predict the marginal effect on `Amount` of being one year older when you are 18.  How about when you are 40?
+
+### Part G
+Our quadratic function is a $U$-shape. According to the model, at what age is the amount of the fine minimized?
+
+### Part H
+Create a scatterplot between `Amount` and `Age` and add a a layer of a linear regression (as always), and an additional layer of your predicted quadratic regression curve. The regression curve, just like any regression *line*, is a `geom_smooth()` layer on top of the `geom_point()` layer. We will need to customize `geom_smooth()` to `geom_smooth(method="lm", formula="y~x+I(x^2)` (copy/paste this verbatim)! This is the same as a regression line (`method="lm"`), but we are modifying the formula to a polynomial of degree 2 (quadratic): $y=a+bx+cx^2$.
+
+### Part I
+
+It's quite hard to see the quadratic curve with all those data points. Redo another plot and this time, only keep the quadratic `stat_smooth()` layer and leave out the `geom_point()` layer. This will only plot the regression curve.
+
+# Question 4
+
+Should we use a higher-order polynomial equation? Run a cubic regression, and determine whether it is necessary.
+
+# Question 5
+
+Run an $F$-test to check if a nonlinear model is appropriate. Your null hypothesis is $H_0: \beta_2=\beta_3=0$ from the regression in pert (h). The command is `linearHypothesis(reg_name, c("var1", "var2"))` where `reg_name` is the name of the `lm` object you saved your regression in, and `var1` and `var2` (or more) in quotes are the names of the variables you are testing. This function requires (installing and) loading the "`car`" package (additional regression tools).
+
+# Question 6
+
+Now let's take a look at speed (`MPHover` the speed limit).
+
+## Part A
+Creating new variables as necessary, run a **linear-log** model of `Amount` on `MPHover`. Write down the estimated regression equation, and interpret the coefficient on `MPHover` $(\hat{\beta_1})$. Make a scatterplot with the regression line.^[Hint: The simple `geom_smooth(method="lm")` is sufficient, so long as you use the right variables on the plot!]
+
+## Part B
+Creating new variables as necessary, run a **log-linear** model of `Amount` on `MPHover`. Write down the estimated regression equation, and interpret the coefficient on `MPHover` $(\hat{\beta_1})$. Make a scatterplot with the regression line.^[Hint: The simple `geom_smooth(method="lm")` is sufficient, so long as you use the right variables on the plot!]
+
+## Part C
+Creating new variables as necessary, run a **log-log** model of `Amount` on `MPHover`. Write down the estimated regression equation, and interpret the coefficient on `MPHover` $(\hat{\beta_1})$. Make a scatterplot with the regression line.^[Hint: The simple `geom_smooth(method="lm")` is sufficient, so long as you use the right variables on the plot!]
+
+## Part D
+Which of the three log models has the best fit?^[Hint: Check $R^2$]
+
+# Question 7
+Return to the quadratic model. Run a quadratic regression of `Amount` on `Age`, `Age`$^2$, `MPHover`, and all of the race dummy variables. Test the null hypothesis: *"the race of the driver has no effect on Amount"*
+
+# Question 8
+
+Now let's try standardizing variables. Let's try running a regression of `Amount` on `Age` and `MPHover`, but standardizing each variable. 
+
+### Part A
+
+Create new standardized variables for `Amount`, `Age`, and `MPHover`.^[Hint: use the `scale()` function inside of `mutate()`]
+
+### Part B
+
+Run a regression of standardized `Amount` on standardized `Age` and `MPHover`. Interpret $\hat{\beta_1}$ and $\hat{\beta_2}$ Which variable has a bigger effect on `Amount`?
+
+# Question 9
+Make a regression output table with `huxtable` of your regressions in Questions 2, 3, 4, 6a, 6b, 6c, 7 and 8.

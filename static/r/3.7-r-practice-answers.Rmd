@@ -1,0 +1,775 @@
+---
+title: "3.7: Regression with Interaction Effects - R Practice (Answers)"
+author: "Ryan Safner"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    #theme: 
+    toc: true 
+    toc_depth: 3
+    toc_float: true
+    code_folding: show
+    highlight: tango
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Set Up
+To minimize confusion, I suggest creating a new `R Project` (e.g. `regression_practice`) and storing any data in that folder on your computer.
+
+Alternatively, I have made a project in R Studio Cloud that you can use (and not worry about trading room computer limitations), with the data already inside (you will still need to assign it to an object).
+
+- [<i class="fas fa-cloud"></i> View Project on R Studio Cloud](https://rstudio.cloud/project/716555)
+- [<i class="fab fa-markdown"></i> `Download Markdown`](/r/19-r-practice-rmd.Rmd)
+
+## Question 1
+
+We are returning to the speeding tickets data that we began to explore in [R Practice 15 on Multivariate Regression](http://metricsf19.classes.ryansafner.com/practice/15-practice). Download and read in (`read_csv`) the data below. 
+
+- [<i class="fas fa-table"></i> `speeding_tickets.csv`](/data/speeding_tickets.csv)
+
+This data again comes from a paper by Makowsky and Strattman (2009) that we will examine later. Even though state law sets a formula for tickets based on how fast a person was driving, police officers in practice often deviate from that formula. This dataset includes information on all traffic stops. An amount for the fine is given only for observations in which the police officer decided to assess a fine. There are a number of variables in this dataset, but the one's we'll look at are:
+
+| Variable | Description |
+|----------|-------------|
+| `Amount` | Amount of fine (in dollars) assessed for speeding |
+| `Age` | Age of speeding driver (in years) |
+| `MPHover` | Miles per hour over the speed limit |
+| `Black` | Dummy $=1$ if driver was black, $=0$ if not |
+| `Hispanic` | Dummy $=1$ if driver was Hispanic, $=0$ if not |
+| `Female` | Dummy $=1$ if driver was female, $=0$ if not |
+| `OutTown` | Dummy $=1$ if driver was not from local town, $=0$ if not |
+| `OutState` | Dummy $=1$ if driver was not from local state, $=0$ if not |
+| `StatePol` | Dummy $=1$ if driver was stopped by State Police, $=0$ if stopped by other (local) |
+
+> We again want to explore who gets fines, and how much.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+library(tidyverse)
+speed<-read_csv("../Data/speeding_tickets.csv")
+```
+
+---
+
+## Question 2
+
+We will have to do a little bit of cleaning to get the data in a more usable form.
+
+### Part A
+
+Inspect the data with `str()` or `head()` or `glimpse()` to see what it looks like.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+str(speed)
+
+head(speed)
+
+glimpse(speed)
+```
+
+---
+
+### Part B
+
+What `class` of variable are `Black`, `Hispanic`, `Female`, `OutTown`, and `OutState`?^[Hint use the `class(df$variable)` command to ask what class something is, where `df` is your dataframe, and `variable` is the name of a variable.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+class(speed$Black)
+class(speed$Hispanic)
+class(speed$Female)
+class(speed$OutTown)
+class(speed$OutState)
+```
+
+---
+
+### Part C
+
+Notice that when importing the data from the `.csv` file, `R` interpretted these variables as `integer`, but we want them to be `factor` variables, to ensure `R` recognizes that there are two groups (categories), 0 and 1. Convert each of these variables into factors by reassigning it according to the format:
+
+```{r, echo = T, eval = F}
+df<-df %>%
+  mutate(my_var=as.factor(my_var),
+         my_var2=as.factor(my_var2))
+```
+
+where
+- `df` is the name of your dataframe
+- `my_var` and `my_var2` are example variables^[As a bonus, you can try doing this with just one conditional command: `mutate_at(c("Black", "Hispanic", "Female", "OutTown", "OutState"),factor)`. See our [Data Wrangling slides](https://metricsf19.classes.ryansafner.com/slides/05-slides#95) for refreshers of all the fancy `mutate()` possibilities!]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+speed<-speed %>%
+  mutate_at(c("Black", "Hispanic", "Female", "OutTown", "OutState"),factor)
+```
+
+---
+
+### Part D
+
+Confirm they are each now factors by checking their class again.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+class(speed$Black)
+class(speed$Hispanic)
+class(speed$Female)
+class(speed$OutTown)
+class(speed$OutState)
+```
+
+---
+
+### Part E
+
+Get a `summary()` of `Amount`. Note that there are a lot of `NA`'s (these are people that were stopped but did not recieve a fine)! `filter()` only those observations for which `Amount` is a positive number, and save this in your dataframe (assign and overwrite it, or make a new dataframe). Then double check that this worked by getting a `summary()` of `Amount` again.
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+speed %>%
+  select(Amount) %>%
+  summary()
+
+# alternatively, using base R:
+summary(speed$Amount)
+
+# keep only positive Amount
+speed<-speed %>%
+  filter(Amount>0)
+
+# check new data
+speed %>%
+  select(Amount) %>%
+  summary()
+```
+
+---
+
+## Question 3
+
+Create a scatterplot between `Amount` (as Y) and Female (as X).^[Hint: Use `geom_jitter()` instead of `geom_point()` to plot the points, and play around with `width` settings inside `geom_jitter()`]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+ggplot(data = speed)+
+  aes(x = Female,
+      y = Amount,
+      color = Female)+
+  geom_jitter(width=0.4)
+
+# note if you had not made Female a factor, and kept it numeric,
+# it might alter the plot.
+# you can make Female a factor just for plotting by setting
+# aes(x = as.factor(Female))
+
+```
+
+---
+
+## Question 4
+
+Now let's start looking at the distribution conditionally to find the different group means. 
+
+### Part A
+Find the mean and standard deviation^[Hint: use the `summarize()` command, once you have properly `filter()`ed the data.] of `Amount` for *male* drivers and again for *female* drivers.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# Summarize for Men
+
+# save as male_summary
+# we'll use this in next part
+
+male_summary<-speed %>% 
+  filter(Female==0) %>%
+  summarize(mean = mean(Amount),
+            sd = sd(Amount))
+
+# look at it
+male_summary
+
+
+# Summarize for Women
+
+# save as female_summary
+# we'll use this in next part
+
+female_summary<-speed %>%
+  filter(Female==1) %>%
+  summarize(mean = mean(Amount),
+            sd = sd(Amount))
+
+# look at it
+female_summary
+```
+
+---
+
+### Part B
+
+What is the difference between the average Amount for Males and Females?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# we can do this with R using our summary dataframes we made last part
+
+male_avg<-male_summary %>%
+  pull(mean) # pull extracts the value
+
+male_avg #check
+
+female_avg<-female_summary %>%
+  pull(mean) 
+
+female_avg #check
+
+# difference
+male_avg-female_avg
+```
+
+Males get $7.94 higher fines on average than Females.
+
+---
+
+### Part C
+
+We did not go over how to do this in class, but you can run a **t-test for the difference in group means** to see if the difference is statistically significant. The syntax is similar for a regression:
+
+`t.test(y~d, data=df)` 
+
+where: 
+  - `y` is the variable we are testing
+  - `d` is the dummy variable
+
+Is there a statistically significant difference between Amount for male and female drivers?^[Hint: this is like any hypothesis test. A $t$-value needs to be large enough to be greater than a critical value of $t$. Check the $p$-value and see if it is less than our standard of $\alpha=0.05.$]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+t.test(Amount~Female, data = speed)
+```
+
+This gives us the confidence interval for the difference in average amount between men and women: (6.68, 9.20) and runs the following hypothesis test:
+
+- $d=\overline{Amount}_{men}-\overline{Amount}_{women}$
+- $H_0: d=0$
+- $H_a: d \neq 0$
+
+Since the test-statistic $t$ is quite high, and the $p$-value is very small (basically 0), we have sufficient evidence to reject the null hypothesis in favor of the alternative hypothesis: there appears to be a statistically significant difference between average fines for men and women.
+
+---
+
+## Question 5
+
+Now run the following regression to ensure we get the same result
+
+$$\text{Amount}_i=\hat{\beta_0}+\hat{\beta_1}Female_i$$
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+female_reg<-lm(Amount~Female, data = speed)
+summary(female_reg)
+
+# can also do broom's tidy()
+library(broom)
+tidy(female_reg)
+```
+
+---
+
+### Part A
+Write out the estimated regression equation.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+$$\widehat{\text{Amount}_i}=124.67-7.94\text{Female}_i$$
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part B
+Use the regression coefficients to find
+
+- (i) the average `Amount` for men
+- (ii) the average `Amount` for women
+- (iii) the difference in average `Amount` between men and women
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+- Males get fined \$124.67 $(\hat{\beta_0})$
+- Females get fined $124.67-7.94=116.73$  $(\hat{\beta_0}+\hat{\beta_1})$
+- The difference is $-\$7.94$ $(\hat{\beta_3})$
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 6
+Let's recode the sex variable. 
+
+### Part A
+Make a new variable called `Male` and save it in your dataframe.^[Hint: `mutate()` and define `Male` equal to `factor(ifelse())`. This makes the variable a `factor` (so we don't have to later), and the `ifelse()` function has three arguments: 1. `test =` the condition to test, 2. `yes =` what to define "Male" as when the condition is `TRUE`, and 3. `no = ` what to define "Male" as when the condition is `FALSE`.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+speed<-speed %>%
+  mutate(Male = factor(ifelse(test = Female==0,
+                              yes = 1, # if it is (Women), code Male as 1
+                              no = 0))) # if it isn't (Men), code Male as 0
+
+# check to make sure it worked
+speed %>%
+  select(Male, Female) # just look at these two variables to avoid clutter
+```
+
+---
+
+### Part B
+Run the same regression as in question 5, but use `Male` instead of `Female`.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+male_reg<-lm(Amount~Male, data = speed)
+summary(male_reg)
+
+tidy(male_reg)
+```
+
+---
+
+### Part C
+Write out the estimated regression equation.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+$$\widehat{Amount}_i = 116.73+7.94Male_i$$
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part D
+
+Use the regression coefficients to find
+
+- (i) the average `Amount` for men
+- (ii) the average `Amount` for women
+- (iii) the difference in average `Amount` between men and women
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+- Females get fined \$116.73 $(\hat{\beta_0})$
+- Males get fined $116.73+7.94=\$124.67$ $(\hat{\beta_0}+\hat{\beta_1})$
+- The difference is $7.94$ $(\hat{\beta_3})$
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 7
+
+Run a regression of `Amount` on `Male` and `Female`. What happens, and why?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+dummy_variable_trap<-lm(Amount~Male+Female, data = speed)
+summary(dummy_variable_trap)
+```
+
+`Male` and `Female` are perfectly multicollinear, as for every person $i$, `Male`$_i$+`Female`$_i$=1. We can confirm this by seeing the correlation between `Male` and `Female` is exactly $-1$. To run a regression, we must exclude one of the dummies, and as we've seen, it makes no difference which one we exclude.
+
+```{r}
+speed %>%
+  select(Male, Female) %>%
+  mutate_if(is.factor, as.numeric) %>% # make both factors into numeric
+  cor() # correlation requires numeric data, can't have factors
+```
+
+---
+
+## Question 8
+
+`Age` probably has a lot to do with differences in fines, perhaps also age affects fines differences between males and females.
+
+### Part A
+
+Run a regression of `Amount` on `Age` and `Female.` How does the coefficient on `Female` change?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+age_reg<-lm(Amount~Age+Female, data = speed)
+summary(age_reg)
+
+tidy(age_reg)
+```
+
+The coefficient on `Female` goes from $-7.94$ (question 5) to $-7.85$ when controlling for `Age`.
+
+---
+
+### Part B
+Now let's see if the difference in fine between men and women are different depending on the driver's age. Run the regression again, but add an **interaction term** between `Female` and `Age` interaction term.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# note you can also do Age*Female for the interaction term
+
+interact_reg<-lm(Amount~Age+Female+Age:Female, data = speed)
+summary(interact_reg)
+
+tidy(interact_reg)
+```
+
+---
+
+### Part C
+Write out your estimated regression equation.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+$$\widehat{\text{Amount}_i}=135.55-12.02\, \text{Female}_i-0.33\, \text{Age}_i+0.12 \, (\text{Female}_i \times \text{Age}_i)$$
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part D
+Interpret the interaction effect. Is it statistically significant?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+The coefficient on the interaction term, $\hat{\beta_3}$ is 0.12. For every additional year of age, females can expect their fine to increase by $0.12 *more* than males gain for every additional year of age.
+
+$\hat{beta_3}$ has a standard error of 0.52, which means it has a $t$-statistic of 2.355 and $p$-value of 0.0185, so it is statistically significant (at the 95% level). 
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part E
+Plugging in 0 or 1 as necessary, rewrite (on your paper) this regression as *two separate* equations, one for Males and one for Females.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+For Males $(Female=0)$: 
+
+$$\begin{align*}
+		\widehat{Amount}&=135.55-0.33Age-12.02Female+0.12Female \times Age\\
+		&=135.55-0.33Age-12.02(0)+0.12(0)Age\\
+		&=135.55-0.33Age\\
+\end{align*}$$
+
+For Females $(Female=1)$: 
+
+$$\begin{align*}
+		\widehat{Amount}&=135.55-0.33Age-12.02Female+0.12Female \times Age\\
+		&=135.55-0.33Age-12.02(1)+0.12(1)Age\\
+		&=(135.55-12.02)+(-0.33+0.12)Age\\
+		&=123.53-0.21Age\\
+\end{align*}$$
+
+```{r}
+# Another way to do this is to run conditional regressions:
+
+# subset data for only Males
+speed_males<-speed %>%
+  filter(Female==0)
+
+# subset data for only Feales
+speed_females<-speed %>%
+  filter(Female==1)
+
+# run a regression for each subset
+male_age_reg<-lm(Amount~Age, data = speed_males)
+
+tidy(male_age_reg)
+
+female_age_reg<-lm(Amount~Age, data = speed_females)
+
+tidy(female_age_reg)
+
+library(huxtable)
+huxreg("Males Only"=male_age_reg, "Females Only"=female_age_reg)
+```
+
+---
+
+### Part F
+
+Let's try to visualize this. Make a scatterplot of `Age` (X) and `Amount` (Y) and include a regression line.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+p1<-ggplot(data = speed, aes(x = Age, y = Amount))+
+  geom_point()+
+  geom_smooth(method="lm")
+p1
+```
+
+---
+
+### Part G
+
+Try adding to your base layer `aes()`, set `color=Female`. This will produce two lines and color the points by `Female`.^[Sometimes we may also need to remind `R` that `Female` is a factor with `as.factor(Female)`. We don't need to in *this* case because we already reset `Female` as a faction in question 1.]
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+p2<-ggplot(data = speed, aes(x = Age, y = Amount, color=Female))+
+  geom_point()+
+  geom_smooth(method="lm")
+p2
+```
+
+---
+
+### Part H
+
+Add a facet layer to make two different scatterplots with an additional layer `+facet_wrap(~Female)`
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+p2+facet_wrap(~Female)
+```
+
+---
+
+## Question 9
+
+Now let's look at the possible interaction between Sex (`Male` or `Female`) and whether a driver is from In-State or Out-of-State (`OutState`).
+
+### Part A
+
+Use `R` to examine the data and find the mean for (i) Males In-State, (ii) Males Out-of-State, (iii) Females In-State, and (iv) Females Out-of-State.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# Summarize for Men in State
+
+speed %>% 
+  filter(Female==0,
+         OutState==0) %>%
+  summarize(mean = mean(Amount))
+
+# Summarize for Men Out of State
+
+speed %>% 
+  filter(Female==0,
+         OutState==1) %>%
+  summarize(mean = mean(Amount))
+
+# Summarize for Women in State
+
+speed %>% 
+  filter(Female==1,
+         OutState==0) %>%
+  summarize(mean = mean(Amount))
+
+# Summarize for Women Out of State
+
+speed %>% 
+  filter(Female==1,
+         OutState==1) %>%
+  summarize(mean = mean(Amount))
+
+```
+
+---
+
+### Part B
+
+Now run a regression of the following model:
+
+$$\text{Amount}_i=\hat{\beta_0}+\hat{\beta_1}Female_i+\hat{\beta_2}OutState_i+\hat{\beta_3}Female_i*OutState_i$$
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+sex_state_reg<-lm(Amount~Female+Female:OutState, data=speed)
+summary(sex_state_reg)
+
+tidy(sex_state_reg)
+```
+
+----
+
+### Part C
+
+Write out the estimated regression equation.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+$$\widehat{Amount}_i=123.68-8.88 \, Female_i+4.29 \, OutState_i+5.17 \, (Female_i\times OutState_i)$$
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part D
+What does each coefficient mean?
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+- $\hat{\beta_0}= \$123.68$; mean for in-state males
+- $\hat{\beta_1}=-\$8.88$: difference between in-state males and females
+- $\hat{\beta_2}=\$4.29$: difference between males in-state vs. out-of-state
+- $\hat{\beta_3}=\$5.17$: difference between effect of 	being in-state vs. out-of-state between males vs. females (or, equivalently, difference between effect of being male vs. female between in-state vs. out-of-state)
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+### Part E
+Using the regression equation, what are the means for
+
+- (i) Males In-State
+- (ii) Males Out-of-State
+- (iii) Females In-State
+- (iv) Females Out-of-State? 
+
+Compare to your answers in part A. 
+
+---
+
+- Males In-State: $\hat{\beta_0}=\$123.68$
+- Males Out-of-State: $\hat{\beta_0}+\hat{\beta_2}=123.68+4.29=\$127.97$
+- Females In-State: $\hat{\beta_0}+\hat{\beta_1}=123.68-8.88=\$114.80$
+- Females Out-of-State: $\hat{\beta_0}+\hat{\beta_1}+\hat{\beta_2}+\hat{\beta_3}=123.68-8.88+4.29+5.17=\$124.26$
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+# PUT CODE HERE
+```
+
+---
+
+## Question 10
+
+Collect your regressions from questions 5, 6b, 8a, 8b, and 9b and output them in a regression table with `huxtable()`.
+
+---
+
+<!--ANSWER BELOW HERE-->
+
+```{r}
+library(huxtable)
+huxreg(female_reg, male_reg, age_reg, interact_reg, sex_state_reg) # the default
+
+# let's customize a bit
+huxreg(female_reg,
+       male_reg,
+       age_reg,
+       interact_reg,
+       sex_state_reg,
+       coefs = c("Constant" = "(Intercept)",
+                 "Female" = "Female1",
+                 "Male" = "Male1",
+                 "Age" = "Age",
+                 "Age*Female" = "Age:Female1",
+                 "Out of State" = "Female0:OutState1",
+                 "Female*Out of State" = "Female1:OutState1"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 2)
+
+```
