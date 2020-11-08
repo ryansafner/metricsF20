@@ -205,7 +205,7 @@ Answer the following questions using `R`. When necessary, please write answers i
 
 ## Question 9
 
-- [<i class="fas fa-table"></i> `LeadMortality.csv`](http://metricsf19.classes.ryansafner.com/data/LeadMortality.csv)
+- [<i class="fas fa-table"></i> `LeadMortality.csv`](http://metricsf20.classes.ryansafner.com/data/LeadMortality.csv)
 
 Lead is toxic, particularly for young children, and for this reason government regulations severely restrict the amount of lead in our environment. In the early part of the 20^th^ century, the underground water pipes in many U.S. cities contained lead, and lead from these pipes leached into drinking water. This exercise will have you investigate the effect of these lead pipes on infant mortality. This dataset contains data on:
 
@@ -260,7 +260,7 @@ Use `huxtable` to make a nice output table of all of your regressions from parts
 
 ## Question 10
 
-- [<i class="fas fa-table"></i> `freedom.csv`](http://metricsf19.classes.ryansafner.com/data/freedom.csv)
+- [<i class="fas fa-table"></i> `freedom.csv`](http://metricsf20.classes.ryansafner.com/data/freedom.csv)
 
 Let's look at economic freedom and GDP per capita using some data I sourced from [Gapminder](https://gapminder.org/tools)^[GDP per capita (2018)], [Freedom House](https://freedomhouse.org/content/freedom-world-data-and-resources)^[Political freedom score (2018)] and [Fraser Institute Data](https://www.fraserinstitute.org/economic-freedom/dataset?geozone=world&year=2016&page=dataset)^[Economic Freedom score (2016)] and cleaned up for you, with the following variables:
 
