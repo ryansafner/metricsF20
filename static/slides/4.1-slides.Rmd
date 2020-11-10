@@ -155,12 +155,13 @@ phones %>%
 # Panel Data II
 
 .pull-left[
+.quitesmall[
 ```{r}
 phones %>%
   arrange(state) %>%
   select(state, year, deaths, cell_plans)
 ```
-
+]
 ]
 
 .pull-right[
@@ -175,7 +176,7 @@ phones %>%
 # Panel Data II
 
 .pull-left[
-.smallest[
+.quitesmall[
 ```{r}
 phones %>%
   arrange(state) %>%
@@ -207,7 +208,7 @@ $$
 # Panel Data: Our Motivating Example
 
 .pull-left[
-.smallest[
+.quitesmall[
 ```{r}
 phones %>%
   arrange(state) %>%
@@ -242,7 +243,7 @@ glimpse(phones)
 # The Data II
 
 .pull-left[
-.smallest[
+.quitesmall[
 ```{r, echo=T}
 phones %>%
   count(state)
@@ -253,7 +254,7 @@ phones %>%
 --
 
 .pull-right[
-.smallest[
+.quitesmall[
 ```{r, echo=T}
 phones %>%
   count(year)
@@ -266,7 +267,7 @@ phones %>%
 # The Data III
 
 .pull-left[
-.smallest[
+.quitesmall[
 ```{r, echo=T}
 phones %>%
   distinct(state)
@@ -277,7 +278,7 @@ phones %>%
 --
 
 .pull-right[
-.smallest[
+.quitesmall[
 ```{r, echo=T}
 phones %>%
   distinct(year)
@@ -289,7 +290,7 @@ phones %>%
 
 # The Data IV
 
-.smallest[
+.quitesmall[
 ```{r, echo=T}
 phones %>%
   summarize(States = n_distinct(state),
@@ -955,7 +956,7 @@ ggplot(data = means_state)+
 
 # Visualizing "Within Estimates" for the 5 States
 
-```{r, cache = F, fig.align="center", fig.width=14}
+```{r, cache = F, fig.align="center", fig.width=15}
 phones2<-phones %>%
 filter(state %in% c("District of Columbia",
                       "Maryland", "Texas",
@@ -983,7 +984,7 @@ dffull <- rbind(
   phones2 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=NA,time=after_cor))
 ```
 
-```{r, cache = F, fig.align="center", fig.width=14}
+```{r, cache = F, fig.align="center", fig.width=15}
 p <- ggplot(dffull,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_point()+
   geom_vline(aes(xintercept=mean_phones,color=as.factor(state)))+
   geom_hline(aes(yintercept=mean_deaths,color=as.factor(state)))+
@@ -991,7 +992,7 @@ p <- ggplot(dffull,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_point
        y = "Deaths Per Billion Miles Driven",
        title = 'The Relationship between Cell Plans and Deaths, with State Fixed Effects \n{next_state}',
        caption = "Animation inspired by Nick Huntington-Klein’s Causal Animations")+
-  theme_bw(base_family = "Fira Sans Condensed", base_size = 14)+
+  theme_bw(base_family = "Fira Sans Condensed", base_size = 12)+
   theme(legend.position = "none")+
   transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
   ease_aes('sine-in-out')+
@@ -1004,7 +1005,7 @@ animate(p,nframes=200)
 
 # Visualizing "Within Estimates" for All 51 States
 
-```{r, cache = F, fig.align="center", fig.width=14}
+```{r, cache = F, fig.align="center", fig.width=15}
 phones3<-phones %>%
   group_by(state) %>%
   mutate(mean_phones = mean(cell_plans),
@@ -1029,7 +1030,7 @@ dffull2 <- rbind(
   phones3 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=NA,time=after_cor))
 ```
 
-```{r, cache = F, fig.align="center", fig.width=14}
+```{r, cache = F, fig.align="center", fig.width=15}
 p2 <- ggplot(dffull2,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_point()+
   geom_vline(aes(xintercept=mean_phones,color=as.factor(state)))+
   geom_hline(aes(yintercept=mean_deaths,color=as.factor(state)))+
@@ -1037,7 +1038,7 @@ p2 <- ggplot(dffull2,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_poi
        y = "Deaths Per Billion Miles Driven",
        title = 'The Relationship between Cell Plans and Deaths, with State Fixed Effects \n{next_state}',
        caption = "Animation inspired by Nick Huntington-Klein’s Causal Animations")+
-  theme_bw(base_family = "Fira Sans Condensed", base_size = 14)+
+  theme_bw(base_family = "Fira Sans Condensed", base_size = 12)+
   theme(legend.position = "none")+
   transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
   ease_aes('sine-in-out')+

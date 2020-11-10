@@ -29,7 +29,7 @@ Each observation is an individual $i$ at time $t$ (pay attention to the subscrip
 - $\alpha_i$ is the **group fixed-effect**. It absorbs all unobservable factors that **vary by group** but **don’t change over time**.
 - $\tau_t$ is the **time fixed-effect**. It absorbs all unobservable factors that **do not vary by group** but **change over time**.
 - Since the fixed effects *do not* pick up factors that **_both_ vary by group _and_ change over time**, we need to include other variables that might cause $X_{1it}$ to be endogenous: hence, $X_{2it}$
-- $\epsilon_{it}$ is the remaining (random) error term (after we have pulled $\alpha_i$ and $\tau_t$ out of $u_{it}$. 
+- $\nu_{it}$ is the remaining (random) error term (after we have pulled $\alpha_i$ and $\tau_t$ out of $u_{it}$. 
 
 # Slides
 
