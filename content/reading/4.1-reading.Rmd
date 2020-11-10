@@ -1,5 +1,5 @@
 ---
-title: "4.1 Panel Data and Fixed Effects - Readings"
+title: "4.1 — Panel Data and Fixed Effects — Readings"
 citeproc: false
 bibliography: ../../static/bib/references.bib
 csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
@@ -7,6 +7,6 @@ csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
 
 # Strongly Recommended
 
-- <i class="fas fa-book"></i> [Ch. 8,1-8.4] in @Bailey
+- <i class="fas fa-book"></i> [Ch. 8.1-8.4] in @Bailey
 
 

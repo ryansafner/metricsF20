@@ -1,0 +1,57 @@
+---
+title: "4.1 — Panel Data and Fixed Effects - Class Notes"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- BLOGDOWN-HEAD -->
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<!-- /BLOGDOWN-HEAD -->
+
+<h2>Contents</h2>
+<div id="TOC">
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#slides">Slides</a></li>
+<li><a href="#new-packages-mentioned">New Packages Mentioned</a></li>
+<li><a href="#assignments">Assignments</a></li>
+<li><a href="#live-class-session-on-zoom">Live Class Session on Zoom</a></li>
+</ul>
+</div>
+
+<p><em>Tuesday, November 10, 2020</em></p>
+<h2 id="overview">Overview</h2>
+<p>Today, we begin our brief look at panel data, where we track multiple individuals over time. Panel data contains its own unique challenges, because it contains a time series component for every individual, giving potential sources of bias.</p>
+<p>We now need to understand the third assumption about <span class="math inline">\(u_i\)</span>: no autocorrelation. The errors of our observations are likely going to be correlated within each individual and within each time period.</p>
+<p>We can correct for these with a <strong>fixed effects</strong> model that isolates and absorbs some of that bias. In general, for a <strong>two-way</strong> fixed effects model:</p>
+<p><span class="math display">\[\widehat{\text{Y}}_{it} = \beta_0+\beta_1 \text{X}_{1it} + \beta_2 \text{X}_{2it}+\alpha_{i} + \theta_{t} + \nu_{it}\]</span></p>
+<p>Each observation is an individual <span class="math inline">\(i\)</span> at time <span class="math inline">\(t\)</span> (pay attention to the subscripts).</p>
+<ul>
+<li>Let <span class="math inline">\(Y_{it}\)</span> be our dependent variable, and <span class="math inline">\(X_{1it}\)</span> be the independent variable of interest. We would like to estimate the causal effect of <span class="math inline">\(X_{1it} \rightarrow Y_{it}\)</span>.</li>
+<li><span class="math inline">\(\alpha_i\)</span> is the <strong>group fixed-effect</strong>. It absorbs all unobservable factors that <strong>vary by group</strong> but <strong>don’t change over time</strong>.</li>
+<li><span class="math inline">\(\tau_t\)</span> is the <strong>time fixed-effect</strong>. It absorbs all unobservable factors that <strong>do not vary by group</strong> but <strong>change over time</strong>.</li>
+<li>Since the fixed effects <em>do not</em> pick up factors that <strong><em>both</em> vary by group <em>and</em> change over time</strong>, we need to include other variables that might cause <span class="math inline">\(X_{1it}\)</span> to be endogenous: hence, <span class="math inline">\(X_{2it}\)</span></li>
+<li><span class="math inline">\(\epsilon_{it}\)</span> is the remaining (random) error term (after we have pulled <span class="math inline">\(\alpha_i\)</span> and <span class="math inline">\(\tau_t\)</span> out of <span class="math inline">\(u_{it}\)</span>.</li>
+</ul>
+<h2 id="slides">Slides</h2>
+<ul>
+<li><a href="/slides/4.1-slides.html"><i class="fas fa-chalkboard-teacher"></i> View Lecture Slides</a></li>
+<li><a href="/slides/4.1-slides.pdf"><i class="fas fa-file-pdf"></i> Download as PDF</a></li>
+</ul>
+<h2 id="new-packages-mentioned">New Packages Mentioned</h2>
+<ul>
+<li><a href="https://cran.r-project.org/web/packages/plm/vignettes/plmPackage.html"><code>plm</code></a> for working with panel data and fixed effects</li>
+</ul>
+<p>Note there are several other popular packages (that I have not extensively worked with), such as <a href="https://github.com/lrberge/fixest"><code>fixest</code></a>, <a href="https://cran.r-project.org/web/packages/lfe/index.html"><code>lfe</code></a>.</p>
+<h2 id="assignments">Assignments</h2>
+<p><a href="/assignment/05-problem-set">Homework 5</a> answers are posted on that page.</p>
+<h2 id="live-class-session-on-zoom">Live Class Session on Zoom</h2>
+<p>The live class <i class="fas fa-video"></i> Zoom meeting link can be found on Blackboard (see <code>LIVE ZOOM MEETINGS</code> on the left navigation menu), starting at 11:30 AM.</p>
+<p>If you are unable to join today’s live session, or if you want to review, you can find the recording stored on Blackboard via Panopto (see <code>Class Recordings</code> on the left navigation menu).</p>

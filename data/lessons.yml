@@ -147,8 +147,12 @@ lessons:
     header: True
 
   - title: "4.1 Panel Data and Fixed Effects Models"
-
+    class: "4.1-class"
+    slides: "4.1-slides"
+    reading: "4.1-reading"
+    
   - title: "4.2 Difference-in-Difference Models"
+    reading: "4.2-reading"
 
   - title: "4.3 Instrumental Variables Models"
   
