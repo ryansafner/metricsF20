@@ -1,0 +1,1363 @@
+---
+title: "4.1 — Panel Data and Fixed Effects"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library(tidyverse)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+library(gganimate)
+
+```
+
+```{r}
+phones<-read_csv("../Data/cellphones.csv")
+phones<-phones %>%
+  select(-state_numeric) %>%
+  mutate(year_num = year) %>%
+  mutate_at(c("year", "state", "cell_ban", "text_ban"), as.factor) %>%
+  rename(deaths = DeathsPerBillionMiles,
+         cell_plans = cell_per10thous_pop)
+```
+
+# Types of Data I
+
+.pull-left[
+
+.smallest[
+- .red[**Cross-sectional data**]: compare different individual $i$’s at same time
+
+```{r}
+phones %>%
+  filter(year=="2012") %>%
+  select(state, year, deaths, cell_plans) %>%
+  head()
+```
+]
+]
+
+--
+
+.pull-right[
+
+.smallest[
+- .blue[**Time-series data**]: track same individual over different times $t$
+
+```{r}
+phones %>%
+  filter(state=="Maryland") %>%
+  select(state, year, deaths, cell_plans) %>%
+  head()
+```
+]
+]
+
+---
+
+# Types of Data I
+
+.pull-left[
+
+.smallest[
+- .red[**Cross-sectional data**]: compare different individual $i$’s at same time
+]
+
+```{r, fig.height=4, fig.retina=3}
+phones %>%
+  filter(year=="2012") %>%
+  ggplot(data = .)+
+  aes(x = cell_plans,
+      y = deaths)+
+  geom_point(color = "red")+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)
+```
+]
+
+.pull-right[
+
+.smallest[
+- .blue[**Time-series data**]: track same individual over different times $t$
+]
+
+```{r, fig.height=4, fig.retina=3}
+phones %>%
+  filter(state=="Maryland") %>%
+  ggplot(data = .)+
+  aes(x = year_num,
+      y = deaths)+
+  geom_point(color="blue")+
+  geom_path(color="blue", size = 1)+
+  labs(x = "Year",
+       y = "Deaths Per Billion Miles Driven")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)
+```
+]
+
+--
+
+- .purple[**Panel data**]: combines these dimensions: individual $i$ **at** time $t$
+
+---
+
+# Panel Data I
+
+```{r, fig.retina=3, fig.width=14, fig.align="center"}
+phones %>%
+  filter(state!="District of Columbia") %>%
+  #group_by(state) %>%
+  ggplot(data = .)+
+  aes(x = cell_plans,
+      y = deaths,
+      color = state)+
+  geom_point()+
+  scale_color_viridis_d()+
+  geom_path(size = 1)+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "none")
+```
+
+
+---
+
+# Panel Data II
+
+.pull-left[
+```{r}
+phones %>%
+  arrange(state) %>%
+  select(state, year, deaths, cell_plans)
+```
+
+]
+
+.pull-right[
+
+- .purple[**Panel**] or .purple[**Longitudinal**] data contains 
+  - .blue[repeated observations] $(t)$
+  - on .red[multiple individuals] $(i)$
+]
+
+---
+
+# Panel Data II
+
+.pull-left[
+```{r}
+phones %>%
+  arrange(state) %>%
+  select(state, year, deaths, cell_plans)
+```
+
+]
+
+.pull-right[
+
+- .purple[**Panel**] or .purple[**Longitudinal**] data contains 
+  - .blue[repeated observations] $(t)$
+  - on .red[multiple individuals] $(i)$
+
+- Thus, our regression equation looks like:
+
+$$
+\begin{align}
+  \hat{Y_{\color{red}{i}\color{blue}{t}}} = \beta_0 + \beta_1 X_{\color{red}{i}\color{blue}{t}} + u_{\color{red}{i}\color{blue}{t}}
+\end{align}
+$$
+
+> for .red[individual `\\(i\\)`] in .blue[time `\\(t\\)`].
+
+]
+
+---
+
+# Panel Data: Our Motivating Example
+
+.pull-left[
+```{r}
+phones %>%
+  arrange(state) %>%
+  select(state, year, deaths, cell_plans)
+```
+
+]
+
+.pull-right[
+
+.content-box-green[
+.green[**Example**]: Do cell phones cause more traffic fatalities?
+
+- No measure of cell phones *used* while driving
+  - `cell_plans` as a **proxy** for cell phone usage
+
+- State-level data over 6 years
+]
+]
+
+---
+
+# The Data I
+
+```{r, echo=T}
+glimpse(phones)
+```
+
+
+---
+
+# The Data II
+
+.pull-left[
+
+```{r, echo=T}
+phones %>%
+  count(state)
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=T}
+phones %>%
+  count(year)
+```
+
+]
+
+---
+
+# The Data III
+
+.pull-left[
+
+```{r, echo=T}
+phones %>%
+  distinct(state)
+```
+]
+
+--
+
+.pull-right[
+```{r, echo=T}
+phones %>%
+  distinct(year)
+```
+
+]
+
+---
+
+# The Data IV
+
+```{r, echo=T}
+phones %>%
+  summarize(States = n_distinct(state),
+            Years = n_distinct(year))
+```
+
+---
+
+# The Data: With plm
+
+.pull-left[
+```{r, echo=T}
+# install.packages("plm")
+library(plm)
+
+pdim(phones, index=c("state","year"))
+```
+
+]
+
+.pull-right[
+
+- **`plm` package** for panel data in R
+
+- `pdim()` checks dimensions of panel dataset
+  - `index=` vector of "group" & "year" variables
+
+- Returns with a summary of:
+  - `n` groups
+  - `T` periods
+  - `N` total observaitons
+]
+
+---
+
+# Pooled Regression I
+
+- What if we just ran a standard regression:
+
+$$\hat{Y_{it}}=\beta_0+\beta_1X_{it}+u_{it}$$
+
+--
+  - $N$ number of $i$ groups (e.g. U.S. States)
+  - $T$ number of $t$ periods (e.g. years)
+
+- This is a .hi[pooled regression model]: treats all observations as independent
+
+---
+
+# Pooled Regression II
+
+```{r, echo=T}
+pooled<-lm(deaths~cell_plans, data=phones)
+summary(pooled)
+```
+
+---
+
+# Pooled Regression III
+
+.pull-left[
+```{r pooled-plot,echo=T, eval=F}
+ggplot(data = phones)+
+  aes(x = cell_plans,
+      y = deaths)+
+  geom_point()+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)
+```
+
+]
+
+.pull-right[
+```{r, ref.label="pooled-plot", fig.retina=3}
+
+```
+]
+
+---
+
+# Pooled Regression III
+
+.pull-left[
+```{r pooled-plot2,echo=T, eval=F}
+ggplot(data = phones)+
+  aes(x = cell_plans,
+      y = deaths)+
+  geom_point()+
+  geom_smooth(method = "lm", color = "red")+ #<<
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven")+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)
+```
+
+]
+
+.pull-right[
+```{r, ref.label="pooled-plot2", fig.retina=3}
+
+```
+]
+
+
+---
+
+# Recap: Assumptions about Errors
+
+.pull-left[
+
+- Recall the .hi-purple[4 critical **assumptions** about `\\(u\\)`]:
+
+1. The expected value of the residuals is 0
+$$E[u]=0$$
+
+2. The variance of the residuals over $X$ is constant, written:
+$$var(u|X)=\sigma^2_{u}$$
+
+3. Errors are not correlated across observations: 
+$$cor(u_i,u_j)=0 \quad \forall i \neq j$$
+
+4. No correlation between $X$ and the error term: 
+$$cor(X, u)=0 \text{ or } E[u|X]=0$$
+
+]
+
+.pull-right[
+
+.center[
+![](https://www.dropbox.com/s/95rh9ow982y5htb/error.png?raw=1)
+]
+]
+
+---
+
+# Biases of Pooled Regression
+
+$$\hat{Y_{it}}=\beta_0+\beta_1X_{it}+\epsilon_{it}$$
+
+- Assumption 3: $cor(u_i,u_j)=0 \quad \forall i \neq j$
+
+- Pooled regression model is **biased** because it ignores:
+  - Multiple observations from same group $i$ 
+  - Multiple observations from same time $t$
+
+- Thus, errors are .hi[serially] or .hi[auto-correlated]; $cor(u_i, u_j) \neq 0$ within same $i$ and within same $t$
+
+---
+
+# Biases of Pooled Regression: Our Example
+
+$$\widehat{\text{Deaths}_{it}}=\beta_0+\beta_1 \, \text{Cell Phones}_{it}+u_{it}$$
+
+- Multiple observations from same state $i$
+  - Probably similarities among $u$ for obs in same state
+  
+- Multiple observations from same year $t$
+  - Probably similarities among $u$ for obs in same year
+
+---
+
+# Look at 5 States
+
+.pull-left[
+```{r 5state-plot, echo=T, eval=F}
+phones %>%
+  filter(state %in% c("District of Columbia",
+                      "Maryland", "Texas",
+                      "California", "Kansas")) %>%
+ggplot(data = .)+
+  aes(x = cell_plans,
+      y = deaths)+
+  geom_point(aes(color = state))+ #<<
+  geom_smooth(method = "lm", color = "red")+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       color = NULL)+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "top")
+```
+
+]
+
+.pull-right[
+```{r, ref.label="5state-plot", fig.retina=3}
+
+```
+]
+
+---
+
+# Look at 5 States
+
+.pull-left[
+```{r 5state-plot1, echo=T, eval=F}
+phones %>%
+  filter(state %in% c("District of Columbia",
+                      "Maryland", "Texas",
+                      "California", "Kansas")) %>%
+ggplot(data = .)+
+  aes(x = cell_plans,
+      y = deaths,
+      color = state)+ #<<
+  geom_point()+ #<<
+  geom_smooth(method = "lm")+ #<<
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       color = NULL)+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "top")
+```
+
+]
+
+.pull-right[
+```{r, ref.label="5state-plot1", fig.retina=3}
+
+```
+]
+
+---
+# Look at 5 States
+
+.pull-left[
+```{r 5state-plot2, echo=T, eval=F}
+phones %>%
+  filter(state %in% c("District of Columbia",
+                      "Maryland", "Texas",
+                      "California", "Kansas")) %>%
+ggplot(data = .)+
+  aes(x = cell_plans,
+      y = deaths,
+      color = state)+ 
+  geom_point()+ 
+  geom_smooth(method = "lm")+ 
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       color = NULL)+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=18)+
+  theme(legend.position = "none")+ #<<
+  facet_wrap(~state, ncol=3) #<<
+```
+
+]
+
+.pull-right[
+```{r, ref.label="5state-plot2", fig.retina=3}
+
+```
+]
+
+---
+
+# Look at All States
+
+.pull-left[
+```{r all-state-plot, echo=T, eval=F}
+ggplot(data = phones)+ #<<
+  aes(x = cell_plans,
+      y = deaths,
+      color = state)+ 
+  geom_point()+ 
+  geom_smooth(method = "lm")+ 
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       color = NULL)+
+  theme_bw(base_family = "Fira Sans Condensed")+
+  theme(legend.position = "none")+
+  facet_wrap(~state, ncol=7) #<<
+```
+
+]
+
+.pull-right[
+```{r, ref.label="all-state-plot", fig.retina=3}
+
+```
+]
+
+---
+
+# The Bias in our Pooled Regression
+
+$$\widehat{\text{Deaths}_{it}}=\beta_0+\beta_1 \, \text{Cell Phones}_{it}+\text{u}_{it}$$
+
+- $\text{Cell Phones}_{it}$ is endogenous:
+
+--
+
+$$cor(\text{u}_{it}, \text{cell phones}_{it}) \neq 0 \quad \quad E[\text{u}_{it}|\text{cell phones}_{it}] \neq 0$$
+
+--
+
+- Things in $u_{it}$ correlated with $\text{Cell phones}_{it}$:
+  - infrastructure spending, population, urban vs. rural, more/less cautious citizens, cultural attitudes towards driving, texting, etc
+
+--
+
+- A lot of these things vary systematically **by State**!
+  - $cor(\text{u}_{it_1}, \text{u}_{it_2})\neq 0$
+    - Error in State $i$ during $t_1$ correlates with error in State $i$ during $t_2$ (things in State that don't change over time)
+
+---
+
+class: inverse, center, middle
+
+# Fixed Effects Model
+
+---
+
+# Fixed Effects
+
+.pull-left[
+
+- A simple pooled model likely contains lots of omitted variable bias
+
+- Many (often unobservable) factors that determine both Phones & Deaths
+  - Culture, infrastructure, population, geography, institutions, etc
+]
+
+.pull-right[
+```{r}
+library(ggdag)
+dagify(Deaths~Phones+Cultr+Insts+Geog+Pop+Infr,
+       Phones~Cultr+Insts+Geog+Pop+Infr,
+       coords = list(x = c(Phones = 1, Cultr = 2, Insts = 2, Infr = 3, Geog = 4, Pop = 4, Deaths = 5),
+                     y = c(Phones = 0, Cultr = 1, Insts = -1, Infr = 1, Geog = 1, Pop = -1, Deaths = 0)),
+       exposure = "Phones",
+       outcome = "Deaths") %>%
+  tidy_dagitty(seed = 20) %>%
+  ggdag_status()+theme_dag()+theme(legend.position = "none")
+```
+]
+
+---
+
+# Fixed Effects
+
+.pull-left[
+
+- A simple pooled model likely contains lots of omitted variable bias
+
+- Many (often unobservable) factors that determine both Phones & Deaths
+  - Culture, infrastructure, population, geography, institutions, etc
+
+- But the beauty of this is that most of these factors systematically vary by U.S. State and are stable over time!
+
+- We can simply “control for State” to safely remove the influence of all of these factors!
+]
+
+.pull-right[
+```{r}
+dagify(Deaths~Phones+State,
+       Phones~State,
+       coords = list(x = c(Phones = 1, State = 3, Deaths = 5),
+                     y = c(Phones = 0, State = 1, Deaths = 0)),
+       exposure = "Phones",
+       outcome = "Deaths") %>%
+  tidy_dagitty(seed = 20) %>%
+  ggdag_status()+theme_dag()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# Fixed Effects: Decomposing $\text{u}_{it}$
+
+- Much of the endogeneity in $X_{it}$ can be explained by systematic differences across $i$ (groups)
+
+--
+
+- Exploit the systematic variation across groups with a .hi[fixed effects model]
+
+--
+
+- *Decompose* the error term into two parts:
+
+$$\text{u}_{it} = \alpha_i + \epsilon_{it}$$
+
+---
+
+# Fixed Effects: $\alpha_i$
+
+$$\text{u}_{it} = \alpha_i + \epsilon_{it}$$
+
+- $\alpha_i$ are .hi-purple[group-specific fixed effects]
+  - group $i$ tends to have higher or lower $\hat{Y}$ than other groups given regressor(s) $X_{it}$
+  - estimate a separate $\alpha_i$ for each group $i$
+  - essentially, a separate constant (or intercept), $(\hat{\beta_0})$ _for each group_
+
+- .hi-purple[This includes **all** factors that do not change _within_ group $i$ over time]
+
+---
+
+# Fixed Effects: $\epsilon_{it}$
+
+$$\text{u}_{it} = \alpha_i + \epsilon_{it}$$
+
+- $\epsilon_{it}$ is the remaining random error
+  - As usual in OLS, assume the four assumptions about this error:
+    - $E[\epsilon_{it}]=0$, $var[\epsilon_{it}]=\sigma^2_{\epsilon}$, $cor(\epsilon_{it}, \epsilon_{jt})=0$, $cor(\epsilon_{it}, X_{it})=0$
+
+- Includes all other factors affecting $Y_{it}$ *not* contained in group effect $\alpha_i$
+  - i.e. differences *within* each group that *change* over time
+
+- $X_{it}$ can still be endogenous from non-group-specific effects!
+
+---
+
+# Fixed Effects: New Regression Equation
+
+$$\widehat{Y}_{it} = \beta_0+\beta_1 X_{it} +\alpha_i + \epsilon_{it}$$
+
+- We've pulled $\alpha_i$ out of the original error term into the regression
+
+- Essentially we'll estimate an intercept for each group (minus one, which is $\beta_0)$
+
+- Must have multiple observations (over time) for each group (i.e. panel data)
+
+---
+
+# Fixed Effects: Our Example
+
+$$\widehat{\text{Deaths}}_{it} = \beta_0+\beta_1 \text{Cell phones}_{it} +\alpha_i + \epsilon_{it}$$
+
+- $\alpha_i$ is the .hi-purple[State fixed effect]
+  - Captures everything unique about each state $i$ that *does not change over time*
+    - culture, institutions, history, geography, climate, etc!
+
+- There could *still* be factors in $\epsilon_{it}$ that are correlated with $\text{Cell phones}_{it}$!
+  - things that do change over time within States
+  - Perhaps a State has a cell phone ban only for *some* years in our data
+
+---
+
+# Estimating Fixed Effects Models
+
+$$\widehat{Y}_{it} = \beta_0+\beta_1 X_{it} +\alpha_i$$
+
+- Two methods to estimate fixed effects models:
+
+1. Least Squares Dummy Variable (LSDV) approach
+
+2. De-meaned data approach
+
+---
+
+class: inverse, center, middle
+
+# Least Squares Dummy Variable Approach
+
+---
+
+# Least Squares Dummy Variable Approach
+
+$$\widehat{Y_{it}}=\beta_0+\beta_1X_{it}+\beta_2 D_{1i}+ \beta_3 D_{2i} + \cdots +\beta_N D_{(N-1)i}$$
+
+- A dummy variable $D_{i} = \begin{cases} 1 \text{ if observation is from group }i\\ 0 \text{ if observation is not from group }i\\ \end{cases}$ for each possible group $=1$ if observation $it$ is from group $i$, otherwise $=0$
+
+--
+
+- If there are $N$ groups:
+  - Include $N-1$ dummies (to avoid **dummy variable trap**) and $\beta_0$ is the reference category<sup>.red[1]</sup>
+
+--
+
+- So we are estimating different intercepts for each group
+
+--
+
+- Sounds like a lot of work, automatic in `R`
+
+--
+
+- This soaks up *anything* in the error term fixed within groups over time! 
+
+.footnote[<sup>.red[1]</sup> If we do not estimate `\\(\beta_0\\)`, we could include all N dummies. In either case, `\\(\beta_0\\)` takes the place of one category-dummy.]
+
+---
+
+# Least Squares Dummy Variable Approach: Our Example
+
+.content-box-green[
+.green[**Example**]: 
+$$\widehat{\text{Deaths}_{it}}=\beta_1\text{Cell Phones}_{it}+\text{Alabama}_i+\text{Alaska}_i+ \cdots +\text{Wyoming}_i$$
+]
+
+---
+
+# Our Example in R I
+
+$$\widehat{\text{Deaths}_{it}}=\beta_1\text{Cell Phones}_{it}+\text{Alabama}_i+\text{Alaska}_i+ \cdots +\text{Wyoming}_i$$
+
+- If `state` is a `factor` variable, just include it in the regression
+
+- `R` automatically creates $N-1$ dummy variables and includes them in the regression
+  - Keeps intercept and leaves out first group dummy
+
+---
+
+# Our Example in R II
+
+.pull-right[
+```{r fe-reg, echo=T, eval=F}
+library(broom)
+fe_reg_1<-lm(deaths~cell_plans+state, data = phones)
+fe_reg_1 %>% tidy()
+```
+
+]
+
+--
+
+.pull-left[
+.smallcode[
+```{r, ref.label="fe-reg"}
+```
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# De-meaned Approach
+
+---
+
+# De-meaned Approach I
+
+- Alternatively, we can hold group fixed effects constant without directly estimating them
+
+- We simply **de-mean** the data for each group
+
+- For each group $i$, find the means (over time, $t)$:
+$$\bar{Y}_i=\beta_0+\beta_1 \bar{X}_i+\bar{\alpha}_i+\bar{\epsilon}_i$$
+- $\bar{Y}_i$: average value of $Y_{it}$ for group $i$
+- $\bar{X}_i$: average value of $X_{it}$ for group $i$
+- $\bar{\alpha}_i$: average value of $\alpha_{i}$ for group $i$ ($=\alpha_i$)
+- $\bar{\epsilon}_{i}=0$, by assumption
+
+---
+
+# De-meaned Approach II
+
+$$\begin{align*}
+\widehat{Y_{it}}&=\beta_0+\beta_1X_{it}+u_{it}\\
+\bar{Y}_i&=\beta_0+\beta_1 \bar{X}_i+\bar{\alpha}_i+\bar{\epsilon}_i\\
+\end{align*}$$
+
+- Subtract the means equation from the pooled equation to get:
+
+$$\begin{align*}
+Y_i-\bar{Y}_i&=\beta_1(X_{it}-\bar{X}_i)+\tilde{\epsilon}_{it}\\
+\tilde{Y}_{it}&=\beta_1 \tilde{X}_{it}+\tilde{\epsilon}_{it}\\
+\end{align*}$$
+
+- Within each group $i$, the de-meaned variables $\tilde{Y}_{it}$ and $\tilde{X}_{it}$'s all have a mean of 0<sup>.red[1]</sup>
+
+- Variables that don't change over time will drop out of analysis altogether
+
+- Removes any source of variation **across** groups to only work with variation **within** each group
+
+.footnote[<sup>.red[1]</sup> Recall **Rule 4** from the [class notes](class/07-class/#the-summation-operator) on the Summation Operator: $\sum(X_i-\bar{X})=0$]
+
+---
+
+# De-meaned Approach III
+
+$$\tilde{Y}_{it}=\beta_1 \tilde{X}_{it}+\tilde{\epsilon}_{it}$$
+
+- Yields identical results to dummy variable approach
+
+- More useful when we have many groups (would be many dummies)
+
+- Demonstrates **intuition** behind fixed effects:
+  - Converts all data to deviations from the mean of each group
+    - All groups are "centered" at 0
+  - Fixed effects are often called the .hi-purple["within" estimators], they exploit variation *within* groups, not *across* groups
+
+---
+
+# De-meaned Approach IV
+
+- We are basically comparing groups *to themselves* over time
+  - apples to apples comparison
+  - e.g. Maryland in 2000 vs. Maryland in 2005
+
+- Ignore all differences *between* groups, only look at differences *within* groups over time
+
+---
+
+# De-Meaning the Data in R I
+
+.pull-left[
+```{r demeaning, echo=T, eval=F}
+# get means of Y and X by state
+means_state<-phones %>%
+  group_by(state) %>%
+  summarize(avg_deaths = mean(deaths),
+            avg_phones = mean(cell_plans))
+
+# look at it
+means_state
+```
+]
+
+--
+
+.pull-right[
+```{r, ref.label="demeaning"}
+
+```
+]
+
+---
+
+# De-Meaning the Data in R II
+
+.pull-left[
+
+```{r demeaning-plot, echo=T, eval=F}
+ggplot(data = means_state)+
+  aes(x = fct_reorder(state,avg_deaths),
+      y = avg_deaths,
+      color = state)+
+  geom_point()+
+  geom_segment(aes(y=0, yend=avg_deaths, x=state, xend=state))+
+  coord_flip()+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       color = NULL)+
+  theme_bw(base_family = "Fira Sans Condensed",
+           base_size=10)+
+  theme(legend.position = "none")
+```
+]
+
+
+.pull-right[
+```{r, ref.label="demeaning-plot", fig.retina=3}
+
+```
+
+]
+
+---
+
+# Visualizing "Within Estimates" for the 5 States
+
+```{r, cache = F}
+phones2<-phones %>%
+filter(state %in% c("District of Columbia",
+                      "Maryland", "Texas",
+                      "California", "Kansas")) %>%
+  group_by(state) %>%
+  mutate(mean_phones = mean(cell_plans),
+         mean_deaths = mean(deaths))
+
+before_cor <- paste("1. Raw data: cor(cell plans, deaths) = ",round(cor(phones2$cell_plans,phones2$deaths),3),sep='')
+after_cor <- paste("6. Analyze what's left! cor(cell plans, deaths) = ",round(cor(phones2$cell_plans-phones2$mean_phones,phones2$deaths-phones2$mean_deaths),3),sep='')
+
+#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
+dffull <- rbind(
+  #Step 1: Raw data only
+  phones2 %>% mutate(mean_phones=NA,mean_deaths=NA,time=before_cor),
+  #Step 2: Add x-lines
+  phones2 %>% mutate(mean_deaths=NA,time='2. Figure out any between-State differences in cell plans'),
+  #Step 3: X de-meaned 
+  phones2 %>% mutate(cell_plans = cell_plans - mean_phones,mean_phones=0,mean_deaths=NA,time="3. Remove all between-State differences in cell plans"),
+  #Step 4: Remove X lines, add Y
+  phones2 %>% mutate(cell_plans = cell_plans - mean_phones,mean_phones=NA,time="4. Figure out any between-State differences in deaths"),
+  #Step 5: Y de-meaned
+  phones2 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=0,time="5. Remove all between-State differences in deaths"),
+  #Step 6: Raw demeaned data only
+  phones2 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=NA,time=after_cor))
+```
+
+```{r, fig.retina=3}
+p <- ggplot(dffull,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_point()+
+  geom_vline(aes(xintercept=mean_phones,color=as.factor(state)))+
+  geom_hline(aes(yintercept=mean_deaths,color=as.factor(state)))+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       title = 'The Relationship between Cell Plans and Deaths, with State Fixed Effects \n{next_state}')+
+  theme_bw(base_family = "Fira Sans Condensed")+
+  theme(legend.position = "none")+
+  transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
+  ease_aes('sine-in-out')+
+  exit_fade()+enter_fade()
+
+animate(p,nframes=200)
+```
+
+---
+
+# Visualizing "Within Estimates" for All 51 States
+
+```{r, cache = F}
+phones3<-phones %>%
+  group_by(state) %>%
+  mutate(mean_phones = mean(cell_plans),
+         mean_deaths = mean(deaths))
+
+before_cor <- paste("1. Raw data: cor(cell plans, deaths) = ",round(cor(phones3$cell_plans,phones3$deaths),3),sep='')
+after_cor <- paste("6. Analyze what's left! cor(cell plans, deaths) = ",round(cor(phones3$cell_plans-phones3$mean_phones,phones3$deaths-phones3$mean_deaths),3),sep='')
+
+#Add step 2 in which X is demeaned, and 3 in which both X and Y are, and 4 which just changes label
+dffull2 <- rbind(
+  #Step 1: Raw data only
+  phones3 %>% mutate(mean_phones=NA,mean_deaths=NA,time=before_cor),
+  #Step 2: Add x-lines
+  phones3 %>% mutate(mean_deaths=NA,time='2. Figure out any between-State differences in cell plans'),
+  #Step 3: X de-meaned 
+  phones3 %>% mutate(cell_plans = cell_plans - mean_phones,mean_phones=0,mean_deaths=NA,time="3. Remove all between-State differences in cell plans"),
+  #Step 4: Remove X lines, add Y
+  phones3 %>% mutate(cell_plans = cell_plans - mean_phones,mean_phones=NA,time="4. Figure out any between-State differences in deaths"),
+  #Step 5: Y de-meaned
+  phones3 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=0,time="5. Remove all between-State differences in deaths"),
+  #Step 6: Raw demeaned data only
+  phones3 %>% mutate(cell_plans = cell_plans - mean_phones,deaths = deaths - mean_deaths,mean_phones=NA,mean_deaths=NA,time=after_cor))
+```
+
+```{r, cache = F}
+p2 <- ggplot(dffull2,aes(y=deaths,x=cell_plans,color=as.factor(state)))+geom_point()+
+  geom_vline(aes(xintercept=mean_phones,color=as.factor(state)))+
+  geom_hline(aes(yintercept=mean_deaths,color=as.factor(state)))+
+  labs(x = "Cell Phones Per 10,000 People",
+       y = "Deaths Per Billion Miles Driven",
+       title = 'The Relationship between Cell Plans and Deaths, with State Fixed Effects \n{next_state}')+
+  theme_bw(base_family = "Fira Sans Condensed")+
+  theme(legend.position = "none")+
+  transition_states(time,transition_length=c(12,32,12,32,12,12),state_length=c(160,100,75,100,75,160),wrap=FALSE)+
+  ease_aes('sine-in-out')+
+  exit_fade()+enter_fade()
+
+animate(p2,nframes=200)
+```
+
+---
+
+# De-meaned Approach in R I
+
+- The `plm` package is designed for panel data
+
+- `plm()` function is just like `lm()`, with some additional arguments:
+  - `index="group_variable_name"` set equal to the name of your `factor` variable for the groups
+  - `model=` set equal to `"within"` to use fixed-effects (within-estimator)
+  
+```{r plm-fe, echo=T}
+#install.packages("plm")
+library(plm)
+fe_reg_1_alt<-plm(deaths ~ cell_plans,
+                  data = phones,
+                  index = "state",
+                  model = "within")
+```
+
+---
+
+# De-meaned Approach in R II
+
+```{r, echo=T}
+summary(fe_reg_1_alt)
+```
+
+---
+
+class: inverse, center, middle
+
+# Two-Way Fixed Effects
+
+---
+
+# Two-Way Fixed Effects
+
+.pull-left[
+
+- We had previously added the State fixed effect to control for all factors that vary by state but are stable over time
+
+- But there are still other (often unobservable) factors that affect both Phones and Deaths, that *don’t* vary by State
+  - The country’s macroeconomic performance, federal laws, etc
+]
+
+.pull-right[
+```{r}
+library(ggdag)
+dagify(Deaths~Phones+State+Macro+FedLaw,
+       Phones~State+Macro+FedLaw,
+       coords = list(x = c(Phones = 1, Macro = 2, State = 3, FedLaw = 4, Deaths = 5),
+                     y = c(Phones = 0, Macro = 1, State = -1, FedLaw = 1, Geog = 1, Pop = -1, Deaths = 0)),
+       exposure = "Phones",
+       outcome = "Deaths") %>%
+  tidy_dagitty(seed = 20) %>%
+  ggdag_status()+theme_dag()+theme(legend.position = "none")
+```
+]
+
+---
+
+# Two-Way Fixed Effects
+
+.pull-left[
+
+- We had previously added the State fixed effect to control for all factors that vary by state but are stable over time
+
+- But there are still other (often unobservable) factors that affect both Phones and Deaths, that *don’t* vary by State
+  - The country’s macroeconomic performance, federal laws, etc
+
+- If these factors systematically vary over time, but are the same by State, then we can “control for Year” to safely remove the influence of all of these factors!
+]
+
+.pull-right[
+```{r}
+dagify(Deaths~Phones+State+Year,
+       Phones~State+Year,
+       coords = list(x = c(Phones = 1, State = 3, Year = 3, Deaths = 5),
+                     y = c(Phones = 0, State = -1, Year = 1, Deaths = 0)),
+       exposure = "Phones",
+       outcome = "Deaths") %>%
+  tidy_dagitty(seed = 20) %>%
+  ggdag_status()+theme_dag()+theme(legend.position = "none")
+```
+
+]
+
+---
+
+# Two-Way Fixed Effects
+
+- So far, we've looked at a .hi[one-way fixed effects model] that estimates a fixed effect for **groups**
+
+--
+
+- .hi[Two-way fixed effects model] estimates a fixed effect for *both* the **groups** *and* the **time periods**
+$$\hat{Y_{it}}=\beta_0+\beta_1 X_{it}+ \alpha_{i} + \theta_{t} + \nu_{it}$$
+
+- $\alpha_i$: group fixed effects
+    - accounts for **time-invariant differences across groups**
+
+- $\theta_t$: time fixed effects
+    - acounts for **group-invariant differences over time** 
+
+---
+
+# Two-Way Fixed Effects: Our Example
+
+$$\widehat{\text{Deaths}}_{it} = \beta_0+\beta_1 \text{Cell phones}_{it} +\alpha_i + \theta_t +  \epsilon_{it}$$
+
+- $\alpha_i$: State fixed effects
+    - differences **across states** that are **stable over time**
+    - e.g. geography, culture, (unchanging) state laws
+
+- $\theta_t$: Year fixed effects
+    - differences **over time** that are **stable across states**
+    - e.g. economy-wide macroeconomic changes, *federal* laws passed
+
+---
+
+# Visualizing Year Effects I
+
+```{r, echo=T}
+# find averages for years
+means_year<-phones %>%
+  group_by(year) %>%
+  summarize(avg_deaths = mean(deaths),
+            avg_phones = mean(cell_plans))
+means_year
+```
+
+---
+
+# Visualizing Year Effects II
+
+.pull-left[
+```{r years-plot,echo=T, eval=F}
+ggplot(data = means_year)+
+  aes(x = year,
+      y = avg_deaths)+
+  geom_point(data = phones,
+             aes(x = year,
+                 y = deaths,
+                 color = year))+
+  geom_point(size=3)+
+  geom_path()
+```
+
+]
+
+.pull-right[
+```{r, ref.label="years-plot", fig.retina=3}
+
+```
+]
+
+---
+
+# Estimating Two-Way Fixed Effects
+
+$$\widehat{Y}_{it} = \beta_0+\beta_1 X_{it} +\alpha_i+\theta_t$$
+
+- As before, several equivalent ways to estimate two-way fixed effects models:
+
+1. **Least Squares Dummy Variable (LSDV) Approach**: add dummies for both groups and time periods (separate intercepts for groups and times)
+
+--
+
+2. **Fully De-meaned data**: 
+$$\tilde{Y}_{it}=\beta_1\tilde{X}_{it}+\tilde{\nu}_{it}$$
+
+where each $\tilde{variable}_{it}=variable_{it}-\overline{variable}_{t}-\overline{variable}_{i}$
+
+--
+
+3. **Hybrid**: de-mean for one effect (groups or times) and add dummies for the other effect (times or groups)
+
+---
+
+# LSDV Method
+
+.pull-right[
+```{css, echo = FALSE}
+.tinycode .remark-code { /*Change made here*/
+  font-size: 45% !important;
+}
+```
+
+```{r fe2-reg, echo=T, eval=F}
+fe2_reg_1<-lm(deaths~cell_plans+state+year, data = phones)
+summary(fe2_reg_1)
+```
+
+]
+
+--
+
+.pull-left[
+.tinycode[
+```{r, ref.label="fe2-reg"}
+```
+]
+]
+
+---
+
+# With plm
+
+
+.pull-right[
+```{css, echo = FALSE}
+.tinycode .remark-code { /*Change made here*/
+  font-size: 45% !important;
+}
+```
+
+```{r fe2-reg2, echo=T, eval=F}
+fe2_reg_2<-plm(deaths~cell_plans, index=c("state", "year"), model="within", data = phones)
+summary(fe2_reg_2)
+```
+
+]
+
+--
+
+.pull-left[
+- `plm()` command allows for multiple effects to be fit inside `index=c("group", "time")`
+
+.tinycode[
+```{r, ref.label="fe2-reg2"}
+```
+]
+]
+
+```{r}
+fe2_reg_2alt<-plm(deaths~cell_plans, data=phones,index=c("state","year"), model="within") 
+summary(fe2_reg_2alt)
+
+```
+
+
+---
+
+# Adding Covariates
+
+.pull-left[
+
+- Our State fixed effect absorbs all unobserved factors that vary by state, but are constant over time
+
+- Our Year fixed effect absorbs all unobserved factors that vary by year, but are constant over States
+
+- But there are still other (often unobservable) factors that affect both Phones and Deaths, that *vary* by State *and* change over time!
+  - *Some* States *change* their laws during the time period
+  - State *urbanization* rates *change* over the time period
+
+- We will also need to control for these variables (not picked up by fixed effects!)
+  - Add them to the regression
+]
+
+.pull-right[
+```{r}
+dagify(Deaths~Phones+State+Year+Bans+Urban,
+       Phones~State+Year+Bans+Urban,
+       coords = list(x = c(Phones = 1, Bans = 2, State = 2, Year = 4, Urban = 4, Deaths = 5),
+                     y = c(Phones = 0, Bans = 1, State = -1, Year = -1, Urban = 1, Deaths = 0)),
+       exposure = "Phones",
+       outcome = "Deaths") %>%
+  tidy_dagitty(seed = 20) %>%
+  ggdag_status()+theme_dag()+theme(legend.position = "none")
+```
+]
+
+---
+
+# Adding Covariates I
+
+.pull-left[
+
+- Can still add covariates to remove endogeneity not soaked up by fixed effects
+    - Factors that change within groups over time 
+    - e.g. some states pass bans over the time period in data (some years before, some years after)
+
+]
+
+.pull-right[
+
+$$\widehat{\text{Deaths}_{it}}=\beta_1\text{Cell Phones}_{it}+\alpha_i+\theta_t+\text{urban pct}_{it}+\text{cell ban}_{it}+\text{text ban}_{it}$$
+]
+
+---
+
+# Adding Covariates II
+
+.pull-left[
+```{r, echo=T}
+fe2_controls_reg<-plm(deaths~cell_plans+text_ban+urban_percent+cell_ban, data=phones,index=c("state","year"), model="within", effect="twoways") 
+summary(fe2_controls_reg)
+```
+
+]
+
+---
+
+# Comparing Models
+
+```{r huxout, echo=T, eval =F}
+library(huxtable)
+huxreg("Pooled" = pooled,
+       "State Effects" = fe_reg_1,
+       "State and Year Effects" = fe2_reg_1,
+       "With Controls" = fe2_controls_reg,
+       coefs = c("Intercept" = "(Intercept)",
+                 "Cell phones" = "cell_plans",
+                 "Cell Ban" = "cell_ban1",
+                 "Texting Ban" = "text_ban1",
+                 "Urbanization Rate" = "urban_percent"),
+       statistics = c("N" = "nobs",
+                      "R-Squared" = "r.squared",
+                      "SER" = "sigma"),
+       number_format = 4)
+```
+
+
+---
+
+# Comparing Models
+
+```{r, ref.label="huxout"}
+huxout
+```
+
+Papers never show all of the fixed effects coefficients (i.e. $N-1$ State dummies and $T-1$ Year dummies ), only make it clear that fixed effects are *included* in a model
+
