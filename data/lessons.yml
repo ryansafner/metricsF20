@@ -153,7 +153,16 @@ lessons:
     
   - title: "4.2 Difference-in-Difference Models"
     reading: "4.2-reading"
-
+    class: "4.2-class"
+    slides: "4.2-slides"
+    
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
+  
+  - title: "**Empirical Research Paper Project** Due Sunday Nov 22"
+    assignment: "paper-project"
+    
+  - title: "**Final Exam** Tuesday Nov 24"
+  
   - title: "4.3 Instrumental Variables Models"
   
   - title: "4.4 Regression Discontinuity Models"
@@ -162,9 +171,3 @@ lessons:
 
   - title: "4.6 Prediction, Classification, & Machine Learning"
   
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
-  
-  - title: "**Empirical Research Paper Project** Due Sunday Nov 22"
-    assignment: "paper-project"
-  
-  - title: "**Final Exam** Tuesday Nov 24"
