@@ -37,6 +37,17 @@ set.seed(256)
 update_geom_defaults("label", list(family = "Fira Sans Condensed"))
 ```
 
+class: inverse
+
+# Outline
+
+### [Difference-in-Difference Models](#3)
+### [Example I: HOPE in Georgia](#32)
+### [Generalizing DND Models](#71)
+### [Example II: "The" Card-Kreuger Minimum Wage Study](#79)
+
+---
+
 # Clever Research Designs Identify Causality
 
 Again, **this toolkit** of research designs to **identify causal effects** is the economist’s **comparative advantage** that firms and governments want!
@@ -1661,13 +1672,12 @@ $$\widehat{Enrolled_{it}} = \alpha_i+\theta_t+\beta_3 \, (Georgia_{it} \times Af
 .tiny[
 - Using LSDV method... 
 
-```{r dnd-gen-reg, echo=T, eval=F}
+```{r dnd-gen-reg, echo=T}
 DND_fe <- lm(InCollege ~ Georgia*After + factor(StateCode) + factor(Year),
            data = hope)
 DND_fe %>% tidy()
 ```
 
-]
 ]
 
 --
@@ -1691,7 +1701,7 @@ $$\widehat{InCollege_{it}}=\alpha_i+\theta_t+0.091 \, (\text{Georgia}_i \times \
 
 class: inverse, center, middle
 
-# Example: "The" Card-Kreuger Minimum Wage Study
+# Example II: "The" Card-Kreuger Minimum Wage Study
 
 ---
 

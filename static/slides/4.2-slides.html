@@ -23,6 +23,17 @@ class: center, middle, inverse, title-slide
 
 
 
+class: inverse
+
+# Outline
+
+### [Difference-in-Difference Models](#3)
+### [Example I: HOPE in Georgia](#32)
+### [Generalizing DND Models](#71)
+### [Example II: "The" Card-Kreuger Minimum Wage Study](#79)
+
+---
+
 # Clever Research Designs Identify Causality
 
 Again, **this toolkit** of research designs to **identify causal effects** is the economist’s **comparative advantage** that firms and governments want!
@@ -933,7 +944,12 @@ DND_fe &lt;- lm(InCollege ~ Georgia*After + factor(StateCode) + factor(Year),
 DND_fe %&gt;% tidy()
 ```
 
-]
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"0.418057478","3":"0.02261133","4":"18.4888517","5":"1.734550e-73"},{"1":"Georgia","2":"-0.141501255","3":"0.03936119","4":"-3.5949436","5":"3.281224e-04"},{"1":"After","2":"0.075340594","3":"0.03128021","4":"2.4085706","5":"1.605717e-02"},{"1":"factor(StateCode)57","2":"-0.014181112","3":"0.02739708","4":"-0.5176140","5":"6.047544e-01"},{"1":"factor(StateCode)58","2":"NA","3":"NA","4":"NA","5":"NA"},{"1":"factor(StateCode)59","2":"-0.062378540","3":"0.01954266","4":"-3.1919172","5":"1.423556e-03"},{"1":"factor(StateCode)62","2":"-0.132650271","3":"0.02806143","4":"-4.7271383","5":"2.350298e-06"},{"1":"factor(StateCode)63","2":"-0.005103868","3":"0.02627780","4":"-0.1942274","5":"8.460071e-01"},{"1":"factor(Year)90","2":"0.046608845","3":"0.02833625","4":"1.6448486","5":"1.000745e-01"},{"1":"factor(Year)91","2":"0.032275789","3":"0.02856877","4":"1.1297577","5":"2.586417e-01"},{"1":"factor(Year)92","2":"0.023535865","3":"0.02984597","4":"0.7885776","5":"4.304026e-01"},{"1":"factor(Year)93","2":"-0.045179582","3":"0.03298962","4":"-1.3695089","5":"1.709122e-01"},{"1":"factor(Year)94","2":"-0.060835294","3":"0.03331765","4":"-1.8259178","5":"6.793234e-02"},{"1":"factor(Year)95","2":"-0.078603997","3":"0.03437010","4":"-2.2869877","5":"2.224518e-02"},{"1":"factor(Year)96","2":"-0.096654289","3":"0.03479916","4":"-2.7774893","5":"5.501944e-03"},{"1":"factor(Year)97","2":"NA","3":"NA","4":"NA","5":"NA"},{"1":"Georgia:After","2":"0.091420197","3":"0.04876092","4":"1.8748663","5":"6.087923e-02"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
 ]
 
 --
@@ -957,7 +973,7 @@ DND_fe %&gt;% tidy()
 
 class: inverse, center, middle
 
-# Example: "The" Card-Kreuger Minimum Wage Study
+# Example II: "The" Card-Kreuger Minimum Wage Study
 
 ---
 
