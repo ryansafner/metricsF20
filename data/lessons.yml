@@ -156,7 +156,8 @@ lessons:
     class: "4.2-class"
     slides: "4.2-slides"
     
-  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Ungraded)'
+  - title: '<i class="fas fa-laptop-code"></i> **Problem Set 6** (Practice, Ungraded)'
+    assignment: "06-problem-set"
   
   - title: "**Empirical Research Paper Project** Due Sunday Nov 22"
     assignment: "paper-project"

@@ -1,0 +1,177 @@
+---
+title: "Problem Set 6"
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<p><strong>UNGRADED: For Practice Only!</strong></p>
+<ul>
+<li><a href="/assignments/06-problem-set-pdf.pdf"><i class="fas fa-file-pdf"></i> Download as PDF</a></li>
+<li><a href="/assignments/06-problem-set.Rmd"><i class="fab fa-markdown"></i> Download Markdown</a></li>
+</ul>
+<h2 id="instructions">Instructions</h2>
+<p>This assignment is <strong>UNGRADED</strong>, and only intended for assisting you in studying for the final exam. It also provides examples of how to work with panel data models in <code>R</code>.</p>
+<h2 id="theory-and-concepts">Theory and Concepts</h2>
+<h3 id="question-1">Question 1</h3>
+<p>In your own words, describe what <em>fixed effects</em> are, when we can use them, and how they remove endogeneity.</p>
+<h3 id="question-2">Question 2</h3>
+<p>In your own words, describe the logic of a <em>difference-in-difference</em> model: what is it comparing against what, and how does it estimate the effect of treatment? What assumption must be made about the treatment and control group for the model to be valid?</p>
+<h2 id="r-questions">R Questions</h2>
+<p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
+<h3 id="question-3">Question 3</h3>
+<ul>
+<li><a href="http://metricsf20.classes.ryansafner.com/data/PeacceCorps.csv"><i class="fas fa-table"></i> <code>PeaceCorps.csv</code></a></li>
+</ul>
+<p>How do people respond to changes in economic conditions? Are they more likely to pursue public service when private sector jobs are scarce? This dataset contains variables at the U.S. State (&amp; D.C.) level:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>state</code></td>
+<td>U.S. State</td>
+</tr>
+<tr class="even">
+<td><code>year</code></td>
+<td>Year</td>
+</tr>
+<tr class="odd">
+<td><code>apps</code></td>
+<td>Applications to the Peace Corps (per capita) in State</td>
+</tr>
+<tr class="even">
+<td><code>unemployrate</code></td>
+<td>State unemployment rate</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Do more people apply to the Peace Corps when unemployment increases (and reduces other opportunities)?</p>
+</blockquote>
+<h4 id="part-a">Part A</h4>
+<p>Before looking at the data, what does your economic intuition tell you? Explain your hypothesis.</p>
+<h4 id="part-b">Part B</h4>
+<p>To get the hang of the data we’re working with, <code>count</code> (separately) the number of <code>state</code>s, and the number of <code>year</code>s. Get the number of <code>n_distinct()</code> <code>state</code>s and <code>year</code>s<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Do this inside the <code>summarize()</code> command<br />
+<br />
+</span></span>, as well as the <code>distinct()</code> values of each<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Don’t use the <code>summarize()</code> command for this part<br />
+<br />
+</span></span>.</p>
+<h4 id="part-c">Part C</h4>
+<p>Continuing our pre-analysis inspection, (install, and) load the <code>plm</code> package, and check the dimensions of the data with <code>pdim</code>.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Set <code>index=c("state","year")</code> to indicate the group and time dimensions.<br />
+<br />
+</span></span></p>
+<h4 id="part-d">Part D</h4>
+<p>Create a scatterplot of <code>appspc</code> (Y) on <code>unemployrate</code> (X). Which State is an outlier? How would this affect the pooled regression estimates? Create a <em>second</em> scatterplot that does not include this State.</p>
+<h4 id="part-e">Part E</h4>
+<p>Run two <em>pooled</em> regressions, one with the outliers, and one without them. Write out the estimated regression equation for each. Interpret the coefficient, and comment on how it changes between the two regressions.</p>
+<h4 id="part-f">Part F</h4>
+<p>Now run a regression with State fixed effects using the dummy variable method.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Ensure that <code>state</code> is a factor variable, and insert in the regression. You can either <code>mutate()</code> it into a <code>factor</code> beforehand, or just do <code>as.factor(state)</code> in the <code>lm</code> command.<br />
+<br />
+</span></span> Interpret the marginal effect of <code>unemployrate</code> on <code>appspc</code>. How did it change?</p>
+<h4 id="part-g">Part G</h4>
+<p>Find the coefficient for Maryland and interpret it. How many applications per capita does Maryland have?</p>
+<h4 id="part-h">Part H</h4>
+<p>Now try using the <code>plm()</code> command, which de-means the data, and make sure you get the same results as Part F.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Inside <code>plm()</code>, set <code>index = "state"</code> to indicate variable, and <code>model = "within"</code> to indicate a fixed effects model.<br />
+<br />
+</span></span> Do you get the same marginal effect of <code>unemployrate</code> on <code>appspc</code>?</p>
+<h4 id="part-i">Part I</h4>
+<p>Now include <em>year</em> fixed effects in your regression, using the dummy variable method. Interpret the marginal effect of <code>unemployrate</code> on <code>appspc</code>. How did it change?</p>
+<h4 id="part-j">Part J</h4>
+<p>What would be the predicted number of applications in Maryland in 2011 at an unemployment rate of 5%?</p>
+<h4 id="part-k">Part K</h4>
+<p>Now try using the <code>plm()</code> command, which de-means the data, and make sure you get the same results as Part I.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Inside <code>plm()</code>, set <code>index = c("state", "year")</code> to indicate both variables, and <code>effect = "twoways"</code> to indicate a 2-way fixed effects model.<br />
+<br />
+</span></span> Do you get the same marginal effect of <code>unemployrate</code> on <code>appspc</code>?</p>
+<h4 id="part-l">Part L</h4>
+<p>Can there still be endogeneity in this model? Give some examples.</p>
+<h4 id="part-m">Part M</h4>
+<p>Create a nice regression table (using <code>huxtable</code>) for comparison of the regressions in E, G, and I.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">It’s better to use the <code>plm()</code>-generated regressions so as to avoid the multitude of coefficients for the state and year dummies! You certainly could use the dummy variable ones and manually list all of the variables to suppress in the table inside <code>omit_coefs()</code>…<br />
+<br />
+</span></span></p>
+<h3 id="question-4">Question 4</h3>
+<ul>
+<li><a href="http://metricsf20.classes.ryansafner.com/data/TexasSchools.csv"><i class="fas fa-table"></i> <code>TexasSchools.csv</code></a></li>
+</ul>
+<p>Are teachers paid more when school board members are elected “off cycle” when there are not major national political elections (e.g. odd years) than “on cycle?” The argument is that during “off” years, without attention on state or national elections, voters will pay less attention to the election, and teachers can more effectively mobilize for higher pay, versus “on” years where voters are paying more attention. This data comes from Anzia, Sarah (2012), “The Election Timing Effect: Evidence from a Policy Intervention in Texas.” <em>Quarterly Journal of Political Science</em> 7(3): 277-297, and follows 1,020 Texas school board districts from 2003–2009.</p>
+<p>From 2003–2006, all districts elected their school board members off-cycle. A change in Texas policy in 2006 led some, but not all, districts to elect their school board members on-cycle from 2007 onwards.</p>
+<table>
+<colgroup>
+<col width="43%" />
+<col width="56%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Variable</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>LnAvgSalary</code></td>
+<td>logged average salary of teachers in district</td>
+</tr>
+<tr class="even">
+<td><code>Year</code></td>
+<td>Year</td>
+</tr>
+<tr class="odd">
+<td><code>OnCycle</code></td>
+<td><code>=1</code> if school boards elected on-cycle (e.g. same year as national and state elections), <code>=0</code> if elected off-cycle</td>
+</tr>
+<tr class="even">
+<td><code>pol_freedom</code></td>
+<td>Political freedom index score (2018) from 1 (least) top 10 (most free)</td>
+</tr>
+<tr class="odd">
+<td><code>CycleSwitch</code></td>
+<td><code>=1</code> if district switched from off- to on-cycle elections</td>
+</tr>
+<tr class="even">
+<td><code>AfterSwitch</code></td>
+<td><code>=1</code> if year is after 2006</td>
+</tr>
+</tbody>
+</table>
+<h4 id="part-a-1">Part A</h4>
+<p>Run a pooled regression model of <code>LnAvgSalary</code> on <code>OnCycle</code>. Write the estimated regression equation, and interpret the coefficient on <code>OnCycle.</code> Are there any sources of bias (consider in particular the argument in the question prompt)?</p>
+<h4 id="part-b-1">Part B</h4>
+<p>Some schools decided to switch to an on-cycle election after 2006. Consider this, <code>CycleSwitch</code> the “treatment.” Create a variable to indicate post-treatment years (i.e. years after 2006). Call it <code>After</code>.</p>
+<h4 id="part-c-1">Part C</h4>
+<p>Now estimate a difference-in-difference model with your variables in Part B: <code>CycleSwitch</code> is the treatment variable, <code>After</code> is your post-treatment indicator, and add an <em>interaction</em> variable to capture the interaction effect between those districts that <em>switched</em>, and <em>after</em> the treatment. Write down the estimated regression equation (to four decimal places).</p>
+<h4 id="part-d-1">Part D</h4>
+<p>Interpret what each coefficient means from Part C.</p>
+<h4 id="part-e-1">Part E</h4>
+<p>Using your regression equation in Part C, calculate the expected logged average salary <span class="math inline">\((Y)\)</span> for districts in Texas:</p>
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li><em>Before</em> the switch that did <em>not</em> switch</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li><em>After</em> the switch that did <em>not</em> switch</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: lower-roman">
+<li><em>Before</em> the switch that <em>did</em> switch</li>
+</ol></li>
+<li><ol start="4" style="list-style-type: lower-roman">
+<li><em>After</em> the switch that <em>did</em> switch</li>
+</ol></li>
+</ul>
+<h4 id="part-f-1">Part F</h4>
+<p>Confirm your estimates in Part E by finding the mean logged average salary for each of those four groups in the data.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Hint, <code>filter()</code> properly then <code>summarize()</code>.<br />
+<br />
+</span></span></p>
+<h4 id="part-g-1">Part G</h4>
+<p>Write out the difference-in-difference equation, and calculate the difference-in-difference. Make sure it matches your estimate from the regression.</p>
+<h4 id="part-h-1">Part H</h4>
+<p>Can we say anything about the types of districts that switched? Can we say anything about all salaries in the districts in the years after the switch?</p>
+<h4 id="part-i-1">Part I</h4>
+<p>Now let’s generalize the diff-in-diff model. Instead of the treatment and post- treatment dummies, use district- and year-fixed effects and the interaction term. Interpret the coefficient on the interaction term.</p>
+<h4 id="part-j-1">Part J</h4>
+<p>Create a nice regression table (using <code>huxtable</code>) for comparison of the regressions in (a), (c), and (i).</p>
