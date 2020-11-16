@@ -1,0 +1,41 @@
+---
+title: "Final Exam"
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+library(pander)
+```
+
+**The Final Exam will be available 5:00 PM Friday, November 20 through 5:00 PM Tuesday November 24 on Blackboard**^[Go to our class Blackboard page, on the blue navigation bar on the left, click Assignments, you will find the exam.]
+
+# Concepts Study Guide
+
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/finalconcepts.pdf)
+- [<i class="fas fa-external-link-square-alt"></i> Review Questions Slides (TBD)](/slides/final-review.html)
+
+# "Practice" Exam
+
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/02-old-exam.pdf)
+
+# Useful Formula Sheet
+
+- [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/finalformulas.pdf)
+
+# Exam Information
+
+**The exact number and type of questions may change.** Note both the concepts study guide and the 
+
+**You may not have anything with you** for the exam (no notes, etc) **except a calculator.** I write questions such that you can get a perfect score without a calculator, and answers should typically be simple whole numbers. However, I understand that if nothing else, calculators are moral support and you can use them. I will provide simple calculators if you need to borrow one, as well as extra paper.
+
+**There will be no use of R on the exam**. However, you *should* be familiar with certain outputs of R that I can ask you questions about (such as regression output from `lm()`).
+
+**There will be few, if any, calculation questions**. Questions are more about *interpretation* of concepts and interpretting numbers in the context of various regressions and research questions.
+
+Students that require accommodations and students that know they will be absent must confirm with me any arrangements at least a week *in advance* of the Exam.
+
+# My Advice
+
+Make sure you do all of the homework problems and learn from the answer keys to the homeworks, as well as the in-class practice problems. While some of the questions should be novel applications, conceptual questions on homeworks will get you in the right headspace to think about answering a question on an exam.

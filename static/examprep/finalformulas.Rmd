@@ -1,0 +1,47 @@
+---
+title: ""
+author: ""
+date: ""
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Formulas
+
+- Mean of $\hat{\beta_j}$
+$$E[\hat{\beta_j}]=\beta_j+cor(X_j,u)\frac{\sigma_u}{\sigma_{X_j}}$$
+
+- Variance of $\hat{\beta_j}$
+$$var[\hat{\beta_j}]=\frac{1}{(1-R^2_j)} \times \frac{SER^2}{n \times var(X_j)}$$
+
+**Omitted Variable Bias**
+
+- True model: $\widehat{Y_i}=\beta_0+\beta_1X_{1i}+\beta_2X_{2i}+u_i$
+
+- Omitted Model (omitting $X_{2i})$: $\widehat{Y_i}=\alpha_0+\alpha_1X_{1i}+\epsilon_{i}$
+
+- Auxiliary Regression: $X_{2i}=\delta_0+\delta_1 X_{1i}+\nu_i$
+
+- Relationship: $\alpha_1 = \beta_1 + \beta_2 \delta_1$
+
+**Quadratic Model**
+$$\hat{Y_i} = \hat{\beta_0} + \hat{\beta_1} X_i + \hat{\beta_2} X_i^2$$
+
+**$F$-test**
+$$F_{q,n-k-1}=\cfrac{\bigg[\displaystyle\frac{(R^2_u-R^2_r)}{q}\bigg]}{\bigg[\displaystyle\frac{(1-R^2_u)}{(n-k-1)}\bigg]}$$
+
+**Panel Data & Fixed Effects** for group $i$ at time $t$: 
+
+$$\widehat{Y_{it}}=\beta_0+\beta_1X_{it}+u_{it}$$
+
+$$\widehat{Y_{it}}=\beta_0+\beta_1X_{it}+\mathbf{\alpha_i}+\mathbf{\theta_t}+\epsilon_{it}$$
+
+**Difference-in-Difference**
+$$\widehat{Y_{it}}=\beta_0+\beta_1 \text{Treated}_i +\beta_2 \text{After}_{t}+\beta_3 (\text{Treated}_i \times \text{After}_{t})+u_{it}$$
+
+$$\Delta \Delta Y= (Treated_{after}-Treated_{before})-(Control_{after}-Control_{before})$$
+
+$$\widehat{Y_{it}}=\alpha_i +\theta_t+\beta_3 (\text{Treated}_i \times \text{After}_{t})+ u_{it}$$
