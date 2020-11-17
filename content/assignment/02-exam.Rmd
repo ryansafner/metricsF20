@@ -9,12 +9,13 @@ library(tidyverse)
 library(pander)
 ```
 
-**The Final Exam will be available 5:00 PM Friday, November 20 through 5:00 PM Tuesday November 24 on Blackboard**^[Go to our class Blackboard page, on the blue navigation bar on the left, click Assignments, you will find the exam.]
+**The Final Exam will be available 8:00 AM Friday, November 20 through 11:59 PM Tuesday November 24 on Blackboard**^[Go to our class Blackboard page, on the blue navigation bar on the left, click Assignments, you will find the exam.]
 
 # Concepts Study Guide
 
 - [<i class="fas fa-file-pdf"></i> Download as PDF](/examprep/finalconcepts.pdf)
-- [<i class="fas fa-external-link-square-alt"></i> Review Questions Slides (TBD)](/slides/final-review.html)
+- [<i class="fas fa-external-link-square-alt"></i> Review Questions Slides](/slides/final-review.html)
+- [<i class="fas fa-file-pdf"></i> Review Questions Slides (PDF)](/slides/final-review.pdf)
 
 # "Practice" Exam
 

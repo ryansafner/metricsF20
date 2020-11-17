@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Final Review Questions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com" />
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Final Review Questions
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+# Major Models and Extensions
+
+- Causality
+  - Fundamental problem of causal inference
+  - DAGs, controlling
+
+--
+
+- Multivariate OLS
+  - Omitted Variable Bias
+  - Variance/Multicollinearity
+
+--
+
+- Categorical data
+  - Using categorical variables as dummies
+  - dummy variable trap
+  - interaction effects
+
+---
+
+# Major Models and Extensions
+
+- Nonlinear Models
+  - quadratic model, polynomial models, logarithmic models
+
+--
+
+- Panel Data
+  - pooled model
+  - fixed effects
+  - difference-in-difference models
+
+---
+
+# Question 1
+
+What are the two conditions for a variable `\(Z\)` to cause .shout[omitted variable bias] if it is left out of the regression?
+
+---
+
+# Question 2
+
+`$$\widehat{Wages}_i=\beta_0+\beta_1 \, Education_i + \beta_2 \, Age_i + \beta_3 \, Experience_i + \epsilon_i$$`
+
+Suppose `\(Education_i\)` and `\(Age_i\)` are highly correlated
+
+--
+
+- Does this .hi-purple[bias] `\(\hat{\beta_1}\)` and `\(\hat{\beta_2}\)`?
+
+--
+
+- What will happen to the .hi-purple[variance] of `\(\hat{\beta_2}\)` and `\(\hat{\beta_2}\)`? How can we measure this? 
+
+---
+
+# Question 3
+
+`$$\widehat{Cholesterol_i}=\beta_0+\beta_1 \, Treated_i+u_i$$`
+
+- `\(Treated_i\)` is a dummy variable `\(\begin{cases} =1 &amp; \text{if person received treatment}\\ =0 &amp; \text{if person did not receive treatment}\\ \end{cases}\)`
+
+--
+- What is `\(\hat{\beta_0}\)`?
+
+--
+
+- What is `\(\hat{\beta_1}\)`?
+
+--
+
+- What is the average cholesterol level for someone who recieved treatment? 
+
+---
+
+# Question 4
+
+`$$\widehat{Y}_i=\beta_0+\beta_1 \, Red_i+\beta_2 \, Orange_i+\beta_3 \, Yellow_i+\beta_4 \, Green_i+\beta_5 \, Blue_i$$`
+
+Suppose observation `\(i\)` can be either `\(\{\)`Red, Orange, Yellow, Green, Blue, Purple `\(\}\)`
+
+--
+
+- What is `\(\hat{\beta_0}\)`?
+
+--
+
+- What is `\(\hat{\beta_1}\)`?
+
+--
+
+- What is the average value of `\(Y_i\)` for `\(Green\)` shapes?
+
+--
+
+- Why can't we add `\(\beta_6 \, Purple_i\)`?
+
+---
+
+# Question 5
+
+`$$\widehat{Utility}_i=\beta_0+\beta_1 \, Eggs_i+\beta_2 \, Breakfast_i+\beta_3 (Eggs_i \times Breakfast_i)$$`
+
+`\(Breakfast_i\)` is a dummy variable `\(\begin{cases} =1 &amp; \text{if meal i is breakfast}\\ =0 &amp; \text{if meal i is not breakfast}\\ \end{cases}\)`
+
+--
+
+- What is `\(\hat{\beta_1}\)`?
+
+--
+
+- What is `\(\hat{\beta_2}\)`?
+
+--
+
+- What is `\(\hat{\beta_3}\)`?
+
+--
+
+- We have two regressions (one for Breakfast; one for Not Breakfast)
+    - how can we determine if the intercepts are different?
+    - how can we determine if the slopes are different?
+
+---
+
+# Question 6
+
+
+`$$\widehat{Utility}=2+4\text{ Ice Cream Cones}_i-1\text{ Ice Cream Cones}_i^2$$`
+
+--
+
+- What is the marginal effect of eating 1 more Ice Cream Cone?
+
+--
+
+- What if we *start* with 1 Ice Cream Cone?
+
+--
+
+- What if we *start* with 4 Ice Cream Cones?
+--
+
+- What amount of ice cream cones will *maximize* utility?
+
+--
+
+- How would we know if we should add `\(\text{Ice Cream Cones}_i^3\)`?
+
+---
+
+# Question 7
+
+`$$ln(GDP_i)=10+2\text{ population (in billions)}_i$$`
+
+- Interpret `\(\hat{\beta_1}\)` in context.
+
+--
+
+`$$ln(GDP_i)=10+0.1 \, ln(\text{population}_i)$$`
+
+- Interpret `\(\hat{\beta_1}\)` in context.
+
+---
+
+# Question 8
+
+- Explain what an `\(F\)`-test is used for
+
+--
+
+- Explain *how* an `\(F\)`-statistic is generated
+
+---
+
+# Question 9
+
+`$$\widehat{\text{Divorce Rate}_{it}}=\beta_0+\beta_1 \text{Divorce Law}_{it}+\alpha_i+\theta_t+\epsilon_{it}$$`
+
+--
+
+- Why do we need `\(\alpha_i\)` and `\(\theta_t\)`?
+
+--
+
+- What sorts of things are in `\(\alpha_i\)`?
+
+--
+
+- What sorts of things are in `\(\theta_t\)`? 
+
+---
+
+# Question 10
+
+`$$\widehat{\text{Crime Rate}_{it}}=\beta_0+\beta_1 \, \text{Maryland}_{i}+\beta_2 \, \text{After}_t+\beta_3  \, (\text{Maryland}_i \times \text{After}_t)$$`
+
+- Suppose Maryland passes a law (and other States do not) that affects crime rates
+
+--
+
+- What must we assume about Maryland over time?
+
+--
+
+- What is the average crime rate for other states before the law?
+
+--
+
+- What is the average crime rate for Maryland after the law?
+
+--
+
+- What is the *causal effect* of passing the law?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">   <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">   </div> </div> "
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
