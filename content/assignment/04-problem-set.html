@@ -4,21 +4,21 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 <style type="text/css">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -39,9 +39,9 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-le
 div.sourceCode
   { color: #1f1c1b; background-color: #ffffff; }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span. { color: #1f1c1b; } /* Normal */
+code span { color: #1f1c1b; } /* Normal */
 code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
 code span.an { color: #ca60ca; } /* Annotation */
 code span.at { color: #0057ae; } /* Attribute */
@@ -82,9 +82,9 @@ code span.wa { color: #bf0303; } /* Warning */
 </ul>
 <p><strong>ANSWERS:</strong></p>
 <ul>
-<li><a href="/assignments/04-problem-set-answers.html"><i class="fas fa-external-link-alt"></i> html</a></li>
-<li><a href="/assignments/04-problem-set-answers.Rmd"><i class="fab fa-markdown"></i> Markdown</a></li>
-<li><a href="/assignments/04-problem-set-answers.R"><i class="fas fa-registered"></i> R Script</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fas fa-external-link-alt"></i> html</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fab fa-markdown"></i> Markdown</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fas fa-registered"></i> R Script</a></li>
 </ul>
 <h2 id="instructions">Instructions</h2>
 <p>For this problem set, you may submit handwritten answers on a plain sheet of paper, or download and type/handwrite on the PDF.</p>
@@ -199,9 +199,9 @@ code span.wa { color: #bf0303; } /* Warning */
 <h2 id="r-questions">R Questions</h2>
 <p>Answer the following questions using <code>R</code>. When necessary, please write answers in the same document (knitted <code>Rmd</code> to <code>html</code> or <code>pdf</code>, typed <code>.doc(x)</code>, or handwritten) as your answers to the above questions. Be sure to include (email or print an <code>.R</code> file, or show in your knitted <code>markdown</code>) your code and the outputs of your code with the rest of your answers.</p>
 <h3 id="question-9">Question 9</h3>
-<p>Install the <code>wooldridge</code> package if you do not already have it installed.<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">This package contains datasets used in Jeffrey Wooldrige’s <em>Introductory Econometrics: A Modern Approach</em> (the textbook that I used in <em>my</em> econometrics classes years ago!)<br />
+<p>Install the <code>wooldridge</code> package if you do not already have it installed.<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle"/><span class="sidenote">This package contains datasets used in Jeffrey Wooldrige’s <em>Introductory Econometrics: A Modern Approach</em> (the textbook that I used in <em>my</em> econometrics classes years ago!)<br />
 <br />
-</span></span> We will use the <code>bwght</code> data from <code>wooldridge</code><span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” <em>Review of Economics and Statistics</em> 79: 596-593.<br />
+</span></span> We will use the <code>bwght</code> data from <code>wooldridge</code><span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Which comes from The 1988 National Health Interview Survey., used in J. Mullahy (1997), “Instrumental-Variable Estimation of Count Data Models: Applications to Models of Cigarette Smoking Behavior,” <em>Review of Economics and Statistics</em> 79: 596-593.<br />
 <br />
 </span></span></p>
 <p>Let’s just look at the following variables:</p>
@@ -239,25 +239,25 @@ code span.wa { color: #bf0303; } /* Warning */
 <p>We want to explore how a mother smoking during pregnancy affects the baby’s birthweight (which may have strong effects on outcomes over the child’s life).</p>
 </blockquote>
 <p>Just to be explicit about it, assign this as some dataframe (feel free to change the name), i.e.:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(&quot;wooldridge&quot;)</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(wooldridge)</span>
-<span id="cb1-3"><a href="#cb1-3"></a>bwght&lt;-wooldridge<span class="op">::</span>bwght</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(&quot;wooldridge&quot;)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wooldridge)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>bwght<span class="ot">&lt;-</span>wooldridge<span class="sc">::</span>bwght</span></code></pre></div>
 <h4 id="part-a-2">Part A</h4>
-<p>Make a correlation table for our variables listed above.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Hints: <code>select()</code> these variables and then pipe them into <code>cor(., use="pairwise.complete.obs")</code> to use only observations for which there are data on each variable (to avoid <code>NA</code>’s).<br />
+<p>Make a correlation table for our variables listed above.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote">Hints: <code>select()</code> these variables and then pipe them into <code>cor(., use="pairwise.complete.obs")</code> to use only observations for which there are data on each variable (to avoid <code>NA</code>’s).<br />
 <br />
 </span></span></p>
 <h4 id="part-b-2">Part B</h4>
 <p>Consider the following causal model:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggdag)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">dagify</span>(bwght<span class="op">~</span>cigs<span class="op">+</span>inc,</span>
-<span id="cb2-3"><a href="#cb2-3"></a>       cigs<span class="op">~</span>price<span class="op">+</span>educ<span class="op">+</span>inc,</span>
-<span id="cb2-4"><a href="#cb2-4"></a>       inc<span class="op">~</span>educ,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>       <span class="dt">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>       <span class="dt">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">  </span><span class="kw">tidy_dagitty</span>(<span class="dt">seed =</span> <span class="dv">256</span>) <span class="op">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a><span class="st">  </span><span class="kw">ggdag_status</span>()<span class="op">+</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="st">  </span><span class="kw">theme_dag_blank</span>()<span class="op">+</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggdag)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dagify</span>(bwght<span class="sc">~</span>cigs<span class="sc">+</span>inc,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       cigs<span class="sc">~</span>price<span class="sc">+</span>educ<span class="sc">+</span>inc,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       inc<span class="sc">~</span>educ,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">exposure =</span> <span class="st">&quot;cigs&quot;</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">outcome =</span> <span class="st">&quot;bwght&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy_dagitty</span>(<span class="at">seed =</span> <span class="dv">256</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggdag_status</span>()<span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_dag_blank</span>()<span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="/assignment/04-problem-set_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>Note what we are hypothesizing:</p>
 <ul>
@@ -280,11 +280,11 @@ code span.wa { color: #bf0303; } /* Warning */
 <h4 id="part-e">Part E</h4>
 <p>What is the minimal sufficient set of variables we need to control in order to causally identify the effect of <code>cigs</code> on <code>bwght</code>?</p>
 <h4 id="part-f">Part F</h4>
-<p>Estimate the causal effect by running the appropriate regression.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can change a variable on the diagram to be “<em>adjusted</em>” (controlled for) by double-clicking it and then hitting the <code>A</code> key.<br />
+<p>Estimate the causal effect by running the appropriate regression.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can change a variable on the diagram to be “<em>adjusted</em>” (controlled for) by double-clicking it and then hitting the <code>A</code> key.<br />
 <br />
 </span></span></p>
 <h4 id="part-g">Part G</h4>
-<p>We saw some effect between <code>faminc</code> and <code>cigprice</code>. Perhaps there are unobserved factors (such as the economy’s performance) that affect both. Add an unobserved factor <code>u1</code> to your <code>dagitty</code> model.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can make a variable be “<em>unobserved</em>” by double-clicking it and then hitting the <code>U</code> key.<br />
+<p>We saw some effect between <code>faminc</code> and <code>cigprice</code>. Perhaps there are unobserved factors (such as the economy’s performance) that affect both. Add an unobserved factor <code>u1</code> to your <code>dagitty</code> model.<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Note, on <code>dagitty</code>, you can make a variable be “<em>unobserved</em>” by double-clicking it and then hitting the <code>U</code> key.<br />
 <br />
 </span></span></p>
 <h4 id="part-h">Part H</h4>
@@ -344,15 +344,15 @@ code span.wa { color: #bf0303; } /* Warning */
 <h4 id="part-g-1">Part G</h4>
 <p>What happened to the estimate on <code>height85</code> and its standard error?</p>
 <h4 id="part-h-1">Part H</h4>
-<p>Is there multicollinearity between <code>height85</code> and <code>height81</code>? Explore with a scatterplot.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: to avoid overplotting, use <code>geom_jitter()</code> instead of <code>geom_point()</code> to get a better view of the data.<br />
+<p>Is there multicollinearity between <code>height85</code> and <code>height81</code>? Explore with a scatterplot.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Hint: to avoid overplotting, use <code>geom_jitter()</code> instead of <code>geom_point()</code> to get a better view of the data.<br />
 <br />
 </span></span></p>
 <h4 id="part-i-1">Part I</h4>
-<p>Quantify how much multicollinearity affects the variance of the OLS estimates on both heights.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Hint: You’ll need the <code>car</code> package.<br />
+<p>Quantify how much multicollinearity affects the variance of the OLS estimates on both heights.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">Hint: You’ll need the <code>car</code> package.<br />
 <br />
 </span></span></p>
 <h4 id="part-j-1">Part J</h4>
-<p>Reach the same number as in part I by running an auxiliary regression.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Hint: There’s some missing <code>wage96</code> data that may give you a different answer, so <code>filter()</code> your data here by <code>!is.na(wage96)</code> before running this regression - this will include only observations for <code>wage96</code> that are not <code>NA</code>’s.<br />
+<p>Reach the same number as in part I by running an auxiliary regression.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Hint: There’s some missing <code>wage96</code> data that may give you a different answer, so <code>filter()</code> your data here by <code>!is.na(wage96)</code> before running this regression - this will include only observations for <code>wage96</code> that are not <code>NA</code>’s.<br />
 <br />
 </span></span></p>
 <h4 id="part-k-1">Part K</h4>

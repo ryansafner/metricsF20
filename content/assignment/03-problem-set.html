@@ -4,7 +4,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-<script src="/rmarkdown-libs/accessible-code-block/empty-anchor.js"></script>
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
 
 
 <p><em>Due by Sunday, September 27, 2020</em></p>
@@ -14,9 +14,9 @@ editor_options:
 </ul>
 <p><strong>ANSWERS:</strong></p>
 <ul>
-<li><a href="/assignments/03-problem-set-answers.html"><i class="fas fa-external-link-alt"></i> html</a></li>
-<li><a href="/assignments/03-problem-set-answers.Rmd"><i class="fab fa-markdown"></i> Download Markdown</a></li>
-<li><a href="/assignments/03-problem-set-answers.R"><i class="fas fa-registered"></i> <code>R</code> Script`</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fas fa-external-link-alt"></i> html</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fab fa-markdown"></i> Download Markdown</a></li>
+<li><a href="https://www.youtube.com/watch/dQw4w9WgXcQ"><i class="fas fa-registered"></i> <code>R</code> Script`</a></li>
 </ul>
 <h2 id="instructions">Instructions</h2>
 <p>There are several ways you can complete and turn in this homework assignment:</p>
@@ -64,7 +64,7 @@ editor_options:
 <h4 id="part-e">Part E</h4>
 <p>Suppose Maria is 20 years old. What is her predicted <span class="math inline">\(\widehat{AWE}\)</span>?</p>
 <h4 id="part-f">Part F</h4>
-<p>Suppose the data shows her <em>actual</em> <span class="math inline">\(AWE\)</span> is $430. What is her residual? Is this a relatively good or a bad prediction?<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote">Hint: compare your answer here to your answer in Part D.<br />
+<p>Suppose the data shows her <em>actual</em> <span class="math inline">\(AWE\)</span> is $430. What is her residual? Is this a relatively good or a bad prediction?<span><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle"/><span class="sidenote">Hint: compare your answer here to your answer in Part D.<br />
 <br />
 </span></span></p>
 <h4 id="part-g">Part G</h4>
@@ -126,22 +126,22 @@ In a sample of 48 observations, she generates the following descriptive statisti
 <h4 id="part-k">Part K</h4>
 <p>What is the marginal effect of home attendance on runs scored? Is this statistically significant? Why or why not?</p>
 <h4 id="part-l">Part L</h4>
-<p>Now we’ll try out the <code>infer</code> package to understand the <span class="math inline">\(p\)</span>-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part D as an object. Then, install and load the <code>infer</code> package, and then calculate the slope<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
+<p>Now we’ll try out the <code>infer</code> package to understand the <span class="math inline">\(p\)</span>-value and confidence interval for our observed slope in our regression model. Save the (value of) our sample <span class="math inline">\(\hat{\beta_1}\)</span> from your regression in Part D as an object. Then, install and load the <code>infer</code> package, and then calculate the slope<span><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle"/><span class="sidenote"><code>calculate(stat = "slope")</code><br />
 <br />
-</span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
+</span></span> under the null hypothesis that there is no connection between attendance and runs.<span><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle"/><span class="sidenote"><code>hypothesize(null = "independence")</code><br />
 <br />
-</span></span> for 1000 additional simulated samples<span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote"><code>generate(reps = 1000, type = "permute")</code><br />
+</span></span> for 1000 additional simulated samples<span><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle"/><span class="sidenote"><code>generate(reps = 1000, type = "permute")</code><br />
 <br />
-</span></span>, and save this as an object (it’s a <code>tibble</code>). Then, use this to <code>get_p_value()</code><span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">Set <code>obs_stat</code> equal to your observed slope, and set <code>direction = "two_sided"</code><br />
+</span></span>, and save this as an object (it’s a <code>tibble</code>). Then, use this to <code>get_p_value()</code><span><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle"/><span class="sidenote">Set <code>obs_stat</code> equal to your observed slope, and set <code>direction = "two_sided"</code><br />
 <br />
 </span></span>. Compare to the <span class="math inline">\(p\)</span>-value given by <code>lm()</code> and <code>tidy()</code> above.</p>
 <h4 id="part-m">Part M</h4>
-<p>Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. <em>Regardless</em> of which method you use, add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
+<p>Make a histogram of the simulated slopes, and plot our sample slope on that histogram, shading the <span class="math inline">\(p\)</span>-value.<span><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle"/><span class="sidenote">You can use <code>ggplot2</code> to plot a histogram in the normal way and add a <code>geom_vline()</code>, setting <code>xintercept</code> equal to your saved object with the sample <span class="math inline">\(\hat{\beta_1}\)</span> value. <em>Alternatively</em>, you can use <code>infer</code> to pipe your <code>tibble</code> of simulations into <code>visualize()</code>, and inside <code>visualize()</code> set <code>obs_stat</code> equal to your saved <span class="math inline">\(\hat{\beta_1}\)</span> object. <em>Regardless</em> of which method you use, add <code>+shade_p_value()</code>. Inside this, set <code>obs_stat</code> equal to your saved slope, and add <code>direction = "two_sided"</code>.<br />
 <br />
 </span></span></p>
 <h4 id="part-n">Part N</h4>
-<p>Get the 95% confidence interval for your slope estimate,<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
+<p>Get the 95% confidence interval for your slope estimate,<span><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle"/><span class="sidenote"><code>tidy()</code> your original regression, with <code>conf.int = TRUE</code> inside the command, then <code>select(conf.low, conf.high)</code> and <code>filter</code> by your <code>x</code> variable. Save this as an object.<br />
 <br />
-</span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />
+</span></span> and then make a histogram of the simulated slopes (like part L), but instead, add <code>+shade_confidence_interval()</code>.<span><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle"/><span class="sidenote">Inside of this, set <code>endpoints</code> equal to the object you just made with the low and high confidence interval values.<br />
 <br />
 </span></span> Compare this to what you get with <code>tidy()</code> above.</p>

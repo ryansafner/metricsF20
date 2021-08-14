@@ -1,0 +1,651 @@
+---
+title: "4.3 — Instrumental Variables Models"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F,
+                      fig.align="center",
+                      fig.retina=3)
+library(tidyverse)
+library(broom)
+set.seed(256)
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+```
+
+class: inverse
+
+# Outline
+
+### [Difference-in-Difference Models](#3)
+### [Example I: HOPE in Georgia](#32)
+### [Generalizing DND Models](#71)
+### [Example II: "The" Card-Kreuger Minimum Wage Study](#79)
+
+---
+
+# Clever Research Designs Identify Causality
+
+Again, **this toolkit** of research designs to **identify causal effects** is the economist’s **comparative advantage** that firms and governments want!
+
+```{r, fig.retina=3, fig.align="center", fig.width=14}
+update_geom_defaults("text", list(family = "Fira Sans Condensed"))
+
+ggplot(data = tibble(x=c(0,10),
+                     y=c(0,10)))+
+  aes(x = x,
+      y = y)+
+  geom_text(x=1,y=0.75, label="Correlation", size =10, color = "#fde0dd")+
+  geom_text(x=5,y=0.75, label="Causation", size = 10, color = "#7a0177")+
+  
+  
+  geom_text(x=1,y=1.5, label="Differences", size =5, color = "#fde0dd")+
+  geom_text(x=1,y=1.25, label="Pre-Post", size =5, color = "#fde0dd")+
+  geom_text(x=2,y=1.75, label="Multiple Regression", size =5, color = "#fbb4b9")+
+  geom_text(x=2,y=1.25, label="Matching", size =5, color = "#fbb4b9")+
+    geom_text(x=3,y=2, label="Fixed Effects", size =5, color = "#f768a1")+
+    geom_text(x=3.5,y=2.25, label="Diff-in-Diff", size =5, color = "#c51b8a")+
+  geom_text(x=4,y=1.25, label="Natural Experiments", size =5, color = "#c51b8a")+
+  geom_text(x=3.5,y=1.5, label="Regression Discontinuity", size =5, color = "#c51b8a")+
+  geom_text(x=5,y=1.75, label="RCTs", size =5, color = "#7a0177")+
+  annotate("segment", x = 1, xend = 5, y = 1, yend = 1, colour = "black", size=2, alpha=1, arrow=arrow(length=unit(0.5,"cm"), ends="last", type="closed"))+
+  scale_x_continuous(breaks=seq(0,6,1),
+                     limits=c(0,6))+
+  scale_y_continuous(breaks=seq(0,3,1),
+                     limits=c(0.5,2.3))+
+  theme_void(base_family="Fira Sans Condensed", base_size = 14)
+```
+
+---
+
+# Fighting Endogeneity
+
+.pull-left[
+
+- **Endogeneity** remains the hardest (and most common) econometric challenge
+
+- DND/Fixed Effects are one strategy to remove endogeneity
+  - *Requires* panel data
+  - Can't use time-varying omitted variables that are correlated with regressors
+
+- Another strategy to is to find some source of exogenous variation that removes the endogeneity of a variable, using that source as a .shout[instrumental variable]
+
+]
+
+--
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/008jg8bpnu1nn2e/ivhot.jpg?raw=1)
+]
+]
+
+---
+
+class: inverse, center, middle
+
+# Instrumental Variables Models
+
+---
+
+# Understanding Instrumental Variables
+
+.pull-left[
+```{r, fig.retina=3}
+library(ggdag)
+library(ggraph)
+node_colors <- tribble(
+  ~name, ~Variable,
+  "X", "Endogenous",
+  "Y", "Endogenous",
+  "Z", "Endogenous",
+  "I", "Exogenous",
+)
+
+dag <- dagify(Y ~ X + Z,
+              X ~ I + Z,
+              outcome = "Y",
+              exposure = "X") %>% 
+  tidy_dagitty(layout = "dh", seed = 256) 
+
+# Add node types/colors to DAG data
+dag$data <- dag$data %>% 
+  left_join(node_colors, by = "name")
+
+dag_plot<-ggplot(data = dag)+
+  aes(x = x,
+      y = y,
+      xend = xend,
+      yend = yend)+
+  geom_dag_point(size = 10, mapping = aes(color = Variable)) +
+  geom_dag_edges(start_cap = circle(4, "mm"),
+                 end_cap = circle(4, "mm")) +
+  geom_dag_text(size = 5, family = "Fira Sans") +
+  scale_dag()+
+  theme_void()+
+  theme(legend.position = "bottom")
+dag_plot
+```
+
+]
+
+.pull-right[
+
+- .red[**X**] and .red[**Y**] are correlated
+
+- Consider confounding variable .red[**Z**] that would meet the conditions of omitted variable bias:
+  1. Causes $Y$ (in error term $u)$
+  2. Correlated with $X$
+
+- Causal pathways from $X$ to $Y$:
+  1. $X \rightarrow Y$ (causal, front door)
+  2. $X \leftarrow Z \rightarrow Y$ (non-causal, back door)
+
+- Consider variable .blue[**I**] which causes .red[**X**] but *not* .red[**Y**]
+]
+
+---
+
+# Understanding Instrumental Variables
+
+.pull-left[
+```{r, fig.retina=3}
+dag_plot
+```
+
+]
+
+.pull-right[
+
+- Variable .blue[**I**] has no backdoors between it and $Y$
+
+- The only way to reach $Y$ from $I$ is through $X$:
+  - $I \rightarrow X \rightarrow Y$
+
+- Variable .blue[**I**] is a good .shout[instrument] for $X$ if it satisfies two conditions:
+  1. .whisper[Inclusion condition]: $I$ statistically-significantly explains $X$
+  2. .whisper[Exclusion condition]: $I$ is uncorrelated with $u$, so it does not directly affect $Y$
+    - $I$ only affects $Y$ *through* its effect on $X$
+]
+
+---
+
+# Understanding Instrumental Variables II
+
+
+---
+
+# Example I
+
+.pull-left[
+.content-box-green[
+.green[**Example**]: How does veteran status affect earnings?
+]
+$$\text{Earnings}_{i}=\beta_0+\beta_1 \, \text{Veteran}_{i}+\text{u}_{i}$$
+
+- Veteran$_i$ is endogenous, correlated with other things in $u_i$
+  - Choice to enlist in military for non-random reasons
+]
+
+.pull-right[
+.center[
+![](https://www.dropbox.com/s/5vebw7imwfuj5nc/veteranhat.jpg?raw=1)
+]
+]
+
+---
+
+# Example II
+
+
+- Imagine if we could split variation in $X$ into an exogenous part and an endogenous part:
+
+--
+
+$$\begin{align*}
+\text{Earnings}_i &= \beta_0 + \beta_1 \, \text{Veteran}_i + u_i \\
+\text{Earnings}_i &= \beta_0 + \beta_1 \,  (\text{Veteran}_i^{Ex.}+\text{Veteran}_i^{End.})+u_i\\
+\text{Earnings}_i &= \beta_0 + \beta_1 \, \text{Veteran}_i^{Ex.}+ \underbrace{\beta_1 \text{Veteran}_i^{End.}+u_i}_{w_i}\\
+\text{Earnings}_i &= \beta_0 + \beta_1 \, \text{Veteran}_i^{Ex.}+ w_i\\
+\end{align*}$$
+
+--
+
+- What would a plausible source of Veteran$_i^{Ex.}$ be?
+
+--
+
+- Choices to enlist in the military for "random" reasons, uncorrelated with $u_i$ (other things that affect Earnings$_i)$
+
+---
+
+# Example III
+
+- We isolate the *exogenous variation* in $X_i$ with an .shout[instrumental variable] that is:
+
+1. Correlated with the explanatory variable (.shout[relevance])
+2. Uncorrelated with the error term (.shout[exogenous])
+
+
+- So for our example:
+
+$$\text{Earnings}_{i}=\beta_0+\beta_1 \, \text{Veteran}_{i}+\text{u}_{i}$$
+
+We want an instrument $I$ for Veteran$_i$ which is:
+
+1. .shout[Relevant:] $cor(Veteran_i, I_i)\neq 0$
+2. .shout[Exogenous:] $cor(I_i, u_i)\neq 0$
+
+---
+
+# Example: Relevance
+
+- .shout[Relevance:] we need $I_i$ to vary with our endogenous $X_i$ variable
+
+- We can *test* this condition using a regression and $t$-test on the relevant coefficient
+
+- .green[**Example**:] For *veteran* status, consider several potential $I_i$ variables:
+
+.pull-left[
+1\. Social security number
+]
+--
+.pull-right[
+**Probably not relevant** <br> uncorrelated with military service
+]
+--
+.pull-left[
+2\. Physical fitness
+]
+--
+.pull-right[
+**Possibly relevant** <br> may be correlated with military service
+]
+--
+.pull-left[
+3\. Vietnam War Draft
+]
+--
+.pull-right[
+**Relevant** <br> being drawn in draft causes military service
+]
+
+---
+
+# Example: Exogeneity
+
+- .shout[Exogeneity:] we need $I_i$ to be "as good as randomly assigned", uncorrelated with $u_i$ (other factors that determine $Y_i)$
+
+- **Not testable!**
+
+- .green[**Example**:] For *veteran* status, consider several potential $I_i$ variables:
+
+.pull-left[
+1\. Social security number
+]
+--
+.pull-right[
+**Exogenous** <br> uncorrelated with other factors of earnings
+]
+--
+.pull-left[
+2\. Physical fitness
+]
+--
+.pull-right[
+**Not exogeous** <br> correlated with many other factors of earnings
+]
+--
+.pull-left[
+3\. Vietnam War Draft
+]
+--
+.pull-right[
+**Exogenous** <br> lottery was random!
+]
+
+---
+
+# Example: Review
+
+- Instrument must be
+1. Correlated with our endogenous variable $(X_i)$
+2. Uncorrelated with omitted variables that affect $Y_i$
+
+- To summarize: **the instrument only affects the outcome through its relationship with the endogenous variable**
+
+--
+- .green[**Example**:] For *veteran* status, our several potential $I_i$ variables:
+
+.pull-left[
+1\. Social security number
+]
+--
+.pull-right[
+**Not relevant** <br> **Exogenous**
+]
+--
+.pull-left[
+2\. Physical fitness
+]
+--
+.pull-right[
+**Relevant** <br> **Not exogenous**
+]
+--
+.pull-left[
+3\. Vietnam War Draft
+]
+--
+.pull-right[
+**Relevant** <br> **Exogenous**
+]
+
+- The Vietnam War Draft is the only **_valid_ instrument**
+
+---
+
+# Example: DAG Form
+
+.pull-left[
+```{r, fig.retina=3}
+vet_colors <- tribble(
+  ~name, ~Variable, ~Adjusted,
+  "Vet", "X", "Not",
+  "Earn", "Y", "Not",
+  "Draft", "Z", "Not",
+  "U", "Z", "Not",
+)
+
+vet_dag <- dagify(Earn ~ Vet + U,
+              Vet ~ Draft + U,
+              outcome = "Earn",
+              exposure = "Vet") %>% 
+  tidy_dagitty(seed = 256) 
+
+# Add node types/colors to DAG data
+vet_dag$data <- vet_dag$data %>% 
+  left_join(vet_colors, by = "name")
+
+vet_plot<-ggplot(data = vet_dag)+
+  aes(x = x,
+      y = y,
+      xend = xend,
+      yend = yend)+
+  geom_dag_point(size = 10,
+                 aes(color = Variable,
+                     shape = Adjusted)) +
+  geom_dag_edges(start_cap = circle(4, "mm"),
+                 end_cap = circle(4, "mm")) +
+  geom_dag_text(size = 3, family = "Fira Sans") +
+  scale_dag()+
+  theme_void()+
+  scale_shape_manual(values = c(16,17))+
+  theme(legend.position = "none")
+vet_plot
+```
+
+]
+
+.pull-right[
+
+- Causal pathways from $X$ to $Y$:
+  1. $\color{red}_{Vet} \rightarrow \color{green}_{Earn}$
+  2. $\color{red}_{Vet} \leftarrow \color{blue}{U} \rightarrow \color{green}_{Earn}$
+  
+- We want the causal effect of
+
+- $\color{red}_{Vet} \rightarrow \color{green}_{Earn}$
+
+- With our instrument
+  - $\color{blue}_{Draft} \rightarrow \color{red}_{Vet} \rightarrow \color{green}_{Earn}$
+
+]
+
+---
+
+# Example: DAG Form II
+
+.pull-left[
+```{r, fig.retina=3}
+vet_plot
+```
+
+]
+
+.pull-right[
+
+- With our instrument
+  - $\color{blue}_{Draft} \rightarrow \color{red}_{Vet} \rightarrow \color{green}_{Earn}$
+
+- Based on our assumptions on independence and exogeneity:
+
+(Effect of .blue[the draft] on .orange[earnings]) =
+<br>  (Effect of .blue[the draft] on .purple[veteran status])×
+<br>  (Effect of .purple[veteran status] on .orange[earnings])
+
+]
+
+---
+
+
+# Example: DAG Form III
+
+.pull-left[
+```{r, fig.retina=3}
+vet_plot
+```
+
+]
+
+.pull-right[
+
+- Based on our assumptions on independence and exogeneity:
+
+(Effect of .blue[the draft] on .orange[earnings]) =
+<br>  (Effect of .blue[the draft] on .purple[veteran status])×
+<br>  (Effect of .purple[veteran status] on .orange[earnings])
+
+- To find effect of .purple[veteran status] on .orange[earnings], rearrange!
+
+(Effect of .purple[veteran status] on .orange[earnings]) =
+<br>  [(Effect of .blue[the draft] on .orange[earnings])] / .bottom[(Effect of .blue[the draft] on .purple[veteran status])]
+
+]
+
+---
+
+# Estimating Instrumental Variables
+
+*Recall:* We want to estimate the effect of veteran status on earnings.
+$$
+\color{orange}{\text{Earnings}_i} = \beta_0 + \beta_1 \,  \color{purple}{\text{Veteran}_i} + u_i
+$$
+
+--
+
+- Consider two related effects:
+
+--
+
+1. Effect of .green[instrument] on the .purple[endogenous variable]
+$$
+\color{purple}{\text{Veteran}_i} = \gamma_0 + \gamma_1 \, \color{green}{\text{Draft}_i} + w_i
+$$
+
+--
+
+2. Effect of .green[instrument] on the .orange[outcome variable]
+$$
+\color{orange}{\text{Earnings}_i} = \pi_0 + \pi_1 \color{green}{\text{Draft}_i} + v_i
+$$
+
+--
+
+
+- Police $\rightarrow$ crime (more police reduces crime)
+- Crime $\rightarrow$ Police (high crime areas tend to have more police)
+- $cor(\text{Police}, \text{u})\neq 0$: population, income per capita, drug use, recessions, demography, etc.
+
+]
+
+
+
+# Example I
+
+.pull-left[
+.content-box-green[
+.green[**Example**]: How do (more) police affect crime rates?
+$$\text{Crime}_{it}=\beta_0+\beta_1 \, \text{Police}_{it}+\text{u}_{it}$$
+]
+
+- Police $\rightarrow$ crime (more police reduces crime)
+- Crime $\rightarrow$ Police (high crime areas tend to have more police)
+- $cor(\text{Police}, \text{u})\neq 0$: population, income per capita, drug use, recessions, demography, etc.
+
+]
+
+---
+
+# Example II
+
+.pull-left[
+.content-box-green[
+.green[**Example**]: Levitt (2002): use number of firefighters as an **instrument** for police
+
+]
+
+- *Some* variation in Police is **endogenous**
+  - More police hired to combat rising crime
+  - Changes in economy, demographics, etc, correlated with crime
+
+- *Some* variation in Police is **exogenous**
+  - Some police might be hired for reasons *not* connected to crime
+  - Perhaps city gets a larger budget one year
+
+- Exogenous, non-crime-related changes affect number of *Firefighters* in a city (excess budget, etc)
+  - Isolate that portion of variation in Police that covaries with Firefighters (exogenous)
+  - Throw out variation in Police that is endogenous (covaries with things that vary with crime)
+  - See how the exogenous variation in Firefighters helps explain variation in Crime via Police! 
+]
+
+.source[Levitt, Steven D, (2002), "Using Electoral Cycles in Police Hiring to Estimate the Effect of Police on Crime: Reply," *American Economic Review* 92(4): 1244-1250]
+
+---
+
+# Instrumental Variables Estimator
+
+---
+
+class: inverse, center, middle
+
+# Two-Stage Least Squares
+
+---
+
+# Two-Stage Least Squares
+
+- We use an instrument via .shout[Two Stage Least Squares (2SLS)] method:
+
+--
+
+- Our main equation is<sup>.red[1]</sup>
+
+.footnote[<sup>.red[1]</sup>Consider for convenience `\\(X_{2i}\\)` representing other control variables]
+
+$$\widehat{Y_i}=\widehat{\beta_0}+\widehat{\beta_1}X_{1i}+\widehat{\beta_2}X_{2i}+ \widehat{u_i}$$
+
+--
+
+- We proceed with the **First Stage** using $IV$ to explain $X_{1i}$ in an **auxiliary regression**:
+
+$$\color{magenta}{\widehat{X_{1i}}}=\hat{\gamma_0}+\hat{\gamma_1}IV_i+\hat{\gamma_2}X_{2i}+ \hat{\epsilon_i}$$
+
+--
+
+- Then substitute in the *predicted* value of $\widehat{X_{1i}}$ for the original regression in the **Second Stage**:
+
+$$\widehat{Y_i}=\hat{\beta_0}+\hat{\beta_1}\color{magenta}{\widehat{X_{1i}}}+\hat{\beta_2}X_{2i}+ \hat{u_i}$$
+
+---
+
+Additional instruments,
+
+conditional instruments
+
+- controlling for Y, I is a valid instrumetn
+
+---
+
+# Understanding Instrumental Variables
+
+.pull-left[
+```{r, fig.retina=3}
+node_colors2 <- tribble(
+  ~name, ~Variable, ~Adjusted,
+  "X", "Endogenous", "Not",
+  "Y", "Endogenous", "Not",
+  "Z", "Endogenous", "Not",
+  "I", "Exogenous", "Not",
+  "A", "Endogenous", "Adjusted"
+)
+
+dag2 <- dagify(Y ~ X + Z + A,
+              X ~ I + Z,
+              I ~ A,
+              outcome = "Y",
+              exposure = "X") %>% 
+  tidy_dagitty(seed = 256) 
+
+# Add node types/colors to DAG data
+dag2$data <- dag2$data %>% 
+  left_join(node_colors2, by = "name")
+
+dag_plot2<-ggplot(data = dag2)+
+  aes(x = x,
+      y = y,
+      xend = xend,
+      yend = yend)+
+  geom_dag_point(size = 10,
+                 aes(color = Variable,
+                     shape = Adjusted)) +
+  geom_dag_edges(start_cap = circle(4, "mm"),
+                 end_cap = circle(4, "mm")) +
+  geom_dag_text(size = 5, family = "Fira Sans") +
+  scale_dag()+
+  theme_void()+
+  scale_shape_manual(values = c(17,16))+
+  theme(legend.position = "none")
+dag_plot2
+```
+
+]
+
+.pull-right[
+
+- Controlling for A, can instrument I for X
+]

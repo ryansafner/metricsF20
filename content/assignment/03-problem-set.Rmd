@@ -16,9 +16,9 @@ library(pander)
 
 **ANSWERS:**
 
-- [<i class="fas fa-external-link-alt"></i> html](/assignments/03-problem-set-answers.html)
-- [<i class="fab fa-markdown"></i> Download Markdown](/assignments/03-problem-set-answers.Rmd)
-- [<i class="fas fa-registered"></i> `R` Script`](/assignments/03-problem-set-answers.R)
+- [<i class="fas fa-external-link-alt"></i> html](https://www.youtube.com/watch/dQw4w9WgXcQ)
+- [<i class="fab fa-markdown"></i> Download Markdown](https://www.youtube.com/watch/dQw4w9WgXcQ)
+- [<i class="fas fa-registered"></i> `R` Script`](https://www.youtube.com/watch/dQw4w9WgXcQ)
 
 # Instructions
 

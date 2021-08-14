@@ -17,9 +17,9 @@ library(pander)
 
 **ANSWERS:**
 
-- [<i class="fas fa-file-pdf"></i> `html`](/assignments/01-problem-set-answers.html)
-- [<i class="fab fa-markdown"></i> `Markdown`](/assignments/01-problem-set-answers.Rmd)
-- [<i class="fas fa-registered"></i> `R Script`](/assignments/01-problem-set-answers.R)
+- [<i class="fas fa-file-pdf"></i> `html`](https://www.youtube.com/watch/dQw4w9WgXcQ)
+- [<i class="fab fa-markdown"></i> `Markdown`](https://www.youtube.com/watch/dQw4w9WgXcQ)
+- [<i class="fas fa-registered"></i> `R Script`](https://www.youtube.com/watch/dQw4w9WgXcQ)
 
 # Instructions
 

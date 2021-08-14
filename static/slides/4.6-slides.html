@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>4.6 — Machine Learning</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Ryan Safner  Assistant Professor of Economics   safner@hood.edu   ryansafner/metricsF20   metricsF20.classes.ryansafner.com " />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/hygge.css" rel="stylesheet" />
+    <link href="libs/pagedtable/css/pagedtable.css" rel="stylesheet" />
+    <script src="libs/pagedtable/js/pagedtable.js"></script>
+    <script src="https://use.fontawesome.com/5235085b15.js"></script>
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# 4.6 — Machine Learning
+## ECON 480 • Econometrics • Fall 2020
+### Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>
+
+---
+
+
+
+
+---
+
+# Regression vs. Classification 
+
+`$$\color{orange}{Y}=\color{teal}{f}(\color{purple}{X})$$`
+
+1. Causal inference: how do changes in `\(\color{purple}{X}\)` affect `\(\color{orange}{Y}\)`?
+  - We care more about `\(\color{teal}{f}\)` than `\(\color{orange}{\hat{Y}}\)`
+
+2. Prediction: predict `\(\color{orange}{Y}\)` using an estimated `\(\color{teal}{f}\)`
+
+`$$\color{orange}{\hat{Y}}=\color{teal}{\hat{f}}(\color{purple}{X})$$`
+  - a black-box setting where we care more about `\(\color{orange}{\hat{Y}}\)` than `\(\color{teal}{f}\)`
+
+
+- .hi[Regression] problems seek to measure causal effect of `\(X\)` on `\(Y\)` or predict the quantity of `\(Y\)` from combination of `\(X\)`'s
+  - Measured in integers (number of cats), real numbers (home value, etc)
+
+- .hi[Classification] problems seek to predict the category of an outcome `\((Y)\)`
+  - Binary outcomes: success/failure, `TRUE/FALSE`, `\(A\)` or `\(B\)`, cat or not cat, etc
+  - Multi-class outcomes: Likert scale, type of cat, colors, etc.
+    - qualitative or categorical response
+
+]
+
+---
+
+# Classification Problem Examples
+
+.pull-left[
+
+]
+
+.pull-right[
+
+1. Using criminal/life history, can we predict whether a defendant is .hi-purple[granted bail]?
+
+2. Using a set of symptoms and observations, can we predict a patient's .hi-purple[medical condition]?
+
+3. From the pixels in an image, can we classify images as .hi-purple[cat, dog, bagel, other?]
+]
+
+---
+
+# Classification Problem Approaches
+
+
+.pull-left[
+
+]
+
+.pull-right[
+
+- (At least) two related approaches:
+
+1. Predict .hi-purple[which category] the outcome will be
+
+2. Estimate the .hi-purple[probability of each category] for the outcome
+
+- General approach:
+  - take set of training characteristics `\((X_1, Y_1), (X_2, Y_2), \cdots (X_n, Y_n)\)`
+  - build a classifier `\(\hat{Y_0} = f(X_0)\)`
+  - while balancing bias and variance
+]
+
+---
+
+# What's Wrong With Regression
+
+
+
+---
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+- We've seen models where *independent* `\((X)\)` variables are dummy variables
+
+- We now consider models where the *dependent* `\((Y)\)` variable is a dummy variable
+
+`$$Y_i=\beta_0+\beta_1X_i+u_i \quad Y \in (0,1)$$`
+]
+
+---
+
+# Linear Probability Model
+
+.pull-left[
+
+]
+
+.pull-right[
+
+`$$Pr(Y_i = 1 | X_1, X_2)= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + u_i$$`
+
+- The expected value of `\(Y\)` given all `\(X\)`'s, which is `\(Pr(Y_i=1 |X_1, X_2)\)`, is a linear function of the `\(X\)`'s
+
+- Left as is, this is a .hi[linear probability model]
+
+- Easy interpretation: `\(\hat{\beta_1}\)` is the marginal effect of a 1-unit increase in `\(X_1\)` (holding `\(X_2\)` constant) in the probability of `\(Y_i=1\)`
+
+- Problem: `\(\hat{Y}\)` is not constrained to be between 0 and 1! 
+]
+
+
+
+---
+
+class: inverse, center, middle
+
+# Probability, Odds, and Logit
+
+---
+
+# Odds
+
+.pull-left[
+
+]
+
+.pull-right[
+
+- Often hear of .hi["odds"] in sports betting, closely linked with probability
+
+- Given some probability `\(p\)` of an event occuring, the .hi[odds] of an event occuring are
+`$$Odds = \frac{p}{1-p}$$`
+
+- .hi-green[Example] The odds of rolling a 6 on a fair 6-sided die are .hi-purple["5 to 1 against"]
+  - `\(p(\text{Rolling a }6)= \frac{1}{6}\)`
+  - `\(1-p=\frac{5}{6}\)`
+  - Odds `\(= \cfrac{\frac{1}{6}}{1-\frac{1}{6}}= \frac{1}{5}\)`
+  - For every 6 trials, we expect on average 1 occurrence to 5 non-occurrences
+]
+---
+
+
+
+
+...
+
+
+---
+
+# "Logit"
+
+- Another name for "logged odds"^[Natural log with base `\(e\)`.] is .hi-purple["logit"]
+
+`$$logit(p) = \ln \left(\frac{p}{1-p}\right)$$`
+
+- Our logistic regression measures the log odds, or logit, with our coefficients `\((\beta\)`'s):
+
+`$$logit(p)= \ln \left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i}$$`
+
+
+---
+
+# Interpretation of Coefficients: Direct
+
+- Direct interpretation of coefficients:
+
+- `\(\hat{\beta_k}\)`: expected change in *log odds* (of `\(Y_i=1)\)` for a 1-unit increase in `\(X_{ki}\)`
+
+---
+
+# Interpretation of Coefficients: Odds Ratio
+
+- Alternatively, intepret via odds ratio:
+`$$\frac{p}{1-p}= e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}} = e^{\hat{\beta_0}}e^{\hat{\beta_1}X_{1i}}e^{\hat{\beta_2}X_{2i}}$$`
+- `\(e^{\hat{\beta_k}}\)`: expected change in *odds* of 1-unit increase in `\(X_{ki}\)` 
+
+---
+
+# Interpretation of Coefficients: Probability
+
+- You can also "back out" a probability estimate from the coefficients `\((\hat{\beta}\)`'s) by exponentiating and reorganizing:
+
+`$$\begin{align*}
+\ln \left( \frac{p}{1-p} \right ) &amp;= \beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}\\
+\frac{p}{1-p}&amp;= e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p &amp;=(1-p)e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p &amp;=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}-pe^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p+pe^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}} &amp;=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p(1+e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}})&amp;=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p&amp;=\frac{e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}{1+e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}\\
+\end{align*}$$`
+
+`$$p(Y_i=1 \vert X_{1i}, X_{2i}) = \frac{e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}{1+ e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}$$`
+
+---
+
+
+
+
+
+
+
+```r
+head(Default)
+```
+
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["default"],"name":[1],"type":["fct"],"align":["left"]},{"label":["student"],"name":[2],"type":["fct"],"align":["left"]},{"label":["balance"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["income"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"No","2":"No","3":"729.5265","4":"44361.625","_rn_":"1"},{"1":"No","2":"Yes","3":"817.1804","4":"12106.135","_rn_":"2"},{"1":"No","2":"No","3":"1073.5492","4":"31767.139","_rn_":"3"},{"1":"No","2":"No","3":"529.2506","4":"35704.494","_rn_":"4"},{"1":"No","2":"No","3":"785.6559","4":"38463.496","_rn_":"5"},{"1":"No","2":"Yes","3":"919.5885","4":"7491.559","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+
+
+
+Only 3.3% default.
+
+---
+
+![](4.6-slides_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+![](4.6-slides_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+![](4.6-slides_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+![](4.6-slides_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+---
+
+#
+
+`$$Pr(default=Yes \vert Balance)$$`
+
+abbreviate as `\(p(Balance)\)`
+
+
+`$$odds = \frac{p}{1-p} = e^{\beta_0+\beta_1X}$$`
+
+marginal effect on odds, multiplies it by `\(e^{\beta_1}\)`
+---
+
+# In `R`
+
+- Run logistic regression using `glm()` function^["**g**eneralized" **l**inear **m**odel, implying some transformation to `\(\beta_0+\beta_1X\)`, like a logistical transformation here!]
+
+- Arguments:
+  - `formula`: e.g. `y ~ x1 + x2`, etc.^[Like `lm()`, you don't need to spell out `formula=`]
+  - `family = "binomial"` selects the logistic regression
+  - `data`: dataframe to be used
+---
+
+# In `R`
+
+.pull-left[
+
+```r
+logit_reg&lt;-glm(i_default ~ balance,
+               family = "binomial",
+               data = Default)
+
+logit_reg %&gt;% summary()
+```
+]
+
+.pull-right[
+
+```
+## 
+## Call:
+## glm(formula = i_default ~ balance, family = "binomial", data = Default)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -2.2697  -0.1465  -0.0589  -0.0221   3.7589  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -1.065e+01  3.612e-01  -29.49   &lt;2e-16 ***
+## balance      5.499e-03  2.204e-04   24.95   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2920.6  on 9999  degrees of freedom
+## Residual deviance: 1596.5  on 9998  degrees of freedom
+## AIC: 1600.5
+## 
+## Number of Fisher Scoring iterations: 8
+```
+]
+
+---
+
+# In `R`
+
+.pull-left[
+
+```r
+logit_reg %&gt;% broom::tidy()
+```
+]
+
+.pull-right[
+&lt;div data-pagedtable="false"&gt;
+  &lt;script data-pagedtable-source type="application/json"&gt;
+{"columns":[{"label":["term"],"name":[1],"type":["chr"],"align":["left"]},{"label":["estimate"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["std.error"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"(Intercept)","2":"-10.651330614","3":"0.3611573721","4":"-29.49221","5":"3.623124e-191"},{"1":"balance","2":"0.005498917","3":"0.0002203702","4":"24.95309","5":"1.976602e-137"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  &lt;/script&gt;
+&lt;/div&gt;
+]
+
+---
+
+
+```r
+logit_reg_tidy&lt;-broom::tidy(logit_reg)
+
+(beta_0&lt;-logit_reg_tidy %&gt;%
+  filter(term == "(Intercept)") %&gt;%
+  pull(estimate))
+```
+
+```
+## [1] -10.65133
+```
+
+```r
+(beta_1&lt;-logit_reg_tidy %&gt;%
+  filter(term == "balance") %&gt;%
+  pull(estimate))
+```
+
+```
+## [1] 0.005498917
+```
+
+---
+
+# In `R`: Intepretation
+
+`$$\widehat{Default_i} = -10.651 + 0.005 \, \text{Balance}_i$$`
+
+- Remember, these coefficients are the *log odds*
+  - A $1 change in Balance `\(\rightarrow\)` to a 0.005 change in log odds
+
+---
+
+# In `R`: Intepretation
+
+`$$\widehat{Default_i} = -10.651 + 0.005 \, \text{Balance}_i$$`
+
+- By exponentiating `\(\hat{beta_1}\)`, we can get the change in odds
+
+
+```r
+exp(beta_1)
+```
+
+```
+## [1] 1.005514
+```
+
+- A $1 increase in balance increases the odds of default by 1.0055141
+
+---
+
+`$$\hat{p}(\text{Default}_i = 1 \vert \text{Balance}_i) = \frac{e^{-10.651+0.005 \text{Balance}_i}}{1+e^{-10.651+0.005 \text{Balance}_i}}$$`
+
+Predictions:
+
+- If `\(\text{Balance} = 0\)`, we then estimate `\(\hat{p} \approx 0.000024\)`
+
+`$$\hat{p}(\text{Default}_i = 1 \vert \text{Balance}_i) = \frac{e^{-10.651+0.005 \mathbf{(1000)}}}{1+e^{-10.651+0.005 \mathbf{(1000)}}}$$`
+
+- If `\(\text{Balance} = 2,000\)`, we then estimate `\(\hat{p} \approx 0.586\)`
+
+---
+
+
+```r
+exp(beta_1)
+```
+
+```
+## [1] 1.005514
+```
+
+Odds of default increase by 1.0055141 for a $1 increase in balance.
+
+
+```r
+logit_reg_tidy&lt;-broom::tidy(logit_reg)
+
+(beta_0&lt;-logit_reg_tidy %&gt;%
+  filter(term == "balance") %&gt;%
+  pull(estimate))
+```
+
+```
+## [1] 0.005498917
+```
+
+```r
+exp(beta_1)/(1+exp(beta_1))
+```
+
+```
+## [1] 0.5013747
+```
+
+
+When Balance = 2K
+
+
+```r
+(beta_0&lt;-logit_reg_tidy %&gt;%
+  filter(term == "(Intercept)") %&gt;%
+  pull(estimate))
+```
+
+```
+## [1] -10.65133
+```
+
+```r
+exp(beta_0+2000*beta_1)/(1+exp(beta_0+2000*beta_1))
+```
+
+```
+## [1] 0.5857694
+```
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script src="https://platform.twitter.com/widgets.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>\n"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

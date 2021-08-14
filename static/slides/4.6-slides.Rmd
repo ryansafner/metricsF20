@@ -1,0 +1,487 @@
+---
+title: "4.6 — Machine Learning"
+subtitle: "ECON 480 • Econometrics • Fall 2020"
+author: 'Ryan Safner<br> Assistant Professor of Economics <br> <a href="mailto:safner@hood.edu"><i class="fa fa-paper-plane fa-fw"></i>safner@hood.edu</a> <br> <a href="https://github.com/ryansafner/metricsF20"><i class="fa fa-github fa-fw"></i>ryansafner/metricsF20</a><br> <a href="https://metricsF20.classes.ryansafner.com"> <i class="fa fa-globe fa-fw"></i>metricsF20.classes.ryansafner.com</a><br>'
+#date:
+output:
+  xaringan::moon_reader:
+    mathjax: "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_HTMLorMML" # rescales math with css changes https://github.com/yihui/xaringan/issues/143
+    lib_dir: libs
+    df_print: paged
+    css: [custom.css, "hygge"] #, metropolis, metropolis-fonts
+    nature:
+      beforeInit: ["macros.js", "https://platform.twitter.com/widgets.js"] # first is for rescaling images , second is for embedding tweets, https://github.com/yihui/xaringan/issues/100
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+    includes:
+      in_header: header.html # for font awesome, used in title  
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(echo=F,
+                      message=F,
+                      warning=F)
+library("tidyverse")
+library("mosaic")
+library("ggrepel")
+update_geom_defaults("label", list(family = "Fira Sans Condensed"))
+set.seed(256)
+```
+
+---
+
+# Regression vs. Classification 
+
+$$\color{orange}{Y}=\color{teal}{f}(\color{purple}{X})$$
+
+1. Causal inference: how do changes in $\color{purple}{X}$ affect $\color{orange}{Y}$?
+  - We care more about $\color{teal}{f}$ than $\color{orange}{\hat{Y}}$
+
+2. Prediction: predict $\color{orange}{Y}$ using an estimated $\color{teal}{f}$
+
+$$\color{orange}{\hat{Y}}=\color{teal}{\hat{f}}(\color{purple}{X})$$
+  - a black-box setting where we care more about $\color{orange}{\hat{Y}}$ than $\color{teal}{f}$
+
+
+- .hi[Regression] problems seek to measure causal effect of $X$ on $Y$ or predict the quantity of $Y$ from combination of $X$'s
+  - Measured in integers (number of cats), real numbers (home value, etc)
+
+- .hi[Classification] problems seek to predict the category of an outcome $(Y)$
+  - Binary outcomes: success/failure, `TRUE/FALSE`, $A$ or $B$, cat or not cat, etc
+  - Multi-class outcomes: Likert scale, type of cat, colors, etc.
+    - qualitative or categorical response
+
+]
+
+---
+
+# Classification Problem Examples
+
+.pull-left[
+
+]
+
+.pull-right[
+
+1. Using criminal/life history, can we predict whether a defendant is .hi-purple[granted bail]?
+
+2. Using a set of symptoms and observations, can we predict a patient's .hi-purple[medical condition]?
+
+3. From the pixels in an image, can we classify images as .hi-purple[cat, dog, bagel, other?]
+]
+
+---
+
+# Classification Problem Approaches
+
+
+.pull-left[
+
+]
+
+.pull-right[
+
+- (At least) two related approaches:
+
+1. Predict .hi-purple[which category] the outcome will be
+
+2. Estimate the .hi-purple[probability of each category] for the outcome
+
+- General approach:
+  - take set of training characteristics $(X_1, Y_1), (X_2, Y_2), \cdots (X_n, Y_n)$
+  - build a classifier $\hat{Y_0} = f(X_0)$
+  - while balancing bias and variance
+]
+
+---
+
+# What's Wrong With Regression
+
+
+
+---
+
+.pull-left[
+
+
+]
+
+.pull-right[
+
+- We've seen models where *independent* $(X)$ variables are dummy variables
+
+- We now consider models where the *dependent* $(Y)$ variable is a dummy variable
+
+$$Y_i=\beta_0+\beta_1X_i+u_i \quad Y \in (0,1)$$
+]
+
+---
+
+# Linear Probability Model
+
+.pull-left[
+
+]
+
+.pull-right[
+
+$$Pr(Y_i = 1 | X_1, X_2)= \beta_0+\beta_1 X_{1i} + \beta_2 X_{2i} + u_i$$
+
+- The expected value of $Y$ given all $X$'s, which is $Pr(Y_i=1 |X_1, X_2)$, is a linear function of the $X$'s
+
+- Left as is, this is a .hi[linear probability model]
+
+- Easy interpretation: $\hat{\beta_1}$ is the marginal effect of a 1-unit increase in $X_1$ (holding $X_2$ constant) in the probability of $Y_i=1$
+
+- Problem: $\hat{Y}$ is not constrained to be between 0 and 1! 
+]
+
+
+
+---
+
+class: inverse, center, middle
+
+# Probability, Odds, and Logit
+
+---
+
+# Odds
+
+.pull-left[
+
+]
+
+.pull-right[
+
+- Often hear of .hi["odds"] in sports betting, closely linked with probability
+
+- Given some probability $p$ of an event occuring, the .hi[odds] of an event occuring are
+$$Odds = \frac{p}{1-p}$$
+
+- .hi-green[Example] The odds of rolling a 6 on a fair 6-sided die are .hi-purple["5 to 1 against"]
+  - $p(\text{Rolling a }6)= \frac{1}{6}$
+  - $1-p=\frac{5}{6}$
+  - Odds $= \cfrac{\frac{1}{6}}{1-\frac{1}{6}}= \frac{1}{5}$
+  - For every 6 trials, we expect on average 1 occurrence to 5 non-occurrences
+]
+---
+
+
+
+
+...
+
+
+---
+
+# "Logit"
+
+- Another name for "logged odds"^[Natural log with base $e$.] is .hi-purple["logit"]
+
+$$logit(p) = \ln \left(\frac{p}{1-p}\right)$$
+
+- Our logistic regression measures the log odds, or logit, with our coefficients $(\beta$'s):
+
+$$logit(p)= \ln \left(\frac{p}{1-p}\right) = \beta_0 + \beta_1 X_{1i} + \beta_2 X_{2i}$$
+
+
+---
+
+# Interpretation of Coefficients: Direct
+
+- Direct interpretation of coefficients:
+
+- $\hat{\beta_k}$: expected change in *log odds* (of $Y_i=1)$ for a 1-unit increase in $X_{ki}$
+
+---
+
+# Interpretation of Coefficients: Odds Ratio
+
+- Alternatively, intepret via odds ratio:
+$$\frac{p}{1-p}= e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}} = e^{\hat{\beta_0}}e^{\hat{\beta_1}X_{1i}}e^{\hat{\beta_2}X_{2i}}$$
+- $e^{\hat{\beta_k}}$: expected change in *odds* of 1-unit increase in $X_{ki}$ 
+
+---
+
+# Interpretation of Coefficients: Probability
+
+- You can also "back out" a probability estimate from the coefficients $(\hat{\beta}$'s) by exponentiating and reorganizing:
+
+$$\begin{align*}
+\ln \left( \frac{p}{1-p} \right ) &= \beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}\\
+\frac{p}{1-p}&= e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p &=(1-p)e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p &=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}-pe^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p+pe^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}} &=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p(1+e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}})&=e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}\\
+p&=\frac{e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}{1+e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}\\
+\end{align*}$$
+
+$$p(Y_i=1 \vert X_{1i}, X_{2i}) = \frac{e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}{1+ e^{\beta_0+\beta_1 X_{1i}+ \beta_2 X_{2i}}}$$
+
+---
+
+```{r, echo=F}
+# install ISLR package
+# install.packages("ISLR")
+library(tidyverse)
+Default<-ISLR::Default
+```
+
+```{r, eval=F}
+set.seed(1)
+ISLR::Default %>% sample_n(100) %>% datatable(
+  rownames = F,
+  options = list(dom = 't')
+) %>% formatRound(columns = 3:4, digits = c(2, 0))
+```
+
+
+```{r, echo=T}
+head(Default)
+```
+
+```{r}
+Default = Default %>%
+  mutate(i_default = 1 * (default == "Yes"))
+```
+
+Only `r Default$i_default %>% mean() %>% scales::percent(accuracy = 0.1)` default.
+
+---
+
+```{r}
+ggplot(data = Default)+
+  aes(x = balance,
+      y = default)+
+  geom_point(color = "purple", alpha=0.4, size = 2)+
+  theme_minimal()
+```
+
+```{r}
+ggplot(data = Default)+
+  aes(x = balance,
+      y = default)+
+  geom_jitter(color = "purple", height=0.25, alpha=0.4, size = 2)+
+  geom_boxplot(alpha = 0.5)+
+  scale_x_continuous(labels = scales::dollar)+
+  labs(x = "Balance",
+       y = "Default")+
+  theme_minimal()
+```
+
+```{r}
+base_plot<-ggplot(data = Default)+
+  aes(x = balance,
+      y = i_default)+
+  geom_point(color = "purple", alpha=0.4, size = 2)+
+  scale_x_continuous(labels = scales::dollar)+
+  labs(x = "Balance",
+       y = "Default")+
+  theme_minimal()
+
+base_plot+
+  geom_smooth(method = "lm", color = "red")
+```
+
+```{r}
+base_plot+
+  geom_smooth(method = "lm", color = "red", size = 1, alpha=0.3)+
+  geom_smooth(method = "glm",
+              method.args = list(family = "binomial"),
+              color = "orange",
+              size = 1)
+```
+
+---
+
+#
+
+$$Pr(default=Yes \vert Balance)$$
+
+abbreviate as $p(Balance)$
+
+
+$$odds = \frac{p}{1-p} = e^{\beta_0+\beta_1X}$$
+
+marginal effect on odds, multiplies it by $e^{\beta_1}$
+---
+
+# In `R`
+
+- Run logistic regression using `glm()` function^["**g**eneralized" **l**inear **m**odel, implying some transformation to $\beta_0+\beta_1X$, like a logistical transformation here!]
+
+- Arguments:
+  - `formula`: e.g. `y ~ x1 + x2`, etc.^[Like `lm()`, you don't need to spell out `formula=`]
+  - `family = "binomial"` selects the logistic regression
+  - `data`: dataframe to be used
+---
+
+# In `R`
+
+.pull-left[
+```{r logit-reg, echo=T, eval=F}
+logit_reg<-glm(i_default ~ balance,
+               family = "binomial",
+               data = Default)
+
+logit_reg %>% summary()
+```
+]
+
+.pull-right[
+```{r, ref.label="logit-reg"}
+
+```
+]
+
+---
+
+# In `R`
+
+.pull-left[
+```{r logit-reg2, echo=T, eval=F}
+logit_reg %>% broom::tidy()
+```
+]
+
+.pull-right[
+```{r, ref.label="logit-reg2"}
+
+```
+]
+
+---
+
+```{r, echo = T}
+logit_reg_tidy<-broom::tidy(logit_reg)
+
+(beta_0<-logit_reg_tidy %>%
+  filter(term == "(Intercept)") %>%
+  pull(estimate))
+
+(beta_1<-logit_reg_tidy %>%
+  filter(term == "balance") %>%
+  pull(estimate))
+
+```
+
+---
+
+# In `R`: Intepretation
+
+$$\widehat{Default_i} = -10.651 + 0.005 \, \text{Balance}_i$$
+
+- Remember, these coefficients are the *log odds*
+  - A $1 change in Balance $\rightarrow$ to a 0.005 change in log odds
+
+---
+
+# In `R`: Intepretation
+
+$$\widehat{Default_i} = -10.651 + 0.005 \, \text{Balance}_i$$
+
+- By exponentiating $\hat{beta_1}$, we can get the change in odds
+
+```{r, echo=T}
+exp(beta_1)
+```
+
+- A $1 increase in balance increases the odds of default by `r exp(beta_1)`
+
+---
+
+$$\hat{p}(\text{Default}_i = 1 \vert \text{Balance}_i) = \frac{e^{-10.651+0.005 \text{Balance}_i}}{1+e^{-10.651+0.005 \text{Balance}_i}}$$
+
+Predictions:
+
+- If $\text{Balance} = 0$, we then estimate $\hat{p} \approx `r (exp(beta_0)/(1+exp(beta_0))) %>% round(6) %>% format(scientific = F)`$
+
+$$\hat{p}(\text{Default}_i = 1 \vert \text{Balance}_i) = \frac{e^{-10.651+0.005 \mathbf{(1000)}}}{1+e^{-10.651+0.005 \mathbf{(1000)}}}$$
+
+- If $\text{Balance} = 2,000$, we then estimate $\hat{p} \approx `r (exp(beta_0 + beta_1 * 2e3)/(1+exp(beta_0 + beta_1 * 2e3))) %>% round(3)`$
+
+---
+
+```{r, echo=T}
+exp(beta_1)
+```
+
+Odds of default increase by `r exp(beta_1)` for a $1 increase in balance.
+
+```{r, echo=T}
+logit_reg_tidy<-broom::tidy(logit_reg)
+
+(beta_0<-logit_reg_tidy %>%
+  filter(term == "balance") %>%
+  pull(estimate))
+
+
+exp(beta_1)/(1+exp(beta_1))
+```
+
+
+When Balance = 2K
+
+```{r, echo=T}
+(beta_0<-logit_reg_tidy %>%
+  filter(term == "(Intercept)") %>%
+  pull(estimate))
+
+
+exp(beta_0+2000*beta_1)/(1+exp(beta_0+2000*beta_1))
+```
+
+---
+
+Note: Everything we've done so far extends to models with many predictors.
+
+Old news: You can use `predict()` to get predictions out of `glm` objects.
+
+New and important: `predict()` produces multiple types of predictions
+
+1. `type = "response"` predicts on the scale of the response variable
+    for logistic regression, this means predicted probabilities (0 to 1)
+
+2. `type = "link"` predicts on the scale of the linear predictors
+    for logistic regression, this means predicted log odds (-∞ to ∞)
+
+Beware: The default is type = "link", which you may not want.
+
+---
+
+Putting it all together, we can get (estimated) probabilities $\hat{p}(X)$
+
+```{r}
+# Predictions on scale of response (outcome) variable
+p_hat = predict(logit_reg, type = "response")
+```
+
+which we can use to make predictions on y
+
+```{r}
+# Predict '1' if p_hat is greater or equal to 0.5
+y_hat = as.numeric(p_hat >= 0.5)
+```
+
+---
+
+```{r}
+library(caret)
+
+confusionMatrix(
+  # Our predictions
+  data = y_hat %>% as.factor(),
+  # Truth
+  reference = Default$i_default %>% as.factor()
+)
+```
